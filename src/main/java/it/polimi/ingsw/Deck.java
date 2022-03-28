@@ -9,7 +9,7 @@ public class Deck {
     private final List<Card> cards;
 
     public Deck() {
-        cards = Arrays.asList(Card.values());
+        cards = new ArrayList<>(Arrays.asList(Card.values()));
     }
 
     public List<Card> getCards() {

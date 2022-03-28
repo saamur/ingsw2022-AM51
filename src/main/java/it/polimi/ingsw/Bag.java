@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import java.util.Random;
 
-public class Bag {
+public class Bag implements StudentContainer {
 
     private final int[] students;
     private final Random random;
@@ -75,4 +75,25 @@ public class Bag {
 
     }
 
+    @Override
+    public int[] addStudents(int[] stud) {
+
+        for (int i = 0; i < students.length; i++)
+            students[i] += stud[i];
+
+        return stud.clone();
+
+    }
+
+    @Override
+    public int[] removeStudents(int[] stud) {
+
+        int totStudents = 0;
+
+        for (int n : stud)
+            totStudents += n;
+
+        return draw(totStudents);
+
+    }
 }

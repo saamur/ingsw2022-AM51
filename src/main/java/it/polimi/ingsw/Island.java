@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-public class Island {
+public class Island implements StudentContainer {
 
     private int numberOfIslands;
     private final int[] students;
@@ -30,10 +30,33 @@ public class Island {
         return numProhibitionCards;
     }
 
-    public void addStudents(int[] stud) {          //returned type to decide
+    @Override
+    public int[] addStudents(int[] stud) {
 
         for (int i = 0; i < students.length; i++)
             students[i] += stud[i];
+
+        return stud.clone();
+
+    }
+
+    @Override
+    public int[] removeStudents(int[] stud) {
+
+        int[] removedStudents = new int[Clan.values().length];
+
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] >= stud[i]){
+                removedStudents[i] = stud[i];
+                students[i] -= stud[i];
+            }
+            else {
+                removedStudents[i] = students[i];
+                students[i] = 0;
+            }
+        }
+
+        return removedStudents;
 
     }
 

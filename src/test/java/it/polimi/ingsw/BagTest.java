@@ -94,7 +94,7 @@ public class BagTest {
     }
 
     /**
-     * Testing if calling draw after isEmpty() == true behaves as expected
+     * Testing if calling draw() or draw(int n) after isEmpty() == true behaves as expected
      */
     @Test
     public void emptyDrawTest(){
@@ -102,6 +102,12 @@ public class BagTest {
         b.draw(130);
         b.isEmpty();
         Clan result = b.draw();
+        int[] students = b.draw(5);
+        int zero = 0;
+        for(int i=0; i<5; i++){
+            zero += students[i];
+        }
         assertNull(result);
+        assertEquals(0, zero);
     }
 }

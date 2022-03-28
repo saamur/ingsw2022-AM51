@@ -17,6 +17,12 @@ public class Bag {
         random = new Random();
     }
 
+
+    public int[] getStudents(){
+
+        return students.clone();
+    }
+
     public Clan draw() {
 
         if (isEmpty())

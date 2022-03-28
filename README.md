@@ -1,4 +1,4 @@
-# Eryantis Board Game
+# Eriantys Board Game
 
 ## The Team
 

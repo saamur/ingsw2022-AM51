@@ -40,8 +40,12 @@ public class IslandManager {
 
     public void conquerIsland (Player p, Island isl) {
 
-        isl.conquer(p);
-        checkMerge(isl);
+        if (p != isl.getControllingPlayer()) {
+            isl.getControllingPlayer().addTowers(isl.getNumberOfIslands());
+            p.removeTowers(isl.getNumberOfIslands());
+            isl.setControllingPlayer(p);
+            checkMerge(isl);
+        }
 
     }
 

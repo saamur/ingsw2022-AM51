@@ -7,15 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IslandTest {
-    /**
-     * test to check if getNumberOfIsland behaves in the right way
-     */
-    @Test
-    public void testIsland() {
-        Island i = new Island();
-        int result = i.getNumberOfIslands();
-        assertEquals(1, result);
-    }
 
     /**
      * test to check if addStudents behave in the right way
@@ -141,8 +132,6 @@ public class IslandTest {
         assertEquals(2, i1.getNumberOfIslands());
         assertEquals(1, i1.getNumProhibitionCards());
     }
-
-
 
 }
 

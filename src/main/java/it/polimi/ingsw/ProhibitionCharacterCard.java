@@ -8,12 +8,11 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
         super(characterID);
 
-        switch (getCharacterID()) {
-            case KNIGHT:
-                numProhibitionCards = 4;
-                break;
-            default:
-                numProhibitionCards = 0;
+        if (getCharacterID() == CharacterID.GRANDMA) {
+            numProhibitionCards = 4;
+        }
+        else {
+            numProhibitionCards = 0;
         }
 
     }

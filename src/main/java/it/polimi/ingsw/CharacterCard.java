@@ -18,6 +18,10 @@ public abstract class CharacterCard {
         return cost;
     }
 
+    public void increaseCost() {
+        cost++;
+    }
+
     public int[] effectInfluence(Player[] players, Player currPlayer, Island island, Clan clan) {
         return new int[Clan.values().length];
     }

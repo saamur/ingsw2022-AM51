@@ -30,6 +30,10 @@ public class Island implements StudentContainer {
         return numProhibitionCards;
     }
 
+    public void setControllingPlayer(Player controllingPlayer) {
+        this.controllingPlayer = controllingPlayer;
+    }
+
     @Override
     public int[] addStudents(int[] stud) {
 
@@ -71,10 +75,6 @@ public class Island implements StudentContainer {
     public void removeProhibitionCard() {
         if(numProhibitionCards > 0)
             numProhibitionCards--;
-    }
-
-    public void conquer (Player p) {
-        //TODO
     }
 
     public void merge (Island mergingIsland) {

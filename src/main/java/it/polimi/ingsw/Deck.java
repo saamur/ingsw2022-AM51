@@ -17,13 +17,7 @@ public class Deck {
     }
 
     public boolean choose(Card c) {
-
-        if (!cards.contains(c))
-            return false;
-
-        cards.remove(c);
-        return true;
-
+        return cards.remove(c);
     }
 
     public boolean isEmpty() {

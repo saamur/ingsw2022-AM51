@@ -17,7 +17,7 @@ public enum Card {
     private final int priority;
     private final int maxStepsMotherNature;
 
-    Card(int priority, int maxStepsMotherNature) {
+    private Card(int priority, int maxStepsMotherNature) {
         this.priority = priority;
         this.maxStepsMotherNature = maxStepsMotherNature;
     }

@@ -18,12 +18,16 @@ public abstract class CharacterCard {
         return cost;
     }
 
-    public int[] effectInfluence(Player[] players, Player currPlayer, Island island) {
+    public int[] effectInfluence(Player[] players, Player currPlayer, Island island, Clan clan) {
         return new int[Clan.values().length];
     }
 
     public int effectStepsMotherNature () {
         return 0;
+    }
+
+    public boolean applyEffect(Island isl) {
+        return false;
     }
 
 }

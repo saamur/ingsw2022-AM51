@@ -51,6 +51,9 @@ public class IslandManager {
 
     private void checkMerge(Island isl) {
 
+        if (islands.indexOf(isl) == -1 || islands.size() < 2)
+            return;
+
         Island prev = islands.get((islands.indexOf(isl)-1+islands.size())%islands.size());
         Island next = islands.get((islands.indexOf(isl)+1)%islands.size());
 
@@ -58,6 +61,9 @@ public class IslandManager {
             isl.merge(prev);
             islands.remove(prev);
         }
+
+        if (prev == next)
+            return;
 
         if (isl.getControllingPlayer() == next.getControllingPlayer()) {
             isl.merge(next);

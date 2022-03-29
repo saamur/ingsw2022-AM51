@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,10 +18,12 @@ public class DeckTest {
     @Test
     public void chooseCardTest(){
         Deck deck = new Deck();
-        deck.choose(Card.CAT); //TODO random Card generator instead of CAT
+        Random rand = new Random();
+        Card card = Card.values()[rand.nextInt(Card.values().length)];
+        deck.choose(card);
         List<Card> cardsRemaining = deck.getCards();
         int size = cardsRemaining.size();
-        assertFalse(cardsRemaining.contains(Card.CAT)); //TODO check that all other cards are still there
+        assertFalse(cardsRemaining.contains(card));
         assertEquals(9, size);
     }
 
@@ -30,8 +33,10 @@ public class DeckTest {
     @Test
     public void multipleChooseCard(){
         Deck deck = new Deck();
-        deck.choose(Card.CAT); //TODO random cards
-        boolean result = deck.choose(Card.CAT); //TODO random cards
+        Random random = new Random();
+        Card card = Card.values()[random.nextInt(Card.values().length)];
+        deck.choose(card);
+        boolean result = deck.choose(card);
         assertFalse(result);
     }
 

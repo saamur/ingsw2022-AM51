@@ -10,12 +10,17 @@ public class Cloud {
         picked = false;
     }
 
+
     public boolean isEmpty() {
         for (int n : students)
             if (n != 0)
                 return false;
 
         return true;
+    }
+
+    public boolean getPicked(){
+        return this.picked;
     }
 
     public int[] getStudents() {

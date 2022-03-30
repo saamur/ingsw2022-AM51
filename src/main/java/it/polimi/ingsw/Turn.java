@@ -2,12 +2,12 @@ package it.polimi.ingsw;
 
 public class Turn {
 
-    private final Player player;
+    private final Player currPlayer;
     private TurnState turnState;
     private CharacterCard activatedCharacterCard;
 
-    public Turn (Player player) {
-        this.player = player;
+    public Turn (Player currPlayer) {
+        this.currPlayer = currPlayer;
         turnState = TurnState.STUDENT_MOVING;
         activatedCharacterCard = null;
     }
@@ -36,6 +36,25 @@ public class Turn {
             return players[posMax];
 
         return null;
+
+    }
+
+    public void updateProfessors (Player[] players) {
+
+        for (Clan c : Clan.values()) {
+
+            Player player;
+
+            if (activatedCharacterCard == null)
+                player = defaultPlayerProfessor(players, currPlayer, c);
+            else
+                player = activatedCharacterCard.effectPlayerProfessor(players, currPlayer, c);
+
+            if (player != null)
+                for (Player p : players)
+                    p.getChamber().setProfessor(c, p == player);
+
+        }
 
     }
 

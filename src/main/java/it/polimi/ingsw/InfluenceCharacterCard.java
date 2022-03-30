@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 public class InfluenceCharacterCard extends CharacterCard {
 
-    private interface DeltaInfluence{
+    private interface DeltaInfluence {
         int[] calculateDeltaInfluence(Player[] players, Player currPlayer, Island island, Clan clan);
     }
 

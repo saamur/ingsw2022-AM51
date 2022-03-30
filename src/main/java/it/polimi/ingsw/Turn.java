@@ -123,10 +123,10 @@ public class Turn {
         return maxSteps;
     }
 
-    public boolean updateInfluence (IslandManager islandManager, Island island, Player[] players) {
+    public void updateInfluence (IslandManager islandManager, Island island, Player[] players) {
 
-        if (turnState != TurnState.MOTHER_MOVING)
-            return false;
+        if (turnState != TurnState.MOTHER_MOVING)           //check in Game
+            return;
 
         int[] influences = new int[players.length];
 
@@ -152,9 +152,7 @@ public class Turn {
         if(posMax != -1)
             islandManager.conquerIsland(players[posMax], island);
 
-        turnState = TurnState.CLOUD_CHOOSING;
-
-        return true;
+        turnState = TurnState.CLOUD_CHOOSING;           //not when called from a character
 
     }
 

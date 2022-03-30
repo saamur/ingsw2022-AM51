@@ -47,4 +47,10 @@ public class ProfessorsCharacterCard extends CharacterCard {
     public Player effectPlayerProfessor(Player[] players, Player currPlayer, Clan clan) {
         return PLAYER_PROFESSORS[getCharacterID().ordinal()].calculatePlayerProfessor(players, currPlayer, clan);
     }
+
+    @Override
+    public boolean applyInitialEffect(Turn turn, IslandManager islandManager, Island island, Player[] players) {
+        turn.updateProfessors(players);
+        return true;
+    }
 }

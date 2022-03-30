@@ -29,4 +29,5 @@ public class ProhibitionCharacterCard extends CharacterCard {
         return true;
 
     }
+
 }

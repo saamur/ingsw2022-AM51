@@ -38,4 +38,8 @@ public abstract class CharacterCard {
         return Turn.defaultPlayerProfessor(players, clan);
     }
 
+    public boolean applyInitialEffect (Turn turn, IslandManager islandManager, Island island, Player[] players) {
+        return true;
+    }
+
 }

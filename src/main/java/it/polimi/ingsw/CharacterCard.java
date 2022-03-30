@@ -35,7 +35,7 @@ public abstract class CharacterCard {
     }
 
     public Player effectPlayerProfessor (Player[] players, Player currPlayer, Clan clan) {
-        return Turn.defaultPlayerProfessor(players, currPlayer, clan);
+        return Turn.defaultPlayerProfessor(players, clan);
     }
 
 }

@@ -64,8 +64,9 @@ public class Island implements StudentContainer {
 
     }
 
-    public void addStudent(Clan c) {
+    public boolean addStudent(Clan c) {
         students[c.ordinal()]++;
+        return true;
     }
 
     public void addProhibitionCard() {

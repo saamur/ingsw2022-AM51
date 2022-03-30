@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import java.util.Arrays;
+
 public class Chamber implements StudentContainer {
 
     private final int[] students;
@@ -55,6 +57,13 @@ public class Chamber implements StudentContainer {
 
     }
 
+    public boolean addStudent(Clan c) {
+        int[] stud = new int[Clan.values().length];
+        stud[c.ordinal()] = 1;
+        int[] addedStud = addStudents(stud);
+        return Arrays.equals(stud, addedStud);
+    }
+
     public boolean hasProfessor(Clan clan) {
         return hasProfessor[clan.ordinal()];
     }
@@ -69,8 +78,10 @@ public class Chamber implements StudentContainer {
 
     private void updateCoins() {
         for (int i = 0; i < coinsGiven.length; i++) {
-            coins += Math.max(students[i]/3 - coinsGiven[i], 0);
-            coinsGiven[i] = Math.max(students[i] / 3, coinsGiven[i]);
+            if (students[i]/3 > coinsGiven[i]) {
+                coins += students[i] / 3 - coinsGiven[i];
+                coinsGiven[i] = students[i] / 3;
+            }
         }
     }
 

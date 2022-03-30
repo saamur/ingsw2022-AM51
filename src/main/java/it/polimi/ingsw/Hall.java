@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import java.util.Arrays;
+
 public class Hall implements StudentContainer {
 
     private final int[] students;
@@ -39,6 +41,13 @@ public class Hall implements StudentContainer {
         }
 
         return removedStudents;
+    }
+
+    public boolean removeStudent(Clan c) {
+        int[] stud = new int[Clan.values().length];
+        stud[c.ordinal()] = 1;
+        int[] removedStud = removeStudents(stud);
+        return Arrays.equals(stud, removedStud);
     }
 
 }

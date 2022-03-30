@@ -84,5 +84,20 @@ public class CloudTest {
         assertTrue(res);
     }
 
+    /**
+     * test if the method pick return null if the could was already picked
+     */
+
+    @Test
+    public void testMorePick(){
+        Cloud c = new Cloud();
+        int[] std = {1, 2, 3, 0, 5};
+        c.fill(std);
+        c.pick();
+        int[] res = c.pick();
+        assertTrue(c.getPicked());
+        assertEquals(null, res);
+    }
+
 
 }

@@ -67,4 +67,43 @@ public class ChamberTest {
         assertFalse(res);
     }
 
+    /**
+     * test if the updateCoins method behave in the right way
+     */
+
+    @Test
+    public void testUpdateCoins(){
+        Chamber c = new Chamber();
+        int[] std = {12, 1, 3, 5, 9};
+        c.addStudents(std);
+        int[] coinsGiven = c.getCoinsGiven();
+        int[] expectedCoinsGiven = {3, 0, 1, 1, 3};
+        for(int i = 0; i< Clan.values().length; i++){
+            assertEquals(expectedCoinsGiven[i], coinsGiven[i]);
+
+        }
+        assertEquals(9, c.getCoins());
+    }
+
+    /**
+     * test if the updateCoins doesn't give the same coins after we remove students from the Chamber and add them again
+     */
+
+    @Test
+    public void testUpdateCoinsDouble(){
+        Chamber c = new Chamber();
+        int[] std = {3, 4, 6, 9, 10};
+        c.addStudents(std);
+        int[] remove = {3, 2, 6, 5, 4};
+        c.removeStudents(remove);
+        int[] std1 = {3, 4, 1, 2, 1};
+        c.addStudents(std1);
+        int[] expectedCoinsGiven = {1, 2, 2, 3, 3};
+        int[] result = c.getCoinsGiven();
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedCoinsGiven[i], result[i]);
+        }
+        assertEquals(12, c.getCoins());
+    }
+
 }

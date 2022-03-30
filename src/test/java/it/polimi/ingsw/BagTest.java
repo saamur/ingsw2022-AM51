@@ -11,13 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * BagTest: a set of tests to control if the Bag class work correctly
  */
 public class BagTest {
+    Bag b;
 
+    @BeforeEach
+    public void createBag(){
+        b = new Bag();
+    }
     /**
      * Testing if the after the draw method, remains the correct number of students in Bag
      */
     @Test
     public void multipleDrawTestRemaining(){
-        Bag b = new Bag();
         b.draw(4);
         int[] students = b.getStudents();
         int sum = 0;
@@ -33,7 +37,6 @@ public class BagTest {
      */
     @Test
     public void multipleDrawTestReturn(){
-        Bag b = new Bag();
         int[] drawn = b.draw(4);
         int sum = 0;
         for(int i=0; i<5; i++){
@@ -47,7 +50,6 @@ public class BagTest {
      */
     @Test
     public void singleDrawTestReturn(){
-        Bag b = new Bag();
         Clan student = b.draw();
         assertTrue(student == Clan.DRAGONS || student == Clan.FAIRIES || student == Clan.PIXIES || student == Clan.TOADS || student == Clan.UNICORNS);
     }
@@ -57,7 +59,6 @@ public class BagTest {
      */
     @Test
     public void singleDrawTestRemaining(){
-        Bag b = new Bag();
         //int[] initialNumberStudents = b.getStudents();
         b.draw();
         int[] remaining = b.getStudents();
@@ -73,7 +74,6 @@ public class BagTest {
      */
     @Test
     public void drawMoreTest(){
-        Bag b = new Bag();
         int[] students = b.draw(130);
         int result = 0;
         for(int i=0; i<5; i++){
@@ -87,7 +87,6 @@ public class BagTest {
      */
     @Test
     public void emptyTest(){
-        Bag b = new Bag();
         b.draw(120);
         boolean result = b.isEmpty();
         assertTrue(result);
@@ -98,7 +97,6 @@ public class BagTest {
      */
     @Test
     public void emptyDrawTest(){
-        Bag b = new Bag();
         b.draw(130);
         b.isEmpty();
         Clan result = b.draw();
@@ -110,4 +108,5 @@ public class BagTest {
         assertNull(result);
         assertEquals(0, zero);
     }
+
 }

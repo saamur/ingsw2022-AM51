@@ -71,7 +71,18 @@ public class CloudTest {
         assertFalse(res);
     }
 
-  //TODO verificare che isEmpty funzioni anche dopo aver chiamato fill e pick
+    /**
+     * test if the isEmpty method works in the right way after calling fill and pick
+     */
+    @Test
+    public void testFillPickIsEmpty(){
+        Cloud c = new Cloud();
+        int[] std = {1, 2, 3, 4, 5};
+        c.fill(std);
+        c.pick();
+        boolean res = c.isEmpty();
+        assertTrue(res);
+    }
 
 
 }

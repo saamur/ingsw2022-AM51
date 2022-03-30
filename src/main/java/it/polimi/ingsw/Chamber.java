@@ -69,7 +69,7 @@ public class Chamber implements StudentContainer {
 
     private void updateCoins() {
         for (int i = 0; i < coinsGiven.length; i++) {
-            coins += students[i]/3 - coinsGiven[i];
+            coins += Math.max(students[i]/3 - coinsGiven[i], 0);
             coinsGiven[i] = Math.max(students[i] / 3, coinsGiven[i]);
         }
     }

@@ -16,6 +16,22 @@ public class Chamber implements StudentContainer {
         coinsGiven = new int[Clan.values().length];
     }
 
+    public int[] getStudents() {
+        return students.clone();
+    }
+
+    public boolean[] getHasProfessor() {
+        return hasProfessor.clone();
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public int[] getCoinsGiven() {
+        return coinsGiven.clone();
+    }
+
     @Override
     public int[] addStudents(int[] stud) {
 

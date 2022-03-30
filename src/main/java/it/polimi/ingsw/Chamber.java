@@ -75,10 +75,18 @@ public class Chamber implements StudentContainer {
         return hasProfessor[clan.ordinal()];
     }
 
+    public void setProfessor(Clan clan, boolean value) {
+        hasProfessor[clan.ordinal()] = value;
+    }
+
+    public int getNumStudents (Clan clan) {
+        return students[clan.ordinal()];
+    }
+
     private void updateCoins() {
         for (int i = 0; i < coinsGiven.length; i++) {
             coins += students[i]/3 - coinsGiven[i];
-            coinsGiven[i] = students[i]/3;
+            coinsGiven[i] = Math.max(students[i] / 3, coinsGiven[i]);
         }
     }
 

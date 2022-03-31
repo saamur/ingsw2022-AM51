@@ -9,120 +9,177 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ChamberTest {
 
     /**
-     * test if the addStudents method behave in the right way
+     * Method testAddStudents tests the adding of students in the Chamber in normal condition. Is expected that all the
+     * students are added
      */
     @Test
     public void testAddStudents(){
-        Chamber c = new Chamber();
-        int[] std = {1, 2, 3, 4, 5};
-        int[] res1 = c.addStudents(std);
-        int[] res2 = c.getStudents();
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {1, 2, 3, 4, 5};
+        int[] addedStudents = chamber.addStudents(addingStudents);
+        int[] students = chamber.getStudents();
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(std[i], res1[i]);
-            assertEquals(std[i], res2[i]);
+            assertEquals(addingStudents[i], addedStudents[i]);
+            assertEquals(addingStudents[i], students[i]);
         }
     }
 
     /**
-     * test if the addStudents method works in the right way when I give more than 10 students
+     * The testAddMoreStudents tests if the Chamber doesn't add student in the Chamber when it is full
+     * The  first cell is expected to have a value of 10, since only 10 students should be added
      */
 
     @Test
     public void testAddMoreStudents(){
-        Chamber c = new Chamber();
-        int[] std = {12, 2, 7, 6, 10};
-        int[] res1 = c.addStudents(std);
-        assertEquals(10, res1[0]);
-        int[] res2 = c.getStudents();
-        assertEquals(10, res2[0]);
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {12, 2, 7, 6, 10};
+        int[] addedStudents = chamber.addStudents(addingStudents);
+        assertEquals(10, addedStudents[0]);
+        int[] students = chamber.getStudents();
+        assertEquals(10, students[0]);
     }
 
 
     /**
-     * test if the removeStudents works in the right way
+     * testRemoveStudents method tests the removal of the students from a Chamber that doesn't have that number of
+     * students. Is expected that in cases where the number of students to be removed is greater than the number of
+     * those present, only the students actually present in the chamber are removed
      */
 
     @Test
     public void testRemoveStudents(){
-        Chamber c = new Chamber();
-        int[] std = {12, 2, 7, 6, 10};
-        c.addStudents(std);
-        int[] rem = {8, 3, 8, 0, 10};
-        int[] removed = c.removeStudents(rem);
-        int[] expectedStud = {2, 0, 0, 6, 0};
-        int[] expectedRem = {8, 2, 7, 0, 10};
-        int[] students = c.getStudents();
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {12, 2, 7, 6, 10};
+        chamber.addStudents(addingStudents);
+        int[] removingStudents = {8, 3, 8, 0, 10};
+        int[] removed = chamber.removeStudents(removingStudents);
+        int[] expectedStudents = {2, 0, 0, 6, 0};
+        int[] expectedRemoved = {8, 2, 7, 0, 10};
+        int[] students = chamber.getStudents();
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(expectedRem[i], removed[i]);
-            assertEquals(expectedStud[i], students[i]);
+            assertEquals(expectedRemoved[i], removed[i]);
+            assertEquals(expectedStudents[i], students[i]);
         }
     }
 
     /**
-     * test if the hasProfessor method return the correct initial values
+     * testHasProfessor tests if, in the initial condition, the HasProfessor method return false
      */
 
     @Test
     public void testHasProfessor(){
-        Chamber c = new Chamber();
-        boolean res = c.hasProfessor(Clan.DRAGONS);
-        boolean[] res1 = c.getHasProfessor();
-        assertFalse(res);
+        Chamber chamber = new Chamber();
+        boolean hasTheProfessor = chamber.hasProfessor(Clan.DRAGONS);
+        boolean[] professors = chamber.getHasProfessor();
+        assertFalse(hasTheProfessor);
         for(int i=0; i<Clan.values().length; i++){
-            assertFalse(res1[i]);
+            assertFalse(professors[i]);
         }
     }
 
 
     /**
-     * test if the updateCoins method behave in the right way
+     * testUpdateCoins method tests if the calculation for the attribution of coins is correct after
+     * the initial addition of students. Is expected a coin to be given after each addiction of 3 students.
      */
 
     @Test
     public void testUpdateCoins(){
-        Chamber c = new Chamber();
-        int[] std = {12, 1, 3, 5, 9};
-        c.addStudents(std);
-        int[] coinsGiven = c.getCoinsGiven();
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {12, 1, 3, 5, 9};
+        chamber.addStudents(addingStudents);
+        int[] coinsGiven = chamber.getCoinsGiven();
         int[] expectedCoinsGiven = {3, 0, 1, 1, 3};
         for(int i = 0; i< Clan.values().length; i++){
             assertEquals(expectedCoinsGiven[i], coinsGiven[i]);
 
         }
-        assertEquals(9, c.getCoins());
+        assertEquals(9, chamber.getCoins());
     }
 
     /**
-     * test if the updateCoins doesn't give the same coins after we remove students from the Chamber and add them again
+     * testUpdateCoinsDouble method tests that a coin is not given twice, after a student is removed and re-added from
+     * a particular givenCoin position
+     * Is expected that in the first cell of coinsGiven, even when 3 students are re-added, the CoinsGiven remains 1
      */
+    //TODO dividere i metodi
 
     @Test
-    public void testUpdateCoinsDouble(){
-        Chamber c = new Chamber();
-        int[] std = {3, 4, 6, 9, 10};
-        c.addStudents(std);
-        int[] remove = {3, 2, 6, 5, 4};
-        c.removeStudents(remove);
-        int[] std1 = {3, 4, 1, 2, 1};
-        c.addStudents(std1);
-        int[] expectedCoinsGiven = {1, 2, 2, 3, 3};
-        int[] result = c.getCoinsGiven();
+    public void testUpdateCoinsTwiceCaseOne(){
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {3, 4, 6, 9, 10};
+        chamber.addStudents(addingStudents);
+        int[] remove = {3, 0, 0, 0, 0};
+        chamber.removeStudents(remove);
+        int[] newAddingStudents = {3, 0, 0, 0, 0};
+        chamber.addStudents(newAddingStudents);
+        int[] expectedCoinsGiven = {1, 1, 2, 3, 3};
+        int[] result = chamber.getCoinsGiven();
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(expectedCoinsGiven[i], result[i]);
         }
-        assertEquals(12, c.getCoins());
+        assertEquals(11, chamber.getCoins());
     }
     /**
-     * test if the addStudent method behave in the right way if we add one student and the final sum of the students
-     * in the chamber is less than 10
+     * testUpdateCoinsDouble method tests that a coin is not given twice, after a student is removed and re-added from
+     * a particular givenCoin position
+     * Is expected that the in second cell of coinsGiven only one coin is added compared to the previous situation, in
+     * fact just one new givenCoin position is covered
+     */
+
+    @Test
+    public void testUpdateCoinsTwiceCaseTwo(){
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {3, 4, 6, 9, 10};
+        chamber.addStudents(addingStudents);
+        int[] remove = {0, 2, 0, 0, 0};
+        chamber.removeStudents(remove);
+        int[] newAddingStudents = {0, 4, 0, 0, 0};
+        chamber.addStudents(newAddingStudents);
+        int[] expectedCoinsGiven = {1, 2, 2, 3, 3};
+        int[] result = chamber.getCoinsGiven();
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedCoinsGiven[i], result[i]);
+        }
+        assertEquals(12, chamber.getCoins());
+    }
+
+    /**
+     * testUpdateCoinsDouble method tests that a coin is not given twice, after a student is removed and re-added from
+     * a particular givenCoin position
+     * Is expected that in the fourth cell of coinsGiven the coins remain 3, even if not all the three givenCoin position
+     * are covered
+     */
+
+    @Test
+    public void testUpdateCoinsTwiceCaseThree(){
+        Chamber chamber = new Chamber();
+        int[] addingStudents = {3, 4, 6, 9, 10};
+        chamber.addStudents(addingStudents);
+        int[] remove = {0, 0, 0, 5, 0};
+        chamber.removeStudents(remove);
+        int[] newAddingStudents = {0, 0, 0, 2, 0};
+        chamber.addStudents(newAddingStudents);
+        int[] expectedCoinsGiven = {1, 1, 2, 3, 3};
+        int[] result = chamber.getCoinsGiven();
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedCoinsGiven[i], result[i]);
+        }
+        assertEquals(11, chamber.getCoins());
+    }
+
+
+    /**
+     * testAddStudent method tests if, in an unfilled chamber, the AddStudent method add a student of a particular
+     * chosen clan
      */
 
     @Test
     public void testAddStudent(){
-        Chamber c = new Chamber();
-        boolean added = c.addStudent(Clan.DRAGONS);
+        Chamber chamber = new Chamber();
+        boolean added = chamber.addStudent(Clan.DRAGONS);
         assertTrue(added);
-        int[] students = c.getStudents();
+        int[] students = chamber.getStudents();
         int[] expectedStudents = {0, 0, 0, 1, 0};
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(expectedStudents[i], students[i]);
@@ -130,8 +187,9 @@ public class ChamberTest {
     }
 
     /**
-     * test if the addStudents method works does't add the student if in the Chamber there are already 10 students for
-     * that clan
+     * test if the addStudents method doesn't add the student of a particular clan if in the Chamber there are already
+     * 10 students of that clan
+     * Is expected a false return and an unmodified situation of the students
      */
 
     @Test

@@ -59,4 +59,40 @@ public class HallTest {
         }
     }
 
+    /**
+     * test if the removeStudent method behave in the right way if we remove a student that actually is in the Hall
+     */
+
+    @Test
+    public void testRemoveStudent(){
+        int[] std = {1, 2, 3, 4, 5};
+        Hall h = new Hall(std);
+        boolean removed = h.removeStudent(Clan.DRAGONS);
+        int[] expectedStudents = {1, 2, 3, 3, 5};
+        int[] students = h.getStudents();
+        assertTrue(removed);
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedStudents[i], students[i]);
+        }
+
+    }
+
+    /**
+     * test if the removeStudent method works in the right way if we try to remove a student who is not in the Hall
+     */
+
+    @Test
+    public void testRemoveNonExistingStudent(){
+        int[] std = {2, 10, 2, 0, 3};
+        Hall h = new Hall(std);
+        boolean removed = h.removeStudent(Clan.DRAGONS);
+        assertFalse(removed);
+        int[] students = h.getStudents();
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(std[i], students[i]);
+        }
+    }
+
+
+
 }

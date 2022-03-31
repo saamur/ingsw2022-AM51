@@ -65,8 +65,13 @@ public class ChamberTest {
     public void testHasProfessor(){
         Chamber c = new Chamber();
         boolean res = c.hasProfessor(Clan.DRAGONS);
+        boolean[] res1 = c.getHasProfessor();
         assertFalse(res);
+        for(int i=0; i<Clan.values().length; i++){
+            assertFalse(res1[i]);
+        }
     }
+
 
     /**
      * test if the updateCoins method behave in the right way
@@ -106,5 +111,42 @@ public class ChamberTest {
         }
         assertEquals(12, c.getCoins());
     }
+    /**
+     * test if the addStudent method behave in the right way if we add one student and the final sum of the students
+     * in the chamber is less than 10
+     */
+
+    @Test
+    public void testAddStudent(){
+        Chamber c = new Chamber();
+        boolean added = c.addStudent(Clan.DRAGONS);
+        assertTrue(added);
+        int[] students = c.getStudents();
+        int[] expectedStudents = {0, 0, 0, 1, 0};
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedStudents[i], students[i]);
+        }
+    }
+
+    /**
+     * test if the addStudents method works does't add the student if in the Chamber there are already 10 students for
+     * that clan
+     */
+
+    @Test
+    public void testAddInAFullChamber(){
+        Chamber c = new Chamber();
+        int[] std = {0, 0, 0, 10, 0};
+        c.addStudents(std);
+        boolean added = c.addStudent(Clan.DRAGONS);
+        assertFalse(added);
+        int[] students = c.getStudents();
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(std[i], students[i]);
+        }
+    }
+
+
+
 
 }

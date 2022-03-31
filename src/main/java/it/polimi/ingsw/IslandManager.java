@@ -30,18 +30,28 @@ public class IslandManager {
 
     }
 
+    public Island getMotherNaturePosition() {
+        return motherNaturePosition;
+    }
+
+    public List<Island> getIslands() {
+        return islands;
+    }
+
     public int distanceFromCurrentIsland(Island isl) {
         return (islands.indexOf(isl) + islands.size() - islands.indexOf(motherNaturePosition)) % islands.size();
     }
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
-        this.motherNaturePosition = motherNaturePosition;
+        if(islands.contains(motherNaturePosition))
+            this.motherNaturePosition = motherNaturePosition;
     }
 
     public void conquerIsland (Player p, Island isl) {
 
         if (p != isl.getControllingPlayer()) {
-            isl.getControllingPlayer().addTowers(isl.getNumberOfIslands());
+            if (isl.getControllingPlayer() != null)
+                isl.getControllingPlayer().addTowers(isl.getNumberOfIslands());
             p.removeTowers(isl.getNumberOfIslands());
             isl.setControllingPlayer(p);
             checkMerge(isl);

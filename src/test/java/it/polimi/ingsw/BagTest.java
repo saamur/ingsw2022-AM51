@@ -55,7 +55,7 @@ public class BagTest {
     }
 
     /**
-     * Testing if the Bag.draw(int n) method returns the correct attribute
+     * Testing if the Bag.draw(int n) and removeStudents() method returns the correct amount
      */
     @Test
     public void singleDrawTestRemaining(){
@@ -67,6 +67,13 @@ public class BagTest {
             sum += remaining[i];
         }
         assertEquals(119, sum);  //initialNumberStudents, remaining
+        int[] studentsToBeRemoved = {0, 1, 0, 3, 4};
+        int[] studentsRemoved = b.removeStudents(studentsToBeRemoved);
+        for(int i=0; i<5; i++){
+            sum -= studentsRemoved[i];
+        }
+
+        assertEquals(111, sum);
     }
 
     /**
@@ -80,6 +87,7 @@ public class BagTest {
             result += students[i];
         }
         assertEquals(120, result);
+        assertTrue(b.isEmpty());
     }
 
     /**
@@ -108,5 +116,7 @@ public class BagTest {
         assertNull(result);
         assertEquals(0, zero);
     }
+
+    //TODO addStudentsTest
 
 }

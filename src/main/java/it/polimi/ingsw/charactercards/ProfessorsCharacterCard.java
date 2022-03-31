@@ -54,7 +54,7 @@ public class ProfessorsCharacterCard extends CharacterCard {
     }
 
     @Override
-    public boolean applyInitialEffect(Turn turn, IslandManager islandManager, Island island, Player[] players) {
+    public boolean applyInitialEffect(Turn turn, Player[] players) {
         turn.updateProfessors(players);
         return true;
     }

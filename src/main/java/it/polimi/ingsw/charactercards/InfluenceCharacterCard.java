@@ -11,12 +11,12 @@ public class InfluenceCharacterCard extends CharacterCard {
         int[] calculateDeltaInfluence(Player[] players, Player currPlayer, Island island, Clan clan);
     }
 
-    private interface InitialEffect {
-        boolean applyEffect(Turn turn, IslandManager islandManager, Island island, Player[] players);
+    private interface Effect {
+        boolean applyEffect(Game game, Island island);
     }
 
     private static final DeltaInfluence[] DELTA_INFLUENCES;
-    private static final InitialEffect[] INITIAL_EFFECT;
+    private static final Effect[] EFFECTS;
 
     static {
 
@@ -52,15 +52,15 @@ public class InfluenceCharacterCard extends CharacterCard {
 
     static {
 
-        INITIAL_EFFECT = new InitialEffect[CharacterID.values().length];
+        EFFECTS = new Effect[CharacterID.values().length];
 
-        INITIAL_EFFECT[CharacterID.HERALD.ordinal()] = (turn, islandManager, island, players) -> {
-            turn.updateInfluence(islandManager, island, players);
+        EFFECTS[CharacterID.HERALD.ordinal()] = (game, island) -> {
+            game.checkInfluence(island);
             return true;
         };
-        INITIAL_EFFECT[CharacterID.CENTAUR.ordinal()] = (turn, islandManager, island, players) -> true;
-        INITIAL_EFFECT[CharacterID.KNIGHT.ordinal()] = (turn, islandManager, island, players) -> true;
-        INITIAL_EFFECT[CharacterID.MUSHROOMPICKER.ordinal()] = (turn, islandManager, island, players) -> true;
+        EFFECTS[CharacterID.CENTAUR.ordinal()] = (game, island) -> true;
+        EFFECTS[CharacterID.KNIGHT.ordinal()] = (game, island) -> true;
+        EFFECTS[CharacterID.MUSHROOMPICKER.ordinal()] = (game, island) -> true;
 
     }
 
@@ -74,8 +74,8 @@ public class InfluenceCharacterCard extends CharacterCard {
     }
 
     @Override
-    public boolean applyInitialEffect(Turn turn, IslandManager islandManager, Island island, Player[] players) {
-        return INITIAL_EFFECT[getCharacterID().ordinal()].applyEffect(turn, islandManager, island, players);
+    public boolean applyEffect(Game game, Island island) {
+        return EFFECTS[getCharacterID().ordinal()].applyEffect(game, island);
     }
 
 }

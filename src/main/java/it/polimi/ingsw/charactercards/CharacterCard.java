@@ -19,6 +19,10 @@ public abstract class CharacterCard {
         return characterID;
     }
 
+    public boolean isAvailable() {
+        return true;
+    }
+
     public int getCost() {
         return cost;
     }
@@ -35,15 +39,15 @@ public abstract class CharacterCard {
         return 0;
     }
 
-    public boolean applyEffect(Island isl) {
-        return false;
-    }
-
     public Player effectPlayerProfessor (Player[] players, Player currPlayer, Clan clan) {
         return Turn.defaultPlayerProfessor(players, clan);
     }
 
-    public boolean applyInitialEffect (Turn turn, IslandManager islandManager, Island island, Player[] players) {
+    public boolean applyInitialEffect (Turn turn, Player[] players) {
+        return true;
+    }
+
+    public boolean applyEffect (Game game, Island island) {
         return true;
     }
 

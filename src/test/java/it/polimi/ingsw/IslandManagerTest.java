@@ -12,8 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
- * Class tests IslandManager
+ * Class tests IslandManager.
  *
+ * @link IslandManager
  */
 public class IslandManagerTest {
     IslandManager islandManager;
@@ -35,7 +36,7 @@ public class IslandManagerTest {
         Island motherNaturePosition = islandManager.getMotherNaturePosition();
         List<Island> islands = islandManager.getIslands();
         int chosenIslandPosition = random.nextInt(12);
-        int distance = islandManager.distanceFromCurrentIsland(islands.get(chosenIslandPosition));
+        int distance = islandManager.distanceFromMotherNature(islands.get(chosenIslandPosition));
         int difference = chosenIslandPosition - islands.indexOf(motherNaturePosition);
 
         assertEquals(difference >= 0 ? difference : 12 + difference, distance);
@@ -43,17 +44,18 @@ public class IslandManagerTest {
 
 
     /**
-     * testing distanceFromCurrentIsland can handle situation when parameter is island with Mother Nature
+     * Testing if distanceFromCurrentIsland can handle situation when parameter is island with Mother Nature.
+     * Distance is expected to be 0.
      */
     @Test
     public void distanceZeroTest(){
         Random random = new Random();
-        int distance = islandManager.distanceFromCurrentIsland(islandManager.getMotherNaturePosition());
+        int distance = islandManager.distanceFromMotherNature(islandManager.getMotherNaturePosition());
         assertEquals(0, distance);
     }
 
     /**
-     * Method tests whether setMotherNature accepts an island which is not contained in islandManager
+     * Method tests whether setMotherNature accepts an island which is not contained in islandManager.
      */
     @Test
     public void setMotherNatureTest(){

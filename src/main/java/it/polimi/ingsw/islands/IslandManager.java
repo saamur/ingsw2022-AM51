@@ -41,7 +41,17 @@ public class IslandManager {
         return islands;
     }
 
-    public int distanceFromCurrentIsland(Island isl) {
+    public Island getIsland(int index) {
+        if (index < 0 || index >= islands.size())
+            return null;
+        return islands.get(index);
+    }
+
+    public int getNumberOfIslands() {
+        return islands.size();
+    }
+
+    public int distanceFromMotherNature(Island isl) {
         return (islands.indexOf(isl) + islands.size() - islands.indexOf(motherNaturePosition)) % islands.size();
     }
 
@@ -64,7 +74,7 @@ public class IslandManager {
 
     private void checkMerge(Island isl) {
 
-        if (islands.indexOf(isl) == -1 || islands.size() < 2)
+        if (!islands.contains(isl) || islands.size() < 2)
             return;
 
         Island prev = islands.get((islands.indexOf(isl)-1+islands.size())%islands.size());

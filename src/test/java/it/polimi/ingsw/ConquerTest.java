@@ -15,8 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Class to test checkMerge() method in IslandManager
+ *
+ * @link checkMerge()
  */
-public class conquerTest {
+public class ConquerTest {
     List<Player> players = new ArrayList<>();
     IslandManager islandManager;
     Bag bag;
@@ -32,7 +34,8 @@ public class conquerTest {
     }
 
     /**
-     * test check whether conquerIsland works correctly
+     * test check if after conquerIsland() is called, the number of islands is decreased.
+     * Number of Islands is expected to be 11 after method gets called on two adjacent islands.
      */
     @Test
     public void normalConquerTest() {

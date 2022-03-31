@@ -9,6 +9,8 @@ public class CloudManager {
 
     public CloudManager(int numPlayers) {
         clouds = new Cloud[numPlayers];
+        for (int i = 0; i < clouds.length; i++)
+            clouds[i] = new Cloud();
         numStudentsPerCloud = numPlayers == 2 ? 3 : 4;
     }
 
@@ -20,4 +22,11 @@ public class CloudManager {
     public Cloud[] getClouds() {
         return clouds.clone();
     }
+
+    public Cloud getCloud(int index) {
+        if (index < 0 || index >= clouds.length)
+            return null;
+        return clouds[index];
+    }
+
 }

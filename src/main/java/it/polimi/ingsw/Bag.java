@@ -79,7 +79,12 @@ public class Bag implements StudentContainer {
     public int[] addStudents(int[] stud) {
 
         for (int i = 0; i < students.length; i++)
-            students[i] += stud[i];
+            if(students[i] + stud[i] <= 26)
+                students[i] += stud[i];
+            else {
+                stud[i] = stud[i] - (students[i] + stud[i] - 26);
+                students[i] = 26;
+            }
 
         return stud.clone();
 

@@ -39,7 +39,7 @@ public class Game implements GameInterface {
     private final Bag bag;
 
     private final Player[] players;
-    private Player[] playersOrder;
+    private final Player[] playersOrder;
     private int indexCurrFirstPlayer;
     private int indexNextFirstPlayer;
     private int indexCurrPlayer;
@@ -63,6 +63,7 @@ public class Game implements GameInterface {
 
         players = new Player[numPlayers];
         players[0] = new Player(nicknameFirstPlayer, TowerColor.values()[0], numPlayers, bag);
+        playersOrder = new Player[numPlayers];
         indexCurrPlayer = 0;
 
         this.expertModeEnabled = expertModeEnabled;

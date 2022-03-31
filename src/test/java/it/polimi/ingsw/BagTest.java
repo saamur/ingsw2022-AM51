@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * BagTest: a set of tests to control if the Bag class work correctly
+ * BagTest tests class Bag
+ *
+ * @link Bag
  */
 public class BagTest {
     Bag b;
@@ -18,7 +20,7 @@ public class BagTest {
         b = new Bag();
     }
     /**
-     * Testing if the after the draw method, remains the correct number of students in Bag
+     * Testing if the after the draw method is called, in Bag there is the correct number of students.
      */
     @Test
     public void multipleDrawTestRemaining(){
@@ -33,7 +35,7 @@ public class BagTest {
     }
 
     /**
-     * Testing if the after the draw method, the correct number of students is returned
+     * Testing if the after the draw method is called, the correct number of students is returned
      */
     @Test
     public void multipleDrawTestReturn(){
@@ -46,7 +48,8 @@ public class BagTest {
         assertEquals(4, sum);
     }
     /**
-     * Testing if the Bag.draw(int n) method returns the correct attribute
+     * Testing if the Bag.draw(int n) method returns the correct attribute.
+     * The variable students is expected to be equal to one of the values of Card.
      */
     @Test
     public void singleDrawTestReturn(){
@@ -55,7 +58,7 @@ public class BagTest {
     }
 
     /**
-     * Testing if the Bag.draw(int n) and removeStudents() method returns the correct amount
+     * Testing if the Bag.draw(int n) and removeStudents() method return the correct amount of students
      */
     @Test
     public void singleDrawTestRemaining(){
@@ -72,12 +75,12 @@ public class BagTest {
         for(int i=0; i<5; i++){
             sum -= studentsRemoved[i];
         }
-
         assertEquals(111, sum);
     }
 
     /**
      * Out-of-Bounds test: testing if bag works correctly when the students drawn are more than the ones available
+     * Expected result: only the students that are actually available are expected to be removed.
      */
     @Test
     public void drawMoreTest(){
@@ -91,7 +94,7 @@ public class BagTest {
     }
 
     /**
-     * Test to check if isEmpty() method behaves in the right way
+     * Test to check if isEmpty() method returns true if it is called after all of the students are drawn.
      */
     @Test
     public void emptyTest(){
@@ -101,7 +104,7 @@ public class BagTest {
     }
 
     /**
-     * Testing if calling draw() or draw(int n) after isEmpty() == true behaves as expected
+     * Testing if calling draw() after (isEmpty() == true) returns false and draw(int n) returns null.
      */
     @Test
     public void emptyDrawTest(){
@@ -117,6 +120,43 @@ public class BagTest {
         assertEquals(0, zero);
     }
 
-    //TODO addStudentsTest
+
+    /**
+     * Method addStudentsTest() calls method addStudentsTest.
+     * After the method is called the bag is expected to have more students than before, accordingly to how many students were added.
+     */
+    @Test
+    public void addStudentsTest(){
+        int[] drawStudents = b.draw(6);
+        int[] result = b.addStudents(drawStudents);
+        for(int i=0; i<5; i++)
+            assertEquals(result[i], drawStudents[i]);
+
+        int[] filledBag = {24, 24, 24, 24, 24};
+        int[] actualBag = b.getStudents();
+        for(int i=0; i<5; i++)
+            assertEquals(filledBag[i], actualBag[i]);
+    }
+
+    /**
+     * Method tests the addStudents() method when bag has just been initilized.
+     * The maximum number of students of each color in the Bag is 26.
+     * b.addStudents() is expected to add only 2 students for each color and not more.
+     */
+    @Test
+    public void addStudentsFilledBag(){
+        int[] studentsToBeAdded = {2, 2, 2, 2, 2};
+        int[] actuallyAddedStudents = b.addStudents(studentsToBeAdded);
+        for(int i=0; i<5; i++){
+            assertEquals(2, actuallyAddedStudents[i]);
+        }
+
+        int[] studentsNotToBeAdded = {1, 0, 3, 2, 4};
+        actuallyAddedStudents = b.addStudents(studentsNotToBeAdded);
+
+        for(int i=0; i<5; i++){
+            assertEquals(0, actuallyAddedStudents[i]);
+        }
+    }
 
 }

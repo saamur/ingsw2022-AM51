@@ -12,8 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
- * Class tests IslandManager
+ * Class tests IslandManager.
  *
+ * @link IslandManager
  */
 public class IslandManagerTest {
     IslandManager islandManager;
@@ -43,7 +44,8 @@ public class IslandManagerTest {
 
 
     /**
-     * testing distanceFromCurrentIsland can handle situation when parameter is island with Mother Nature
+     * Testing if distanceFromCurrentIsland can handle situation when parameter is island with Mother Nature.
+     * Distance is expected to be 0.
      */
     @Test
     public void distanceZeroTest(){
@@ -53,7 +55,7 @@ public class IslandManagerTest {
     }
 
     /**
-     * Method tests whether setMotherNature accepts an island which is not contained in islandManager
+     * Method tests whether setMotherNature accepts an island which is not contained in islandManager.
      */
     @Test
     public void setMotherNatureTest(){

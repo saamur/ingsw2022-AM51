@@ -138,25 +138,5 @@ public class BagTest {
             assertEquals(filledBag[i], actualBag[i]);
     }
 
-    /**
-     * Method tests the addStudents() method when bag has just been initilized.
-     * The maximum number of students of each color in the Bag is 26.
-     * b.addStudents() is expected to add only 2 students for each color and not more.
-     */
-    @Test
-    public void addStudentsFilledBag(){
-        int[] studentsToBeAdded = {2, 2, 2, 2, 2};
-        int[] actuallyAddedStudents = b.addStudents(studentsToBeAdded);
-        for(int i=0; i<5; i++){
-            assertEquals(2, actuallyAddedStudents[i]);
-        }
-
-        int[] studentsNotToBeAdded = {1, 0, 3, 2, 4};
-        actuallyAddedStudents = b.addStudents(studentsNotToBeAdded);
-
-        for(int i=0; i<5; i++){
-            assertEquals(0, actuallyAddedStudents[i]);
-        }
-    }
 
 }

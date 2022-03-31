@@ -3,7 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.player.Hall;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HallTest {
     /**

@@ -5,6 +5,7 @@ public class Player {
     private final String nickname;
     private final TowerColor colorOfTowers;
     private int numberOfTowers;
+    private final Deck deck;
     private Card currCard;
     private final School school;
 
@@ -13,6 +14,7 @@ public class Player {
         this.nickname = nickname;
         this.colorOfTowers = colorOfTowers;
         numberOfTowers = numPlayers == 2 ? 8 : 6;
+        deck = new Deck();
         currCard = null;
         school = new School(numPlayers,bag);
 
@@ -40,6 +42,13 @@ public class Player {
 
     public Chamber getChamber() {
         return school.getChamber();
+    }
+
+    public boolean chooseCard (Card c) {
+        if (!deck.choose(c))
+            return false;
+        currCard = c;
+        return true;
     }
 
     public void addTowers (int n) {

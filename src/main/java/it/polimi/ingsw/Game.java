@@ -3,17 +3,34 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.charactercards.CharacterCard;
 import it.polimi.ingsw.charactercards.CharacterCardCreator;
 import it.polimi.ingsw.charactercards.CharacterID;
+import it.polimi.ingsw.clouds.Cloud;
 import it.polimi.ingsw.clouds.CloudManager;
+import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 public class Game {
+
+    private static final Function<Player, Integer>[] winningScoreCalculators = new Function[2];
+
+    static {
+        winningScoreCalculators[0] = p -> (-1) * p.getNumberOfTowers();
+        winningScoreCalculators[1] = p -> {
+            int numProfessors = 0;
+            for (Clan c : Clan.values())
+                if (p.getChamber().hasProfessor(c))
+                    numProfessors++;
+            return numProfessors;
+        };
+    }
 
     private GameState gameState;
 
@@ -34,6 +51,7 @@ public class Game {
 
     private boolean lastRound;
     private Player winner;
+
 
     public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) {
 
@@ -115,7 +133,6 @@ public class Game {
     private void initRound() {
 
         if (lastRound) {
-            gameState = GameState.GAME_OVER;
             calculateWin();
             return;
         }
@@ -131,9 +148,13 @@ public class Game {
 
     }
 
-    public boolean chosenCard (Player player, Card card) {
+    public boolean chosenCard (String playerNickname, Card card) {
 
-        if (player != players[indexCurrPlayer])
+        Player player = playerFromNickname(playerNickname);
+        if (player == null)
+            return false;
+
+        if (gameState != GameState.PIANIFICATION || player != players[indexCurrPlayer])
             return false;
 
         if (!validCard(player, card))
@@ -172,14 +193,11 @@ public class Game {
         List<Card> remainingCards = player.getDeck().getCards();
         remainingCards.removeAll(otherPlayersCards);
 
-        if (remainingCards.isEmpty())
-            return true;
-
-        return false;
+        return remainingCards.isEmpty();
 
     }
 
-    private void createOrderActionPhase() {
+    private void createOrderActionPhase() {             //TODO needs deep testing
 
         List<Player> order = new ArrayList<>();
 
@@ -215,8 +233,147 @@ public class Game {
 
     }
 
+    public boolean moveStudentToChamber (String playerNickname, Clan clan) {
+
+        Player player = playerFromNickname(playerNickname);
+        if (player == null)
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        return turn.moveStudentToChamber(clan, players);
+
+    }
+
+    public boolean moveStudentToIsland (String playerNickname, Clan clan, int islandIndex) {
+
+        Player player = playerFromNickname(playerNickname);
+        Island island = islandManager.getIsland(islandIndex);
+        if (player == null || island == null)
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        return turn.moveStudentToIsland(clan, island);
+
+    }
+
+    public boolean moveMotherNature (String playerNickname, int islandIndex) {
+
+        Player player = playerFromNickname(playerNickname);
+        Island island = islandManager.getIsland(islandIndex);
+        if (player == null || island == null)
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        if (turn.getTurnState() != TurnState.MOTHER_MOVING)
+            return false;
+
+        if (islandManager.distanceFromMotherNature(island) <= turn.getMaxStepsMotherNature())
+            return false;
+
+        islandManager.setMotherNaturePosition(island);
+        checkInfluence(island);
+        turn.setTurnState(TurnState.CLOUD_CHOOSING);
+
+        if (lastRound)
+            endTurn();
+
+        return true;
+
+    }
+
+    public void checkInfluence (Island island) {             //FIXME we have to find a better name
+
+        turn.updateInfluence(islandManager, island, players);
+
+        if (players[indexCurrPlayer].getNumberOfTowers() <= 0) {
+            gameState = GameState.GAME_OVER;
+            winner = players[indexCurrPlayer];
+        }
+        else if (islandManager.getNumberOfIslands() <= 3)
+            calculateWin();
+
+    }
+
+    public boolean chosenCloud (String playerNickname, int cloudIndex) {
+
+        Player player = playerFromNickname(playerNickname);
+        Cloud cloud = cloudManager.getCloud(cloudIndex);
+        if (player == null || cloud == null)
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        boolean ok = turn.chooseCloud(cloud);
+
+        if (!ok)
+            return false;
+
+        endTurn();
+
+        return true;
+
+    }
+
+    private void endTurn() {
+
+        indexCurrPlayer++;
+
+        if (gameState == GameState.GAME_OVER)
+            return;
+
+        if (indexCurrPlayer == players.length)
+            initRound();
+
+        turn = new Turn(playersOrder[indexCurrPlayer]);
+
+    }
+
     private void calculateWin() {
-        //TODO
+
+        gameState = GameState.GAME_OVER;
+
+        List<Player> winners = new ArrayList<>(Arrays.asList(players));
+
+        for (Function<Player, Integer> f : winningScoreCalculators) {
+
+            int i = 0;
+            while(i+1 < winners.size()) {
+
+                int score1 = f.apply(winners.get(i));
+                int score2 = f.apply(winners.get(i+1));
+
+                if (score1 > score2)
+                    winners.remove(i+1);
+                else if (score1 == score2)
+                    i++;
+                else
+                    winners.remove(i);
+
+            }
+
+            if (winners.size() == 1) {
+                winner = winners.get(0);
+                return;
+            }
+
+        }
+        //we get here if the game ends in a draw
+        //what do the game rules say in this case?
+
+    }
+
+    private Player playerFromNickname (String nickname) {
+        for (Player p : players)
+            if(p.getNickname().equals(nickname))
+                return p;
+        return null;
     }
 
 }

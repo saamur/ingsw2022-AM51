@@ -27,6 +27,13 @@ public class Hall implements StudentContainer {
 
     }
 
+    public boolean addStudent(Clan c) {
+        int[] stud = new int[Clan.values().length];
+        stud[c.ordinal()] = 1;
+        int[] addedStud = addStudents(stud);
+        return Arrays.equals(stud, addedStud);
+    }
+
     @Override
     public int[] removeStudents(int[] stud) {
 

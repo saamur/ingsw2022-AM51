@@ -35,7 +35,7 @@ public class IslandManagerTest {
         Island motherNaturePosition = islandManager.getMotherNaturePosition();
         List<Island> islands = islandManager.getIslands();
         int chosenIslandPosition = random.nextInt(12);
-        int distance = islandManager.distanceFromCurrentIsland(islands.get(chosenIslandPosition));
+        int distance = islandManager.distanceFromMotherNature(islands.get(chosenIslandPosition));
         int difference = chosenIslandPosition - islands.indexOf(motherNaturePosition);
 
         assertEquals(difference >= 0 ? difference : 12 + difference, distance);
@@ -48,7 +48,7 @@ public class IslandManagerTest {
     @Test
     public void distanceZeroTest(){
         Random random = new Random();
-        int distance = islandManager.distanceFromCurrentIsland(islandManager.getMotherNaturePosition());
+        int distance = islandManager.distanceFromMotherNature(islandManager.getMotherNaturePosition());
         assertEquals(0, distance);
     }
 

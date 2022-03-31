@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.charactercards.CharacterCard;
+import it.polimi.ingsw.clouds.Cloud;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
@@ -37,17 +38,17 @@ public class Turn {
 
     }
 
-    private static int indexUniqueMax (int[] vet) {
+    private static int indexUniqueMax (int[] array) {
 
         int posMax = 0;
         boolean unique = true;
 
-        for (int i = 1;  i < vet.length; i++) {
-            if (vet[i] > vet[posMax]){
+        for (int i = 1;  i < array.length; i++) {
+            if (array[i] > array[posMax]){
                 posMax = i;
                 unique = true;
             }
-            else if (vet[i] == vet[posMax]) {
+            else if (array[i] == array[posMax]) {
                 unique = false;
             }
         }
@@ -67,11 +68,20 @@ public class Turn {
         return activatedCharacterCard;
     }
 
-    public boolean moveStudentToIsland(Clan c, Island island) {
+    public void setTurnState(TurnState turnState) {
+        this.turnState = turnState;
+    }
+
+    public boolean moveStudentToIsland(Clan clan, Island island) {
+
         if (turnState != TurnState.STUDENT_MOVING)
             return false;
 
-        island.addStudent(c);
+        boolean ok = currPlayer.getHall().removeStudent(clan);
+        if(!ok)
+            return false;
+
+        island.addStudent(clan);
 
         studentMoved++;
         if (studentMoved == 3)
@@ -81,13 +91,20 @@ public class Turn {
 
     }
 
-    public boolean moveStudentToChamber(Clan c, Player[] players) {
+    public boolean moveStudentToChamber(Clan clan, Player[] players) {
+
         if (turnState != TurnState.STUDENT_MOVING)
             return false;
 
-        boolean ok = currPlayer.getChamber().addStudent(c);
-        if (!ok)
+        boolean ok = currPlayer.getHall().removeStudent(clan);
+        if(!ok)
             return false;
+
+        ok = currPlayer.getChamber().addStudent(clan);
+        if (!ok) {
+            currPlayer.getHall().addStudent(clan);
+            return false;
+        }
 
         updateProfessors(players);
 
@@ -130,9 +147,6 @@ public class Turn {
 
     public void updateInfluence (IslandManager islandManager, Island island, Player[] players) {
 
-        if (turnState != TurnState.MOTHER_MOVING)           //FIXME better to check it in Game
-            return;
-
         int[] influences = new int[players.length];
 
         for (int i = 0; i < players.length; i++) {
@@ -158,6 +172,20 @@ public class Turn {
             islandManager.conquerIsland(players[posMax], island);
 
         turnState = TurnState.CLOUD_CHOOSING;           //FIXME not when called from a character, so to do in Game
+
+    }
+
+    public boolean chooseCloud (Cloud cloud) {
+
+        if (turnState != TurnState.CLOUD_CHOOSING)
+            return false;
+
+        if (cloud.getPicked())
+            return false;
+
+        currPlayer.getHall().addStudents(cloud.pick());
+
+        return true;
 
     }
 

@@ -102,7 +102,6 @@ public class ChamberTest {
      * a particular givenCoin position
      * Is expected that in the first cell of coinsGiven, even when 3 students are re-added, the CoinsGiven remains 1
      */
-    //TODO dividere i metodi
 
     @Test
     public void testUpdateCoinsTwiceCaseOne(){

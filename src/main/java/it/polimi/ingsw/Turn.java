@@ -125,7 +125,7 @@ public class Turn {
 
     public void updateInfluence (IslandManager islandManager, Island island, Player[] players) {
 
-        if (turnState != TurnState.MOTHER_MOVING)           //check in Game
+        if (turnState != TurnState.MOTHER_MOVING)           //FIXME better to check it in Game
             return;
 
         int[] influences = new int[players.length];
@@ -152,7 +152,7 @@ public class Turn {
         if(posMax != -1)
             islandManager.conquerIsland(players[posMax], island);
 
-        turnState = TurnState.CLOUD_CHOOSING;           //not when called from a character
+        turnState = TurnState.CLOUD_CHOOSING;           //FIXME not when called from a character, so to do in Game
 
     }
 

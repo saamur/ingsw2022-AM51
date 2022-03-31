@@ -1,5 +1,16 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.charactercards.CharacterCard;
+import it.polimi.ingsw.charactercards.CharacterCardCreator;
+import it.polimi.ingsw.charactercards.CharacterID;
+import it.polimi.ingsw.clouds.CloudManager;
+import it.polimi.ingsw.islands.IslandManager;
+import it.polimi.ingsw.player.Card;
+import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.player.TowerColor;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Game {
@@ -92,7 +103,7 @@ public class Game {
 
     }
 
-    private void start () {
+    private void start() {
 
         Random random = new Random();
         indexNextFirstPlayer = random.nextInt(players.length);
@@ -131,7 +142,10 @@ public class Game {
         boolean ok = player.chooseCard(card);
 
         if (!ok)
-            return false;           //never executed if everything works correctly
+            return false;                      //never executed if everything works correctly
+
+        if (player.getDeck().getCards().isEmpty())
+            lastRound = true;
 
         indexCurrPlayer = (indexCurrPlayer + 1) % players.length;
 
@@ -145,16 +159,60 @@ public class Game {
     }
 
     private boolean validCard (Player player, Card card) {
-        //TODO
-        return true;
+
+        List<Card> otherPlayersCards = new ArrayList<>();
+
+
+        for (int i = indexCurrFirstPlayer; players[i%players.length] != player; i++)
+            otherPlayersCards.add(players[i%players.length].getCurrCard());
+
+        if (!otherPlayersCards.contains(card))
+            return true;
+
+        List<Card> remainingCards = player.getDeck().getCards();
+        remainingCards.removeAll(otherPlayersCards);
+
+        if (remainingCards.isEmpty())
+            return true;
+
+        return false;
+
     }
 
     private void createOrderActionPhase() {
-        //TODO
+
+        List<Player> order = new ArrayList<>();
+
+        for (int i = 0; i < players.length; i++) {
+
+            int playerIndex = (indexCurrFirstPlayer+i) % players.length;
+            int priorityPlayerCard = players[playerIndex].getCurrCard().getPriority();
+
+            int pos = 0;
+            while (pos < order.size() && priorityPlayerCard >= order.get(pos).getCurrCard().getPriority())
+                pos++;
+
+            order.add(pos, players[playerIndex]);
+
+        }
+
+        for (int i = 0; i < players.length; i++)
+            playersOrder[i] = order.get(i);
+
+        for (int i = 0; i < players.length; i++)
+            if (players[i] == playersOrder[0]) {
+                indexNextFirstPlayer = i;
+                break;
+            }
+
     }
 
     private void initActionPhase() {
-        //TODO
+
+        gameState = GameState.ACTION;
+        indexCurrPlayer = 0;
+        turn = new Turn(playersOrder[0]);
+
     }
 
     private void calculateWin() {

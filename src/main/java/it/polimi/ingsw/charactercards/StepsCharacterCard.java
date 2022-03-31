@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.charactercards;
 
 public class StepsCharacterCard extends CharacterCard {
 

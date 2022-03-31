@@ -1,4 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.islands;
+
+import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.player.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;

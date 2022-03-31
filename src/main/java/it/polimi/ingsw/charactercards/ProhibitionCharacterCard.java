@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.charactercards;
+
+import it.polimi.ingsw.islands.Island;
 
 public class ProhibitionCharacterCard extends CharacterCard {
 

@@ -1,4 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.charactercards;
+
+import it.polimi.ingsw.*;
+import it.polimi.ingsw.islands.Island;
+import it.polimi.ingsw.islands.IslandManager;
+import it.polimi.ingsw.player.Player;
 
 public class InfluenceCharacterCard extends CharacterCard {
 

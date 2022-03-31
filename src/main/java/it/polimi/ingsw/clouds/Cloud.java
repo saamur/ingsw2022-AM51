@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.clouds;
+
+import it.polimi.ingsw.Clan;
 
 public class Cloud {
 

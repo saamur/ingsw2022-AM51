@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ public class Deck {
         return new ArrayList<>(cards);
     }
 
-    public boolean choose(Card c) {
+    public boolean removeCard(Card c) {
         return cards.remove(c);
     }
 

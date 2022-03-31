@@ -1,5 +1,10 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.charactercards.CharacterCard;
+import it.polimi.ingsw.islands.Island;
+import it.polimi.ingsw.islands.IslandManager;
+import it.polimi.ingsw.player.Player;
+
 public class Turn {
 
     private final Player currPlayer;

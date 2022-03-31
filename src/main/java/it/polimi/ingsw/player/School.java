@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.player;
+
+import it.polimi.ingsw.Bag;
 
 public class School {
 

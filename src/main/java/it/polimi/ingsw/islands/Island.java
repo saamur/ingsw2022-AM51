@@ -1,4 +1,8 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.islands;
+
+import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.StudentContainer;
 
 public class Island implements StudentContainer {
 

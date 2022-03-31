@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.clouds;
+
+import it.polimi.ingsw.Bag;
 
 public class CloudManager {
 

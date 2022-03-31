@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.player;
+
+import it.polimi.ingsw.Bag;
 
 public class Player {
 
@@ -44,8 +46,12 @@ public class Player {
         return school.getChamber();
     }
 
+    public Deck getDeck() {
+        return deck;
+    }
+
     public boolean chooseCard (Card c) {
-        if (!deck.choose(c))
+        if (!deck.removeCard(c))
             return false;
         currCard = c;
         return true;

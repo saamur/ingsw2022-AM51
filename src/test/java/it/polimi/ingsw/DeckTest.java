@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.player.Card;
+import it.polimi.ingsw.player.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +29,7 @@ public class DeckTest {
     @Test
     public void chooseCardTest(){
         card = Card.values()[rand.nextInt(Card.values().length)];
-        boolean result = deck.choose(card);
+        boolean result = deck.removeCard(card);
         List<Card> cardsRemaining = deck.getCards();
         int size = cardsRemaining.size();
 
@@ -42,8 +44,8 @@ public class DeckTest {
     @Test
     public void multipleChoiceCard(){
         card = Card.values()[rand.nextInt(Card.values().length)];
-        deck.choose(card);
-        boolean result = deck.choose(card);
+        deck.removeCard(card);
+        boolean result = deck.removeCard(card);
         assertFalse(result);
     }
 
@@ -53,7 +55,7 @@ public class DeckTest {
     @Test
     public void emptyTest(){
         for(int i=0; i<Card.values().length; i++){
-            deck.choose(Card.values()[i]);
+            deck.removeCard(Card.values()[i]);
         }
         assertTrue(deck.isEmpty());
     }

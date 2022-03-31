@@ -23,7 +23,7 @@ public class ChamberTest {
     }
 
     /**
-     * test if the addStudents method works in the right way when I give more that 10 students
+     * test if the addStudents method works in the right way when I give more than 10 students
      */
 
     @Test
@@ -35,6 +35,7 @@ public class ChamberTest {
         int[] res2 = c.getStudents();
         assertEquals(10, res2[0]);
     }
+
 
     /**
      * test if the removeStudents works in the right way

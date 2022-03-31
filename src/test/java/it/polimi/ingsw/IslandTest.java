@@ -9,128 +9,136 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class IslandTest {
 
     /**
-     * test to check if addStudents behave in the right way
+     * test to check if addStudents add the students in an empty Island
+     * Is expected that all the students are added in the Island
      */
     @Test
     public void testAddStudents() {
         Island island = new Island();
-        int[] std = {1, 2, 3, 4, 0};
-        int[] result = island.addStudents(std);
-        for (int i = 0; i < result.length; i++) {
-            assertEquals(std[i], result[i]);
+        int[] addingStudents = {1, 2, 3, 4, 0};
+        int[] addedStudents = island.addStudents(addingStudents);
+        for (int i = 0; i < addedStudents.length; i++) {
+            assertEquals(addingStudents[i], addedStudents[i]);
         }
     }
 
     /**
-     * test if removeStudents behave in the correct way
+     * test if removeStudents remove the students from the Island in normal condition, so if the chosen students
+     * actually are in the Island
+     * Is expected that all the students are removed from the Island
      */
     @Test
     public void testRemoveStudent() {
         Island island = new Island();
-        int[] students = {3, 2, 4, 5, 6};
-        island.addStudents(students);
+        int[] addingStudents = {3, 2, 4, 5, 6};
+        island.addStudents(addingStudents);
         int[] remove = {1, 1, 1, 0, 0};
-        int[] res = island.removeStudents(remove);
-        for (int i = 0; i < res.length; i++) {
-            assertEquals(remove[i], res[i]);
+        int[] removedStudents = island.removeStudents(remove);
+        for (int i = 0; i < removedStudents.length; i++) {
+            assertEquals(remove[i], removedStudents[i]);
         }
-        res = island.getStudents();
-        for (int j = 0; j < res.length; j++) {
-            assertEquals(students[j] - remove[j], res[j]);
+        int[] students = island.getStudents();
+        int[] expectedStudents = {2, 1, 3, 5, 6};
+        for (int j = 0; j < removedStudents.length; j++) {
+            assertEquals(expectedStudents[j], students[j]);
         }
     }
 
     /**
-     * Out-of-Bounds test: testing if the removeStudents method works correctly when the students that we
-     * want to remove is more than the ones available
+     * Out-of-Bounds test: removeTooMuchStudents method tests the removal of the students from an Island that doesn't
+     * have that number of students.
+     * Is expected that in cases where the number of students to be removed is greater than the number of
+     * those present, only the students actually present on the Island are removed
      */
     @Test
     public void removeTooMuchStudents() {
-        Island i = new Island();
-        int[] students = {3, 2, 4, 5, 6};
-        i.addStudents(students);
+        Island island = new Island();
+        int[] addingStudents = {3, 2, 4, 5, 6};
+        island.addStudents(addingStudents);
         int[] remove = {4, 5, 6, 7, 8};
-        int[] removed = i.removeStudents(remove);
-        for (int j = 0; j < students.length; j++) {
-            assertEquals(students[j], removed[j]);
+        int[] removedStudents = island.removeStudents(remove);
+        for (int j = 0; j < addingStudents.length; j++) {
+            assertEquals(addingStudents[j], removedStudents[j]);
         }
-        int[] res = i.getStudents();
-        for (int j = 0; j < students.length; j++) {
-            assertEquals(0, res[j]);
+        int[] students = island.getStudents();
+        for (int j = 0; j < addingStudents.length; j++) {
+            assertEquals(0, students[j]);
         }
     }
 
     /**
-     * test if the addStudent method behave in the right way
+     * testAddStudent method tests if the AddStudent method add a student of a particular chosen clan on the Island
      */
 
     @Test
     public void testAddStudent() {
-        Island i = new Island();
-        int[] students = {3, 2, 4, 5, 0};
-        i.addStudents(students);
-        i.addStudent(Clan.DRAGONS);
-        int[] res = i.getStudents();
-        assertEquals(6, res[3]);
+        Island island = new Island();
+        int[] addingStudents = {3, 2, 4, 5, 0};
+        island.addStudents(addingStudents);
+        island.addStudent(Clan.DRAGONS);
+        int[] students = island.getStudents();
+        assertEquals(6, students[3]);
     }
 
     /**
-     * test that the addProhibitionCard method behave in the right way
+     * test that the addProhibitionCard method add a prohibition card on an Island
      */
 
     @Test
     public void testAddProhibitionCard(){
-        Island i = new Island();
-        i.addProhibitionCard();
-        int res = i.getNumProhibitionCards();
-        assertEquals(1, res);
+        Island island = new Island();
+        island.addProhibitionCard();
+        int numProhibitionCards = island.getNumProhibitionCards();
+        assertEquals(1, numProhibitionCards);
     }
 
     /**
-     * test if the method removeProhibitionCard works in the right way
+     * test if the method removeProhibitionCard remove a prohibition card from the Island if the card is present
      */
     @Test
     public void testRemoveProhibitionCard(){
-        Island i = new Island();
-        i.addProhibitionCard();
-        i.removeProhibitionCard();
-        int res = i.getNumProhibitionCards();
-        assertEquals(0, res);
+        Island island = new Island();
+        island.addProhibitionCard();
+        island.removeProhibitionCard();
+        int numProhibitionCards = island.getNumProhibitionCards();
+        assertEquals(0, numProhibitionCards);
     }
 
     /**
-     * test that if we remove a Prohibition Card in an Island that doesn't have any prohibition card the method doesn't remove anything
+     * test that if the method removeProhibitionCard doesn't do anything if if there are no Prohibition Card on
+     * the Island
      */
     @Test
     public void testRemoveTooMuchProhibition(){
-        Island i = new Island();
-        i.removeProhibitionCard();
-        int res = i.getNumProhibitionCards();
-        assertEquals(0, res);
+        Island island = new Island();
+        island.removeProhibitionCard();
+        int numProhibitionCards = island.getNumProhibitionCards();
+        assertEquals(0, numProhibitionCards);
     }
 
     /**
-     * test if the merge method works in the correct way
+     * test if the merge method unifies the islands by adding the students present on each one,
+     * just as the unified island will have the sum of the number of prohibition cards present on the individual islands
      */
     @Test
     public void testMerge(){
-        Island i1 = new Island();
-        Island i2 = new Island();
-        int[] students1 = {1, 2, 3, 4, 5};
-        int[] students2 = {5, 4, 3, 2, 1};
-        i1.addStudents(students1);
-        i2.addStudents(students2);
-        i1.addProhibitionCard();
-        i1.merge(i2);
-        int[] res = i1.getStudents();
+        Island firstIsland = new Island();
+        Island secondIsland = new Island();
+        int[] addingStudentsFirstIsland = {1, 2, 3, 4, 5};
+        int[] addingStudentsSecondIsland = {5, 4, 3, 2, 1};
+        firstIsland.addStudents(addingStudentsFirstIsland);
+        secondIsland.addStudents(addingStudentsSecondIsland);
+        firstIsland.addProhibitionCard();
+        firstIsland.merge(secondIsland);
+        int[] students = firstIsland.getStudents();
+        int[] studentsExpected = {6, 6, 6, 6, 6};
 
         for(int i=0; i<Clan.values().length; i++){
-            int sum = students1[i]+students2[i];
-            assertEquals(sum, res[i]);
+            assertEquals(studentsExpected[i], students[i]);
         }
 
-        assertEquals(2, i1.getNumberOfIslands());
-        assertEquals(1, i1.getNumProhibitionCards());
+        assertEquals(2, firstIsland.getNumberOfIslands());
+        assertEquals(1, firstIsland.getNumProhibitionCards());
     }
 
 }

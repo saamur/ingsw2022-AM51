@@ -11,24 +11,30 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Set of tests to make sure the class Deck is working correctly
+ * Class DeckTest tests Deck.
+ * @link Deck
  */
 public class DeckTest {
     Deck deck;
     Random rand;
     Card card;
 
+    /**
+     * Method initialization() initializes the variable deck.
+     */
     @BeforeEach
     public void initialization(){
         deck = new Deck();
-        rand = new Random();
     }
     /**
-     * Testing if the method choose works as expected
+     * Method chooseCardTest() tests method Desk.choose().
+     * The value returned by the method is expected to be true.
+     * The chosen card is expected to be removed from the deck.
+     * The size of the deck after the declaration of the method is expected to be 9.
      */
     @Test
     public void chooseCardTest(){
-        card = Card.values()[rand.nextInt(Card.values().length)];
+        card = Card.CAT;
         boolean result = deck.removeCard(card);
         List<Card> cardsRemaining = deck.getCards();
         int size = cardsRemaining.size();
@@ -39,21 +45,24 @@ public class DeckTest {
     }
 
     /**
-     * Testing if choose method acts as expected when it is called twice on the same Card
+     * Method multipleChoiceCard() tests the method choose() when it is called twice on the same Card.
+     * The value returned is expected to be false.
      */
     @Test
     public void multipleChoiceCard(){
-        card = Card.values()[rand.nextInt(Card.values().length)];
+        card = Card.CHEETAH;
         deck.removeCard(card);
         boolean result = deck.removeCard(card);
         assertFalse(result);
     }
 
     /**
-     * Testing if the isEmpty() method works as expected
+     * Method emptyTest() tests the Deck.isEmpty() method. The method is called before and after all of the cards are removed.
+     * The first result to be expected is false and the following one true.
      */
     @Test
     public void emptyTest(){
+        assertFalse(deck.isEmpty());
         for(int i=0; i<Card.values().length; i++){
             deck.removeCard(Card.values()[i]);
         }

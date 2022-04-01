@@ -10,6 +10,7 @@ import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -354,8 +355,11 @@ public class Game implements GameInterface {
                     winners.remove(i+1);
                 else if (score1 == score2)
                     i++;
-                else
-                    winners.remove(i);
+                else {
+                    for (int j = 0; j <= i; j++)
+                        winners.remove(0);
+                    i = 0;
+                }
 
             }
 
@@ -424,9 +428,56 @@ public class Game implements GameInterface {
         if (turn.isCharacterEffectApplied())
             return false;
 
+        boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
+
+        if (!ok)
+            return false;
+
         turn.characterEffectApplied();
 
-        return turn.getActivatedCharacterCard().applyEffect(this, island);
+        return true;
+
+    }
+
+    public void setClanCharacter (String playerNickname, Clan clan) {
+
+        Player player = playerFromNickname(playerNickname);
+
+        if (player == null)
+            return;
+
+        turn.setCharacterClan(clan);
+
+        //FIXME thief should start
+
+    }
+
+    public boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, int[] students1, int[] students2) {
+
+        Player player = playerFromNickname(playerNickname);
+        if (player == null)
+            return false;
+
+        if (!expertModeEnabled)             //redundant
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        if (turn.getActivatedCharacterCard() == null)
+            return false;
+
+        if (turn.isCharacterEffectApplied())
+            return false;
+
+        boolean ok = turn.getActivatedCharacterCard().applyEffect(this, destination, students1, students2);
+
+        if (!ok)
+            return false;
+
+        turn.characterEffectApplied();
+
+        return true;
 
     }
 
@@ -437,6 +488,18 @@ public class Game implements GameInterface {
             if(p.getNickname().equals(nickname))
                 return p;
         return null;
+    }
+
+    public Player[] getPlayers() {
+        return players.clone();
+    }
+
+    public Bag getBag() {
+        return bag;
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 
     private CharacterCard CharacterCardFromID (CharacterID characterID) {

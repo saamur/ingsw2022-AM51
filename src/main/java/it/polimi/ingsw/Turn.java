@@ -204,6 +204,14 @@ public class Turn {
         this.activatedCharacterCard = activatedCharacterCard;
     }
 
+    public void setCharacterClan(Clan characterClan) {
+        this.characterClan = characterClan;
+    }
+
+    public Clan getCharacterClan() {
+        return characterClan;
+    }
+
     public void characterEffectApplied() {
         characterEffectApplied = true;
     }

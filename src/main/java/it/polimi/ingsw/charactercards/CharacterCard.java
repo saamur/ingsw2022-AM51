@@ -51,4 +51,8 @@ public abstract class CharacterCard {
         return true;
     }
 
+    public boolean applyEffect (Game game, StudentContainer destination, int[] students1, int[] students2){
+        return true;
+    }
+
 }

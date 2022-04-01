@@ -4,7 +4,7 @@ import it.polimi.ingsw.StudentContainer;
 
 import java.util.Arrays;
 
-public class StudentMover {
+public class StudentMoverr {
 
     private final int numStudents;
     private final StudentContainer fixedSource;
@@ -15,7 +15,7 @@ public class StudentMover {
     private final boolean lessThenNumStudents;
     private final boolean lessFromSource;
 
-    public StudentMover(int numStudents, StudentContainer fixedSource, StudentContainer fixedDestination, int[] fixedStudents1, int[] fixedStudents2, boolean isExchange, boolean lessThenNumStudents, boolean lessFromSource) {
+    public StudentMoverr(int numStudents, StudentContainer fixedSource, StudentContainer fixedDestination, int[] fixedStudents1, int[] fixedStudents2, boolean isExchange, boolean lessThenNumStudents, boolean lessFromSource) {
         this.numStudents = numStudents;
         this.fixedSource = fixedSource;
         this.fixedDestination = fixedDestination;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.charactercards;
 
+import it.polimi.ingsw.Game;
 import it.polimi.ingsw.islands.Island;
 
 public class ProhibitionCharacterCard extends CharacterCard {
@@ -20,7 +21,12 @@ public class ProhibitionCharacterCard extends CharacterCard {
     }
 
     @Override
-    public boolean applyEffect(Island isl) {
+    public boolean isAvailable() {
+        return numProhibitionCards > 0;
+    }
+
+    @Override
+    public boolean applyEffect(Game game, Island isl) {
 
         if (numProhibitionCards < 1)
             return false;

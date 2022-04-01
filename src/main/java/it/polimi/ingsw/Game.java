@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-public class Game {
+public class Game implements GameInterface {
 
     private static final Function<Player, Integer>[] winningScoreCalculators = new Function[2];
 
@@ -39,7 +39,7 @@ public class Game {
     private final Bag bag;
 
     private final Player[] players;
-    private Player[] playersOrder;
+    private final Player[] playersOrder;
     private int indexCurrFirstPlayer;
     private int indexNextFirstPlayer;
     private int indexCurrPlayer;
@@ -47,7 +47,7 @@ public class Game {
     private Turn turn;
 
     private final boolean expertModeEnabled;
-    private final CharacterCard[] characterCards;
+    private final CharacterCard[] availableCharacterCards;
 
     private boolean lastRound;
     private Player winner;
@@ -63,6 +63,7 @@ public class Game {
 
         players = new Player[numPlayers];
         players[0] = new Player(nicknameFirstPlayer, TowerColor.values()[0], numPlayers, bag);
+        playersOrder = new Player[numPlayers];
         indexCurrPlayer = 0;
 
         this.expertModeEnabled = expertModeEnabled;
@@ -70,24 +71,24 @@ public class Game {
         if (expertModeEnabled) {
             CharacterCardCreator creator = new CharacterCardCreator();
             Random random = new Random();
-            characterCards = new CharacterCard[3];
+            availableCharacterCards = new CharacterCard[3];
             int i = 0;
             while (i < 3) {
                 CharacterID c = CharacterID.values()[random.nextInt(CharacterID.values().length)];
                 boolean ok = true;
                 for (int j = 0; j < i; j++)
-                    if (c == characterCards[j].getCharacterID()) {
+                    if (c == availableCharacterCards[j].getCharacterID()) {
                         ok = false;
                         break;
                     }
                 if (ok) {
-                    characterCards[i] = creator.createCharacterCard(c);
+                    availableCharacterCards[i] = creator.createCharacterCard(c);
                     i++;
                 }
             }
         }
         else
-            characterCards = null;
+            availableCharacterCards = null;
 
         lastRound = false;
         winner = null;
@@ -229,7 +230,7 @@ public class Game {
 
         gameState = GameState.ACTION;
         indexCurrPlayer = 0;
-        turn = new Turn(playersOrder[0]);
+        turn = new Turn(playersOrder[0], players.length);
 
     }
 
@@ -330,8 +331,8 @@ public class Game {
 
         if (indexCurrPlayer == players.length)
             initRound();
-
-        turn = new Turn(playersOrder[indexCurrPlayer]);
+        else
+            turn = new Turn(playersOrder[indexCurrPlayer], players.length);
 
     }
 
@@ -369,10 +370,79 @@ public class Game {
 
     }
 
+
+
+    public boolean activateCharacterCard (String playerNickname, CharacterID characterID) {
+
+        Player player = playerFromNickname(playerNickname);
+        CharacterCard characterCard = CharacterCardFromID(characterID);
+
+        if (player == null || characterCard == null)
+            return false;
+
+        if (!expertModeEnabled)
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        if (turn.getActivatedCharacterCard() != null)
+            return false;
+
+        if (player.getCoins() < characterCard.getCost())
+            return false;
+
+        if (!characterCard.isAvailable())                   //for example GRANDMA can't be used if there aren't prohibition cards on it
+            return false;
+
+        player.pay(characterCard.getCost());
+        characterCard.increaseCost();
+
+        turn.setActivatedCharacterCard(characterCard);
+        characterCard.applyInitialEffect(turn, players);
+
+        return true;
+
+    }
+
+    public boolean applyCharacterCardEffect (String playerNickname, int islandIndex) {
+
+        Player player = playerFromNickname(playerNickname);
+        Island island = islandManager.getIsland(islandIndex);
+        if (player == null || island == null)
+            return false;
+
+        if (!expertModeEnabled)             //redundant
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        if (turn.getActivatedCharacterCard() == null)
+            return false;
+
+        if (turn.isCharacterEffectApplied())
+            return false;
+
+        turn.characterEffectApplied();
+
+        return turn.getActivatedCharacterCard().applyEffect(this, island);
+
+    }
+
+
+
     private Player playerFromNickname (String nickname) {
         for (Player p : players)
             if(p.getNickname().equals(nickname))
                 return p;
+        return null;
+    }
+
+    private CharacterCard CharacterCardFromID (CharacterID characterID) {
+        for (CharacterCard c : availableCharacterCards)
+            if (c.getCharacterID() == characterID)
+                return c;
         return null;
     }
 

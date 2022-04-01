@@ -35,6 +35,10 @@ public class Chamber implements StudentContainer {
         return coinsGiven.clone();
     }
 
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
     @Override
     public int[] addStudents(int[] stud) {
 

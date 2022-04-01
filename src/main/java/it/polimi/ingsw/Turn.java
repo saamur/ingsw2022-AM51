@@ -9,16 +9,22 @@ import it.polimi.ingsw.player.Player;
 public class Turn {
 
     private final Player currPlayer;
+    private final int numStudentsToMove;
     private TurnState turnState;
     private int studentMoved;
+
     private CharacterCard activatedCharacterCard;
+    private boolean characterEffectApplied;
     private Clan characterClan;
 
-    public Turn (Player currPlayer) {
+    public Turn (Player currPlayer, int numPlayers) {
         this.currPlayer = currPlayer;
+        numStudentsToMove = numPlayers == 2 ? 3 : 4;
         turnState = TurnState.STUDENT_MOVING;
         studentMoved = 0;
+
         activatedCharacterCard = null;
+        characterEffectApplied = false;
         characterClan = null;
     }
 
@@ -64,10 +70,6 @@ public class Turn {
         return turnState;
     }
 
-    public CharacterCard getActivatedCharacterCard() {
-        return activatedCharacterCard;
-    }
-
     public void setTurnState(TurnState turnState) {
         this.turnState = turnState;
     }
@@ -84,7 +86,7 @@ public class Turn {
         island.addStudent(clan);
 
         studentMoved++;
-        if (studentMoved == 3)
+        if (studentMoved == numStudentsToMove)
             turnState = TurnState.MOTHER_MOVING;
 
         return true;
@@ -109,7 +111,7 @@ public class Turn {
         updateProfessors(players);
 
         studentMoved++;
-        if (studentMoved == 3)
+        if (studentMoved == numStudentsToMove)
             turnState = TurnState.MOTHER_MOVING;
 
         return true;
@@ -187,6 +189,23 @@ public class Turn {
 
         return true;
 
+    }
+
+
+    public CharacterCard getActivatedCharacterCard() {
+        return activatedCharacterCard;
+    }
+
+    public boolean isCharacterEffectApplied() {
+        return characterEffectApplied;
+    }
+
+    public void setActivatedCharacterCard(CharacterCard activatedCharacterCard) {
+        this.activatedCharacterCard = activatedCharacterCard;
+    }
+
+    public void characterEffectApplied() {
+        characterEffectApplied = true;
     }
 
 }

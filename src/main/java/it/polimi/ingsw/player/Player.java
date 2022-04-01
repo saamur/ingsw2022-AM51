@@ -50,6 +50,14 @@ public class Player {
         return deck;
     }
 
+    public int getCoins() {
+        return school.getChamber().getCoins();
+    }
+
+    public void pay (int amount) {
+        school.getChamber().setCoins(school.getChamber().getCoins() - amount);
+    }
+
     public boolean chooseCard (Card c) {
         if (!deck.removeCard(c))
             return false;

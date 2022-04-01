@@ -20,4 +20,5 @@ public class StepsCharacterCard extends CharacterCard {
     public int effectStepsMotherNature() {
         return ADDITIONAL_STEPS[getCharacterID().ordinal()];
     }
+
 }

@@ -365,7 +365,7 @@ public class Game implements GameInterface {
             }
 
         }
-        //we get here if the game ends in a draw
+        //FIXME we get here if the game ends in a draw
         //what do the game rules say in this case?
 
     }

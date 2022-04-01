@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @link checkMerge()
  */
-public class ConquerTest {
+public class IslandManagerTest2 {
     List<Player> players = new ArrayList<>();
     IslandManager islandManager;
     Bag bag;

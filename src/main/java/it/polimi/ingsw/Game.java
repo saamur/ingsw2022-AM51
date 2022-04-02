@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.charactercards.CharacterCard;
 import it.polimi.ingsw.charactercards.CharacterCardCreator;
 import it.polimi.ingsw.charactercards.CharacterID;
+import it.polimi.ingsw.charactercards.ProhibitionCharacterCard;
 import it.polimi.ingsw.clouds.Cloud;
 import it.polimi.ingsw.clouds.CloudManager;
 import it.polimi.ingsw.islands.Island;
@@ -82,7 +83,7 @@ public class Game implements GameInterface {
                         break;
                     }
                 if (ok) {
-                    availableCharacterCards[i] = creator.createCharacterCard(c);
+                    availableCharacterCards[i] = creator.createCharacterCard(c, bag);
                     i++;
                 }
             }
@@ -290,6 +291,12 @@ public class Game implements GameInterface {
 
     public void checkInfluence (Island island) {             //FIXME we have to find a better name
 
+        if (island.getNumProhibitionCards() > 0) {
+            island.removeProhibitionCard();
+            reassignProhibitionCard();
+            return;
+        }
+
         turn.updateInfluence(islandManager, island, players);
 
         if (players[indexCurrPlayer].getNumberOfTowers() <= 0) {
@@ -300,6 +307,16 @@ public class Game implements GameInterface {
         else if (islandManager.getNumberOfIslands() <= 3)
             calculateWin();
 
+    }
+
+    private void reassignProhibitionCard() {
+        for (CharacterCard card : availableCharacterCards) {
+            if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
+                ProhibitionCharacterCard c = (ProhibitionCharacterCard) card;
+                c.addProhibitionCard();
+                break;
+            }
+        }
     }
 
     public boolean chosenCloud (String playerNickname, int cloudIndex) {
@@ -438,16 +455,26 @@ public class Game implements GameInterface {
 
     }
 
-    public void setClanCharacter (String playerNickname, Clan clan) {
+    public boolean setClanCharacter (String playerNickname, Clan clan) {
 
         Player player = playerFromNickname(playerNickname);
 
         if (player == null)
-            return;
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        if (turn.isCharacterEffectApplied())
+            return false;
 
         turn.setCharacterClan(clan);
 
-        //FIXME thief should start
+        if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF) {
+            return applyCharacterCardEffect(playerNickname, null, null, null);
+        }
+
+        return true;
 
     }
 
@@ -476,6 +503,9 @@ public class Game implements GameInterface {
 
         turn.characterEffectApplied();
 
+        if (bag.isEmpty())
+            lastRound = true;
+
         return true;
 
     }
@@ -499,6 +529,14 @@ public class Game implements GameInterface {
 
     public Turn getTurn() {
         return turn;
+    }
+
+    public Player getCurrPlayer (){
+        if (gameState == GameState.PIANIFICATION)
+            return players[indexCurrPlayer];
+        if (gameState == GameState.ACTION)
+            return playersOrder[indexCurrPlayer];
+        return null;
     }
 
     private CharacterCard CharacterCardFromID (CharacterID characterID) {

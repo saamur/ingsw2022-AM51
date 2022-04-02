@@ -38,4 +38,8 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
     }
 
+    public void addProhibitionCard() {
+        numProhibitionCards++;
+    }
+
 }

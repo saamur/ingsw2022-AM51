@@ -1,10 +1,12 @@
 package it.polimi.ingsw.charactercards;
 
+import it.polimi.ingsw.Bag;
+
 public class CharacterCardCreator {
 
     public CharacterCardCreator(){}
 
-    public CharacterCard createCharacterCard(CharacterID characterID) {
+    public CharacterCard createCharacterCard(CharacterID characterID, Bag bag) {
 
         switch (characterID) {
             case FARMER:
@@ -20,7 +22,7 @@ public class CharacterCardCreator {
                 return new StepsCharacterCard(characterID);
 
             case MONK: case JESTER: case MINISTREL: case PRINCESS: case THIEF:
-                return null;
+                return new StudentMoverCharacterCard(characterID, bag);
         }
 
         return null;

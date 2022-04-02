@@ -1,5 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.clouds;
 
+import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.clouds.Cloud;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ public class CloudTest {
        int[] addingStudents={1, 5, 4, 3, 1};
        cloud.fill(addingStudents);
        int[] students=cloud.getStudents();
-       for(int i=0; i<Clan.values().length; i++){
+       for(int i = 0; i< Clan.values().length; i++){
            assertEquals(addingStudents[i], students[i]);
        }
        assertFalse(cloud.isPicked());

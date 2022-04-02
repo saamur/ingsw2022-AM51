@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.islands;
 
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
@@ -69,5 +69,7 @@ public class IslandManagerTest {
         islandManager.setMotherNaturePosition(islands.get(islandPosition));
         assertEquals(islandManager.getMotherNaturePosition(), islands.get(islandPosition));
     }
+
+    //TODO use in tests getIslands e getNumberOfIslands
 
 }

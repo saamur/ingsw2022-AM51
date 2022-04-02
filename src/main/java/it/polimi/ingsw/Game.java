@@ -10,7 +10,6 @@ import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +50,7 @@ public class Game implements GameInterface {
     private final CharacterCard[] availableCharacterCards;
 
     private boolean lastRound;
-    private Player winner;
+    private List<Player> winners;
 
 
     public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) {
@@ -92,7 +91,7 @@ public class Game implements GameInterface {
             availableCharacterCards = null;
 
         lastRound = false;
-        winner = null;
+        winners = null;
 
     }
 
@@ -295,7 +294,8 @@ public class Game implements GameInterface {
 
         if (players[indexCurrPlayer].getNumberOfTowers() <= 0) {
             gameState = GameState.GAME_OVER;
-            winner = players[indexCurrPlayer];
+            winners = new ArrayList<>();
+            winners.add(players[indexCurrPlayer]);
         }
         else if (islandManager.getNumberOfIslands() <= 3)
             calculateWin();
@@ -341,36 +341,35 @@ public class Game implements GameInterface {
 
         gameState = GameState.GAME_OVER;
 
-        List<Player> winners = new ArrayList<>(Arrays.asList(players));
+        List<Player> potentialWinners = new ArrayList<>(Arrays.asList(players));
 
         for (Function<Player, Integer> f : winningScoreCalculators) {
 
             int i = 0;
-            while(i+1 < winners.size()) {
+            while(i+1 < potentialWinners.size()) {
 
-                int score1 = f.apply(winners.get(i));
-                int score2 = f.apply(winners.get(i+1));
+                int score1 = f.apply(potentialWinners.get(i));
+                int score2 = f.apply(potentialWinners.get(i+1));
 
                 if (score1 > score2)
-                    winners.remove(i+1);
+                    potentialWinners.remove(i+1);
                 else if (score1 == score2)
                     i++;
                 else {
-                    for (int j = 0; j <= i; j++)
-                        winners.remove(0);
+                    potentialWinners.subList(0, i+1).clear();
                     i = 0;
                 }
 
             }
 
-            if (winners.size() == 1) {
-                winner = winners.get(0);
+            if (potentialWinners.size() == 1) {
+                winners = potentialWinners;
                 return;
             }
 
         }
-        //FIXME we get here if the game ends in a draw
-        //what do the game rules say in this case?
+
+        winners = potentialWinners;
 
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Bag implements StudentContainer {
@@ -11,8 +12,7 @@ public class Bag implements StudentContainer {
 
         students = new int[Clan.values().length];
 
-        for (int i = 0; i < students.length; i++)
-            students[i] = 24;
+        Arrays.fill(students, 24);
 
         random = new Random();
     }
@@ -23,6 +23,10 @@ public class Bag implements StudentContainer {
         return students.clone();
     }
 
+    /**
+     * method draw selects a random student contained in the Bag, it removes it and returns its Clan
+     * @return the Clan of a random student formerly in the Bag
+     */
     public Clan draw() {
 
         if (isEmpty())
@@ -51,6 +55,11 @@ public class Bag implements StudentContainer {
 
     }
 
+    /**
+     * mothod draw selects random students in the Bag and returns them
+     * @param n the number of random students to draw
+     * @return  the random students that have been drawn
+     */
     public int[] draw(int n) {
 
         int[] stud = new int[Clan.values().length];
@@ -65,6 +74,10 @@ public class Bag implements StudentContainer {
 
     }
 
+    /**
+     * method isEmpty returns true if the Bag doesn't contain any student
+     * @return  whether the Bag is empty or not
+     */
     public boolean isEmpty() {
 
         for(int n : students)

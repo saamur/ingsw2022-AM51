@@ -28,6 +28,12 @@ public class Turn {
         characterClan = null;
     }
 
+    /**
+     * method defaultPlayerProfessor calculates the Player that has to own the professor of the Clan given by parameter
+     * @param players   all the players of the game
+     * @param clan      the Clan of the professor to calculate its owner
+     * @return          the Player that has to own the professor of the Clan clan, null in case of a tie
+     */
     public static Player defaultPlayerProfessor (Player[] players, Clan clan) {
 
         int[] stud = new int[players.length];
@@ -44,6 +50,12 @@ public class Turn {
 
     }
 
+    /**
+     * method indexUniqueMax calculates the index of the position in the array given by parameter
+     * where is contained the greater value, if this is unique
+     * @param array the array on which calculate that index
+     * @return the index of the array given by parameter where is contained the greater value, if this is unique, -1 otherwise
+     */
     private static int indexUniqueMax (int[] array) {
 
         int posMax = 0;
@@ -66,14 +78,14 @@ public class Turn {
 
     }
 
-    public TurnState getTurnState() {
-        return turnState;
-    }
-
-    public void setTurnState(TurnState turnState) {
-        this.turnState = turnState;
-    }
-
+    /**
+     * method moveStudentToIsland, if turnState is STUDENT_MOVING, tries to move a student
+     * from the Hall of currPlayer to an Island.
+     * If the maximum number of students moved has been reached turnState is updated to MOTHER_MOVING
+     * @param clan      the Clan of the student to move
+     * @param island    the Island on to which move the student
+     * @return          whether the student has been actually moved
+     */
     public boolean moveStudentToIsland(Clan clan, Island island) {
 
         if (turnState != TurnState.STUDENT_MOVING)
@@ -93,6 +105,15 @@ public class Turn {
 
     }
 
+    /**
+     * method moveStudentToChamber, if turnState is STUDENT_MOVING, tries to move a student
+     * from the Hall to the Chamber of currPlayer.
+     * If the maximum number of students moved has been reached turnState is updated to MOTHER_MOVING
+     * The ownership of the professors get updated
+     * @param clan      the Clan of the student to move
+     * @param players   all the players of the game
+     * @return          whether the student has been actually moved
+     */
     public boolean moveStudentToChamber(Clan clan, Player[] players) {
 
         if (turnState != TurnState.STUDENT_MOVING)
@@ -118,6 +139,10 @@ public class Turn {
 
     }
 
+    /**
+     * method updateProfessors updates the ownership of the professors
+     * @param players   the players of the game
+     */
     public void updateProfessors (Player[] players) {
 
         for (Clan c : Clan.values()) {
@@ -137,7 +162,11 @@ public class Turn {
 
     }
 
-    public int getMaxStepsMotherNature () {
+    /**
+     * method getMaxStepsMotherNature calculates the maximum number of steps that Mother Nature can do in this turn
+     * @return  the maximum number of steps that Mother Nature can do in this turn
+     */
+    public int getMaxStepsMotherNature() {
 
         int maxSteps = currPlayer.getCurrCard().getMaxStepsMotherNature();
 
@@ -147,6 +176,13 @@ public class Turn {
         return maxSteps;
     }
 
+    /**
+     * method updateInfluence calculates the influences of the players on a given Island
+     * and gives its control to the player with the maximum influence, if it exists
+     * @param islandManager the islandManager of the game
+     * @param island        the island on to which the method updates the control
+     * @param players       all the players of the game
+     */
     public void updateInfluence (IslandManager islandManager, Island island, Player[] players) {
 
         int[] influences = new int[players.length];
@@ -173,10 +209,14 @@ public class Turn {
         if(posMax != -1)
             islandManager.conquerIsland(players[posMax], island);
 
-        turnState = TurnState.CLOUD_CHOOSING;           //FIXME not when called from a character, so to do in Game
-
     }
 
+    /**
+     * method chooseCloud, if turnState is CLOUD_CHOOSING, picks the students on the given cloud
+     * and puts them in the Hall of the currPlayer
+     * @param cloud the Cloud from which the students will be taken
+     * @return      whether the Cloud wasn't already picked this Round
+     */
     public boolean chooseCloud (Cloud cloud) {
 
         if (turnState != TurnState.CLOUD_CHOOSING)
@@ -191,17 +231,25 @@ public class Turn {
 
     }
 
+    public TurnState getTurnState() {
+        return turnState;
+    }
+
+    public void setTurnState(TurnState turnState) {
+        this.turnState = turnState;
+    }
+
 
     public CharacterCard getActivatedCharacterCard() {
         return activatedCharacterCard;
     }
 
-    public boolean isCharacterEffectApplied() {
-        return characterEffectApplied;
-    }
-
     public void setActivatedCharacterCard(CharacterCard activatedCharacterCard) {
         this.activatedCharacterCard = activatedCharacterCard;
+    }
+
+    public boolean isCharacterEffectApplied() {
+        return characterEffectApplied;
     }
 
     public void setCharacterClan(Clan characterClan) {
@@ -212,6 +260,10 @@ public class Turn {
         return characterClan;
     }
 
+    /**
+     * method characterEffectApplied saves in the variable characterEffectApplied that the effect of the Character
+     * has been applied
+     */
     public void characterEffectApplied() {
         characterEffectApplied = true;
     }

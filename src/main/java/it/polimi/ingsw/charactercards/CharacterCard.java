@@ -2,7 +2,6 @@ package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 
 public abstract class CharacterCard {
@@ -48,11 +47,11 @@ public abstract class CharacterCard {
     }
 
     public boolean applyEffect (Game game, Island island) {
-        return true;
+        return false;
     }
 
     public boolean applyEffect (Game game, StudentContainer destination, int[] students1, int[] students2){
-        return true;
+        return false;
     }
 
 }

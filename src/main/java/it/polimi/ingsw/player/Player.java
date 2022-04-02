@@ -70,12 +70,7 @@ public class Player {
     }
 
     public void removeTowers (int n) {
-
         numberOfTowers -= n;
-
-        if (numberOfTowers < 0)
-            numberOfTowers = 0;
-
     }
 
 }

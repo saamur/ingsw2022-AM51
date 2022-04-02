@@ -9,12 +9,14 @@ public class Island implements StudentContainer {
     private int numberOfIslands;
     private final int[] students;
     private Player controllingPlayer;
+    private int numberOfTowers;
     private int numProhibitionCards;
 
     public Island () {
         numberOfIslands = 1;
         students = new int[Clan.values().length];
         controllingPlayer = null;
+        numberOfTowers = 0;
         numProhibitionCards = 0;
     }
 
@@ -30,12 +32,20 @@ public class Island implements StudentContainer {
         return controllingPlayer;
     }
 
-    public int getNumProhibitionCards() {
-        return numProhibitionCards;
-    }
-
     public void setControllingPlayer(Player controllingPlayer) {
         this.controllingPlayer = controllingPlayer;
+    }
+
+    public int getNumberOfTowers() {
+        return numberOfTowers;
+    }
+
+    public void setNumberOfTowers(int numberOfTowers) {
+        this.numberOfTowers = numberOfTowers;
+    }
+
+    public int getNumProhibitionCards() {
+        return numProhibitionCards;
     }
 
     @Override
@@ -68,24 +78,40 @@ public class Island implements StudentContainer {
 
     }
 
+    /**
+     * method addStudent adds a student of the Clan c in the students variable
+     * @param c the clan of the student to add
+     * @return  true if the student was added
+     */
     public boolean addStudent(Clan c) {
         students[c.ordinal()]++;
         return true;
     }
 
+    /**
+     * method addProhibitionCard increases numProhibitionCards variable
+     */
     public void addProhibitionCard() {
         numProhibitionCards++;
     }
 
+    /**
+     * method removeProhibitionCard decreases numProhibitionCards if it's greater then zero
+     */
     public void removeProhibitionCard() {
         if(numProhibitionCards > 0)
             numProhibitionCards--;
     }
 
+    /**
+     * method merge adds all variables of the parameter to those of the current object
+     * @param mergingIsland the island to merge to this
+     */
     public void merge (Island mergingIsland) {
 
         this.numberOfIslands += mergingIsland.numberOfIslands;
         addStudents(mergingIsland.students);
+        this.numberOfTowers = mergingIsland.numberOfTowers;
         this.numProhibitionCards += mergingIsland.numProhibitionCards;
 
     }

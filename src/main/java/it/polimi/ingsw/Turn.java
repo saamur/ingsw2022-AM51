@@ -158,7 +158,7 @@ public class Turn {
                     influences[i] += island.getStudents()[c.ordinal()];
 
             if (players[i] == island.getControllingPlayer())
-                influences[i] += island.getNumberOfIslands();
+                influences[i] += island.getNumberOfTowers();
 
         }
 

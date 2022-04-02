@@ -28,7 +28,7 @@ public class InfluenceCharacterCard extends CharacterCard {
             int [] delta = new int[players.length];
             for (int i = 0; i < players.length; i++)
                 if (players[i] == island.getControllingPlayer())
-                    delta[i] = (-1) * island.getNumberOfIslands();
+                    delta[i] = (-1) * island.getNumberOfTowers();
             return delta;
         };
 

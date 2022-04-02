@@ -70,7 +70,7 @@ public class ChamberTest {
     public void testHasProfessor(){
         Chamber chamber = new Chamber();
         boolean hasTheProfessor = chamber.hasProfessor(Clan.DRAGONS);
-        boolean[] professors = chamber.getHasProfessor();
+        boolean[] professors = chamber.getProfessors();
         assertFalse(hasTheProfessor);
         for(int i=0; i<Clan.values().length; i++){
             assertFalse(professors[i]);

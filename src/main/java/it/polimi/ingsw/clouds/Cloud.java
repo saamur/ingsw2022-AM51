@@ -12,7 +12,10 @@ public class Cloud {
         picked = false;
     }
 
-
+    /**
+     * method isEmpty returns true if the Cloud doesn't contain any student
+     * @return  whether the Cloud contains any student
+     */
     public boolean isEmpty() {
         for (int n : students)
             if (n != 0)
@@ -21,7 +24,7 @@ public class Cloud {
         return true;
     }
 
-    public boolean getPicked(){
+    public boolean isPicked(){
         return this.picked;
     }
 
@@ -29,6 +32,10 @@ public class Cloud {
         return students.clone();
     }
 
+    /**
+     * method pick returns the students contained in the Cloud, sets picked to true and empties the students array
+     * @return  the students contained in the Cloud
+     */
     public int[] pick() {
 
         int[] stud = null;
@@ -43,6 +50,10 @@ public class Cloud {
 
     }
 
+    /**
+     * method fill sets picked to false and puts the students given by parameter in the Cloud
+     * @param stud  the students with which the Cloud is filled
+     */
     public void fill (int[] stud) {
         students = stud;
         picked = false;

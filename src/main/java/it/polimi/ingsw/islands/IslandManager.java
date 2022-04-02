@@ -45,7 +45,7 @@ public class IslandManager {
      * method getIsland returns the island in the position of the parameter,
      * null if the index is out of bounds
      * @param index the index of the desired Island
-     * @return      the island in position index of the List islands
+     * @return      the Island in position index of the List islands
      */
     public Island getIsland(int index) {
         if (index < 0 || index >= islands.size())

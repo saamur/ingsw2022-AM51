@@ -14,6 +14,11 @@ public class CloudManager {
         numStudentsPerCloud = numPlayers == 2 ? 3 : 4;
     }
 
+    /**
+     * method fillClouds fills all the Clouds in clouds with a number of students of numStudentsPerCloud,
+     * taking the students from the parameter bag
+     * @param bag   the Bag from which the students are taken
+     */
     public void fillClouds(Bag bag) {
         for (Cloud c : clouds)
             c.fill(bag.draw(numStudentsPerCloud));
@@ -23,6 +28,12 @@ public class CloudManager {
         return clouds.clone();
     }
 
+    /**
+     * method getCloud returns the island in the position of the parameter,
+     * null if the index is out of bounds
+     * @param index the index of the desired Cloud
+     * @return      the Cloud in position index of the array clouds
+     */
     public Cloud getCloud(int index) {
         if (index < 0 || index >= clouds.length)
             return null;

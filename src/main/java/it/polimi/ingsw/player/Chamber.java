@@ -8,13 +8,13 @@ import java.util.Arrays;
 public class Chamber implements StudentContainer {
 
     private final int[] students;
-    private final boolean[] hasProfessor;
+    private final boolean[] professors;
     private int coins;
     private final int[] coinsGiven;
 
     public Chamber() {
         students = new int[Clan.values().length];
-        hasProfessor = new boolean[Clan.values().length];
+        professors = new boolean[Clan.values().length];
         coins = 1;
         coinsGiven = new int[Clan.values().length];
     }
@@ -23,8 +23,8 @@ public class Chamber implements StudentContainer {
         return students.clone();
     }
 
-    public boolean[] getHasProfessor() {
-        return hasProfessor.clone();
+    public boolean[] getProfessors() {
+        return professors.clone();
     }
 
     public int getCoins() {
@@ -80,6 +80,11 @@ public class Chamber implements StudentContainer {
 
     }
 
+    /**
+     * method addStudent adds a student of the Clan c in the students variable
+     * @param c the clan of the student to add
+     * @return  true if the student was added
+     */
     public boolean addStudent(Clan c) {
         int[] stud = new int[Clan.values().length];
         stud[c.ordinal()] = 1;
@@ -87,18 +92,36 @@ public class Chamber implements StudentContainer {
         return Arrays.equals(stud, addedStud);
     }
 
+    /**
+     * method hasProfessor returns true if this Chamber contains the professor of the Clan given by parameter
+     * @param clan  the Clan of the professor
+     * @return      whether this Chamber contains the professor of the Clan clan
+     */
     public boolean hasProfessor(Clan clan) {
-        return hasProfessor[clan.ordinal()];
+        return professors[clan.ordinal()];
     }
 
+    /**
+     * method setProfessor sets the professor of the Clan given by parameter to the boolean value given by parameter
+     * @param clan  the Clan of the professor to change
+     * @param value the value to which to set the professor of Clan clan
+     */
     public void setProfessor(Clan clan, boolean value) {
-        hasProfessor[clan.ordinal()] = value;
+        professors[clan.ordinal()] = value;
     }
 
+    /**
+     * method getNumStudents returns the number of the student of the Clan giver by parameter contained in this Chamber
+     * @param clan  the Clan of the students to get the number
+     * @return the number of the students contained in this Chamber of Clan clan
+     */
     public int getNumStudents (Clan clan) {
         return students[clan.ordinal()];
     }
 
+    /**
+     * method updateCoins increases the variable coins after an addition of students accordingly to the rules of the game
+     */
     private void updateCoins() {
         for (int i = 0; i < coinsGiven.length; i++) {
             if (students[i]/3 > coinsGiven[i]) {

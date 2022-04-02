@@ -182,7 +182,7 @@ public class Turn {
         if (turnState != TurnState.CLOUD_CHOOSING)
             return false;
 
-        if (cloud.getPicked())
+        if (cloud.isPicked())
             return false;
 
         currPlayer.getHall().addStudents(cloud.pick());

@@ -1,5 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.player;
 
+import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.player.Hall;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class HallTest {
         Hall hall = new Hall(addingStudents);
         int[] addedStudents = hall.addStudents(addingStudents);
         int[] students = hall.getStudents();
-        for(int i =0; i<Clan.values().length; i++){
+        for(int i = 0; i< Clan.values().length; i++){
             assertEquals(addingStudents[i], addedStudents[i]);
             assertEquals(addingStudents[i], students[i]);
         }

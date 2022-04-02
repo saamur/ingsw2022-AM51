@@ -1,5 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.islands;
 
+import it.polimi.ingsw.Bag;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;

@@ -52,14 +52,28 @@ public class Player {
         return deck;
     }
 
+    /**
+     * method getCoins returns the number of coins in the object chamber
+     * @return  the number of coins in the object chamber
+     */
     public int getCoins() {
         return chamber.getCoins();
     }
 
+    /**
+     * method pay decreases the coins in chamber by the number given by parameter
+     * @param amount    the number of coins to remove from chamber
+     */
     public void pay (int amount) {
         chamber.setCoins(chamber.getCoins() - amount);
     }
 
+    /**
+     * method chooseCard removes the Card given by parameter from the deck
+     * and sets the currCard attribute to the same Card
+     * @param c the Card to remove from the Deck and to which to set the variable currCard
+     * @return  true if the Deck did contain c, false if it didn't
+     */
     public boolean chooseCard (Card c) {
         if (!deck.removeCard(c))
             return false;
@@ -67,10 +81,18 @@ public class Player {
         return true;
     }
 
+    /**
+     * method addTowers increases the variable numberOfTowers
+     * @param n the amount of towers to add
+     */
     public void addTowers (int n) {
         numberOfTowers += n;
     }
 
+    /**
+     * method removeTowers decreases the variable numberOfTowers
+     * @param n the amount of towers to remove
+     */
     public void removeTowers (int n) {
         numberOfTowers -= n;
     }

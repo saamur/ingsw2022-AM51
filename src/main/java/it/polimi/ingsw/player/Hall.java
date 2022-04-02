@@ -27,6 +27,11 @@ public class Hall implements StudentContainer {
 
     }
 
+    /**
+     * method addStudent adds a student of the Clan c in the students variable
+     * @param c the clan of the student to add
+     * @return  true if the student was added
+     */
     public boolean addStudent(Clan c) {
         int[] stud = new int[Clan.values().length];
         stud[c.ordinal()] = 1;
@@ -53,6 +58,11 @@ public class Hall implements StudentContainer {
         return removedStudents;
     }
 
+    /**
+     * method removeStudent removes a student of the Clan c in the students variable
+     * @param c the clan of the student to remove
+     * @return  true if the student was removed
+     */
     public boolean removeStudent(Clan c) {
         int[] stud = new int[Clan.values().length];
         stud[c.ordinal()] = 1;

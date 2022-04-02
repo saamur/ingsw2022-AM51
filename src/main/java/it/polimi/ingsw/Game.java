@@ -96,6 +96,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean addPlayer (String nickname) {
 
         if (gameState != GameState.INITIALIZATION)
@@ -150,6 +151,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean chosenCard (String playerNickname, Card card) {
 
         Player player = playerFromNickname(playerNickname);
@@ -235,6 +237,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean moveStudentToChamber (String playerNickname, Clan clan) {
 
         Player player = playerFromNickname(playerNickname);
@@ -248,6 +251,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean moveStudentToIsland (String playerNickname, Clan clan, int islandIndex) {
 
         Player player = playerFromNickname(playerNickname);
@@ -262,6 +266,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean moveMotherNature (String playerNickname, int islandIndex) {
 
         Player player = playerFromNickname(playerNickname);
@@ -319,6 +324,7 @@ public class Game implements GameInterface {
         }
     }
 
+    @Override
     public boolean chosenCloud (String playerNickname, int cloudIndex) {
 
         Player player = playerFromNickname(playerNickname);
@@ -392,6 +398,7 @@ public class Game implements GameInterface {
 
 
 
+    @Override
     public boolean activateCharacterCard (String playerNickname, CharacterID characterID) {
 
         Player player = playerFromNickname(playerNickname);
@@ -425,6 +432,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean applyCharacterCardEffect (String playerNickname, int islandIndex) {
 
         Player player = playerFromNickname(playerNickname);
@@ -455,6 +463,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean setClanCharacter (String playerNickname, Clan clan) {
 
         Player player = playerFromNickname(playerNickname);
@@ -478,6 +487,7 @@ public class Game implements GameInterface {
 
     }
 
+    @Override
     public boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, int[] students1, int[] students2) {
 
         Player player = playerFromNickname(playerNickname);

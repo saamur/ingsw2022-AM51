@@ -158,7 +158,7 @@ public class Turn {
                     influences[i] += island.getStudents()[c.ordinal()];
 
             if (players[i] == island.getControllingPlayer())
-                influences[i] += island.getNumberOfIslands();
+                influences[i] += island.getNumberOfTowers();
 
         }
 
@@ -182,7 +182,7 @@ public class Turn {
         if (turnState != TurnState.CLOUD_CHOOSING)
             return false;
 
-        if (cloud.getPicked())
+        if (cloud.isPicked())
             return false;
 
         currPlayer.getHall().addStudents(cloud.pick());

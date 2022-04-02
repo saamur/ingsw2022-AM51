@@ -5,20 +5,22 @@ import it.polimi.ingsw.Bag;
 public class Player {
 
     private final String nickname;
+    private final Hall hall;
+    private final Chamber chamber;
     private final TowerColor colorOfTowers;
     private int numberOfTowers;
     private final Deck deck;
     private Card currCard;
-    private final School school;
 
     public Player (String nickname, TowerColor colorOfTowers, int numPlayers, Bag bag) {
 
         this.nickname = nickname;
+        hall = new Hall(bag.draw(numPlayers == 2 ? 7 : 9));
+        chamber = new Chamber();
         this.colorOfTowers = colorOfTowers;
         numberOfTowers = numPlayers == 2 ? 8 : 6;
         deck = new Deck();
         currCard = null;
-        school = new School(numPlayers,bag);
 
     }
 
@@ -39,25 +41,39 @@ public class Player {
     }
 
     public Hall getHall() {
-        return school.getHall();
+        return hall;
     }
 
     public Chamber getChamber() {
-        return school.getChamber();
+        return chamber;
     }
 
     public Deck getDeck() {
         return deck;
     }
 
+    /**
+     * method getCoins returns the number of coins in the object chamber
+     * @return  the number of coins in the object chamber
+     */
     public int getCoins() {
-        return school.getChamber().getCoins();
+        return chamber.getCoins();
     }
 
+    /**
+     * method pay decreases the coins in chamber by the number given by parameter
+     * @param amount    the number of coins to remove from chamber
+     */
     public void pay (int amount) {
-        school.getChamber().setCoins(school.getChamber().getCoins() - amount);
+        chamber.setCoins(chamber.getCoins() - amount);
     }
 
+    /**
+     * method chooseCard removes the Card given by parameter from the deck
+     * and sets the currCard attribute to the same Card
+     * @param c the Card to remove from the Deck and to which to set the variable currCard
+     * @return  true if the Deck did contain c, false if it didn't
+     */
     public boolean chooseCard (Card c) {
         if (!deck.removeCard(c))
             return false;
@@ -65,17 +81,20 @@ public class Player {
         return true;
     }
 
+    /**
+     * method addTowers increases the variable numberOfTowers
+     * @param n the amount of towers to add
+     */
     public void addTowers (int n) {
         numberOfTowers += n;
     }
 
+    /**
+     * method removeTowers decreases the variable numberOfTowers
+     * @param n the amount of towers to remove
+     */
     public void removeTowers (int n) {
-
         numberOfTowers -= n;
-
-        if (numberOfTowers < 0)
-            numberOfTowers = 0;
-
     }
 
 }

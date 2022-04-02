@@ -38,19 +38,34 @@ public class IslandManager {
     }
 
     public List<Island> getIslands() {
-        return islands;
+        return new ArrayList<>(islands);
     }
 
+    /**
+     * method getIsland returns the island in the position of the parameter,
+     * null if the index is out of bounds
+     * @param index the index of the desired Island
+     * @return      the Island in position index of the List islands
+     */
     public Island getIsland(int index) {
         if (index < 0 || index >= islands.size())
             return null;
         return islands.get(index);
     }
 
+    /**
+     * method getNumberOfIslands returns the number of the islands currently present
+     * @return  the number of the islands
+     */
     public int getNumberOfIslands() {
         return islands.size();
     }
 
+    /**
+     * method distanceFromMotherNature calculates the steps needed by Mother Nature to reach the island given by parameter
+     * @param isl   the Island for which the method calculates the distance
+     * @return      the number of steps needed by Mother Nature to reach the island isl
+     */
     public int distanceFromMotherNature(Island isl) {
         return (islands.indexOf(isl) + islands.size() - islands.indexOf(motherNaturePosition)) % islands.size();
     }
@@ -60,18 +75,39 @@ public class IslandManager {
             this.motherNaturePosition = motherNaturePosition;
     }
 
+    /**
+     * method conquerIsland changes the controllingPlayer of isl to p,
+     * moves the towers of the old and the new controllingPlayer as necessary
+     * and merges isl with neighbour islands if required
+     * @param p     the new controllingPlayer of isl
+     * @param isl   the Island being conquered
+     */
     public void conquerIsland (Player p, Island isl) {
 
         if (p != isl.getControllingPlayer()) {
             if (isl.getControllingPlayer() != null)
-                isl.getControllingPlayer().addTowers(isl.getNumberOfIslands());
-            p.removeTowers(isl.getNumberOfIslands());
+                isl.getControllingPlayer().addTowers(isl.getNumberOfTowers());
+
+            if (p.getNumberOfTowers() >= isl.getNumberOfIslands()) {
+                p.removeTowers(isl.getNumberOfIslands());
+                isl.setNumberOfTowers(isl.getNumberOfIslands());
+            }
+            else {
+                isl.setNumberOfTowers(p.getNumberOfTowers());
+                p.removeTowers(p.getNumberOfTowers());
+            }
+
             isl.setControllingPlayer(p);
             checkMerge(isl);
         }
 
     }
 
+    /**
+     * method checkMerge checks if the neighbouring islands of the one given by parameter are controlled by the same player,
+     * in that case they get merged
+     * @param isl   the island that could be merged with its neighbouring islands
+     */
     private void checkMerge(Island isl) {
 
         if (!islands.contains(isl) || islands.size() < 2)

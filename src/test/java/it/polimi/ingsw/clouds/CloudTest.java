@@ -23,7 +23,7 @@ public class CloudTest {
        for(int i = 0; i< Clan.values().length; i++){
            assertEquals(addingStudents[i], students[i]);
        }
-       assertFalse(cloud.getPicked());
+       assertFalse(cloud.isPicked());
     }
 
     /**
@@ -37,7 +37,7 @@ public class CloudTest {
         int[] addingStudents = {1, 2, 3, 4, 5};
         cloud.fill(addingStudents);
         int[] pickedStudents = cloud.pick();
-        assertTrue(cloud.getPicked());
+        assertTrue(cloud.isPicked());
 
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(addingStudents[i], pickedStudents[i]);
@@ -101,7 +101,7 @@ public class CloudTest {
         cloud.fill(addingStudents);
         cloud.pick();
         int[] pickedStudents = cloud.pick();
-        assertTrue(cloud.getPicked());
+        assertTrue(cloud.isPicked());
         assertNull(pickedStudents);
     }
 

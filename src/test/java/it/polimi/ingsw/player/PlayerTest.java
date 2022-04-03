@@ -52,15 +52,13 @@ public class PlayerTest {
     }
 
     /**
-     * Method removeTowersTest() calls removeTowers() after all of the towers have already been removed.
+     * Method removeTowersTest() calls removeTowers() and removes all the Towers present.
      * Expected result is zero.
      */
     @Test
     public void removeTowersTest(){
         assertEquals(6, player1.getNumberOfTowers());
         player1.removeTowers(6);
-        assertEquals(0, player1.getNumberOfTowers());
-        player1.removeTowers(1);
         assertEquals(0, player1.getNumberOfTowers());
     }
 

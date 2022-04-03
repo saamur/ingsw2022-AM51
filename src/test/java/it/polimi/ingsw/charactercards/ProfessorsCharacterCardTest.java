@@ -82,10 +82,16 @@ class ProfessorsCharacterCardTest {
 
     @Test
     public void testApplyInitialEffect(){
-        Turn turn = new Turn(players[0], 3 );
+        Turn turn = new Turn(players[0], 3);
         ProfessorsCharacterCard card = (ProfessorsCharacterCard)generalCard;
+        turn.setActivatedCharacterCard(card);
         boolean effect = card.applyInitialEffect(turn, players);
+        boolean[] hasProfessors = players[0].getChamber().getProfessors();
         assertTrue(effect);
+        boolean[] expectedHasProfessors = {false, true, false, false, true};
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedHasProfessors[i], hasProfessors[i]);
+        }
     }
 
     /**

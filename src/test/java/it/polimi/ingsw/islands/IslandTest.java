@@ -3,11 +3,18 @@ package it.polimi.ingsw.islands;
 
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.islands.Island;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IslandTest {
+    Island island;
+
+    @BeforeEach
+    public void initialization(){
+        island = new Island();
+    }
 
     /**
      * test to check if addStudents add the students in an empty Island
@@ -15,7 +22,6 @@ public class IslandTest {
      */
     @Test
     public void testAddStudents() {
-        Island island = new Island();
         int[] addingStudents = {1, 2, 3, 4, 0};
         int[] addedStudents = island.addStudents(addingStudents);
         for (int i = 0; i < addedStudents.length; i++) {
@@ -30,7 +36,6 @@ public class IslandTest {
      */
     @Test
     public void testRemoveStudent() {
-        Island island = new Island();
         int[] addingStudents = {3, 2, 4, 5, 6};
         island.addStudents(addingStudents);
         int[] remove = {1, 1, 1, 0, 0};
@@ -53,7 +58,6 @@ public class IslandTest {
      */
     @Test
     public void removeTooMuchStudents() {
-        Island island = new Island();
         int[] addingStudents = {3, 2, 4, 5, 6};
         island.addStudents(addingStudents);
         int[] remove = {4, 5, 6, 7, 8};
@@ -73,7 +77,6 @@ public class IslandTest {
 
     @Test
     public void testAddStudent() {
-        Island island = new Island();
         int[] addingStudents = {3, 2, 4, 5, 0};
         island.addStudents(addingStudents);
         island.addStudent(Clan.DRAGONS);
@@ -87,7 +90,6 @@ public class IslandTest {
 
     @Test
     public void testAddProhibitionCard(){
-        Island island = new Island();
         island.addProhibitionCard();
         int numProhibitionCards = island.getNumProhibitionCards();
         assertEquals(1, numProhibitionCards);
@@ -98,7 +100,6 @@ public class IslandTest {
      */
     @Test
     public void testRemoveProhibitionCard(){
-        Island island = new Island();
         island.addProhibitionCard();
         island.removeProhibitionCard();
         int numProhibitionCards = island.getNumProhibitionCards();
@@ -111,7 +112,6 @@ public class IslandTest {
      */
     @Test
     public void testRemoveTooMuchProhibition(){
-        Island island = new Island();
         island.removeProhibitionCard();
         int numProhibitionCards = island.getNumProhibitionCards();
         assertEquals(0, numProhibitionCards);

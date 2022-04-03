@@ -2,6 +2,7 @@ package it.polimi.ingsw.clouds;
 
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.clouds.Cloud;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CloudTest {
+    Cloud cloud;
+
+    @BeforeEach
+    public void initialization(){
+        cloud = new Cloud();
+    }
 
     /**
      * testFill tests if an empty Cloud is filled with a given array of students
@@ -16,7 +23,6 @@ public class CloudTest {
      */
     @Test
     public void testFill(){
-       Cloud cloud = new Cloud();
        int[] addingStudents={1, 5, 4, 3, 1};
        cloud.fill(addingStudents);
        int[] students=cloud.getStudents();
@@ -33,7 +39,6 @@ public class CloudTest {
 
     @Test
     public void testPick(){
-        Cloud cloud = new Cloud();
         int[] addingStudents = {1, 2, 3, 4, 5};
         cloud.fill(addingStudents);
         int[] pickedStudents = cloud.pick();
@@ -56,7 +61,6 @@ public class CloudTest {
      */
     @Test
     public void testIsEmpty(){
-        Cloud cloud = new Cloud();
         boolean empty = cloud.isEmpty();
         assertTrue(empty);
     }
@@ -68,7 +72,6 @@ public class CloudTest {
 
     @Test
     public void testIsEmptyFill(){
-        Cloud cloud = new Cloud();
         int[] addingStudents = {1, 2, 3, 4, 5};
         cloud.fill(addingStudents);
         boolean empty = cloud.isEmpty();
@@ -81,7 +84,6 @@ public class CloudTest {
      */
     @Test
     public void testFillPickIsEmpty(){
-        Cloud cloud = new Cloud();
         int[] addingStudents = {1, 2, 3, 4, 5};
         cloud.fill(addingStudents);
         cloud.pick();
@@ -96,7 +98,6 @@ public class CloudTest {
 
     @Test
     public void testMorePick(){
-        Cloud cloud = new Cloud();
         int[] addingStudents = {1, 2, 3, 0, 5};
         cloud.fill(addingStudents);
         cloud.pick();

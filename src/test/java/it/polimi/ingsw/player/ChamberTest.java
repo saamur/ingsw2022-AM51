@@ -2,6 +2,7 @@ package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.player.Chamber;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,13 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ChamberTest {
 
+    Chamber chamber;
+
+    @BeforeEach
+    public void initialization(){
+        chamber = new Chamber();
+    }
+
     /**
      * Method testAddStudents tests the adding of students in the Chamber in normal condition. Is expected that all the
      * students are added
      */
     @Test
     public void testAddStudents(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {1, 2, 3, 4, 5};
         int[] addedStudents = chamber.addStudents(addingStudents);
         int[] students = chamber.getStudents();
@@ -32,7 +39,6 @@ public class ChamberTest {
 
     @Test
     public void testAddMoreStudents(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {12, 2, 7, 6, 10};
         int[] addedStudents = chamber.addStudents(addingStudents);
         assertEquals(10, addedStudents[0]);
@@ -49,7 +55,6 @@ public class ChamberTest {
 
     @Test
     public void testRemoveStudents(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {12, 2, 7, 6, 10};
         chamber.addStudents(addingStudents);
         int[] removingStudents = {8, 3, 8, 0, 10};
@@ -69,7 +74,6 @@ public class ChamberTest {
 
     @Test
     public void testHasProfessor(){
-        Chamber chamber = new Chamber();
         boolean hasTheProfessor = chamber.hasProfessor(Clan.DRAGONS);
         boolean[] professors = chamber.getProfessors();
         assertFalse(hasTheProfessor);
@@ -86,7 +90,6 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoins(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {12, 1, 3, 5, 9};
         chamber.addStudents(addingStudents);
         int[] coinsGiven = chamber.getCoinsGiven();
@@ -106,7 +109,6 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoinsTwiceCaseOne(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {3, 4, 6, 9, 10};
         chamber.addStudents(addingStudents);
         int[] remove = {3, 0, 0, 0, 0};
@@ -129,7 +131,6 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoinsTwiceCaseTwo(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {3, 4, 6, 9, 10};
         chamber.addStudents(addingStudents);
         int[] remove = {0, 2, 0, 0, 0};
@@ -153,7 +154,6 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoinsTwiceCaseThree(){
-        Chamber chamber = new Chamber();
         int[] addingStudents = {3, 4, 6, 9, 10};
         chamber.addStudents(addingStudents);
         int[] remove = {0, 0, 0, 5, 0};
@@ -176,7 +176,6 @@ public class ChamberTest {
 
     @Test
     public void testAddStudent(){
-        Chamber chamber = new Chamber();
         boolean added = chamber.addStudent(Clan.DRAGONS);
         assertTrue(added);
         int[] students = chamber.getStudents();
@@ -194,12 +193,11 @@ public class ChamberTest {
 
     @Test
     public void testAddInAFullChamber(){
-        Chamber c = new Chamber();
         int[] std = {0, 0, 0, 10, 0};
-        c.addStudents(std);
-        boolean added = c.addStudent(Clan.DRAGONS);
+        chamber.addStudents(std);
+        boolean added = chamber.addStudent(Clan.DRAGONS);
         assertFalse(added);
-        int[] students = c.getStudents();
+        int[] students = chamber.getStudents();
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(std[i], students[i]);
         }

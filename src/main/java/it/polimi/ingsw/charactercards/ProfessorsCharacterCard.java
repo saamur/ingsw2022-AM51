@@ -18,17 +18,17 @@ public class ProfessorsCharacterCard extends CharacterCard {
         PLAYER_PROFESSORS = new PlayerProfessor[CharacterID.values().length];
 
         PLAYER_PROFESSORS[CharacterID.FARMER.ordinal()] = (players, currPlayer, clan) -> {
-            int[] stud = new int[players.length];
-            for (int i = 0; i < stud.length; i++)
-                stud[i] = players[i].getChamber().getNumStudents(clan);
+            int[] clanStud = new int[players.length];
+            for (int i = 0; i < clanStud.length; i++)
+                clanStud[i] = players[i].getChamber().getNumStudents(clan);
             int posMax = 0;
             boolean unique = true;
-            for (int i = 1;  i < stud.length; i++) {
-                if (stud[i] > stud[posMax]){
+            for (int i = 1;  i < clanStud.length; i++) {
+                if (clanStud[i] > clanStud[posMax]){
                     posMax = i;
                     unique = true;
                 }
-                else if (stud[i] == stud[posMax]) {
+                else if (clanStud[i] == clanStud[posMax]) {
                     if(players[i] == currPlayer){
                         posMax = i;
                         unique = true;
@@ -58,4 +58,5 @@ public class ProfessorsCharacterCard extends CharacterCard {
         turn.updateProfessors(players);
         return true;
     }
+
 }

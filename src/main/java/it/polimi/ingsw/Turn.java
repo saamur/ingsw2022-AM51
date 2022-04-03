@@ -36,12 +36,12 @@ public class Turn {
      */
     public static Player defaultPlayerProfessor (Player[] players, Clan clan) {
 
-        int[] stud = new int[players.length];
+        int[] clanStud = new int[players.length];
 
-        for (int i = 0; i < stud.length; i++)
-            stud[i] = players[i].getChamber().getNumStudents(clan);
+        for (int i = 0; i < clanStud.length; i++)
+            clanStud[i] = players[i].getChamber().getNumStudents(clan);
 
-        int posMax = indexUniqueMax(stud);
+        int posMax = indexUniqueMax(clanStud);
 
         if (posMax != -1)
             return players[posMax];

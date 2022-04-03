@@ -1,12 +1,39 @@
 package it.polimi.ingsw.charactercards;
 
+import it.polimi.ingsw.Bag;
 import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.Turn;
 import it.polimi.ingsw.islands.Island;
+import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.player.TowerColor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProhibitionCharacterCardTest {
+    Player[] players = new Player[3];
+    Bag bag;
+    CharacterCardCreator creator = new CharacterCardCreator();
+    CharacterCard generalCard;
+
+    @BeforeEach
+    public void initialization(){
+        bag = new Bag();
+        players[0] = new Player("Fede", TowerColor.BLACK, 3, bag);
+        players[1] = new Player("Giulia", TowerColor.WHITE, 3, bag);
+        players[2] = new Player("Samu", TowerColor.GRAY, 3, bag);
+
+        generalCard = creator.createCharacterCard(CharacterID.GRANDMA, bag);
+        int[] addingStudentsFirstPlayer = {1, 8, 2, 0, 0};
+        int[] addingStudentsSecondPlayer = {2, 8, 3, 4, 0};
+        int[] addingStudentsThirdPlayer = {3, 0, 0, 5, 0};
+        players[0].getChamber().addStudents(addingStudentsFirstPlayer);
+        players[1].getChamber().addStudents(addingStudentsSecondPlayer);
+        players[2].getChamber().addStudents(addingStudentsThirdPlayer);
+    }
+
+
     /**
      * testProhibitionCharacterCard tests if the instantiation of GRANDMA card introduce 4 Prohibition Cards, and if the
      * isAvailable method check the presence of the prohibition cards
@@ -15,7 +42,7 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testProhibitionCharacterCard() {
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         int numProhibitionCards = card.getNumProhibitionCards();
         boolean available = card.isAvailable();
         assertEquals(4, numProhibitionCards);
@@ -29,9 +56,9 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testNoProhibitionCard(){
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.THIEF);
-        int numOfProhibitionCards = card.getNumProhibitionCards();
-        boolean available = card.isAvailable();
+        ProhibitionCharacterCard thiefCard = new ProhibitionCharacterCard(CharacterID.THIEF);
+        int numOfProhibitionCards = thiefCard.getNumProhibitionCards();
+        boolean available = thiefCard.isAvailable();
         assertEquals(0, numOfProhibitionCards);
         assertFalse(available);
     }
@@ -43,7 +70,7 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testEffectStepsMotherNature(){
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         int effect = card.effectStepsMotherNature();
         assertEquals(0, effect);
     }
@@ -55,7 +82,7 @@ class ProhibitionCharacterCardTest {
      */
     @Test
     public void testAddProhibitionCard() {
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         card.addProhibitionCard();
         int numOfProhibitionCards = card.getNumProhibitionCards();
         assertEquals(5, numOfProhibitionCards);
@@ -68,7 +95,7 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testIncreaseCost() {
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         card.increaseCost();
         int finalCost = card.getCost();
         assertEquals(3, finalCost);
@@ -82,7 +109,7 @@ class ProhibitionCharacterCardTest {
     @Test
     public void testApplyEffect(){
         Island island = new Island();
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         boolean effectApplied = card.applyEffect(null, island);
         int numOfProhibitionCard = card.getNumProhibitionCards();
         assertEquals(3, numOfProhibitionCard);
@@ -99,7 +126,7 @@ class ProhibitionCharacterCardTest {
     @Test
     public void testApplyEffectFiveTimes(){
         Island island = new Island();
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         card.applyEffect(null, island);
         card.applyEffect(null, island);
         card.applyEffect(null, island);
@@ -121,8 +148,9 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testEffectInfluence() {
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
-        int[] effectOnInfluence = card.effectInfluence(null, null, null, null);
+        Island island = new Island();
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
+        int[] effectOnInfluence = card.effectInfluence(players, players[0], island, null);
         for (int i = 0; i < Clan.values().length; i++)
             assertEquals(0, effectOnInfluence[i]);
     }
@@ -134,8 +162,9 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testApplyInitialEffect(){
-        ProhibitionCharacterCard card = new ProhibitionCharacterCard(CharacterID.GRANDMA);
-        boolean initialEffect = card.applyInitialEffect(null, null);
+        Turn turn = new Turn(players[0], 3);
+        ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
+        boolean initialEffect = card.applyInitialEffect(turn, players);
         assertTrue(initialEffect);
     }
 

@@ -66,7 +66,26 @@ public class HallTest {
     }
 
     /**
-     * test if the removeStudent method remove a chosen student if he actually is in the Hall
+     * test if the addStudent method adds a chosen student
+     * True result is expected
+     */
+
+    @Test
+    public void testAddStudent(){
+        int[] addingStudents = {1, 2, 3, 4, 5};
+        Hall hall = new Hall(addingStudents);
+        boolean added = hall.addStudent(Clan.DRAGONS);
+        int[] expectedStudents = {1, 2, 3, 5, 5};
+        int[] students = hall.getStudents();
+        assertTrue(added);
+        for(int i=0; i<Clan.values().length; i++){
+            assertEquals(expectedStudents[i], students[i]);
+        }
+
+    }
+
+    /**
+     * test if the removeStudent method removes a chosen student if he actually is in the Hall
      * True result is expected
      */
 

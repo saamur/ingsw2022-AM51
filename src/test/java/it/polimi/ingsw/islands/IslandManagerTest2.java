@@ -1,8 +1,6 @@
 package it.polimi.ingsw.islands;
 
 import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -89,6 +86,23 @@ public class IslandManagerTest2 {
         assertEquals(11, islandManager.getIslands().size());
         islandManager.conquerIsland(players.get(0), islandManager.getIslands().get(1));
         assertEquals(9, islandManager.getIslands().size());
+    }
+
+    @Test
+    public void insufficientTowersTest() {
+        islandManager.conquerIsland(players.get(1), islandManager.getIsland(4));
+        islandManager.conquerIsland(players.get(1), islandManager.getIsland(3));
+        islandManager.conquerIsland(players.get(1), islandManager.getIsland(2));
+        assertEquals(3, islandManager.getIsland(2).getNumberOfIslands());
+
+        players.get(0).removeTowers(4);
+        assertEquals(2, players.get(0).getNumberOfTowers());
+
+        islandManager.conquerIsland(players.get(0), islandManager.getIsland(2));
+
+        assertEquals(3, islandManager.getIsland(2).getNumberOfIslands());
+        assertEquals(2, islandManager.getIsland(2).getNumberOfTowers());
+        assertEquals(0, players.get(0).getNumberOfTowers());
     }
 
 

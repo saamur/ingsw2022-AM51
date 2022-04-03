@@ -7,8 +7,9 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TurnTest {
 
@@ -48,19 +49,65 @@ public class TurnTest {
         int[] hallStudentsAfter = players[0].getHall().getStudents();
         int[] islandStudentsAfter = island.getStudents();
 
-        for (int i = 0; i < hallStudentsBefore.length; i++) {
-            if (i != Clan.DRAGONS.ordinal())
-                assertEquals (hallStudentsBefore[i], hallStudentsAfter[i]);
-            else
-                assertEquals (hallStudentsBefore[i] - 1, hallStudentsAfter[i]);
-        }
+        hallStudentsAfter[Clan.DRAGONS.ordinal()]++;
+        islandStudentsAfter[Clan.DRAGONS.ordinal()]--;
 
-        for (int i = 0; i < islandStudentsBefore.length; i++) {
-            if (i != Clan.DRAGONS.ordinal())
-                assertEquals (islandStudentsBefore[i], islandStudentsAfter[i]);
-            else
-                assertEquals (islandStudentsBefore[i] + 1, islandStudentsAfter[i]);
-        }
+        assertArrayEquals(hallStudentsBefore, hallStudentsAfter);
+        assertArrayEquals(islandStudentsBefore, islandStudentsAfter);
+
+    }
+
+    /**
+     * test checks if the student is correctly removed from the player's hall and added to the player's chamber
+     */
+    @Test
+    public void moveStudentToChamberTest () {
+
+        players[0].getHall().addStudent(Clan.DRAGONS);
+        int[] hallStudentsBefore = players[0].getHall().getStudents();
+
+        boolean ok = turn.moveStudentToChamber(Clan.DRAGONS, players);
+
+        assertTrue(ok);
+
+        int[] hallStudentsAfter = players[0].getHall().getStudents();
+        int[] chamberStudentAfter = players[0].getChamber().getStudents();
+        int[] chamberStudentExpected = {0, 0, 0, 1, 0};
+
+        hallStudentsAfter[Clan.DRAGONS.ordinal()]++;
+
+        assertArrayEquals(hallStudentsBefore, hallStudentsAfter);
+        assertArrayEquals(chamberStudentExpected, chamberStudentAfter);
+
+    }
+
+    /**
+     * method updateProfessorsTest tests if the professors are updated as expected
+     * after adding students to the players' chambers
+     */
+    @Test
+    public void updateProfessorsTest() {
+        int[][] students = { {0, 2, 5, 2, 0},
+                             {0, 2, 7, 1, 1},
+                             {0, 1, 5, 8, 2} };
+        boolean[][] expectedProfessors = { {false, false, false, false, false},
+                                           {false, false, true, false, false},
+                                           {false, false, false, true, true} };
+
+        for (int i = 0; i < players.length; i++)
+            players[i].getChamber().addStudents(students[i]);
+
+        turn.updateProfessors(players);
+
+        boolean[][] professors = new boolean[3][5];
+
+        for (int i = 0; i < players.length; i++)
+            professors[i] = players[i].getChamber().getProfessors();
+
+        //System.out.println(Arrays.deepToString(professors));
+
+        for (int i = 0; i < players.length; i++)
+            assertArrayEquals(expectedProfessors[i], professors[i]);
 
     }
 

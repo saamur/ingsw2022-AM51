@@ -512,7 +512,7 @@ public class Game implements GameInterface {
      * method applyCharacterEffect applies the effect of the CharacterCard currently active
      * on the Island with the specified index
      * @param playerNickname    the nickname of the Player that requested this move
-     * @param islandIndex       the index of the Island on which the effect has to be carried out
+     * @param islandIndex       the index of the Island on which the effect has to be applied
      * @return                  whether the move is valid and has been carried out
      */
     @Override

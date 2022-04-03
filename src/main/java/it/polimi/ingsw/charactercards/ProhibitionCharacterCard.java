@@ -38,6 +38,9 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
     }
 
+    /**
+     * method addProhibitionCard increases the variable numProhibitionCards by 1
+     */
     public void addProhibitionCard() {
         numProhibitionCards++;
     }

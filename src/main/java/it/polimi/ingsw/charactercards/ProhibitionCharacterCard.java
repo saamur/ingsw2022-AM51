@@ -42,4 +42,7 @@ public class ProhibitionCharacterCard extends CharacterCard {
         numProhibitionCards++;
     }
 
+    public int getNumProhibitionCards() {
+        return numProhibitionCards;
+    }
 }

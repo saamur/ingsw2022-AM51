@@ -41,11 +41,11 @@ public class IslandManagerTest2 {
     @Test
     public void normalConquerTest() {
         List<Island> islands = islandManager.getIslands();
-        Random random = new Random();
 
-        int islandPosition = random.nextInt(islands.size());
-        islandManager.conquerIsland(players.get(1), islands.get(islandPosition == 11 ? 0 : islandPosition + 1));
-        islandManager.conquerIsland(players.get(1), islands.get(islandPosition));
+        islandManager.conquerIsland(players.get(1), islands.get(5));
+        islandManager.conquerIsland(players.get(1), islands.get(6));
+
+        islands = islandManager.getIslands();
 
         assertEquals(11, islands.size());
 
@@ -60,6 +60,18 @@ public class IslandManagerTest2 {
         islandManager.conquerIsland(players.get(1), islandManager.getIslands().get(11));
 
         assertEquals(11, islandManager.getIslands().size());
+    }
+
+    /**
+     * Checking if merge works if both neighbouring islands have been conquered by the same player
+     */
+    @Test
+    public void tripleMergingTest() {
+        islandManager.conquerIsland(players.get(1), islandManager.getIsland(11));
+        islandManager.conquerIsland(players.get(1), islandManager.getIsland(1));
+        islandManager.conquerIsland(players.get(1), islandManager.getIsland(0));
+
+        assertEquals(10, islandManager.getNumberOfIslands());
     }
 
     /**

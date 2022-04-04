@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.islands.Island;
+import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,18 +14,25 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-    Game game;
+Game game;
 
     public void setNotExpertGame() {
         game = new Game(2, "Giulia", false);
 
-    }
+}
 
-    public void setNotExpertGameTwoPlayers() {
+    public void setNotExpertGameTwoPlayers(){
         game = new Game(2, "Giulia", false);
         game.addPlayer("Samu");
 
     }
+
+    public void setNotExpertGameThreePlayers(){
+        game = new Game(3, "Giulia", false);
+        game.addPlayer("Samu");
+        game.addPlayer("Fede");
+
+}
 
     /**
      * test check if the addPlayer method add the player in the game
@@ -46,7 +54,7 @@ class GameTest {
      */
 
     @Test
-    public void testAddTooMuchPlayer() {
+    public void testAddTooManyPlayers() {
         setNotExpertGameTwoPlayers();
         boolean addedThirdPlayer = game.addPlayer("Fede");
         assertFalse(addedThirdPlayer);
@@ -159,6 +167,7 @@ class GameTest {
     }
 
 
+
     /**
      * the test verifies that the order of the action phase is created in the right way, that is, starting from who has
      * chosen a card with a lower priority
@@ -182,12 +191,6 @@ class GameTest {
         assertEquals("Samu", playersOrder[1].getNickname());
     }
 
-    /**
-     * the test check that it is possible to choose the same card of the other Player if it is the only one in the Deck
-     * the test check that the Action order, in this particular case, is created taking into account who
-     * first chose the card
-     * Is expected a true result
-     */
     public void setGameAndRemoveCards() {
         setNotExpertGameTwoPlayers();
         List<Card> toRemove = new ArrayList<>(Arrays.asList(Card.values()));
@@ -200,6 +203,12 @@ class GameTest {
             game.getPlayers()[1].getDeck().removeCard(c);
     }
 
+    /**
+     * the test check that it is possible to choose the same card of the other Player if it is the only one in the Deck
+     * the test check that the Action order, in this particular case, is created taking into account who
+     * first chose the card
+     * Is expected a true result
+     */
     @Test
     public void testOnlyOneLeftChooseCard() {
         setGameAndRemoveCards();
@@ -384,8 +393,104 @@ class GameTest {
         assertEquals(index, finalIndex);
     }
 
-    //testare che un non current player non possa muovere madre natura
 
+    /**
+     * test checks if calculateWin method works as expected in normal condition
+     */
+    @Test
+    public void calculateWinTest() {
+
+        setNotExpertGameThreePlayers();
+        Player[] players = game.getPlayers();
+        IslandManager islandManager = game.getIslandManager();
+
+        islandManager.conquerIsland(players[2], islandManager.getIsland(11));
+        islandManager.conquerIsland(players[2], islandManager.getIsland(10));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(9));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(8));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(7));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(6));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(5));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(4));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(3));
+        islandManager.conquerIsland(players[2], islandManager.getIsland(2));
+        islandManager.conquerIsland(players[2], islandManager.getIsland(1));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(0));
+
+        int firstIndex = game.getIndexCurrFirstPlayer();
+        for (int i = 0; i < 3; i++) {
+            switch ((firstIndex+i)%3) {
+                case 0 -> game.chosenCard("Giulia", Card.TURTLE);
+                case 1 -> game.chosenCard("Samu", Card.LIZARD);
+                case 2 -> game.chosenCard("Fede", Card.CAT);
+            }
+        }
+
+        List<Player> expectedWinners = new ArrayList<>();
+        expectedWinners.add(players[2]);
+
+        int[] students = {0, 0, 0, 4, 0};
+
+        islandManager.getIsland(0).addStudents(students);
+        players[2].getChamber().setProfessor(Clan.DRAGONS, true);
+
+        game.checkInfluence(islandManager.getIsland(0));
+
+        List<Player> winners = game.getWinners();
+
+        assertTrue(winners.containsAll(expectedWinners) && expectedWinners.containsAll(winners));
+
+    }
+
+    /**
+     * test checks if calculateWin method works correctly in case of a tie
+     */
+    @Test
+    public void calculateWinTieTest() {
+
+        setNotExpertGameThreePlayers();
+        Player[] players = game.getPlayers();
+        IslandManager islandManager = game.getIslandManager();
+
+        islandManager.conquerIsland(players[2], islandManager.getIsland(11));
+        islandManager.conquerIsland(players[2], islandManager.getIsland(10));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(9));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(8));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(7));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(6));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(5));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(4));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(3));
+        islandManager.conquerIsland(players[2], islandManager.getIsland(2));
+        islandManager.conquerIsland(players[2], islandManager.getIsland(1));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(0));
+
+        int firstIndex = game.getIndexCurrFirstPlayer();
+        for (int i = 0; i < 3; i++) {
+            switch ((firstIndex+i)%3) {
+                case 0 -> game.chosenCard("Giulia", Card.TURTLE);
+                case 1 -> game.chosenCard("Samu", Card.LIZARD);
+                case 2 -> game.chosenCard("Fede", Card.CAT);
+            }
+        }
+
+        List<Player> expectedWinners = new ArrayList<>();
+        expectedWinners.add(players[2]);
+        expectedWinners.add(players[1]);
+
+        int[] students = {0, 0, 0, 4, 0};
+
+        islandManager.getIsland(0).addStudents(students);
+        players[2].getChamber().setProfessor(Clan.DRAGONS, true);
+        players[1].getChamber().setProfessor(Clan.UNICORNS, true);
+
+        game.checkInfluence(islandManager.getIsland(0));
+
+        List<Player> winners = game.getWinners();
+
+        assertTrue(winners.containsAll(expectedWinners) && expectedWinners.containsAll(winners));
+
+    }
 
     /**
      * the test checks if the chosenCloud method let the current player pick a cloud which is not empty
@@ -461,7 +566,6 @@ class GameTest {
         assertFalse(chosen);
     }
 
-
     /**
      * check if, after that the first Player end his turn, the endTurn method instantiates a new turn
      * Is expected a true result
@@ -500,16 +604,4 @@ class GameTest {
         assertFalse(endedTurn);
     }
 
-
-
 }
-
-
-
-
-
-
-
-
-
-

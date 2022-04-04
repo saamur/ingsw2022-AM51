@@ -720,6 +720,9 @@ public class Game implements GameInterface {
         return islandManager;
     }
 
+    public List<Player> getWinners() {
+        return winners;
+    }
     //added for tests
     public CloudManager getCloudManager() {
         return cloudManager;

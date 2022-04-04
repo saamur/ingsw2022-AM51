@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Class tests IslandManager.
@@ -70,6 +69,15 @@ public class IslandManagerTest {
         assertEquals(islandManager.getMotherNaturePosition(), islands.get(islandPosition));
     }
 
-    //TODO use in tests getIslands e getNumberOfIslands
+    /**
+     * Method tests case when an invalid index is called.
+     * Method is expected to return null.
+     */
+    @Test
+    public void invalidIndexTest(){
+        assertNull(islandManager.getIsland(-1));
+
+    }
+    //TODO have not tested getIslands e getNumberOfIslands
 
 }

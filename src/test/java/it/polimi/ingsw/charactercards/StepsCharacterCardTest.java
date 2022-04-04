@@ -1,17 +1,12 @@
 package it.polimi.ingsw.charactercards;
 
-import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.Clan;
-import it.polimi.ingsw.Turn;
+import it.polimi.ingsw.*;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * @link StepsCharacterCard
  */
 public class StepsCharacterCardTest {
-    CharacterCardCreator ccc = new CharacterCardCreator();
+    CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     Bag bag;
     CharacterCard postman;
 
     @BeforeEach
     public void createCharacter(){
         bag = new Bag();
-        postman = ccc.createCharacterCard(CharacterID.POSTMAN, bag);
+        postman = characterCardCreator.createCharacterCard(CharacterID.POSTMAN, bag);
     }
 
     /**
@@ -94,14 +89,28 @@ public class StepsCharacterCardTest {
     }
 
     /**
-     * Method applyTest() tests the method applyEffect().
+     * Method applyTest1() tests the method applyEffect(Game game, Island island).
+     * The return is expected to be false.
      */
     @Test
-    public void applyTest(){
+    public void applyTest1(){
+        Game game = new Game(2, "Fede", true);
         Island island = new Island();
-        //TODO create Game ??
-        assertFalse(postman.applyEffect(null, island));
+        assertFalse(postman.applyEffect(game, island));
     }
+
+    /**
+     * Method applyTest2() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
+     * A false return is expected.
+     */
+    @Test
+    public void applyTest2(){
+        Game game = new Game(3, "Giu", true);
+        StudentContainer destination = new Island();
+        int[] students1 = new int[Clan.values().length];
+        assertFalse(postman.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null
+    }
+
 
     /**
      * Method creates an array of Players. This methods serves as a shortcut for some tests.

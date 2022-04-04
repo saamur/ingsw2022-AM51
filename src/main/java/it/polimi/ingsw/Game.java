@@ -96,6 +96,7 @@ public class Game implements GameInterface {
 
     }
 
+
     /**
      * method addPlayer adds a Player to the Game if there isn't already another with the same nickname
      * @param nickname  the nickname that will be assigned to the new Player
@@ -681,6 +682,10 @@ public class Game implements GameInterface {
         if (gameState == GameState.ACTION)
             return playersOrder[indexCurrPlayer];
         return null;
+    }
+
+    public IslandManager getIslandManager() {
+        return islandManager;
     }
 
 }

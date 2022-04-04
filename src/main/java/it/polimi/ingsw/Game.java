@@ -720,4 +720,8 @@ public class Game implements GameInterface {
         return islandManager;
     }
 
+    //added for tests
+    public CloudManager getCloudManager() {
+        return cloudManager;
+    }
 }

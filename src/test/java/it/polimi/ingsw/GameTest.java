@@ -13,18 +13,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-Game game;
+    Game game;
 
-public void setNotExpertGame(){
-    game = new Game(2, "Giulia", false);
+    public void setNotExpertGame() {
+        game = new Game(2, "Giulia", false);
 
-}
+    }
 
-public void setNotExpertGameTwoPlayers(){
-    game = new Game(2, "Giulia", false);
-    game.addPlayer("Samu");
+    public void setNotExpertGameTwoPlayers() {
+        game = new Game(2, "Giulia", false);
+        game.addPlayer("Samu");
 
-}
+    }
 
     /**
      * test check if the addPlayer method add the player in the game
@@ -32,12 +32,12 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testAddPlayer(){
-    setNotExpertGame();
-    boolean addedSecondPlayer = game.addPlayer("Samu");
-    String nicknameAddedPlayer = game.getPlayers()[1].getNickname();
-    assertTrue(addedSecondPlayer);
-    assertEquals("Samu", nicknameAddedPlayer);
+    public void testAddPlayer() {
+        setNotExpertGame();
+        boolean addedSecondPlayer = game.addPlayer("Samu");
+        String nicknameAddedPlayer = game.getPlayers()[1].getNickname();
+        assertTrue(addedSecondPlayer);
+        assertEquals("Samu", nicknameAddedPlayer);
     }
 
     /**
@@ -46,7 +46,7 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testAddTooMuchPlayer(){
+    public void testAddTooMuchPlayer() {
         setNotExpertGameTwoPlayers();
         boolean addedThirdPlayer = game.addPlayer("Fede");
         assertFalse(addedThirdPlayer);
@@ -58,12 +58,12 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testInitialGameMethods(){
+    public void testInitialGameMethods() {
         setNotExpertGameTwoPlayers();
         int indexNextFirstPlayer = game.getIndexNextFirstPlayer();
-        assertTrue(indexNextFirstPlayer==0||indexNextFirstPlayer==1);
+        assertTrue(indexNextFirstPlayer == 0 || indexNextFirstPlayer == 1);
         int indexCurrFirstPlayer = game.getIndexCurrFirstPlayer();
-        int indexCurrPlayer =  game.getIndexCurrPlayer();
+        int indexCurrPlayer = game.getIndexCurrPlayer();
         assertEquals(indexNextFirstPlayer, indexCurrFirstPlayer);
         assertEquals(indexNextFirstPlayer, indexCurrPlayer);
     }
@@ -75,17 +75,16 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testChosenCard(){
+    public void testChosenCard() {
         setNotExpertGameTwoPlayers();
-        if(game.getIndexCurrFirstPlayer()==0){
+        if (game.getIndexCurrFirstPlayer() == 0) {
             boolean wrongChooseCard = game.chosenCard("Samu", Card.CAT);
             GameState invariantGameState = game.getGameState();
             assertEquals(GameState.PIANIFICATION, invariantGameState);
             boolean chooseCard = game.chosenCard("Giulia", Card.CHEETAH);
             assertTrue(chooseCard);
             assertFalse(wrongChooseCard);
-        }
-        else{
+        } else {
             boolean wrongChooseCard = game.chosenCard("Giulia", Card.CAT);
             GameState invariantGameState = game.getGameState();
             assertEquals(GameState.PIANIFICATION, invariantGameState);
@@ -102,14 +101,13 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testChooseTheSameCard(){
+    public void testChooseTheSameCard() {
         setNotExpertGameTwoPlayers();
-        if(game.getIndexCurrPlayer()==0){
+        if (game.getIndexCurrPlayer() == 0) {
             game.chosenCard("Giulia", Card.DOG);
             boolean chosen = game.chosenCard("Samu", Card.DOG);
             assertFalse(chosen);
-        }
-        else{
+        } else {
             game.chosenCard("Samu", Card.DOG);
             boolean chosen = game.chosenCard("Giulia", Card.DOG);
             assertFalse(chosen);
@@ -123,15 +121,14 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testNotCorrectPhaseToChooseCard(){
+    public void testNotCorrectPhaseToChooseCard() {
         setNotExpertGameTwoPlayers();
-        if(game.getIndexCurrPlayer()==0){
+        if (game.getIndexCurrPlayer() == 0) {
             game.chosenCard("Giulia", Card.CHEETAH);
             game.chosenCard("Samu", Card.DOG);
             boolean chosen = game.chosenCard("Giulia", Card.DOG);
             assertFalse(chosen);
-        }
-        else{
+        } else {
             game.chosenCard("Samu", Card.CHEETAH);
             game.chosenCard("Giulia", Card.DOG);
             boolean chosen = game.chosenCard("Samu", Card.DOG);
@@ -147,21 +144,19 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testAlreadyChosenCard(){
+    public void testAlreadyChosenCard() {
         setNotExpertGameTwoPlayers();
         game.getPlayers()[0].getDeck().removeCard(Card.CAT);
         game.getPlayers()[1].getDeck().removeCard(Card.CAT);
         boolean chosen;
-        if(game.getIndexCurrPlayer()==0){
+        if (game.getIndexCurrPlayer() == 0) {
             chosen = game.chosenCard("Giulia", Card.CAT);
 
-        }
-        else{
+        } else {
             chosen = game.chosenCard("Samu", Card.CAT);
         }
         assertFalse(chosen);
     }
-
 
 
     /**
@@ -170,16 +165,14 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testOrderActionPhase(){
+    public void testOrderActionPhase() {
         setNotExpertGameTwoPlayers();
         Player[] playersOrder;
-        if(game.getIndexCurrPlayer()==0){
+        if (game.getIndexCurrPlayer() == 0) {
             game.chosenCard("Giulia", Card.CHEETAH);
             game.chosenCard("Samu", Card.CAT);
             playersOrder = game.getPlayersOrder();
-            ;
-        }
-        else{
+        } else {
             game.chosenCard("Samu", Card.CAT);
             game.chosenCard("Giulia", Card.CHEETAH);
             playersOrder = game.getPlayersOrder();
@@ -195,7 +188,7 @@ public void setNotExpertGameTwoPlayers(){
      * first chose the card
      * Is expected a true result
      */
-    public void setGameAndRemoveCards(){
+    public void setGameAndRemoveCards() {
         setNotExpertGameTwoPlayers();
         List<Card> toRemove = new ArrayList<>(Arrays.asList(Card.values()));
         toRemove.remove(Card.TURTLE);
@@ -206,18 +199,18 @@ public void setNotExpertGameTwoPlayers(){
         for (Card c : toRemove)
             game.getPlayers()[1].getDeck().removeCard(c);
     }
+
     @Test
-    public void testOnlyOneLeftChooseCard(){
+    public void testOnlyOneLeftChooseCard() {
         setGameAndRemoveCards();
         boolean chosen;
-        if(game.getIndexCurrPlayer()==0){
+        if (game.getIndexCurrPlayer() == 0) {
             game.chosenCard("Giulia", Card.TURTLE);
             chosen = game.chosenCard("Samu", Card.TURTLE);
             Player[] playersOrder = game.getPlayersOrder();
             assertEquals("Giulia", playersOrder[0].getNickname());
             assertEquals("Samu", playersOrder[1].getNickname());
-        }
-        else{
+        } else {
             game.chosenCard("Samu", Card.TURTLE);
             chosen = game.chosenCard("Giulia", Card.TURTLE);
         }
@@ -225,13 +218,12 @@ public void setNotExpertGameTwoPlayers(){
     }
 
 
-    public void setPianification(){
+    public void setPianification() {
         setNotExpertGameTwoPlayers();
-        if(game.getIndexCurrPlayer()==0){
+        if (game.getIndexCurrPlayer() == 0) {
             game.chosenCard("Giulia", Card.CHEETAH);
             game.chosenCard("Samu", Card.CAT);
-        }
-        else{
+        } else {
             game.chosenCard("Samu", Card.CAT);
             game.chosenCard("Giulia", Card.CHEETAH);
         }
@@ -244,7 +236,7 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testMoveStudentToChamber(){
+    public void testMoveStudentToChamber() {
         setPianification();
         game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
         int[] initialStudentsHall = game.getPlayers()[0].getHall().getStudents();
@@ -252,8 +244,8 @@ public void setNotExpertGameTwoPlayers(){
         boolean moved = game.moveStudentToChamber("Giulia", Clan.PIXIES);
         int[] finalStudentsHall = game.getPlayers()[0].getHall().getStudents();
         int[] finalStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
-        assertEquals(initialStudentsChamber[0]+1, finalStudentsChamber[0]);
-        assertEquals(initialStudentsHall[0]-1, finalStudentsHall[0]);
+        assertEquals(initialStudentsChamber[0] + 1, finalStudentsChamber[0]);
+        assertEquals(initialStudentsHall[0] - 1, finalStudentsHall[0]);
         assertTrue(moved);
     }
 
@@ -263,7 +255,7 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testWrongPlayerMoveStudentToChamber(){
+    public void testWrongPlayerMoveStudentToChamber() {
         setPianification();
         game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
         int[] initialStudentsHall = game.getPlayers()[1].getHall().getStudents();
@@ -285,10 +277,10 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testNotStudentsToMoveToChamber(){
+    public void testNotStudentsToMoveToChamber() {
         setPianification();
         int numOfPixies = game.getPlayers()[0].getHall().getStudents()[0];
-        for(int i=0; i<numOfPixies; i++){
+        for (int i = 0; i < numOfPixies; i++) {
             game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
         }
         boolean moved = game.moveStudentToChamber("Giulia", Clan.PIXIES);
@@ -300,7 +292,7 @@ public void setNotExpertGameTwoPlayers(){
      * the test check that the method moveStudentToIsland move a chosen student from the hall to an Island
      */
     @Test
-    public void testMoveStudentToIsland(){
+    public void testMoveStudentToIsland() {
         setPianification();
         game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
         int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
@@ -309,8 +301,8 @@ public void setNotExpertGameTwoPlayers(){
         assertTrue(moved);
         int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
         int finalPixiesInTheHall = game.getPlayers()[0].getHall().getStudents()[0];
-        assertEquals(initialNumOfPixies+1, finalNumOfPixies);
-        assertEquals(initialPixiesInTheHall-1, finalPixiesInTheHall);
+        assertEquals(initialNumOfPixies + 1, finalNumOfPixies);
+        assertEquals(initialPixiesInTheHall - 1, finalPixiesInTheHall);
     }
 
     /**
@@ -319,7 +311,7 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testWrongPlayerMoveStudentToIsland(){
+    public void testWrongPlayerMoveStudentToIsland() {
         setPianification();
         game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
         int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
@@ -338,10 +330,10 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testNotStudentsToMoveToIsland(){
+    public void testNotStudentsToMoveToIsland() {
         setPianification();
         int numOfPixies = game.getPlayers()[0].getHall().getStudents()[0];
-        for(int i=0; i<numOfPixies; i++){
+        for (int i = 0; i < numOfPixies; i++) {
             game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
         }
         boolean moved = game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
@@ -353,7 +345,7 @@ public void setNotExpertGameTwoPlayers(){
      */
 
     @Test
-    public void testMoveMotherNature(){
+    public void testMoveMotherNature() {
         setPianification();
         int[] addingStudents = {3, 0, 0, 0, 0};
         game.getPlayers()[0].getHall().addStudents(addingStudents);
@@ -364,19 +356,20 @@ public void setNotExpertGameTwoPlayers(){
         assertEquals(TurnState.MOTHER_MOVING, turnState);*/
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        boolean moved = game.moveMotherNature("Giulia", (index+1)%(game.getIslandManager().getIslands().size()));
+        boolean moved = game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
         assertTrue(moved);
         Island NewMotherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int finalIndex = game.getIslandManager().getIslands().indexOf(NewMotherNaturePosition);
-        assertEquals((index+1)%game.getIslandManager().getIslands().size(), finalIndex);
+        assertEquals((index + 1) % game.getIslandManager().getIslands().size(), finalIndex);
     }
 
-    /** the test checks that the currPlayer cannot move the Mother Nature more than the Max steps written on the card he
+    /**
+     * the test checks that the currPlayer cannot move the Mother Nature more than the Max steps written on the card he
      * played
      * A false return is expected
-      */
+     */
     @Test
-    public void testMoveMotherNatureTooMuch(){
+    public void testMoveMotherNatureTooMuch() {
         setPianification();
         int[] addingStudents = {3, 0, 0, 0, 0};
         game.getPlayers()[0].getHall().addStudents(addingStudents);
@@ -385,22 +378,138 @@ public void setNotExpertGameTwoPlayers(){
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        boolean moved = game.moveMotherNature("Giulia", (index+2)%(game.getIslandManager().getIslands().size()));
+        boolean moved = game.moveMotherNature("Giulia", (index + 2) % (game.getIslandManager().getIslands().size()));
         assertFalse(moved);
         int finalIndex = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertEquals(index, finalIndex);
     }
 
+    //testare che un non current player non possa muovere madre natura
 
 
+    /**
+     * the test checks if the chosenCloud method let the current player pick a cloud which is not empty
+     * Is expected a True result
+     */
+
+    @Test
+    public void testChosenCloud() {
+        setPianification();
+        int[] addingStudents = {3, 0, 0, 0, 0};
+        game.getPlayers()[0].getHall().addStudents(addingStudents);
+        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
+        int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
+        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
+        int[] initialStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
+        int[] studentsInTheCloud = game.getCloudManager().getCloud(1).getStudents();
+        boolean chosen = game.chosenCloud("Giulia", 1);
+        assertTrue(chosen);
+        int[] finalStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
+        int[] expectedFinalStudentInTheHall = new int[Clan.values().length];
+        for (int i = 0; i < Clan.values().length; i++) {
+            expectedFinalStudentInTheHall[i] = initialStudentsInTheHall[i] + studentsInTheCloud[i];
+        }
+        for (int i = 0; i < Clan.values().length; i++) {
+            assertEquals(finalStudentsInTheHall[i], expectedFinalStudentInTheHall[i]);
+
+        }
+    }
+
+    //testare che 2 giocatori non possono prendere la stessa Cloud
+    /**
+     * tests that two players cannot choose the same cloud
+     * A false result is expected
+     */
+
+    @Test
+    public void testAlreadyChosenCloud(){
+        setPianification();
+        game.getCloudManager().getCloud(1).pick();
+        int[] addingStudents = {3, 0, 0, 0, 0};
+        game.getPlayers()[0].getHall().addStudents(addingStudents);
+        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
+        int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
+        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
+        boolean chosen = game.chosenCloud("Giulia", 1);
+        assertFalse(chosen);
+    }
+
+    /**
+     * checks that a non-current player cannot choose a cloud
+     * a false return is expected
+     */
+
+    @Test
+    public void testWrongPlayerChooseCloud(){
+        setPianification();
+        game.getCloudManager().getCloud(1).pick();
+        int[] addingStudents = {3, 0, 0, 0, 0};
+        game.getPlayers()[0].getHall().addStudents(addingStudents);
+        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
+        int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
+        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
+        boolean chosen = game.chosenCloud("Samu", 1);
+        assertFalse(chosen);
+    }
 
 
+    /**
+     * check if, after that the first Player end his turn, the endTurn method instantiates a new turn
+     * Is expected a true result
+     */
 
+    @Test
+    public void testEndTurn(){
+        setPianification();
+        int[] addingStudents = {3, 0, 0, 0, 0};
+        game.getPlayers()[0].getHall().addStudents(addingStudents);
+        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
+        int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
+        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
+        game.chosenCloud("Giulia", 1);
+        TurnState turnState = game.getTurn().getTurnState();
+        boolean ended = game.endTurn("Giulia");
+        assertTrue(ended);
+    }
 
-
-
-
+    /**
+     * the test checks that it isn't possible to call the endTurn method in a non-valid position
+     * Is expected a false return
+     */
+    @Test
+    public void testEndTurnBeforeTime() {
+        setPianification();
+        int[] addingStudents = {3, 0, 0, 0, 0};
+        game.getPlayers()[0].getHall().addStudents(addingStudents);
+        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        game.moveStudentToChamber("Giulia", Clan.PIXIES);
+        boolean endedTurn = game.endTurn("Giulia");
+        assertFalse(endedTurn);
+    }
 
 
 
 }
+
+
+
+
+
+
+
+
+
+

@@ -111,7 +111,7 @@ public class Island implements StudentContainer {
 
         this.numberOfIslands += mergingIsland.numberOfIslands;
         addStudents(mergingIsland.students);
-        this.numberOfTowers = mergingIsland.numberOfTowers;
+        this.numberOfTowers += mergingIsland.numberOfTowers;
         this.numProhibitionCards += mergingIsland.numProhibitionCards;
 
     }

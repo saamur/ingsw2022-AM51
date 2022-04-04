@@ -213,7 +213,7 @@ public class Turn {
 
     /**
      * method chooseCloud, if turnState is CLOUD_CHOOSING, picks the students on the given cloud
-     * and puts them in the Hall of the currPlayer
+     * and puts them in the Hall of the currPlayer, then sets turnState to END_TURN
      * @param cloud the Cloud from which the students will be taken
      * @return      whether the Cloud wasn't already picked this Round
      */

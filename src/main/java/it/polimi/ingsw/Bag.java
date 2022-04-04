@@ -100,13 +100,7 @@ public class Bag implements StudentContainer {
 
     @Override
     public int[] removeStudents(int[] stud) {
-
-        int totStudents = 0;
-
-        for (int n : stud)
-            totStudents += n;
-
+        int totStudents = Arrays.stream(stud).sum();
         return draw(totStudents);
-
     }
 }

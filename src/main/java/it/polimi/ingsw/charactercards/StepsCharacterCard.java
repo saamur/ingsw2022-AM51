@@ -1,5 +1,10 @@
 package it.polimi.ingsw.charactercards;
 
+/**
+ * StepsCharacterCard class models the character cards
+ * that have an impact on the calculus of the maximum number of steps that Mother Nature can take
+ *
+ */
 public class StepsCharacterCard extends CharacterCard {
 
     private final static int[] ADDITIONAL_STEPS;

@@ -5,6 +5,11 @@ import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 
+/**
+ * InfluenceCharacterCard class models the character cards
+ * that have an impact on the calculus of the influence of an island
+ *
+ */
 public class InfluenceCharacterCard extends CharacterCard {
 
     private interface DeltaInfluence {

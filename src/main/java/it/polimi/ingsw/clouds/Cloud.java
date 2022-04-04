@@ -2,6 +2,11 @@ package it.polimi.ingsw.clouds;
 
 import it.polimi.ingsw.Clan;
 
+/**
+ * Cloud class models the clouds of the game, with the attributes and the methods
+ * needed for their management
+ *
+ */
 public class Cloud {
 
     private int[] students;

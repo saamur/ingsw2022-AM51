@@ -2,6 +2,10 @@ package it.polimi.ingsw.clouds;
 
 import it.polimi.ingsw.Bag;
 
+/**
+ * CloudManager class manages the clouds of the game and their filling
+ *
+ */
 public class CloudManager {
 
     private final Cloud[] clouds;

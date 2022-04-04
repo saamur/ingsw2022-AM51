@@ -2,6 +2,11 @@ package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Bag;
 
+/**
+ * Player class models the player of the game Eriantys with its nickname,
+ * its school board and its deck of assistant cards
+ *
+ */
 public class Player {
 
     private final String nickname;

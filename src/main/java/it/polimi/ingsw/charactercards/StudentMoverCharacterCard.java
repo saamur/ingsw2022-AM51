@@ -9,6 +9,11 @@ import it.polimi.ingsw.player.Player;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+/**
+ * StudentMoverCharacterCard class models the character cards
+ * that move students between objects
+ *
+ */
 public class StudentMoverCharacterCard extends CharacterCard implements StudentContainer{
 
     private interface StudentMover {

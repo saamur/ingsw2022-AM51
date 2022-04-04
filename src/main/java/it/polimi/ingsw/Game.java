@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
+/**
+ * Game class contains the main logic of the game Eriantys with the necessary methods for the handling of its phases,
+ * initialization and winners determination included
+ *
+ */
 public class Game implements GameInterface {
 
     private static final Function<Player, Integer>[] WINNING_SCORE_CALCULATORS = new Function[2];

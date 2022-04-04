@@ -5,12 +5,16 @@ import it.polimi.ingsw.StudentContainer;
 
 import java.util.Arrays;
 
+/**
+ * Hall class models the hall of the school board with its students
+ *
+ */
 public class Hall implements StudentContainer {
 
     private final int[] students;
 
     public Hall(int[] students) {
-        this.students = students;
+        this.students = students.clone();
     }
 
     public int[] getStudents() {

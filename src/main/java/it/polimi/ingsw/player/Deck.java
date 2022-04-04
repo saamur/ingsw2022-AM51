@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Deck class models the deck of the assistant cards of the game
+ *
+ */
 public class Deck {
 
     private final List<Card> cards;

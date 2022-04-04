@@ -5,6 +5,11 @@ import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 
+/**
+ * ProfessorsCharacterCard class models the character cards
+ * that have an impact on the rules that govern the ownership of the professors
+ *
+ */
 public class ProfessorsCharacterCard extends CharacterCard {
 
     private interface PlayerProfessor {

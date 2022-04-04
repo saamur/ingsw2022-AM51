@@ -6,6 +6,13 @@ import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 
+/**
+ * Turn class contains the main logic for the managing of the turns and their phases,
+ * with the attributes and methods needed; it's tightly connected with the Game class
+ *
+ * @see Game
+ *
+ */
 public class Turn {
 
     private final Player currPlayer;

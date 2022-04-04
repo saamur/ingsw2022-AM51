@@ -1,6 +1,12 @@
 package it.polimi.ingsw.charactercards;
 
+/**
+ * CharacterID is an enumeration with the list of the game's characters
+ * and their initial cost as a constant
+ *
+ */
 public enum CharacterID {
+
     MONK(1),
     FARMER(2),
     HERALD(3),
@@ -16,7 +22,7 @@ public enum CharacterID {
 
     private final int initialCost;
 
-    private CharacterID(int initialCost){
+    CharacterID(int initialCost){
         this.initialCost=initialCost;
     }
 

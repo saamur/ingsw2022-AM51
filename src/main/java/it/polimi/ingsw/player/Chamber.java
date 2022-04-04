@@ -5,6 +5,11 @@ import it.polimi.ingsw.StudentContainer;
 
 import java.util.Arrays;
 
+/**
+ * Chamber class models the chamber of the school board, with the students, professors and coins
+ * and the methods needed for their management
+ *
+ */
 public class Chamber implements StudentContainer {
 
     private final int[] students;

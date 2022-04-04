@@ -3,6 +3,10 @@ package it.polimi.ingsw;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Bag class models the game's bag from which the students are drawn
+ *
+ */
 public class Bag implements StudentContainer {
 
     private final int[] students;

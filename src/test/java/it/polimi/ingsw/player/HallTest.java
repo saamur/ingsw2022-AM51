@@ -14,7 +14,7 @@ public class HallTest {
     @Test
     public void testAddStudents(){
         int[] addingStudents = {1, 2, 3, 4, 5};
-        Hall hall = new Hall(addingStudents);
+        Hall hall = new Hall(new int[Clan.values().length]);
         int[] addedStudents = hall.addStudents(addingStudents);
         int[] students = hall.getStudents();
         for(int i = 0; i< Clan.values().length; i++){

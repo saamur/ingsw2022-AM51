@@ -4,6 +4,11 @@ import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.StudentContainer;
 
+/**
+ * Island class models the islands of the game, with the attributes and the methods
+ * needed for their management and merging
+ *
+ */
 public class Island implements StudentContainer {
 
     private int numberOfIslands;

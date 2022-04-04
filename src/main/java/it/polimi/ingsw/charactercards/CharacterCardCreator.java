@@ -2,6 +2,11 @@ package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.Bag;
 
+/**
+ * CharacterCardCreator class contains the method needed to create
+ * CharacterCard objects with the correct concrete subclass
+ *
+ */
 public class CharacterCardCreator {
 
     public CharacterCardCreator(){}
@@ -16,11 +21,11 @@ public class CharacterCardCreator {
     public CharacterCard createCharacterCard(CharacterID characterID, Bag bag) {
 
         return switch (characterID) {
+            case MONK, JESTER, MINISTREL, PRINCESS, THIEF -> new StudentMoverCharacterCard(characterID, bag);
             case FARMER -> new ProfessorsCharacterCard(characterID);
-            case GRANDMA -> new ProhibitionCharacterCard(characterID);
             case HERALD, CENTAUR, KNIGHT, MUSHROOMPICKER -> new InfluenceCharacterCard(characterID);
             case POSTMAN -> new StepsCharacterCard(characterID);
-            case MONK, JESTER, MINISTREL, PRINCESS, THIEF -> new StudentMoverCharacterCard(characterID, bag);
+            case GRANDMA -> new ProhibitionCharacterCard(characterID);
         };
 
     }

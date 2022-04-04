@@ -8,6 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * IslandManager class manages the islands of the game, the position of Mother Nature and the merging of islands
+ *
+ */
 public class IslandManager {
 
     private final List<Island> islands;

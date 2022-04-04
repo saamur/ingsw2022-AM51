@@ -4,6 +4,10 @@ import it.polimi.ingsw.*;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.player.Player;
 
+/**
+ * CharacterCard abstract class models the character cards of the game and their effects
+ *
+ */
 public abstract class CharacterCard {
 
     private final CharacterID characterID;
@@ -20,7 +24,7 @@ public abstract class CharacterCard {
 
     /**
      * method isAvailable establishes if the card can be activated
-     * @return  whether the cart can be activated
+     * @return  whether the card can be activated
      */
     public boolean isAvailable() {
         return true;

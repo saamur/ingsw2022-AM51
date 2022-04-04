@@ -1,5 +1,10 @@
 package it.polimi.ingsw.player;
 
+/**
+ * Card class is an enumeration with the list of the assistant cards of the game
+ * and their constants
+ *
+ */
 public enum Card {
 
     CHEETAH(1, 1),
@@ -17,7 +22,7 @@ public enum Card {
     private final int priority;
     private final int maxStepsMotherNature;
 
-    private Card(int priority, int maxStepsMotherNature) {
+    Card(int priority, int maxStepsMotherNature) {
         this.priority = priority;
         this.maxStepsMotherNature = maxStepsMotherNature;
     }

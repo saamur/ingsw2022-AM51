@@ -342,10 +342,11 @@ public class Game implements GameInterface {
 
         islandManager.setMotherNaturePosition(island);
         checkInfluence(island);
-        turn.setTurnState(TurnState.CLOUD_CHOOSING);
 
         if (lastRound)
-            endTurn();
+            turn.setTurnState(TurnState.END_TURN);
+        else
+            turn.setTurnState(TurnState.CLOUD_CHOOSING);
 
         return true;
 
@@ -396,14 +397,7 @@ public class Game implements GameInterface {
         if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
             return false;
 
-        boolean ok = turn.chooseCloud(cloud);
-
-        if (!ok)
-            return false;
-
-        endTurn();
-
-        return true;
+        return turn.chooseCloud(cloud);
 
     }
 
@@ -411,17 +405,30 @@ public class Game implements GameInterface {
      * method endTurn calls InitRound if the current Player is the last one of this round phase,
      * otherwise it instantiates a new Turn for the next Player
      */
-    private void endTurn() {
+    @Override
+    public boolean endTurn(String playerNickname) {
+
+        Player player = playerFromNickname(playerNickname);
+        if (player == null)
+            return false;
+
+        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
+            return false;
+
+        if (turn.getTurnState() != TurnState.END_TURN)
+            return false;
 
         indexCurrPlayer++;
 
         if (gameState == GameState.GAME_OVER)
-            return;
+            return true;
 
         if (indexCurrPlayer == players.length)
             initRound();
         else
             turn = new Turn(playersOrder[indexCurrPlayer], players.length);
+
+        return true;
 
     }
 

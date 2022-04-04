@@ -227,6 +227,8 @@ public class Turn {
 
         currPlayer.getHall().addStudents(cloud.pick());
 
+        turnState = TurnState.END_TURN;
+
         return true;
 
     }

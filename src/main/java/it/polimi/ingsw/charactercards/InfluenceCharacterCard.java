@@ -44,7 +44,7 @@ public class InfluenceCharacterCard extends CharacterCard {
             int [] delta = new int[players.length];
             for (int i = 0; i < players.length; i++)
                 if (players[i].getChamber().hasProfessor(clan))
-                    delta[i] = island.getStudents()[clan.ordinal()];
+                    delta[i] = (-1) * island.getStudents()[clan.ordinal()];
             return delta;
         };
 

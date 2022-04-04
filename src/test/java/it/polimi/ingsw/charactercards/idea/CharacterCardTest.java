@@ -1,6 +1,8 @@
-package it.polimi.ingsw.charactercards;
+package it.polimi.ingsw.charactercards.idea;
 
 import it.polimi.ingsw.*;
+import it.polimi.ingsw.charactercards.CharacterCard;
+import it.polimi.ingsw.charactercards.CharacterCardCreator;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
@@ -9,21 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-/**
- * StepsCharacterCardTest tests the class StepsCharacterCard
- * @link StepsCharacterCard
- */
-public class StepsCharacterCardTest {
+public abstract class CharacterCardTest {
     CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     Bag bag;
-    CharacterCard postman;
-
-    @BeforeEach
-    public void createCharacter(){
-        bag = new Bag();
-        postman = characterCardCreator.createCharacterCard(CharacterID.POSTMAN, bag);
-    }
+    CharacterCard characterCard;
 
     /**
      * Method stepsTest() tests how many steps are added to Mother Nature in a turn.
@@ -31,8 +24,7 @@ public class StepsCharacterCardTest {
      */
     @Test
     public void stepsTest(){
-        int stepsToBeAdded = postman.effectStepsMotherNature();
-        assertEquals(2, stepsToBeAdded);
+        assertEquals(0, characterCard.effectStepsMotherNature());
     }
 
     /**
@@ -42,9 +34,9 @@ public class StepsCharacterCardTest {
      */
     @Test
     public void costTest(){
-        assertEquals(1, postman.getCost());
-        postman.increaseCost();
-        assertEquals(2, postman.getCost());
+        assertEquals(1, characterCard.getCost());
+        characterCard.increaseCost();
+        assertEquals(2, characterCard.getCost());
     }
 
     /**
@@ -58,8 +50,9 @@ public class StepsCharacterCardTest {
         islandManager.conquerIsland(players[0], islandManager.getIsland(1));
         islandManager.getIsland(1).addStudent(Clan.DRAGONS);
 
+        int expected = 0;
         for(int i=0; i<Clan.values().length; i++)
-            assertEquals(0, postman.effectInfluence(players, players[1], islandManager.getIsland(1), Clan.DRAGONS)[i]);
+            assertEquals(0, characterCard.effectInfluence(players, players[1], islandManager.getIsland(1), Clan.DRAGONS)[i]);
     }
 
     /**
@@ -73,7 +66,7 @@ public class StepsCharacterCardTest {
         players[0].getChamber().addStudent(Clan.DRAGONS);
         players[1].getChamber().addStudent(Clan.DRAGONS);
         players[1].getChamber().addStudent(Clan.DRAGONS);
-        assertNull(postman.effectPlayerProfessor(players, players[1], Clan.DRAGONS));
+        assertNull(characterCard.effectPlayerProfessor(players, players[1], Clan.DRAGONS));
     }
 
     /**
@@ -85,7 +78,7 @@ public class StepsCharacterCardTest {
     public void initialEffectTest(){
         Player[] players = createPlayers();
         Turn turn = new Turn(players[0], 2);
-        assertTrue(postman.applyInitialEffect(turn, players));
+        assertTrue(characterCard.applyInitialEffect(turn, players));
     }
 
     /**
@@ -96,7 +89,7 @@ public class StepsCharacterCardTest {
     public void applyTest1(){
         Game game = new Game(2, "Fede", true);
         Island island = new Island();
-        assertFalse(postman.applyEffect(game, island));
+        assertFalse(characterCard.applyEffect(game, island));
     }
 
     /**
@@ -108,9 +101,8 @@ public class StepsCharacterCardTest {
         Game game = new Game(3, "Giu", true);
         StudentContainer destination = new Island();
         int[] students1 = new int[Clan.values().length];
-        assertFalse(postman.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null
+        assertFalse(characterCard.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null
     }
-
 
     /**
      * Method creates an array of Players. This methods serves as a shortcut for some tests.
@@ -125,5 +117,4 @@ public class StepsCharacterCardTest {
         players[1] = player2;
         return players;
     }
-
 }

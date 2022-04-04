@@ -101,6 +101,21 @@ public class Game implements GameInterface {
 
     }
 
+     // added for tests
+
+
+    public int getIndexCurrFirstPlayer() {
+        return indexCurrFirstPlayer;
+    }
+
+    public int getIndexCurrPlayer() {
+        return indexCurrPlayer;
+    }
+
+    public int getIndexNextFirstPlayer() {
+        return indexNextFirstPlayer;
+    }
+
 
     /**
      * method addPlayer adds a Player to the Game if there isn't already another with the same nickname
@@ -169,6 +184,10 @@ public class Game implements GameInterface {
 
     }
 
+
+
+
+
     /**
      * method sets currCard of the currentPlayer to card if the game phase is correct,
      * the choice is valid and playerNickname is the nickname of the current Player.
@@ -207,6 +226,10 @@ public class Game implements GameInterface {
 
         return true;
 
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     /**
@@ -264,6 +287,10 @@ public class Game implements GameInterface {
                 break;
             }
 
+    }
+
+    public Player[] getPlayersOrder() {
+        return playersOrder;
     }
 
     /**
@@ -343,7 +370,7 @@ public class Game implements GameInterface {
         if (turn.getTurnState() != TurnState.MOTHER_MOVING)
             return false;
 
-        if (islandManager.distanceFromMotherNature(island) <= turn.getMaxStepsMotherNature())
+        if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature())
             return false;
 
         islandManager.setMotherNaturePosition(island);

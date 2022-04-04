@@ -148,5 +148,8 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         return removedStudents;
 
     }
-
+//added for tests
+    public int[] getStudents() {
+        return students.clone();
+    }
 }

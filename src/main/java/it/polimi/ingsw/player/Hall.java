@@ -3,7 +3,8 @@ package it.polimi.ingsw.player;
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.StudentContainer;
 
-import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Hall class models the hall of the school board with its students
@@ -11,67 +12,67 @@ import java.util.Arrays;
  */
 public class Hall implements StudentContainer {
 
-    private final int[] students;
+    private final Map<Clan, Integer> students;
 
-    public Hall(int[] students) {
-        this.students = students.clone();
+    public Hall(Map<Clan, Integer> students) {
+        this.students = new EnumMap<>(students);
     }
 
-    public int[] getStudents() {
-        return students.clone();
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
     }
 
     @Override
-    public int[] addStudents(int[] stud) {
-
-        for (int i = 0; i < students.length; i++)
-            students[i] += stud[i];
-
-        return stud.clone();
-
+    public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
+        for (Clan c : Clan.values())
+            students.put(c, students.get(c) + stud.get(c));
+        return new EnumMap<>(stud);
     }
 
     /**
-     * method addStudent adds a student of the Clan c in the students variable
-     * @param c the clan of the student to add
-     * @return  true if the student was added
+     * method addStudent adds a student of the Clan clan in the students variable
+     * @param clan  the clan of the student to add
+     * @return      true if the student was added
      */
-    public boolean addStudent(Clan c) {
-        int[] stud = new int[Clan.values().length];
-        stud[c.ordinal()] = 1;
-        int[] addedStud = addStudents(stud);
-        return Arrays.equals(stud, addedStud);
+    public boolean addStudent(Clan clan) {
+        Map<Clan, Integer> stud = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            stud.put(c, c == clan ? 1 : 0);
+        Map<Clan, Integer> addedStud = addStudents(stud);
+        return stud.equals(addedStud);
     }
 
     @Override
-    public int[] removeStudents(int[] stud) {
+    public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
 
-        int[] removedStudents = new int[Clan.values().length];
+        Map<Clan, Integer> removedStudents = new EnumMap<>(Clan.class);
 
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] >= stud[i]){
-                removedStudents[i] = stud[i];
-                students[i] -= stud[i];
+        for (Clan c : Clan.values()) {
+            if (students.get(c) >= stud.get(c)) {
+                removedStudents.put(c, stud.get(c));
+                students.put(c, students.get(c) - stud.get(c));
             }
             else {
-                removedStudents[i] = students[i];
-                students[i] = 0;
+                removedStudents.put(c, students.get(c));
+                students.put(c, 0);
             }
         }
 
         return removedStudents;
+
     }
 
     /**
      * method removeStudent removes a student of the Clan c in the students variable
-     * @param c the clan of the student to remove
-     * @return  true if the student was removed
+     * @param clan  the clan of the student to remove
+     * @return      true if the student was removed
      */
-    public boolean removeStudent(Clan c) {
-        int[] stud = new int[Clan.values().length];
-        stud[c.ordinal()] = 1;
-        int[] removedStud = removeStudents(stud);
-        return Arrays.equals(stud, removedStud);
+    public boolean removeStudent(Clan clan) {
+        Map<Clan, Integer> stud = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            stud.put(c, c == clan ? 1 : 0);
+        Map<Clan, Integer> removedStud = removeStudents(stud);
+        return stud.equals(removedStud);
     }
 
 }

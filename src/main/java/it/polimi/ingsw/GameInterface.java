@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.charactercards.CharacterID;
 import it.polimi.ingsw.player.Card;
 
+import java.util.Map;
+
 public interface GameInterface {
 
     boolean addPlayer (String nickname);
@@ -15,6 +17,6 @@ public interface GameInterface {
     boolean activateCharacterCard (String playerNickname, CharacterID characterID);
     boolean applyCharacterCardEffect (String playerNickname, int islandIndex);
     boolean setClanCharacter (String playerNickname, Clan clan);
-    boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, int[] students1, int[] students2);
+    boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
 
 }

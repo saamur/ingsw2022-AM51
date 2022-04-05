@@ -4,6 +4,9 @@ import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.StudentContainer;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
  * Island class models the islands of the game, with the attributes and the methods
  * needed for their management and merging
@@ -12,14 +15,16 @@ import it.polimi.ingsw.StudentContainer;
 public class Island implements StudentContainer {
 
     private int numberOfIslands;
-    private final int[] students;
+    private final Map<Clan, Integer> students;
     private Player controllingPlayer;
     private int numberOfTowers;
     private int numProhibitionCards;
 
     public Island () {
         numberOfIslands = 1;
-        students = new int[Clan.values().length];
+        students = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            students.put(c, 0);
         controllingPlayer = null;
         numberOfTowers = 0;
         numProhibitionCards = 0;
@@ -29,8 +34,8 @@ public class Island implements StudentContainer {
         return numberOfIslands;
     }
 
-    public int[] getStudents() {
-        return students.clone();
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
     }
 
     public Player getControllingPlayer() {
@@ -54,28 +59,25 @@ public class Island implements StudentContainer {
     }
 
     @Override
-    public int[] addStudents(int[] stud) {
-
-        for (int i = 0; i < students.length; i++)
-            students[i] += stud[i];
-
-        return stud.clone();
-
+    public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
+        for (Clan c : Clan.values())
+            students.put(c, students.get(c) + stud.get(c));
+        return new EnumMap<>(stud);
     }
 
     @Override
-    public int[] removeStudents(int[] stud) {
+    public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
 
-        int[] removedStudents = new int[Clan.values().length];
+        Map<Clan, Integer> removedStudents = new EnumMap<>(Clan.class);
 
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] >= stud[i]){
-                removedStudents[i] = stud[i];
-                students[i] -= stud[i];
+        for (Clan c : Clan.values()) {
+            if (students.get(c) >= stud.get(c)) {
+                removedStudents.put(c, stud.get(c));
+                students.put(c, students.get(c) - stud.get(c));
             }
             else {
-                removedStudents[i] = students[i];
-                students[i] = 0;
+                removedStudents.put(c, students.get(c));
+                students.put(c, 0);
             }
         }
 
@@ -89,7 +91,7 @@ public class Island implements StudentContainer {
      * @return  true if the student was added
      */
     public boolean addStudent(Clan c) {
-        students[c.ordinal()]++;
+        students.put(c, students.get(c) + 1);
         return true;
     }
 

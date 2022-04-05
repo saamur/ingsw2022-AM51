@@ -6,8 +6,8 @@ import it.polimi.ingsw.Game;
 import it.polimi.ingsw.StudentContainer;
 import it.polimi.ingsw.player.Player;
 
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * StudentMoverCharacterCard class models the character cards
@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class StudentMoverCharacterCard extends CharacterCard implements StudentContainer{
 
     private interface StudentMover {
-        boolean move(Game game, StudentContainer source, StudentContainer destination, int[] students1, int[] students2);
+        boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
     private static final int[] NUM_INITIAL_STUDENTS;
@@ -35,10 +35,10 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
     static {
         STUDENT_MOVERS = new StudentMover[CharacterID.values().length];
         STUDENT_MOVERS[CharacterID.MONK.ordinal()] = (g, s, d, s1, s2) -> {
-            if (IntStream.of(s1).sum() != 1)
+            if (s1.values().stream().mapToInt(i -> i).sum() != 1)
                 return false;
-            int[] v = s.removeStudents(s1);
-            if (IntStream.of(v).sum() != 1)
+            Map<Clan, Integer> m = s.removeStudents(s1);
+            if (m.values().stream().mapToInt(i -> i).sum() != 1)
                 return false;
             d.addStudents(s1);
             s.addStudents(g.getBag().draw(1));
@@ -46,15 +46,15 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         };
         STUDENT_MOVERS[CharacterID.JESTER.ordinal()] = (g, s, d, s1, s2) -> {
             d = g.getCurrPlayer().getHall();
-            if (IntStream.of(s1).sum() > 3)
+            if (s1.values().stream().mapToInt(i -> i).sum() > 3)
                 return false;
-            if (IntStream.of(s1).sum() != IntStream.of(s2).sum())
+            if (s1.values().stream().mapToInt(i -> i).sum() != s2.values().stream().mapToInt(i -> i).sum())
                 return false;
-            int[] v1 = s.removeStudents(s1);
-            int[] v2 = d.removeStudents(s2);
-            if (!Arrays.equals(s1, v1) || !Arrays.equals(s2, v2)) {
-                s.addStudents(v1);
-                d.addStudents(v2);
+            Map<Clan, Integer> m1 = s.removeStudents(s1);
+            Map<Clan, Integer> m2 = d.removeStudents(s2);
+            if (!s1.equals(m1) || !s2.equals(m2)) {
+                s.addStudents(m1);
+                d.addStudents(m2);
                 return false;
             }
             d.addStudents(s1);
@@ -64,15 +64,15 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         STUDENT_MOVERS[CharacterID.MINISTREL.ordinal()] = (g, s, d, s1, s2) -> {
             s = g.getCurrPlayer().getChamber();
             d = g.getCurrPlayer().getHall();
-            if (IntStream.of(s1).sum() > 2)
+            if (s1.values().stream().mapToInt(i -> i).sum() > 2)
                 return false;
-            if (IntStream.of(s1).sum() != IntStream.of(s2).sum())
+            if (s1.values().stream().mapToInt(i -> i).sum() != s2.values().stream().mapToInt(i -> i).sum())
                 return false;
-            int[] v1 = s.removeStudents(s1);
-            int[] v2 = d.removeStudents(s2);
-            if (!Arrays.equals(s1, v1) || !Arrays.equals(s2, v2)) {
-                s.addStudents(v1);
-                d.addStudents(v2);
+            Map<Clan, Integer> m1 = s.removeStudents(s1);
+            Map<Clan, Integer> m2 = d.removeStudents(s2);
+            if (!s1.equals(m1) || !s2.equals(m2)) {
+                s.addStudents(m1);
+                d.addStudents(m2);
                 return false;
             }
             d.addStudents(s1);
@@ -81,13 +81,13 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         };
         STUDENT_MOVERS[CharacterID.PRINCESS.ordinal()] = (g, s, d, s1, s2) -> {
             d = g.getCurrPlayer().getChamber();
-            if (IntStream.of(s1).sum() != 1)
+            if (s1.values().stream().mapToInt(i -> i).sum() != 1)
                 return false;
-            int[] v = s.removeStudents(s1);
-            if (IntStream.of(v).sum() != 1)
+            Map<Clan, Integer> m = s.removeStudents(s1);
+            if (m.values().stream().mapToInt(i -> i).sum() != 1)
                 return false;
-            v = d.addStudents(s1);
-            if (IntStream.of(v).sum() != 1) {
+            m = d.addStudents(s1);
+            if (m.values().stream().mapToInt(i -> i).sum() != 1) {
                 s.addStudents(s1);
                 return false;
             }
@@ -97,15 +97,16 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         STUDENT_MOVERS[CharacterID.THIEF.ordinal()] = (g, s, d, s1, s2) -> {
             if (g.getTurn().getCharacterClan() == null)
                 return false;
-            int[] v = new int[Clan.values().length];
-            v[g.getTurn().getCharacterClan().ordinal()] = 3;
+            Map<Clan, Integer> m = new EnumMap<>(Clan.class);
+            for (Clan c : Clan.values())
+                m.put(c, c == g.getTurn().getCharacterClan() ? 3 : 0);
             for (Player p : g.getPlayers())
-                g.getBag().addStudents(p.getChamber().removeStudents(v));
+                g.getBag().addStudents(p.getChamber().removeStudents(m));
             return true;
         };
     }
 
-    private final int[] students;
+    private final Map<Clan, Integer> students;
 
     public StudentMoverCharacterCard (CharacterID characterID, Bag bag) {
         super(characterID);
@@ -113,43 +114,41 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
     }
 
     @Override
-    public boolean applyEffect(Game game, StudentContainer destination, int[] students1, int[] students2) {
+    public boolean applyEffect(Game game, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
 
         return STUDENT_MOVERS[getCharacterID().ordinal()].move(game, this, destination, students1, students2);
 
     }
 
     @Override
-    public int[] addStudents(int[] stud) {
-
-        for (int i = 0; i < students.length; i++)
-            students[i] += stud[i];
-
-        return stud.clone();
-
+    public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
+        for (Clan c : Clan.values())
+            students.put(c, students.get(c) + stud.get(c));
+        return new EnumMap<>(stud);
     }
 
     @Override
-    public int[] removeStudents(int[] stud) {
+    public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
 
-        int[] removedStudents = new int[Clan.values().length];
+        Map<Clan, Integer> removedStudents = new EnumMap<>(Clan.class);
 
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] >= stud[i]){
-                removedStudents[i] = stud[i];
-                students[i] -= stud[i];
+        for (Clan c : Clan.values()) {
+            if (students.get(c) >= stud.get(c)) {
+                removedStudents.put(c, stud.get(c));
+                students.put(c, students.get(c) - stud.get(c));
             }
             else {
-                removedStudents[i] = students[i];
-                students[i] = 0;
+                removedStudents.put(c, students.get(c));
+                students.put(c, 0);
             }
         }
 
         return removedStudents;
 
     }
-//added for tests
-    public int[] getStudents() {
-        return students.clone();
+    //added for tests
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
     }
+
 }

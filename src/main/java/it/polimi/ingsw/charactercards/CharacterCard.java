@@ -4,6 +4,8 @@ import it.polimi.ingsw.*;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.player.Player;
 
+import java.util.Map;
+
 /**
  * CharacterCard abstract class models the character cards of the game and their effects
  *
@@ -104,7 +106,7 @@ public abstract class CharacterCard {
      * @param students2     the students to move from the destination, in case of an exchange of students (if necessary)
      * @return              whether the effect has been applied
      */
-    public boolean applyEffect (Game game, StudentContainer destination, int[] students1, int[] students2){
+    public boolean applyEffect (Game game, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2){
         return false;
     }
 

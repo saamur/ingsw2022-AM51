@@ -12,10 +12,7 @@ import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -626,7 +623,7 @@ public class Game implements GameInterface {
      * @return                  whether the move was valid and has been carried out
      */
     @Override
-    public boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, int[] students1, int[] students2) {
+    public boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
 
         Player player = playerFromNickname(playerNickname);
         if (player == null)

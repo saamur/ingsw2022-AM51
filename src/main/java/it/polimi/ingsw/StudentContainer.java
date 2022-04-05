@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import java.util.Map;
+
 /**
  * StudentContainer interface contains the necessary methods for managing
  * additions and deletions of students in the objects that contain them
@@ -13,7 +15,7 @@ public interface StudentContainer {
      * @param students  the students to add
      * @return          the actual added students
      */
-    int[] addStudents(int[] students);
+    Map<Clan, Integer> addStudents(Map<Clan, Integer> students);
 
     /**
      * Method removeStudents removes, if possible, all the students contained in the parameter,
@@ -22,6 +24,6 @@ public interface StudentContainer {
      * @param students  the students to remove
      * @return          the actual removed students
      */
-    int[] removeStudents(int[] students);
+    Map<Clan, Integer> removeStudents(Map<Clan, Integer> students);
 
 }

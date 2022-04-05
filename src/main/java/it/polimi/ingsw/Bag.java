@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
-import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -9,22 +10,21 @@ import java.util.Random;
  */
 public class Bag implements StudentContainer {
 
-    private final int[] students;
+    private final Map<Clan, Integer> students;
     private final Random random;
 
     public Bag () {
 
-        students = new int[Clan.values().length];
-
-        Arrays.fill(students, 24);
+        students = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            students.put(c, 24);
 
         random = new Random();
     }
 
-
-    public int[] getStudents(){
-
-        return students.clone();
+    //for testing
+    public Map<Clan, Integer> getStudents(){
+        return new EnumMap<>(students);
     }
 
     /**
@@ -38,19 +38,19 @@ public class Bag implements StudentContainer {
 
         int totStudents = 0;
 
-        for (int n : students)
-            totStudents += n;
+        for (Clan c : Clan.values())
+            totStudents += students.get(c);
 
         int sum = 0;
         int rand = random.nextInt(totStudents);
 
-        for (int i = 0; i < students.length; i++) {
+        for (Clan c : Clan.values()) {
 
-            sum += students[i];
+            sum = students.get(c);
 
-            if(rand < sum) {
-                students[i]--;
-                return Clan.values()[i];
+            if (rand < sum) {
+                students.put(c, students.get(c) - 1);
+                return c;
             }
 
         }
@@ -64,14 +64,16 @@ public class Bag implements StudentContainer {
      * @param n the number of random students to draw
      * @return  the random students that have been drawn
      */
-    public int[] draw(int n) {
+    public Map<Clan, Integer> draw(int n) {
 
-        int[] stud = new int[Clan.values().length];
+        Map<Clan, Integer> stud = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            stud.put(c, 0);
 
         for (int i = 0; i < n; i++) {
             Clan c = draw();
             if (c != null)
-                stud[c.ordinal()]++;
+                stud.put(c, stud.get(c) + 1);
         }
 
         return stud;
@@ -84,8 +86,8 @@ public class Bag implements StudentContainer {
      */
     public boolean isEmpty() {
 
-        for(int n : students)
-            if(n > 0)
+        for (Clan c : Clan.values())
+            if (students.get(c) > 0)
                 return false;
 
         return true;
@@ -93,18 +95,17 @@ public class Bag implements StudentContainer {
     }
 
     @Override
-    public int[] addStudents(int[] stud) {
-
-        for (int i = 0; i < students.length; i++)
-                students[i] += stud[i];
-
-        return stud.clone();
-
+    public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
+        for (Clan c : Clan.values())
+            students.put(c, students.get(c) + stud.get(c));
+        return new EnumMap<>(stud);
     }
 
     @Override
-    public int[] removeStudents(int[] stud) {
-        int totStudents = Arrays.stream(stud).sum();
+    public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
+        int totStudents = 0;
+        for (Clan c : Clan.values())
+            totStudents += stud.get(c);
         return draw(totStudents);
     }
 }

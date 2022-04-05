@@ -198,7 +198,7 @@ public class Turn {
 
             for (Clan c : Clan.values())
                 if(players[i].getChamber().hasProfessor(c))
-                    influences[i] += island.getStudents()[c.ordinal()];
+                    influences[i] += island.getStudents().get(c);
 
             if (players[i] == island.getControllingPlayer())
                 influences[i] += island.getNumberOfTowers();

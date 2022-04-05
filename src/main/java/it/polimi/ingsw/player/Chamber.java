@@ -1,9 +1,12 @@
 package it.polimi.ingsw.player;
 
+import it.polimi.ingsw.Bag;
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.StudentContainer;
 
 import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Chamber class models the chamber of the school board, with the students, professors and coins
@@ -12,32 +15,40 @@ import java.util.Arrays;
  */
 public class Chamber implements StudentContainer {
 
-    private final int[] students;
-    private final boolean[] professors;
+    private final Map<Clan, Integer> students;
+    private final Map<Clan, Boolean> professors;
     private int coins;
-    private final int[] coinsGiven;
+    private final Map<Clan, Integer> coinsGiven;
 
     public Chamber() {
-        students = new int[Clan.values().length];
-        professors = new boolean[Clan.values().length];
+        students = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            students.put(c, 0);
+
+        professors = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            professors.put(c, false);
+
         coins = 1;
-        coinsGiven = new int[Clan.values().length];
+        coinsGiven = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            coinsGiven.put(c, 0);
     }
 
-    public int[] getStudents() {
-        return students.clone();
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
     }
 
-    public boolean[] getProfessors() {
-        return professors.clone();
+    public Map<Clan, Boolean> getProfessors() {
+        return new EnumMap<>(professors);
     }
 
     public int getCoins() {
         return coins;
     }
 
-    public int[] getCoinsGiven() {
-        return coinsGiven.clone();
+    public Map<Clan, Integer> getCoinsGiven() {
+        return new EnumMap<>(coinsGiven);
     }
 
     public void setCoins(int coins) {
@@ -45,18 +56,18 @@ public class Chamber implements StudentContainer {
     }
 
     @Override
-    public int[] addStudents(int[] stud) {
+    public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
 
-        int[] addedStudents = new int[Clan.values().length];
+        Map<Clan, Integer> addedStudents = new EnumMap<>(Clan.class);
 
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] + stud[i] <= 10){
-                addedStudents[i] = stud[i];
-                students[i] += stud[i];
+        for (Clan c : Clan.values()) {
+            if (students.get(c) + stud.get(c) <= 10) {
+                addedStudents.put(c, stud.get(c));
+                students.put(c, students.get(c) + stud.get(c));
             }
             else {
-                addedStudents[i] = 10 - students[i];
-                students[i] = 10;
+                addedStudents.put(c, 10 - students.get(c));
+                students.put(c, 10);
             }
         }
 
@@ -66,18 +77,18 @@ public class Chamber implements StudentContainer {
     }
 
     @Override
-    public int[] removeStudents(int[] stud) {
+    public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
 
-        int[] removedStudents = new int[Clan.values().length];
+        Map<Clan, Integer> removedStudents = new EnumMap<>(Clan.class);
 
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] >= stud[i]){
-                removedStudents[i] = stud[i];
-                students[i] -= stud[i];
+        for (Clan c : Clan.values()) {
+            if (students.get(c) >= stud.get(c)) {
+                removedStudents.put(c, stud.get(c));
+                students.put(c, students.get(c) - stud.get(c));
             }
             else {
-                removedStudents[i] = students[i];
-                students[i] = 0;
+                removedStudents.put(c, students.get(c));
+                students.put(c, 0);
             }
         }
 
@@ -86,15 +97,16 @@ public class Chamber implements StudentContainer {
     }
 
     /**
-     * method addStudent adds a student of the Clan c in the students variable
-     * @param c the clan of the student to add
-     * @return  true if the student was added
+     * method addStudent adds a student of the Clan clan in the students variable
+     * @param clan  the clan of the student to add
+     * @return      true if the student was added
      */
-    public boolean addStudent(Clan c) {
-        int[] stud = new int[Clan.values().length];
-        stud[c.ordinal()] = 1;
-        int[] addedStud = addStudents(stud);
-        return Arrays.equals(stud, addedStud);
+    public boolean addStudent(Clan clan) {
+        Map<Clan, Integer> stud = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values())
+            stud.put(c, c == clan ? 1 : 0);
+        Map<Clan, Integer> addedStud = addStudents(stud);
+        return stud.equals(addedStud);
     }
 
     /**
@@ -103,7 +115,7 @@ public class Chamber implements StudentContainer {
      * @return      whether this Chamber contains the professor of the Clan clan
      */
     public boolean hasProfessor(Clan clan) {
-        return professors[clan.ordinal()];
+        return professors.get(clan);
     }
 
     /**
@@ -112,26 +124,26 @@ public class Chamber implements StudentContainer {
      * @param value the value to which to set the professor of Clan clan
      */
     public void setProfessor(Clan clan, boolean value) {
-        professors[clan.ordinal()] = value;
+        professors.put(clan, value);
     }
 
     /**
      * method getNumStudents returns the number of the student of the Clan giver by parameter contained in this Chamber
      * @param clan  the Clan of the students to get the number
-     * @return the number of the students contained in this Chamber of Clan clan
+     * @return      the number of the students contained in this Chamber of Clan clan
      */
     public int getNumStudents (Clan clan) {
-        return students[clan.ordinal()];
+        return students.get(clan);
     }
 
     /**
      * method updateCoins increases the variable coins after an addition of students accordingly to the rules of the game
      */
     private void updateCoins() {
-        for (int i = 0; i < coinsGiven.length; i++) {
-            if (students[i]/3 > coinsGiven[i]) {
-                coins += students[i] / 3 - coinsGiven[i];
-                coinsGiven[i] = students[i] / 3;
+        for (Clan c : Clan.values()) {
+            if (students.get(c)/3 > coinsGiven.get(c)) {
+                coins += students.get(c) / 3 - coinsGiven.get(c);
+                coinsGiven.put(c, students.get(c)/3);
             }
         }
     }

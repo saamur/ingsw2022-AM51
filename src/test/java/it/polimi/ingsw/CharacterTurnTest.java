@@ -10,8 +10,7 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class CharacterTurnTest {
 
@@ -88,4 +87,34 @@ public abstract class CharacterTurnTest {
 
     }
 
+    //TODO non trovo un caso generico in cui senza torri vince uno ma senza colore vince un altro
+    @Test
+    public void updateInfluenceTest(){
+        islandInitialization();
+        islandManager.getIsland(3).addStudent(Clan.TOADS);
+        turn.updateInfluence(islandManager, islandManager.getIsland(3), players); //dovrebbe prenderla Fede
+        assertEquals("Fede", islandManager.getIsland(3).getControllingPlayer().getNickname()); //nelle classi figlie piuttosto vengono aggiunt studenti
+    }
+
+    public void islandInitialization(){
+        professorsInitialization();
+        int[] studentsToBeAdded = {0, 1, 2, 0, 1};
+        /*if (islandManager.getIsland(3).getStudents()[Clan.FAIRIES.ordinal()] == 1) {
+            //If Samu already has a student (FAIRIES) on the Island, it will not add any more
+            studentsToBeAdded[Clan.FAIRIES.ordinal()] = 0;
+        }
+        if(islandManager.getIsland(3).getStudents()[Clan.TOADS.ordinal()] == 1 || islandManager.getIsland(3).getStudents()[Clan.DRAGONS.ordinal()] == 1){
+            //if Fede already has one of her students (TOADS or DRAGONS) on the island, it will only add one more
+            studentsToBeAdded[Clan.TOADS.ordinal()] = 1;
+        }
+        if(islandManager.getIsland(3).getStudents()[Clan.UNICORNS.ordinal()] == 1){
+            //If there is one Giulia's students (unicorns) already on the Island it will not add any more.
+            studentsToBeAdded[Clan.TOADS.ordinal()] = 0;
+        }*/
+        islandManager.getIsland(3).removeStudents(islandManager.getIsland(3).getStudents());
+        islandManager.getIsland(3).addStudents(studentsToBeAdded);
+        islandManager.conquerIsland(players[2], islandManager.getIsland(3));
+
+        //NORMAL INFLUENCE: {1, 2, 1+1(tower)}
+    }
 }

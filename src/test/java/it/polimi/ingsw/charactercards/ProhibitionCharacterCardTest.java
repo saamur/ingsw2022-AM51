@@ -9,6 +9,9 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProhibitionCharacterCardTest {
@@ -25,9 +28,29 @@ class ProhibitionCharacterCardTest {
         players[2] = new Player("Samu", TowerColor.GRAY, 3, bag);
 
         generalCard = creator.createCharacterCard(CharacterID.GRANDMA, bag);
-        int[] addingStudentsFirstPlayer = {1, 8, 2, 0, 0};
-        int[] addingStudentsSecondPlayer = {2, 8, 3, 4, 0};
-        int[] addingStudentsThirdPlayer = {3, 0, 0, 5, 0};
+
+        Map<Clan, Integer> addingStudentsFirstPlayer = new EnumMap<>(Clan.class);
+        Map<Clan, Integer> addingStudentsSecondPlayer = new EnumMap<>(Clan.class);
+        Map<Clan, Integer> addingStudentsThirdPlayer = new EnumMap<>(Clan.class);
+
+        addingStudentsFirstPlayer.put(Clan.PIXIES, 1); //FIXME is there a better way??
+        addingStudentsFirstPlayer.put(Clan.UNICORNS, 8);
+        addingStudentsFirstPlayer.put(Clan.TOADS, 2);
+        addingStudentsFirstPlayer.put(Clan.DRAGONS, 0);
+        addingStudentsFirstPlayer.put(Clan.FAIRIES, 0);
+
+        addingStudentsSecondPlayer.put(Clan.PIXIES, 2);
+        addingStudentsSecondPlayer.put(Clan.UNICORNS, 8);
+        addingStudentsSecondPlayer.put(Clan.TOADS, 3);
+        addingStudentsSecondPlayer.put(Clan.DRAGONS, 4);
+        addingStudentsSecondPlayer.put(Clan.FAIRIES, 0);
+
+        addingStudentsThirdPlayer.put(Clan.PIXIES, 3);
+        addingStudentsThirdPlayer.put(Clan.UNICORNS, 0);
+        addingStudentsThirdPlayer.put(Clan.TOADS, 0);
+        addingStudentsThirdPlayer.put(Clan.DRAGONS, 5);
+        addingStudentsThirdPlayer.put(Clan.FAIRIES, 0);
+
         players[0].getChamber().addStudents(addingStudentsFirstPlayer);
         players[1].getChamber().addStudents(addingStudentsSecondPlayer);
         players[2].getChamber().addStudents(addingStudentsThirdPlayer);

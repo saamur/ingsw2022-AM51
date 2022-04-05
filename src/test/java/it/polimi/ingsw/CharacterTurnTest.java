@@ -10,6 +10,10 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class CharacterTurnTest {
@@ -42,16 +46,41 @@ public abstract class CharacterTurnTest {
 
     protected void professorsInitialization() {
 
+        //FIXME come faccio con le mappe?
         int[][] students = { {0, 2, 5, 1, 0},
                              {0, 2, 7, 1, 2},
                              {0, 1, 5, 8, 2} };
+
+        Map<Clan, Integer> studentsPlayer0 = new EnumMap<>(Clan.class); //FIXME it is not elegant but it would be much longer using not using arrays
+        for(int i=0; i<Clan.values().length; i++)
+            studentsPlayer0.put(Clan.values()[i], students[0][i]);
+
+        Map<Clan, Integer> studentsPlayer1 = new EnumMap<>(Clan.class);
+        for(int i=0; i<Clan.values().length; i++)
+            studentsPlayer0.put(Clan.values()[i], students[1][i]);
+
+        Map<Clan, Integer> studentsPlayer2 = new EnumMap<>(Clan.class);
+        for(int i=0; i<Clan.values().length; i++)
+            studentsPlayer0.put(Clan.values()[i], students[2][i]);
 
         boolean[][] initialProfessors = { {false, true, false, false, false},
                                           {false, false, true, true, false},
                                           {false, false, false, false, true} };
 
+        Map<Clan, Boolean> professorsPlayer0 = new EnumMap<>(Clan.class); //FIXME it is not elegant but it would be much longer using not using arrays
+        for(int i=0; i<Clan.values().length; i++)
+            professorsPlayer0.put(Clan.values()[i], initialProfessors[0][i]);
+
+        Map<Clan, Boolean> professorsPlayer1 = new EnumMap<>(Clan.class);
+        for(int i=0; i<Clan.values().length; i++)
+            professorsPlayer0.put(Clan.values()[i], initialProfessors[1][i]);
+
+        Map<Clan, Boolean> professorsPlayer2 = new EnumMap<>(Clan.class);
+        for(int i=0; i<Clan.values().length; i++)
+            professorsPlayer0.put(Clan.values()[i], initialProfessors[2][i]);
+
         for (int i = 0; i < players.length; i++)
-            players[i].getChamber().addStudents(students[i]);
+            players[i].getChamber().addStudents(students[i]);//FIXME
 
         for (int i = 0; i < players.length; i++)
             for (int j = 0; j < Clan.values().length; j++)

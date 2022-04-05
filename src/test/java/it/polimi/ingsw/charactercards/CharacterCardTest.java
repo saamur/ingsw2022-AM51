@@ -1,4 +1,4 @@
-package it.polimi.ingsw.charactercards.idea;
+package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.charactercards.CharacterCard;
@@ -10,9 +10,13 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+//TODO have added test to general charactercard package
 public abstract class CharacterCardTest {
     CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     Bag bag;
@@ -100,7 +104,7 @@ public abstract class CharacterCardTest {
     public void applyTest2(){
         Game game = new Game(3, "Giu", true);
         StudentContainer destination = new Island();
-        int[] students1 = new int[Clan.values().length];
+        Map<Clan, Integer> students1 = new EnumMap<Clan, Integer>(Clan.class);
         assertFalse(characterCard.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null
     }
 

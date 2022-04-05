@@ -10,12 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
-import static it.polimi.ingsw.Clan.DRAGONS;
+import static it.polimi.ingsw.Clan.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InfluenceCharacterCardTest {
+//TODO this cannot extend well CharacterCardTest
+public class InfluenceCharacterCardTest{
     Bag bag;
     CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     List<CharacterCard> influenceCards = new ArrayList<>();
@@ -126,12 +129,18 @@ public class InfluenceCharacterCardTest {
     public void influenceTestMushroomPicker(){
         Player[] players = createPlayers();
         IslandManager islandManager = new IslandManager();
-        int[] studentsOnIsland = islandManager.getIsland(3).getStudents();
-        int[] studentsToBeAdded = {0, 2, 3, 5, 2};
+        Map<Clan, Integer> studentsOnIsland = islandManager.getIsland(3).getStudents();
+        Map<Clan, Integer> studentsToBeAdded = new EnumMap<Clan, Integer>(Clan.class);
+        studentsToBeAdded.put(PIXIES, 0);
+        studentsToBeAdded.put(UNICORNS, 2);
+        studentsToBeAdded.put(TOADS, 3);
+        studentsToBeAdded.put(DRAGONS, 5);
+        studentsToBeAdded.put(FAIRIES, 2);
+
         islandManager.getIsland(3).addStudents(studentsToBeAdded);
         players[0].getChamber().setProfessor(DRAGONS, true);
-        int[] expectedResult = {(-1) * (studentsOnIsland[3] + studentsToBeAdded[3]), 0};
-        int [] result = influenceCards.get(3).effectInfluence(players, players[0], islandManager.getIsland(3), DRAGONS);
+        int[] expectedResult = {(-1) * (studentsOnIsland.get(DRAGONS) + studentsToBeAdded.get(DRAGONS)), 0};
+        int [] result = influenceCards.get(3).effectInfluence(players, players[0], islandManager.getIsland(3), DRAGONS); //TODO HashMap for Players too?
         for(int i=0; i<players.length; i++)
             assertEquals(expectedResult[i], result[i]);
     }
@@ -199,8 +208,21 @@ public class InfluenceCharacterCardTest {
     public void applyTest2(){
         Game game = new Game(2, "Fede", true);
         StudentContainer island = game.getIslandManager().getIsland(1);
-        int[] students1 = {0, 2, 3, 4, 1};
-        int[] students2 = {2, 3, 5, 7, 6};
+
+        Map<Clan, Integer> students1 = new EnumMap<Clan, Integer>(Clan.class);
+        students1.put(FAIRIES, 0);
+        students1.put(UNICORNS, 2);
+        students1.put(TOADS, 3);
+        students1.put(DRAGONS, 4);
+        students1.put(FAIRIES, 1);
+
+        Map<Clan, Integer> students2 = new EnumMap<Clan, Integer>(Clan.class);
+        students2.put(FAIRIES, 2);
+        students2.put(UNICORNS, 2);
+        students2.put(TOADS, 5);
+        students2.put(DRAGONS, 7);
+        students2.put(FAIRIES, 6);
+
         for(CharacterCard cc: influenceCards) {
             assertFalse(cc.applyEffect(game, island, null, null));
             assertFalse(cc.applyEffect(game, island, students1, students2));

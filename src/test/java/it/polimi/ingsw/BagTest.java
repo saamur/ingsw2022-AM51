@@ -5,6 +5,10 @@ package it.polimi.ingsw;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.channels.Pipe;
+import java.util.EnumMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -25,12 +29,9 @@ public class BagTest {
     @Test
     public void multipleDrawTestRemaining(){
         b.draw(4);
-        int[] students = b.getStudents();
-        int sum = 0;
-        for(int i=0; i<5; i++){
-            sum += students[i];
-        }
-
+        Map<Clan, Integer> students = new EnumMap<Clan, Integer>(Clan.class);
+        students = b.getStudents();
+        int sum = students.values().stream().mapToInt(a -> a).sum();
         assertEquals(116, sum);
     }
 
@@ -39,11 +40,8 @@ public class BagTest {
      */
     @Test
     public void multipleDrawTestReturn(){
-        int[] drawn = b.draw(4);
-        int sum = 0;
-        for(int i=0; i<5; i++){
-            sum += drawn[i];
-        }
+        Map<Clan, Integer> drawn = b.draw(4);
+        int sum = drawn.values().stream().mapToInt(a -> a).sum();
 
         assertEquals(4, sum);
     }
@@ -64,18 +62,19 @@ public class BagTest {
     public void singleDrawTestRemaining(){
         //int[] initialNumberStudents = b.getStudents();
         b.draw();
-        int[] remaining = b.getStudents();
-        int sum = 0;
-        for(int i=0; i<5; i++){
-            sum += remaining[i];
-        }
+        Map<Clan, Integer> remaining = b.getStudents();
+        int sum = remaining.values().stream().mapToInt(a -> a).sum();
         assertEquals(119, sum);  //initialNumberStudents, remaining
-        int[] studentsToBeRemoved = {0, 1, 0, 3, 4};
-        int[] studentsRemoved = b.removeStudents(studentsToBeRemoved);
-        for(int i=0; i<5; i++){
-            sum -= studentsRemoved[i];
-        }
-        assertEquals(111, sum);
+        Map<Clan, Integer> studentsToBeRemoved = new EnumMap<Clan, Integer>(Clan.class);
+        studentsToBeRemoved.put(Clan.PIXIES, 0);
+        studentsToBeRemoved.put(Clan.UNICORNS, 1);
+        studentsToBeRemoved.put(Clan.TOADS, 0);
+        studentsToBeRemoved.put(Clan.DRAGONS, 3);
+        studentsToBeRemoved.put(Clan.FAIRIES, 4);
+        Map<Clan, Integer> studentsRemoved = b.removeStudents(studentsToBeRemoved);
+        int removed = studentsRemoved.values().stream().mapToInt(a -> a).sum();
+
+        assertEquals(111, sum-removed);
     }
 
     /**
@@ -84,11 +83,8 @@ public class BagTest {
      */
     @Test
     public void drawMoreTest(){
-        int[] students = b.draw(130);
-        int result = 0;
-        for(int i=0; i<5; i++){
-            result += students[i];
-        }
+        Map<Clan, Integer> students = b.draw(130);
+        int result = students.values().stream().mapToInt(a -> a).sum();
         assertEquals(120, result);
         assertTrue(b.isEmpty());
     }
@@ -111,11 +107,8 @@ public class BagTest {
         b.draw(130);
         b.isEmpty();
         Clan result = b.draw();
-        int[] students = b.draw(5);
-        int zero = 0;
-        for(int i=0; i<5; i++){
-            zero += students[i];
-        }
+        Map<Clan, Integer> students = b.draw(5);
+        int zero = students.values().stream().mapToInt(a -> a).sum();
         assertNull(result);
         assertEquals(0, zero);
     }
@@ -127,15 +120,18 @@ public class BagTest {
      */
     @Test
     public void addStudentsTest(){
-        int[] drawStudents = b.draw(6);
-        int[] result = b.addStudents(drawStudents);
+        Map<Clan, Integer> drawStudents = b.draw(6);
+        Map<Clan, Integer> result = b.addStudents(drawStudents);
         for(int i=0; i<5; i++)
-            assertEquals(result[i], drawStudents[i]);
+            assertEquals(Clan.values()[i], drawStudents.get(Clan.values()[i]));
 
-        int[] filledBag = {24, 24, 24, 24, 24};
-        int[] actualBag = b.getStudents();
+        Map<Clan, Integer> filledBag = new EnumMap<Clan, Integer>(Clan.class);
+        for(int i=0; i<5; i++){
+            filledBag.put(Clan.values()[i], 24);
+        }
+        Map<Clan, Integer> actualBag = b.getStudents();
         for(int i=0; i<5; i++)
-            assertEquals(filledBag[i], actualBag[i]);
+            assertEquals(filledBag.get(Clan.values()[i]), actualBag.get(Clan.values()[i]));
     }
 
 

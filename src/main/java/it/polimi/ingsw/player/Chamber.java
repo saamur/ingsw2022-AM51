@@ -1,10 +1,8 @@
 package it.polimi.ingsw.player;
 
-import it.polimi.ingsw.Bag;
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.StudentContainer;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 

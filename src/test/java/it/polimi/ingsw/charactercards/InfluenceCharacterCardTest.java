@@ -210,14 +210,14 @@ public class InfluenceCharacterCardTest{
         StudentContainer island = game.getIslandManager().getIsland(1);
 
         Map<Clan, Integer> students1 = new EnumMap<Clan, Integer>(Clan.class);
-        students1.put(FAIRIES, 0);
+        students1.put(PIXIES, 0);
         students1.put(UNICORNS, 2);
         students1.put(TOADS, 3);
         students1.put(DRAGONS, 4);
         students1.put(FAIRIES, 1);
 
         Map<Clan, Integer> students2 = new EnumMap<Clan, Integer>(Clan.class);
-        students2.put(FAIRIES, 2);
+        students2.put(PIXIES, 2);
         students2.put(UNICORNS, 2);
         students2.put(TOADS, 5);
         students2.put(DRAGONS, 7);

@@ -60,7 +60,7 @@ public class Bag implements StudentContainer {
     }
 
     /**
-     * mothod draw selects random students in the Bag and returns them
+     * method draw selects random students in the Bag and returns them
      * @param n the number of random students to draw
      * @return  the random students that have been drawn
      */

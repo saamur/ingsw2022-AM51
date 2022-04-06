@@ -46,7 +46,7 @@ public class Bag implements StudentContainer {
 
         for (Clan c : Clan.values()) {
 
-            sum = students.get(c);
+            sum += students.get(c);
 
             if (rand < sum) {
                 students.put(c, students.get(c) - 1);

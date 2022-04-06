@@ -20,21 +20,21 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
-    private static final int[] NUM_INITIAL_STUDENTS;
-    private static final StudentMover[] STUDENT_MOVERS;
+    private static final Map<CharacterID, Integer> NUM_INITIAL_STUDENTS;
+    private static final Map<CharacterID, StudentMover> STUDENT_MOVERS;
 
     static {
-        NUM_INITIAL_STUDENTS = new int[CharacterID.values().length];
-        NUM_INITIAL_STUDENTS[CharacterID.MONK.ordinal()] = 4;
-        NUM_INITIAL_STUDENTS[CharacterID.JESTER.ordinal()] = 6;
-        NUM_INITIAL_STUDENTS[CharacterID.MINISTREL.ordinal()] = 0;
-        NUM_INITIAL_STUDENTS[CharacterID.PRINCESS.ordinal()] = 4;
-        NUM_INITIAL_STUDENTS[CharacterID.THIEF.ordinal()] = 0;
+        NUM_INITIAL_STUDENTS = new EnumMap<>(CharacterID.class);
+        NUM_INITIAL_STUDENTS.put(CharacterID.MONK, 4);
+        NUM_INITIAL_STUDENTS.put(CharacterID.JESTER, 6);
+        NUM_INITIAL_STUDENTS.put(CharacterID.MINISTREL, 0);
+        NUM_INITIAL_STUDENTS.put(CharacterID.PRINCESS, 4);
+        NUM_INITIAL_STUDENTS.put(CharacterID.THIEF, 0);
     }
 
     static {
-        STUDENT_MOVERS = new StudentMover[CharacterID.values().length];
-        STUDENT_MOVERS[CharacterID.MONK.ordinal()] = (g, s, d, s1, s2) -> {
+        STUDENT_MOVERS = new EnumMap<>(CharacterID.class);
+        STUDENT_MOVERS.put(CharacterID.MONK, (g, s, d, s1, s2) -> {
             if (s1.values().stream().mapToInt(i -> i).sum() != 1)
                 return false;
             Map<Clan, Integer> m = s.removeStudents(s1);
@@ -43,8 +43,8 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             d.addStudents(s1);
             s.addStudents(g.getBag().draw(1));
             return true;
-        };
-        STUDENT_MOVERS[CharacterID.JESTER.ordinal()] = (g, s, d, s1, s2) -> {
+        });
+        STUDENT_MOVERS.put(CharacterID.JESTER, (g, s, d, s1, s2) -> {
             d = g.getCurrPlayer().getHall();
             if (s1.values().stream().mapToInt(i -> i).sum() > 3)
                 return false;
@@ -60,8 +60,8 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             d.addStudents(s1);
             s.addStudents(s2);
             return true;
-        };
-        STUDENT_MOVERS[CharacterID.MINISTREL.ordinal()] = (g, s, d, s1, s2) -> {
+        });
+        STUDENT_MOVERS.put(CharacterID.MINISTREL, (g, s, d, s1, s2) -> {
             s = g.getCurrPlayer().getChamber();
             d = g.getCurrPlayer().getHall();
             if (s1.values().stream().mapToInt(i -> i).sum() > 2)
@@ -78,8 +78,8 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             d.addStudents(s1);
             s.addStudents(s2);
             return true;
-        };
-        STUDENT_MOVERS[CharacterID.PRINCESS.ordinal()] = (g, s, d, s1, s2) -> {
+        });
+        STUDENT_MOVERS.put(CharacterID.PRINCESS, (g, s, d, s1, s2) -> {
             d = g.getCurrPlayer().getChamber();
             if (s1.values().stream().mapToInt(i -> i).sum() != 1)
                 return false;
@@ -93,8 +93,8 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             }
             s.addStudents(g.getBag().draw(1));
             return true;
-        };
-        STUDENT_MOVERS[CharacterID.THIEF.ordinal()] = (g, s, d, s1, s2) -> {
+        });
+        STUDENT_MOVERS.put(CharacterID.THIEF, (g, s, d, s1, s2) -> {
             if (g.getTurn().getCharacterClan() == null)
                 return false;
             Map<Clan, Integer> m = new EnumMap<>(Clan.class);
@@ -103,21 +103,19 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             for (Player p : g.getPlayers())
                 g.getBag().addStudents(p.getChamber().removeStudents(m));
             return true;
-        };
+        });
     }
 
     private final Map<Clan, Integer> students;
 
     public StudentMoverCharacterCard (CharacterID characterID, Bag bag) {
         super(characterID);
-        students = bag.draw(NUM_INITIAL_STUDENTS[characterID.ordinal()]);
+        students = bag.draw(NUM_INITIAL_STUDENTS.get(characterID));
     }
 
     @Override
     public boolean applyEffect(Game game, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
-
-        return STUDENT_MOVERS[getCharacterID().ordinal()].move(game, this, destination, students1, students2);
-
+        return STUDENT_MOVERS.get(getCharacterID()).move(game, this, destination, students1, students2);
     }
 
     @Override

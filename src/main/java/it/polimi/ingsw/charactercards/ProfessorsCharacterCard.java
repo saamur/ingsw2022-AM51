@@ -1,9 +1,10 @@
 package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * ProfessorsCharacterCard class models the character cards
@@ -16,13 +17,13 @@ public class ProfessorsCharacterCard extends CharacterCard {
         Player calculatePlayerProfessor (Player[] players, Player currPlayer, Clan clan);
     }
 
-    private static final PlayerProfessor[] PLAYER_PROFESSORS;
+    private static final Map<CharacterID, PlayerProfessor> PLAYER_PROFESSORS;
 
     static {
 
-        PLAYER_PROFESSORS = new PlayerProfessor[CharacterID.values().length];
+        PLAYER_PROFESSORS = new EnumMap<>(CharacterID.class);
 
-        PLAYER_PROFESSORS[CharacterID.FARMER.ordinal()] = (players, currPlayer, clan) -> {
+        PLAYER_PROFESSORS.put(CharacterID.FARMER, (players, currPlayer, clan) -> {
             int[] clanStud = new int[players.length];
             for (int i = 0; i < clanStud.length; i++)
                 clanStud[i] = players[i].getChamber().getNumStudents(clan);
@@ -45,7 +46,7 @@ public class ProfessorsCharacterCard extends CharacterCard {
             if (unique)
                 return players[posMax];
             return null;
-        };
+        });
 
     }
 
@@ -55,7 +56,7 @@ public class ProfessorsCharacterCard extends CharacterCard {
 
     @Override
     public Player effectPlayerProfessor(Player[] players, Player currPlayer, Clan clan) {
-        return PLAYER_PROFESSORS[getCharacterID().ordinal()].calculatePlayerProfessor(players, currPlayer, clan);
+        return PLAYER_PROFESSORS.get(getCharacterID()).calculatePlayerProfessor(players, currPlayer, clan);
     }
 
     @Override

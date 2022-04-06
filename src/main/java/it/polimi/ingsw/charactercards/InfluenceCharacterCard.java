@@ -2,8 +2,10 @@ package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * InfluenceCharacterCard class models the character cards
@@ -20,52 +22,52 @@ public class InfluenceCharacterCard extends CharacterCard {
         boolean applyEffect(Game game, Island island);
     }
 
-    private static final DeltaInfluence[] DELTA_INFLUENCES;
-    private static final Effect[] EFFECTS;
+    private static final Map<CharacterID, DeltaInfluence> DELTA_INFLUENCES;
+    private static final Map<CharacterID, Effect> EFFECTS;
 
     static {
 
-        DELTA_INFLUENCES = new DeltaInfluence[CharacterID.values().length];
+        DELTA_INFLUENCES = new EnumMap<>(CharacterID.class);
 
-        DELTA_INFLUENCES[CharacterID.HERALD.ordinal()] = (players, currPlayer, island, clan) -> new int[players.length];
+        DELTA_INFLUENCES.put(CharacterID.HERALD,  (players, currPlayer, island, clan) -> new int[players.length] );
 
-        DELTA_INFLUENCES[CharacterID.CENTAUR.ordinal()] = (players, currPlayer, island, clan) -> {
-            int [] delta = new int[players.length];
+        DELTA_INFLUENCES.put(CharacterID.CENTAUR,  (players, currPlayer, island, clan) -> {
+            int[] delta = new int[players.length];
             for (int i = 0; i < players.length; i++)
                 if (players[i] == island.getControllingPlayer())
                     delta[i] = (-1) * island.getNumberOfTowers();
             return delta;
-        };
+        });
 
-        DELTA_INFLUENCES[CharacterID.KNIGHT.ordinal()] = (players, currPlayer, island, clan) -> {
-            int [] delta = new int[players.length];
+        DELTA_INFLUENCES.put(CharacterID.KNIGHT,  (players, currPlayer, island, clan) -> {
+            int[] delta = new int[players.length];
             for (int i = 0; i < players.length; i++)
                 if (players[i] == currPlayer)
                     delta[i] = 2;
             return delta;
-        };
+        });
 
-        DELTA_INFLUENCES[CharacterID.MUSHROOMPICKER.ordinal()] = (players, currPlayer, island, clan) -> {
-            int [] delta = new int[players.length];
+        DELTA_INFLUENCES.put(CharacterID.MUSHROOMPICKER,  (players, currPlayer, island, clan) -> {
+            int[] delta = new int[players.length];
             for (int i = 0; i < players.length; i++)
                 if (players[i].getChamber().hasProfessor(clan))
                     delta[i] = (-1) * island.getStudents().get(clan);
             return delta;
-        };
+        });
 
     }
 
     static {
 
-        EFFECTS = new Effect[CharacterID.values().length];
+        EFFECTS = new EnumMap<>(CharacterID.class);
 
-        EFFECTS[CharacterID.HERALD.ordinal()] = (game, island) -> {
+        EFFECTS.put(CharacterID.HERALD, (game, island) -> {
             game.checkInfluence(island);
             return true;
-        };
-        EFFECTS[CharacterID.CENTAUR.ordinal()] = (game, island) -> true;
-        EFFECTS[CharacterID.KNIGHT.ordinal()] = (game, island) -> true;
-        EFFECTS[CharacterID.MUSHROOMPICKER.ordinal()] = (game, island) -> true;
+        });
+        EFFECTS.put(CharacterID.CENTAUR, (game, island) -> false);
+        EFFECTS.put(CharacterID.KNIGHT, (game, island) -> false);
+        EFFECTS.put(CharacterID.MUSHROOMPICKER, (game, island) -> false);
 
     }
 
@@ -75,12 +77,12 @@ public class InfluenceCharacterCard extends CharacterCard {
 
     @Override
     public int[] effectInfluence(Player[] players, Player currPlayer, Island island, Clan clan) {
-        return DELTA_INFLUENCES[getCharacterID().ordinal()].calculateDeltaInfluence(players, currPlayer, island, clan);
+        return DELTA_INFLUENCES.get(getCharacterID()).calculateDeltaInfluence(players, currPlayer, island, clan);
     }
 
     @Override
     public boolean applyEffect(Game game, Island island) {
-        return EFFECTS[getCharacterID().ordinal()].applyEffect(game, island);
+        return EFFECTS.get(getCharacterID()).applyEffect(game, island);
     }
 
 }

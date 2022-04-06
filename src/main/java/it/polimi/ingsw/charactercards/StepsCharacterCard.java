@@ -1,5 +1,8 @@
 package it.polimi.ingsw.charactercards;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
  * StepsCharacterCard class models the character cards
  * that have an impact on the calculus of the maximum number of steps that Mother Nature can take
@@ -7,14 +10,11 @@ package it.polimi.ingsw.charactercards;
  */
 public class StepsCharacterCard extends CharacterCard {
 
-    private final static int[] ADDITIONAL_STEPS;
+    private final static Map<CharacterID, Integer> ADDITIONAL_STEPS;
 
     static {
-
-        ADDITIONAL_STEPS = new int[CharacterID.values().length];
-
-        ADDITIONAL_STEPS[CharacterID.POSTMAN.ordinal()] = 2;
-
+        ADDITIONAL_STEPS = new EnumMap<>(CharacterID.class);
+        ADDITIONAL_STEPS.put(CharacterID.POSTMAN, 2);
     }
 
     public StepsCharacterCard(CharacterID characterID) {
@@ -23,7 +23,7 @@ public class StepsCharacterCard extends CharacterCard {
 
     @Override
     public int effectStepsMotherNature() {
-        return ADDITIONAL_STEPS[getCharacterID().ordinal()];
+        return ADDITIONAL_STEPS.get(getCharacterID());
     }
 
 }

@@ -6,6 +6,9 @@ import it.polimi.ingsw.islands.Island;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IslandTest {
@@ -22,10 +25,16 @@ public class IslandTest {
      */
     @Test
     public void testAddStudents() {
-        int[] addingStudents = {1, 2, 3, 4, 0};
-        int[] addedStudents = island.addStudents(addingStudents);
-        for (int i = 0; i < addedStudents.length; i++) {
-            assertEquals(addingStudents[i], addedStudents[i]);
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 0);
+
+        Map<Clan, Integer> addedStudents = island.addStudents(addingStudents);
+        for (int i = 0; i < Clan.values().length; i++) {
+            assertEquals(addingStudents.get(Clan.values()[i]), addedStudents.get(Clan.values()[i]));
         }
     }
 
@@ -36,17 +45,39 @@ public class IslandTest {
      */
     @Test
     public void testRemoveStudent() {
-        int[] addingStudents = {3, 2, 4, 5, 6};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 4);
+        addingStudents.put(Clan.DRAGONS, 5);
+        addingStudents.put(Clan.FAIRIES, 6);
+
         island.addStudents(addingStudents);
-        int[] remove = {1, 1, 1, 0, 0};
-        int[] removedStudents = island.removeStudents(remove);
-        for (int i = 0; i < removedStudents.length; i++) {
-            assertEquals(remove[i], removedStudents[i]);
+
+        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
+        remove.put(Clan.PIXIES, 1);
+        remove.put(Clan.UNICORNS, 1);
+        remove.put(Clan.TOADS, 1);
+        remove.put(Clan.DRAGONS, 0);
+        remove.put(Clan.FAIRIES, 0);
+
+        Map<Clan, Integer> removedStudents = island.removeStudents(remove);
+
+        for (int i = 0; i < Clan.values().length; i++) {
+            assertEquals(remove.get(Clan.values()[i]), removedStudents.get(Clan.values()[i]));
         }
-        int[] students = island.getStudents();
-        int[] expectedStudents = {2, 1, 3, 5, 6};
-        for (int j = 0; j < removedStudents.length; j++) {
-            assertEquals(expectedStudents[j], students[j]);
+
+        Map<Clan, Integer> students = island.getStudents();
+
+        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
+        expectedStudents.put(Clan.PIXIES, 2);
+        expectedStudents.put(Clan.UNICORNS, 1);
+        expectedStudents.put(Clan.TOADS, 3);
+        expectedStudents.put(Clan.DRAGONS, 5);
+        expectedStudents.put(Clan.FAIRIES, 6);
+
+        for (int j = 0; j < Clan.values().length; j++) {
+            assertEquals(expectedStudents.get(Clan.values()[j]), students.get(Clan.values()[j]));
         }
     }
 
@@ -58,16 +89,32 @@ public class IslandTest {
      */
     @Test
     public void removeTooMuchStudents() {
-        int[] addingStudents = {3, 2, 4, 5, 6};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 4);
+        addingStudents.put(Clan.DRAGONS, 5);
+        addingStudents.put(Clan.FAIRIES, 6);
+
         island.addStudents(addingStudents);
-        int[] remove = {4, 5, 6, 7, 8};
-        int[] removedStudents = island.removeStudents(remove);
-        for (int j = 0; j < addingStudents.length; j++) {
-            assertEquals(addingStudents[j], removedStudents[j]);
+
+        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
+        remove.put(Clan.PIXIES, 4);
+        remove.put(Clan.UNICORNS, 5);
+        remove.put(Clan.TOADS, 6);
+        remove.put(Clan.DRAGONS, 7);
+        remove.put(Clan.FAIRIES, 8);
+
+        Map<Clan, Integer> removedStudents = island.removeStudents(remove);
+
+        for (int j = 0; j < Clan.values().length; j++) {
+            assertEquals(addingStudents.get(Clan.values()[j]), removedStudents.get(Clan.values()[j]));
         }
-        int[] students = island.getStudents();
-        for (int j = 0; j < addingStudents.length; j++) {
-            assertEquals(0, students[j]);
+
+        Map<Clan, Integer> students = island.getStudents();
+
+        for (int j = 0; j < Clan.values().length; j++) {
+            assertEquals(0, students.get(Clan.values()[j]));
         }
     }
 
@@ -77,11 +124,18 @@ public class IslandTest {
 
     @Test
     public void testAddStudent() {
-        int[] addingStudents = {3, 2, 4, 5, 0};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 4);
+        addingStudents.put(Clan.DRAGONS, 5);
+        addingStudents.put(Clan.FAIRIES, 0);
+
         island.addStudents(addingStudents);
         island.addStudent(Clan.DRAGONS);
-        int[] students = island.getStudents();
-        assertEquals(6, students[3]);
+
+        Map<Clan, Integer> students = island.getStudents();
+        assertEquals(6, students.get(Clan.values()[3]));
     }
 
     /**
@@ -125,17 +179,37 @@ public class IslandTest {
     public void testMerge(){
         Island firstIsland = new Island();
         Island secondIsland = new Island();
-        int[] addingStudentsFirstIsland = {1, 2, 3, 4, 5};
-        int[] addingStudentsSecondIsland = {5, 4, 3, 2, 1};
+
+        Map<Clan, Integer> addingStudentsFirstIsland = new EnumMap<>(Clan.class);
+        addingStudentsFirstIsland.put(Clan.PIXIES, 1);
+        addingStudentsFirstIsland.put(Clan.UNICORNS, 2);
+        addingStudentsFirstIsland.put(Clan.TOADS, 3);
+        addingStudentsFirstIsland.put(Clan.DRAGONS, 4);
+        addingStudentsFirstIsland.put(Clan.FAIRIES, 5);
+
+
+        Map<Clan, Integer> addingStudentsSecondIsland = new EnumMap<>(Clan.class);
+        addingStudentsSecondIsland.put(Clan.PIXIES, 5);
+        addingStudentsSecondIsland.put(Clan.UNICORNS, 4);
+        addingStudentsSecondIsland.put(Clan.TOADS, 3);
+        addingStudentsSecondIsland.put(Clan.DRAGONS, 2);
+        addingStudentsSecondIsland.put(Clan.FAIRIES, 1);
+
         firstIsland.addStudents(addingStudentsFirstIsland);
         secondIsland.addStudents(addingStudentsSecondIsland);
         firstIsland.addProhibitionCard();
         firstIsland.merge(secondIsland);
-        int[] students = firstIsland.getStudents();
-        int[] studentsExpected = {6, 6, 6, 6, 6};
+        Map<Clan, Integer> students = firstIsland.getStudents();
+
+        Map<Clan, Integer> studentsExpected = new EnumMap<>(Clan.class);
+        studentsExpected.put(Clan.PIXIES, 6);
+        studentsExpected.put(Clan.UNICORNS, 6);
+        studentsExpected.put(Clan.TOADS, 6);
+        studentsExpected.put(Clan.DRAGONS, 6);
+        studentsExpected.put(Clan.FAIRIES, 6);
 
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(studentsExpected[i], students[i]);
+            assertEquals(studentsExpected.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
 
         assertEquals(2, firstIsland.getNumberOfIslands());

@@ -4,6 +4,9 @@ import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.player.Hall;
 import org.junit.jupiter.api.Test;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HallTest {
@@ -13,13 +16,20 @@ public class HallTest {
 
     @Test
     public void testAddStudents(){
-        int[] addingStudents = {1, 2, 3, 4, 5};
-        Hall hall = new Hall(new int[Clan.values().length]);
-        int[] addedStudents = hall.addStudents(addingStudents);
-        int[] students = hall.getStudents();
+
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 5);
+
+        Hall hall = new Hall(new EnumMap<>(Clan.class));
+        Map<Clan, Integer> addedStudents = hall.addStudents(addingStudents);
+        Map<Clan, Integer> students = hall.getStudents();
         for(int i = 0; i< Clan.values().length; i++){
-            assertEquals(addingStudents[i], addedStudents[i]);
-            assertEquals(addingStudents[i], students[i]);
+            assertEquals(addingStudents.get(Clan.values()[i]), addedStudents.get(Clan.values()[i]));
+            assertEquals(addingStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
     }
 
@@ -30,15 +40,35 @@ public class HallTest {
 
     @Test
     public void testRemoveStudents(){
-        int[] addingStudents = {1, 2, 3, 4, 5};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 5);
+
         Hall hall = new Hall(addingStudents);
-        int[] remove = {0, 1, 2, 2, 1};
-        int[] removed = hall.removeStudents(remove);
-        int[] students = hall.getStudents();
-        int[] expectedStudents = {1, 1, 1, 2, 4};
+
+        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
+        remove.put(Clan.PIXIES, 0);
+        remove.put(Clan.UNICORNS, 1);
+        remove.put(Clan.TOADS, 2);
+        remove.put(Clan.DRAGONS, 2);
+        remove.put(Clan.FAIRIES, 1);
+
+        Map<Clan, Integer> removed = hall.removeStudents(remove);
+        Map<Clan, Integer> students = hall.getStudents();
+        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
+
+        expectedStudents.put(Clan.PIXIES, 1);
+        expectedStudents.put(Clan.UNICORNS, 1);
+        expectedStudents.put(Clan.TOADS, 1);
+        expectedStudents.put(Clan.DRAGONS, 2);
+        expectedStudents.put(Clan.FAIRIES, 4);
+
         for(int i = 0; i< Clan.values().length; i++){
-            assertEquals(remove[i], removed[i]);
-            assertEquals(expectedStudents[i], students[i]);
+            assertEquals(remove.get(Clan.values()[i]), removed.get(Clan.values()[i]));
+            assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
     }
 
@@ -52,16 +82,44 @@ public class HallTest {
 
     @Test
     public void removeTooManyStudents(){
-        int[] addingStudents = {1, 2, 3, 4, 5};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 5);
+
         Hall hall = new Hall(addingStudents);
-        int[] remove = {1, 3, 10, 5, 1};
-        int[] removed = hall.removeStudents(remove);
-        int[] expectedRemoved = {1, 2, 3, 4, 1};
-        int[] students = hall.getStudents();
-        int[] expectedStudents = {0, 0, 0, 0, 4};
+
+        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
+        remove.put(Clan.PIXIES, 1);
+        remove.put(Clan.UNICORNS, 3);
+        remove.put(Clan.TOADS, 10);
+        remove.put(Clan.DRAGONS, 5);
+        remove.put(Clan.FAIRIES, 1);
+
+        Map<Clan, Integer> removed = hall.removeStudents(remove);
+
+        Map<Clan, Integer> expectedRemoved = new EnumMap<>(Clan.class);
+        expectedRemoved.put(Clan.PIXIES, 1);
+        expectedRemoved.put(Clan.UNICORNS, 2);
+        expectedRemoved.put(Clan.TOADS, 3);
+        expectedRemoved.put(Clan.DRAGONS, 4);
+        expectedRemoved.put(Clan.FAIRIES, 1);
+
+        Map<Clan, Integer> students = hall.getStudents();
+
+        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
+
+        expectedStudents.put(Clan.PIXIES, 0);
+        expectedStudents.put(Clan.UNICORNS, 0);
+        expectedStudents.put(Clan.TOADS, 0);
+        expectedStudents.put(Clan.DRAGONS, 0);
+        expectedStudents.put(Clan.FAIRIES, 4);
+
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(expectedRemoved[i], removed[i]);
-            assertEquals(expectedStudents[i], students[i]);
+            assertEquals(expectedRemoved.get(Clan.values()[i]), removed.get(Clan.values()[i]) );
+            assertEquals(expectedStudents.get(Clan.values()[i]) , students.get(Clan.values()[i]) );
         }
     }
 
@@ -72,14 +130,28 @@ public class HallTest {
 
     @Test
     public void testAddStudent(){
-        int[] addingStudents = {1, 2, 3, 4, 5};
+
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 5);
+
         Hall hall = new Hall(addingStudents);
         boolean added = hall.addStudent(Clan.DRAGONS);
-        int[] expectedStudents = {1, 2, 3, 5, 5};
-        int[] students = hall.getStudents();
+
+        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
+        expectedStudents.put(Clan.PIXIES, 1);
+        expectedStudents.put(Clan.UNICORNS, 2);
+        expectedStudents.put(Clan.TOADS, 3);
+        expectedStudents.put(Clan.DRAGONS, 5);
+        expectedStudents.put(Clan.FAIRIES, 5);
+
+        Map<Clan, Integer> students = hall.getStudents();
         assertTrue(added);
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(expectedStudents[i], students[i]);
+            assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
 
     }
@@ -91,14 +163,28 @@ public class HallTest {
 
     @Test
     public void testRemoveStudent(){
-        int[] addingStudents = {1, 2, 3, 4, 5};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 5);
+
         Hall hall = new Hall(addingStudents);
         boolean removed = hall.removeStudent(Clan.DRAGONS);
-        int[] expectedStudents = {1, 2, 3, 3, 5};
-        int[] students = hall.getStudents();
+
+        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
+        expectedStudents.put(Clan.PIXIES, 1);
+        expectedStudents.put(Clan.UNICORNS, 2);
+        expectedStudents.put(Clan.TOADS, 3);
+        expectedStudents.put(Clan.DRAGONS, 3);
+        expectedStudents.put(Clan.FAIRIES, 5);
+
+        Map<Clan, Integer> students = hall.getStudents();
         assertTrue(removed);
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(expectedStudents[i], students[i]);
+            assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
 
     }
@@ -111,13 +197,20 @@ public class HallTest {
 
     @Test
     public void testRemoveNonExistingStudent(){
-        int[] addingStudents = {2, 10, 2, 0, 3};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+
+        addingStudents.put(Clan.PIXIES, 2);
+        addingStudents.put(Clan.UNICORNS, 10);
+        addingStudents.put(Clan.TOADS, 2);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 3);
+
         Hall hall = new Hall(addingStudents);
         boolean removed = hall.removeStudent(Clan.DRAGONS);
         assertFalse(removed);
-        int[] students = hall.getStudents();
+        Map<Clan, Integer> students = hall.getStudents();
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(addingStudents[i], students[i]);
+            assertEquals(addingStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
     }
 

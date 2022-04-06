@@ -9,8 +9,9 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,9 +31,28 @@ class ProfessorsCharacterCardTest {
 
 
         generalCard = creator.createCharacterCard(CharacterID.FARMER, bag);
-        int[] addingStudentsFirstPlayer = {1, 8, 2, 0, 0};
-        int[] addingStudentsSecondPlayer = {2, 8, 3, 4, 0};
-        int[] addingStudentsThirdPlayer = {3, 0, 0, 5, 0};
+        Map<Clan, Integer> addingStudentsFirstPlayer = new EnumMap<>(Clan.class);
+        Map<Clan, Integer> addingStudentsSecondPlayer = new EnumMap<>(Clan.class);
+        Map<Clan, Integer> addingStudentsThirdPlayer = new EnumMap<>(Clan.class);
+
+        addingStudentsFirstPlayer.put(Clan.PIXIES, 1); //FIXME is there a better way??
+        addingStudentsFirstPlayer.put(Clan.UNICORNS, 8);
+        addingStudentsFirstPlayer.put(Clan.TOADS, 2);
+        addingStudentsFirstPlayer.put(Clan.DRAGONS, 0);
+        addingStudentsFirstPlayer.put(Clan.FAIRIES, 0);
+
+        addingStudentsSecondPlayer.put(Clan.PIXIES, 2);
+        addingStudentsSecondPlayer.put(Clan.UNICORNS, 8);
+        addingStudentsSecondPlayer.put(Clan.TOADS, 3);
+        addingStudentsSecondPlayer.put(Clan.DRAGONS, 4);
+        addingStudentsSecondPlayer.put(Clan.FAIRIES, 0);
+
+        addingStudentsThirdPlayer.put(Clan.PIXIES, 3);
+        addingStudentsThirdPlayer.put(Clan.UNICORNS, 0);
+        addingStudentsThirdPlayer.put(Clan.TOADS, 0);
+        addingStudentsThirdPlayer.put(Clan.DRAGONS, 5);
+        addingStudentsThirdPlayer.put(Clan.FAIRIES, 0);
+
         players[0].getChamber().addStudents(addingStudentsFirstPlayer);
         players[1].getChamber().addStudents(addingStudentsSecondPlayer);
         players[2].getChamber().addStudents(addingStudentsThirdPlayer);
@@ -86,11 +106,17 @@ class ProfessorsCharacterCardTest {
         ProfessorsCharacterCard card = (ProfessorsCharacterCard)generalCard;
         turn.setActivatedCharacterCard(card);
         boolean effect = card.applyInitialEffect(turn, players);
-        boolean[] hasProfessors = players[0].getChamber().getProfessors();
+        Map<Clan, Boolean> hasProfessors = players[0].getChamber().getProfessors();
         assertTrue(effect);
-        boolean[] expectedHasProfessors = {false, true, false, false, true};
+        Map<Clan, Boolean> expectedHasProfessors = new EnumMap<>(Clan.class);
+        expectedHasProfessors.put(Clan.PIXIES, false);
+        expectedHasProfessors.put(Clan.UNICORNS, true);
+        expectedHasProfessors.put(Clan.TOADS, false);
+        expectedHasProfessors.put(Clan.DRAGONS, false);
+        expectedHasProfessors.put(Clan.FAIRIES, true);
+
         for(int i=0; i<Clan.values().length; i++){
-            assertEquals(expectedHasProfessors[i], hasProfessors[i]);
+            assertEquals(expectedHasProfessors.get(Clan.values()[i]), hasProfessors.get(Clan.values()[i]));
         }
     }
 
@@ -113,7 +139,13 @@ class ProfessorsCharacterCardTest {
     @Test
     public void testEffectInfluence(){
         Island island = new Island();
-        int[] addingStudents = {1, 2, 3, 4, 5};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 1);
+        addingStudents.put(Clan.UNICORNS, 2);
+        addingStudents.put(Clan.TOADS, 3);
+        addingStudents.put(Clan.DRAGONS, 4);
+        addingStudents.put(Clan.FAIRIES, 5);
+
         island.addStudents(addingStudents);
         ProfessorsCharacterCard card = (ProfessorsCharacterCard)generalCard;
         int[] effect = card.effectInfluence(players, players[0], island, null);

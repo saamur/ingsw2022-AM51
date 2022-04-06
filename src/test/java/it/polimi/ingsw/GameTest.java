@@ -7,9 +7,7 @@ import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -248,13 +246,13 @@ Game game;
     public void testMoveStudentToChamber() {
         setPianification();
         game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
-        int[] initialStudentsHall = game.getPlayers()[0].getHall().getStudents();
-        int[] initialStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
+        Map<Clan, Integer> initialStudentsHall = game.getPlayers()[0].getHall().getStudents();
+        Map<Clan, Integer> initialStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
         boolean moved = game.moveStudentToChamber("Giulia", Clan.PIXIES);
-        int[] finalStudentsHall = game.getPlayers()[0].getHall().getStudents();
-        int[] finalStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
-        assertEquals(initialStudentsChamber[0] + 1, finalStudentsChamber[0]);
-        assertEquals(initialStudentsHall[0] - 1, finalStudentsHall[0]);
+        Map<Clan, Integer> finalStudentsHall = game.getPlayers()[0].getHall().getStudents();
+        Map<Clan, Integer> finalStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
+        assertEquals(initialStudentsChamber.get(Clan.values()[0]) + 1, finalStudentsChamber.get(Clan.values()[0]));
+        assertEquals(initialStudentsHall.get(Clan.values()[0]) - 1, finalStudentsHall.get(Clan.values()[0]));
         assertTrue(moved);
     }
 
@@ -267,17 +265,17 @@ Game game;
     public void testWrongPlayerMoveStudentToChamber() {
         setPianification();
         game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
-        int[] initialStudentsHall = game.getPlayers()[1].getHall().getStudents();
-        int[] initialStudentsChamber = game.getPlayers()[1].getChamber().getStudents();
+        Map<Clan, Integer> initialStudentsHall = game.getPlayers()[1].getHall().getStudents();
+        Map<Clan, Integer> initialStudentsChamber = game.getPlayers()[1].getChamber().getStudents();
 
         boolean moved = game.moveStudentToChamber("Samu", Clan.PIXIES);
 
-        int[] finalStudentsHall = game.getPlayers()[1].getHall().getStudents();
-        int[] finalStudentsChamber = game.getPlayers()[1].getChamber().getStudents();
+        Map<Clan, Integer> finalStudentsHall = game.getPlayers()[1].getHall().getStudents();
+        Map<Clan, Integer> finalStudentsChamber = game.getPlayers()[1].getChamber().getStudents();
 
         assertFalse(moved);
-        assertEquals(initialStudentsChamber[0], finalStudentsChamber[0]);
-        assertEquals(initialStudentsHall[0], finalStudentsHall[0]);
+        assertEquals(initialStudentsChamber.get(Clan.values()[0]), finalStudentsChamber.get(Clan.values()[0]));
+        assertEquals(initialStudentsHall.get(Clan.values()[0]), finalStudentsHall.get(Clan.values()[0]));
     }
 
     /**
@@ -288,7 +286,7 @@ Game game;
     @Test
     public void testNotStudentsToMoveToChamber() {
         setPianification();
-        int numOfPixies = game.getPlayers()[0].getHall().getStudents()[0];
+        int numOfPixies = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
         for (int i = 0; i < numOfPixies; i++) {
             game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
         }
@@ -304,12 +302,12 @@ Game game;
     public void testMoveStudentToIsland() {
         setPianification();
         game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
-        int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
-        int initialPixiesInTheHall = game.getPlayers()[0].getHall().getStudents()[0];
+        int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
+        int initialPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
         boolean moved = game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         assertTrue(moved);
-        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
-        int finalPixiesInTheHall = game.getPlayers()[0].getHall().getStudents()[0];
+        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
+        int finalPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
         assertEquals(initialNumOfPixies + 1, finalNumOfPixies);
         assertEquals(initialPixiesInTheHall - 1, finalPixiesInTheHall);
     }
@@ -323,12 +321,12 @@ Game game;
     public void testWrongPlayerMoveStudentToIsland() {
         setPianification();
         game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
-        int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
-        int initialPixiesInTheHall = game.getPlayers()[1].getHall().getStudents()[0];
+        int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
+        int initialPixiesInTheHall = game.getPlayers()[1].getHall().getStudents().get(Clan.values()[0]);
         boolean moved = game.moveStudentToIsland("Samu", Clan.PIXIES, 1);
         assertFalse(moved);
-        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents()[0];
-        int finalPixiesInTheHall = game.getPlayers()[1].getHall().getStudents()[0];
+        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
+        int finalPixiesInTheHall = game.getPlayers()[1].getHall().getStudents().get(Clan.values()[0]);
         assertEquals(initialNumOfPixies, finalNumOfPixies);
         assertEquals(initialPixiesInTheHall, finalPixiesInTheHall);
     }
@@ -341,7 +339,7 @@ Game game;
     @Test
     public void testNotStudentsToMoveToIsland() {
         setPianification();
-        int numOfPixies = game.getPlayers()[0].getHall().getStudents()[0];
+        int numOfPixies = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
         for (int i = 0; i < numOfPixies; i++) {
             game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
         }
@@ -356,13 +354,18 @@ Game game;
     @Test
     public void testMoveMotherNature() {
         setPianification();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
-        /*TurnState turnState = game.getTurn().getTurnState();
-        assertEquals(TurnState.MOTHER_MOVING, turnState);*/
+        TurnState turnState = game.getTurn().getTurnState();
+        assertEquals(TurnState.MOTHER_MOVING, turnState);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         boolean moved = game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
@@ -380,7 +383,12 @@ Game game;
     @Test
     public void testMoveMotherNatureTooMuch() {
         setPianification();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
@@ -429,7 +437,12 @@ Game game;
         List<Player> expectedWinners = new ArrayList<>();
         expectedWinners.add(players[2]);
 
-        int[] students = {0, 0, 0, 4, 0};
+        Map<Clan, Integer> students = new EnumMap<>(Clan.class);
+        students.put(Clan.PIXIES, 0);
+        students.put(Clan.UNICORNS, 0);
+        students.put(Clan.TOADS, 0);
+        students.put(Clan.DRAGONS, 4);
+        students.put(Clan.FAIRIES, 0);
 
         islandManager.getIsland(0).addStudents(students);
         players[2].getChamber().setProfessor(Clan.DRAGONS, true);
@@ -478,7 +491,12 @@ Game game;
         expectedWinners.add(players[2]);
         expectedWinners.add(players[1]);
 
-        int[] students = {0, 0, 0, 4, 0};
+        Map<Clan, Integer> students = new EnumMap<>(Clan.class);
+        students.put(Clan.PIXIES, 0);
+        students.put(Clan.UNICORNS, 0);
+        students.put(Clan.TOADS, 0);
+        students.put(Clan.DRAGONS, 4);
+        students.put(Clan.FAIRIES, 0);
 
         islandManager.getIsland(0).addStudents(students);
         players[2].getChamber().setProfessor(Clan.DRAGONS, true);
@@ -500,7 +518,13 @@ Game game;
     @Test
     public void testChosenCloud() {
         setPianification();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
+
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
@@ -508,22 +532,21 @@ Game game;
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
-        int[] initialStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
-        int[] studentsInTheCloud = game.getCloudManager().getCloud(1).getStudents();
+        Map<Clan, Integer> initialStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
+        Map<Clan, Integer> studentsInTheCloud = game.getCloudManager().getCloud(1).getStudents();
         boolean chosen = game.chosenCloud("Giulia", 1);
         assertTrue(chosen);
-        int[] finalStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
-        int[] expectedFinalStudentInTheHall = new int[Clan.values().length];
-        for (int i = 0; i < Clan.values().length; i++) {
-            expectedFinalStudentInTheHall[i] = initialStudentsInTheHall[i] + studentsInTheCloud[i];
+        Map<Clan, Integer> finalStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
+        Map<Clan, Integer> expectedFinalStudentInTheHall = new EnumMap<>(Clan.class);
+        for (Clan c : Clan.values()) {
+            expectedFinalStudentInTheHall.put(c, initialStudentsInTheHall.get(c) + studentsInTheCloud.get(c));
         }
         for (int i = 0; i < Clan.values().length; i++) {
-            assertEquals(finalStudentsInTheHall[i], expectedFinalStudentInTheHall[i]);
+            assertEquals(finalStudentsInTheHall.get(Clan.values()[i]), expectedFinalStudentInTheHall.get(Clan.values()[i]));
 
         }
     }
 
-    //testare che 2 giocatori non possono prendere la stessa Cloud
     /**
      * tests that two players cannot choose the same cloud
      * A false result is expected
@@ -533,7 +556,15 @@ Game game;
     public void testAlreadyChosenCloud(){
         setPianification();
         game.getCloudManager().getCloud(1).pick();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
+
+
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
@@ -554,7 +585,14 @@ Game game;
     public void testWrongPlayerChooseCloud(){
         setPianification();
         game.getCloudManager().getCloud(1).pick();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
+
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
@@ -574,7 +612,14 @@ Game game;
     @Test
     public void testEndTurn(){
         setPianification();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
+
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
@@ -595,7 +640,14 @@ Game game;
     @Test
     public void testEndTurnBeforeTime() {
         setPianification();
-        int[] addingStudents = {3, 0, 0, 0, 0};
+
+        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        addingStudents.put(Clan.PIXIES, 3);
+        addingStudents.put(Clan.UNICORNS, 0);
+        addingStudents.put(Clan.TOADS, 0);
+        addingStudents.put(Clan.DRAGONS, 0);
+        addingStudents.put(Clan.FAIRIES, 0);
+
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);

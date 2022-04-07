@@ -1,6 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.TestUtil;
 import it.polimi.ingsw.player.Hall;
 import org.junit.jupiter.api.Test;
 
@@ -17,14 +18,9 @@ public class HallTest {
     @Test
     public void testAddStudents(){
 
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
-        Hall hall = new Hall(new EnumMap<>(Clan.class));
+        Hall hall = new Hall(TestUtil.studentMapCreator(0, 0, 0, 0, 0));
         Map<Clan, Integer> addedStudents = hall.addStudents(addingStudents);
         Map<Clan, Integer> students = hall.getStudents();
         for(int i = 0; i< Clan.values().length; i++){

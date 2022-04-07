@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,11 +47,17 @@ public abstract class CharacterTurnTest {
 
     protected void professorsInitialization() {
 
+        List<Map<Clan, Integer>> students = new ArrayList<>();
+        students.add(TestUtil.studentMapCreator(0, 2, 5, 1, 0));
+        students.add(TestUtil.studentMapCreator(0, 2, 7, 1, 2));
+        students.add(TestUtil.studentMapCreator(0, 1, 5, 8, 2));
+        /*
         //FIXME come faccio con le mappe?
         int[][] students = { {0, 2, 5, 1, 0},
                              {0, 2, 7, 1, 2},
                              {0, 1, 5, 8, 2} };
-
+        */
+        /*
         Map<Clan, Integer> studentsPlayer0 = new EnumMap<>(Clan.class); //FIXME it is not elegant but it would be much longer using not using arrays
         for(int i=0; i<Clan.values().length; i++)
             studentsPlayer0.put(Clan.values()[i], students[0][i]);
@@ -62,7 +69,10 @@ public abstract class CharacterTurnTest {
         Map<Clan, Integer> studentsPlayer2 = new EnumMap<>(Clan.class);
         for(int i=0; i<Clan.values().length; i++)
             studentsPlayer0.put(Clan.values()[i], students[2][i]);
+        */
 
+        Map<Clan, Player> initialProfessors = TestUtil.professorMapCreator(null, players[0], players[1], players[1], players[2]);
+        /*
         boolean[][] initialProfessors = { {false, true, false, false, false},
                                           {false, false, true, true, false},
                                           {false, false, false, false, true} };
@@ -78,14 +88,20 @@ public abstract class CharacterTurnTest {
         Map<Clan, Boolean> professorsPlayer2 = new EnumMap<>(Clan.class);
         for(int i=0; i<Clan.values().length; i++)
             professorsPlayer0.put(Clan.values()[i], initialProfessors[2][i]);
-
+        */
+        for (int i = 0; i < players.length; i++)
+            players[i].getChamber().addStudents(students.get(i));
+        for (Player player : players)
+            for (Clan c : Clan.values())
+                player.getChamber().setProfessor(c, player == initialProfessors.get(c));
+        /*
         for (int i = 0; i < players.length; i++)
             players[i].getChamber().addStudents(students[i]);//FIXME
 
         for (int i = 0; i < players.length; i++)
             for (int j = 0; j < Clan.values().length; j++)
                 players[i].getChamber().setProfessor(Clan.values()[j], initialProfessors[i][j]);
-
+        */
     }
 
     @Test
@@ -93,12 +109,19 @@ public abstract class CharacterTurnTest {
 
         professorsInitialization();
 
+        Map<Clan, Player> expectedProfessors = TestUtil.professorMapCreator(null, players[0], players[1], players[2], players[2]);
+        /*
         boolean[][] expectedProfessors = { {false, true, false, false, false},
                                            {false, false, true, false, false},
                                            {false, false, false, true, true} };
+        */
 
         turn.updateProfessors(players);
 
+        for (Player player : players)
+            for (Clan c : Clan.values())
+                assertEquals(player == expectedProfessors.get(c), player.getChamber().hasProfessor(c));
+        /*
         boolean[][] professors = new boolean[players.length][Clan.values().length];
 
         for (int i = 0; i < players.length; i++)
@@ -106,7 +129,7 @@ public abstract class CharacterTurnTest {
 
         for (int i = 0; i < players.length; i++)
             assertArrayEquals(expectedProfessors[i], professors[i]);
-
+        */
     }
 
     @Test
@@ -127,7 +150,8 @@ public abstract class CharacterTurnTest {
 
     public void islandInitialization(){
         professorsInitialization();
-        int[] studentsToBeAdded = {0, 1, 2, 0, 1};
+        Map<Clan, Integer> studentsToBeAdded = TestUtil.studentMapCreator(0, 1, 2, 0, 1);
+
         /*if (islandManager.getIsland(3).getStudents()[Clan.FAIRIES.ordinal()] == 1) {
             //If Samu already has a student (FAIRIES) on the Island, it will not add any more
             studentsToBeAdded[Clan.FAIRIES.ordinal()] = 0;

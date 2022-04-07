@@ -1,6 +1,7 @@
 package it.polimi.ingsw.clouds;
 
 import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.TestUtil;
 import it.polimi.ingsw.clouds.Cloud;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,12 +27,7 @@ public class CloudTest {
      */
     @Test
     public void testFill(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 5);
-        addingStudents.put(Clan.TOADS, 4);
-        addingStudents.put(Clan.DRAGONS, 3);
-        addingStudents.put(Clan.FAIRIES, 1);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 5, 4, 3, 1);
 
         cloud.fill(addingStudents);
         Map<Clan, Integer> students=cloud.getStudents();
@@ -48,24 +44,19 @@ public class CloudTest {
 
     @Test
     public void testPick(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
         cloud.fill(addingStudents);
         Map<Clan, Integer> pickedStudents = cloud.pick();
         assertTrue(cloud.isPicked());
 
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(addingStudents.get(Clan.values()[i]), Clan.values()[i]);
+        for(Clan c : Clan.values()){
+            assertEquals(addingStudents.get(c), pickedStudents.get(c));
         }
         Map<Clan, Integer> students = cloud.getStudents();
 
-        for(int j=0; j<Clan.values().length; j++){
-            assertEquals(0, students.get(Clan.values()[j]));
+        for(Clan c : Clan.values()){
+            assertEquals(0, students.get(c));
         }
     }
 
@@ -87,12 +78,7 @@ public class CloudTest {
 
     @Test
     public void testIsEmptyFill(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
         cloud.fill(addingStudents);
         boolean empty = cloud.isEmpty();
@@ -105,12 +91,7 @@ public class CloudTest {
      */
     @Test
     public void testFillPickIsEmpty(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
         cloud.fill(addingStudents);
         cloud.pick();
@@ -125,12 +106,7 @@ public class CloudTest {
 
     @Test
     public void testMorePick(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 5);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 0, 5);
 
         cloud.fill(addingStudents);
         cloud.pick();

@@ -73,20 +73,6 @@ class ProhibitionCharacterCardTest {
     }
 
     /**
-     * tests if a card other than GRANDMA is initialized with 0 prohibition card, and therefore the isAvailable method
-     * returns false
-     */
-
-    @Test
-    public void testNoProhibitionCard(){
-        ProhibitionCharacterCard thiefCard = new ProhibitionCharacterCard(CharacterID.THIEF);
-        int numOfProhibitionCards = thiefCard.getNumProhibitionCards();
-        boolean available = thiefCard.isAvailable();
-        assertEquals(0, numOfProhibitionCards);
-        assertFalse(available);
-    }
-
-    /**
      * tests that the Prohibition Cards haven't an effect on Mother Nature steps
      * Is expected a 0 result
      */

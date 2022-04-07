@@ -29,8 +29,7 @@ public class BagTest {
     @Test
     public void multipleDrawTestRemaining(){
         b.draw(4);
-        Map<Clan, Integer> students = new EnumMap<Clan, Integer>(Clan.class);
-        students = b.getStudents();
+        Map<Clan, Integer> students = b.getStudents();
         int sum = students.values().stream().mapToInt(a -> a).sum();
         assertEquals(116, sum);
     }
@@ -65,7 +64,7 @@ public class BagTest {
         Map<Clan, Integer> remaining = b.getStudents();
         int sum = remaining.values().stream().mapToInt(a -> a).sum();
         assertEquals(119, sum);  //initialNumberStudents, remaining
-        Map<Clan, Integer> studentsToBeRemoved = new EnumMap<Clan, Integer>(Clan.class);
+        Map<Clan, Integer> studentsToBeRemoved = new EnumMap<>(Clan.class);
         studentsToBeRemoved.put(Clan.PIXIES, 0);
         studentsToBeRemoved.put(Clan.UNICORNS, 1);
         studentsToBeRemoved.put(Clan.TOADS, 0);
@@ -122,10 +121,10 @@ public class BagTest {
     public void addStudentsTest(){
         Map<Clan, Integer> drawStudents = b.draw(6);
         Map<Clan, Integer> result = b.addStudents(drawStudents);
-        for(int i=0; i<5; i++)
-            assertEquals(Clan.values()[i], drawStudents.get(Clan.values()[i]));
+        for(Clan c : Clan.values())
+            assertEquals(result.get(c), drawStudents.get(c));
 
-        Map<Clan, Integer> filledBag = new EnumMap<Clan, Integer>(Clan.class);
+        Map<Clan, Integer> filledBag = new EnumMap<>(Clan.class);
         for(int i=0; i<5; i++){
             filledBag.put(Clan.values()[i], 24);
         }

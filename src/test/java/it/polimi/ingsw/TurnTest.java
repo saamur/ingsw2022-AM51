@@ -9,9 +9,7 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,15 +51,15 @@ public class TurnTest {
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsAfter = island.getStudents();
 
-        hallStudentsAfter.put(Clan.DRAGONS, hallStudentsAfter.get(Clan.DRAGONS) + 1);
-        islandStudentsAfter.put(Clan.DRAGONS, islandStudentsAfter.get(Clan.DRAGONS) + 1);
+        hallStudentsBefore.put(Clan.DRAGONS, hallStudentsBefore.get(Clan.DRAGONS)-1);
+        islandStudentsBefore.put(Clan.DRAGONS, islandStudentsBefore.get(Clan.DRAGONS)+1);
         //I commented because i wanted the original instruction saved in case I do any mistake
         //hallStudentsAfter[Clan.DRAGONS.ordinal()]++;
         //islandStudentsAfter[Clan.DRAGONS.ordinal()]--;
 
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(hallStudentsBefore.get(Clan.values()[i]), hallStudentsAfter.get(Clan.values()[i]));
-            assertEquals(islandStudentsBefore.get(Clan.values()[i]), islandStudentsAfter.get(Clan.values()[i]));
+        for(Clan c : Clan.values()){
+            assertEquals(hallStudentsBefore.get(c), hallStudentsAfter.get(c));
+            assertEquals(islandStudentsBefore.get(c), islandStudentsAfter.get(c));
         }
         //assertArrayEquals(hallStudentsBefore, hallStudentsAfter);
         //assertArrayEquals(islandStudentsBefore, islandStudentsAfter);
@@ -110,12 +108,7 @@ public class TurnTest {
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentAfter = players[0].getChamber().getStudents();
-        Map<Clan, Integer> chamberStudentsExpected = new EnumMap<>(Clan.class);
-        chamberStudentsExpected.put(Clan.PIXIES, 0);
-        chamberStudentsExpected.put(Clan.UNICORNS, 0);
-        chamberStudentsExpected.put(Clan.TOADS, 0);
-        chamberStudentsExpected.put(Clan.DRAGONS, 1);
-        chamberStudentsExpected.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> chamberStudentsExpected = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
 
         hallStudentsAfter.put(Clan.DRAGONS, hallStudentsAfter.get(Clan.DRAGONS) + 1);
 
@@ -173,12 +166,7 @@ public class TurnTest {
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentsAfter = players[0].getChamber().getStudents();
-        Map<Clan, Integer> chamberStudentsExpected = new EnumMap<Clan, Integer>(Clan.class); //FIXME
-        chamberStudentsExpected.put(Clan.PIXIES, 0);
-        chamberStudentsExpected.put(Clan.UNICORNS, 0);
-        chamberStudentsExpected.put(Clan.TOADS, 0);
-        chamberStudentsExpected.put(Clan.DRAGONS, 0);
-        chamberStudentsExpected.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> chamberStudentsExpected = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
 
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(hallStudentsBefore.get(Clan.values()[i]), hallStudentsAfter.get(Clan.values()[i]));
@@ -192,27 +180,23 @@ public class TurnTest {
      */
     @Test
     public void updateProfessorsTest() {
-        int[][] students = { {0, 2, 5, 2, 0}, //FIXME
-                             {0, 2, 7, 1, 1},
-                             {0, 1, 5, 8, 2} };
-        boolean[][] expectedProfessors = { {false, false, false, false, false},
-                                           {false, false, true, false, false},
-                                           {false, false, false, true, true} };
+
+        List<Map<Clan, Integer>> students = new ArrayList<>();
+
+        students.add(TestUtil.studentMapCreator(0, 2, 5, 2, 0));
+        students.add(TestUtil.studentMapCreator(0, 2, 7, 1, 1));
+        students.add(TestUtil.studentMapCreator(0, 1, 5, 8, 2));
+
+        Map<Clan, Player> expectedProfessors = TestUtil.professorMapCreator(null, null, players[1], players[2], players[2]);
 
         for (int i = 0; i < players.length; i++)
-            players[i].getChamber().addStudents(students[i]);
+            players[i].getChamber().addStudents(students.get(i));
 
         turn.updateProfessors(players);
 
-        boolean[][] professors = new boolean[3][5];
-
-        for (int i = 0; i < players.length; i++)
-            professors[i] = players[i].getChamber().getProfessors();
-
-        //System.out.println(Arrays.deepToString(professors));
-
-        for (int i = 0; i < players.length; i++)
-            assertArrayEquals(expectedProfessors[i], professors[i]);
+        for (Player player : players)
+            for (Clan c : Clan.values())
+                assertEquals(player == expectedProfessors.get(c), player.getChamber().hasProfessor(c));
 
     }
 
@@ -248,12 +232,7 @@ public class TurnTest {
     public void updateInfluenceTest() {
 
         Island island = islandManager.getIsland(3);
-        Map<Clan, Integer> islandStudents = new EnumMap<>(Clan.class);
-        islandStudents.put(Clan.PIXIES, 0);
-        islandStudents.put(Clan.UNICORNS, 5);
-        islandStudents.put(Clan.TOADS, 3);
-        islandStudents.put(Clan.DRAGONS, 7);
-        islandStudents.put(Clan.FAIRIES, 1);
+        Map<Clan, Integer> islandStudents = TestUtil.studentMapCreator(0, 5, 3, 7, 1);
 
         islandManager.conquerIsland(players[0], islandManager.getIsland(5));
         islandManager.conquerIsland(players[0], islandManager.getIsland(4));
@@ -262,13 +241,11 @@ public class TurnTest {
         island.removeStudents(island.getStudents());
         island.addStudents(islandStudents);
 
-        boolean[][] professors = { {true, false, true, false, false},
-                                   {false, true, false, false, false},
-                                   {false, false, false, true, false} };
+        Map<Clan, Player> professors = TestUtil.professorMapCreator(players[0], players[1], players[0], players[2], null);
 
-        for (int i = 0; i < players.length; i++)
-            for (int j = 0; j < Clan.values().length; j++)
-                players[i].getChamber().setProfessor(Clan.values()[j], professors[i][j]);
+        for (Player player : players)
+            for (Clan c : Clan.values())
+                player.getChamber().setProfessor(c, player == professors.get(c));
 
         turn.updateInfluence(islandManager, island, players);
 
@@ -284,12 +261,7 @@ public class TurnTest {
     public void updateInfluenceTieTest() {
 
         Island island = islandManager.getIsland(3);
-        Map<Clan, Integer> islandStudents = new EnumMap<>(Clan.class);
-        islandStudents.put(Clan.PIXIES, 0);
-        islandStudents.put(Clan.UNICORNS, 5);
-        islandStudents.put(Clan.TOADS, 8);
-        islandStudents.put(Clan.DRAGONS, 7);
-        islandStudents.put(Clan.FAIRIES, 1);
+        Map<Clan, Integer> islandStudents = TestUtil.studentMapCreator(0, 5, 8, 7, 1);
 
         islandManager.conquerIsland(players[1], islandManager.getIsland(5));
         islandManager.conquerIsland(players[1], islandManager.getIsland(4));
@@ -298,13 +270,11 @@ public class TurnTest {
         island.removeStudents(island.getStudents());
         island.addStudents(islandStudents);
 
-        boolean[][] professors = { {true, false, true, false, false},
-                                   {false, true, false, false, false},
-                                   {false, false, false, true, false} };
+        Map<Clan, Player> initialProfessors = TestUtil.professorMapCreator(players[0], players[1], players[0], players[2], null);
 
-        for (int i = 0; i < players.length; i++)
-            for (int j = 0; j < Clan.values().length; j++)
-                players[i].getChamber().setProfessor(Clan.values()[j], professors[i][j]);
+        for (Player player : players)
+            for (Clan c : Clan.values())
+                player.getChamber().setProfessor(c, player == initialProfessors.get(c));
 
         turn.updateInfluence(islandManager, island, players);
 
@@ -327,22 +297,22 @@ public class TurnTest {
         Map<Clan, Integer> studentsHallBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> studentsCloudBefore = cloud.getStudents();
 
-        Map<Clan, Integer> studentsHallExpected = new EnumMap<Clan, Integer>(Clan.class);
+        Map<Clan, Integer> studentsHallExpected = new EnumMap<>(Clan.class);
 
-
-        for(int i=0; i<Clan.values().length; i++){
-            studentsHallExpected.put(Clan.values()[i], studentsHallBefore.get(Clan.values()[i]) - studentsCloudBefore.get(Clan.values()[i]));
-            //studentsHallExpected[i] = studentsHallBefore[i] + studentsCloudBefore[i];
-        }
+        for(Clan c : Clan.values())
+            studentsHallExpected.put(c, studentsHallBefore.get(c) + studentsCloudBefore.get(c));
 
         boolean ok = turn.chooseCloud(cloud);
 
         assertTrue(ok);
 
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(studentsHallExpected.get(Clan.values()[i]), players[0].getHall().getStudents().get(Clan.values()[i]));
-            assertEquals(0, cloud.getStudents());
-        }
+        for(Clan c : Clan.values())
+            assertEquals(studentsHallExpected.get(c), players[0].getHall().getStudents().get(c));
+
+
+//        for(int i=0; i<Clan.values().length; i++){
+//            assertEquals(studentsHallExpected.get(Clan.values()[i]), players[0].getHall().getStudents().get(Clan.values()[i]));
+        assertTrue(cloud.isEmpty());
         /*assertArrayEquals(studentsHallExpected, players[0].getHall().getStudents());
         assertArrayEquals(new int[Clan.values().length], cloud.getStudents());*/
         assertTrue(cloud.isPicked());

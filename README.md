@@ -1,7 +1,31 @@
-# Eriantys Board Game
+# Prova Finale Ingegneria del Software 2022
 
-## The Team
+## Gruppo AM51
+---
 
-- [Giulia Cornetta](https://github.com/giuCornetta): giulia.cornetta@mail.polimi.it
-- [Federica Del Beato](https://github.com/FedericaDelBeato): federica.delbeato@mail.polimi.it
-- [Samuele Delpero](https://github.com/saamur): samuele.delpero@mail.polimi.it
+- ###  10667290 [Giulia Cornetta](https://github.com/giuCornetta)<br>giulia.cornetta@mail.polimi.it
+- ### 10706257 [Federica Del Beato](https://github.com/FedericaDelBeato)<br>federica.delbeato@mail.polimi.it
+- ### 10730188 [Samuele Delpero](https://github.com/saamur)<br> samuele.delpero@mail.polimi.it
+<br>
+
+
+
+
+
+
+
+| Functionality    |                       State                        |
+|:-----------------|:--------------------------------------------------:|
+| Basic rules      | 🟢 |
+| Complete rules   | 🟢 |
+| Socket           | 🔴 |
+| GUI              | 🔴 |
+| CLI              | 🔴 |
+| Multiple games   | 🔴 |
+| Persistence      | 🔴 |
+| CharacterCards   | 🟢 |
+
+
+🔴
+🟢
+🟡

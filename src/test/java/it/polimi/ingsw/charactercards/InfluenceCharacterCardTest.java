@@ -152,7 +152,7 @@ public class InfluenceCharacterCardTest{
     }
 
     /**
-     * Method effectProfessorTest() tests the outcome of calling effectPlayerProfessor on a StepsCharacterCard class.
+     * Method effectProfessorTest() tests the outcome of calling effectPlayerProfessor on a influenceCharacterCard class.
      * The expected result is that a player has to have greater students than any other player.
      */
     @Test
@@ -165,6 +165,7 @@ public class InfluenceCharacterCardTest{
         for (CharacterCard c : influenceCards)
             assertNull(c.effectPlayerProfessor(players, players[1], DRAGONS));
     }
+
     /**
      * Method initialEffectTest() tests the method applyInitialEffect().
      * A true return is expected.
@@ -179,7 +180,7 @@ public class InfluenceCharacterCardTest{
 
     /**
      * Method applyTest1() tests the method applyEffect(Game game, Island island).
-     * The method is expected to return true.
+     * The method is expected to return false for every InfluenceCards except for HERALD .
      */
     @Test
     public void applyTest1(){
@@ -200,7 +201,7 @@ public class InfluenceCharacterCardTest{
     }
 
     /**
-     * Method applyTest() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
+     * Method applyTest2() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
      * The method when called is expected to return false.
      */
     @Test

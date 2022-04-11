@@ -26,6 +26,8 @@
 | CharacterCards   | 🟢 |
 
 
-🔴
-🟢
-🟡
+#### Legend
+🔴 Not implemented<br>
+🟡 Implementing<br>
+🟢 Implemented<br>
+

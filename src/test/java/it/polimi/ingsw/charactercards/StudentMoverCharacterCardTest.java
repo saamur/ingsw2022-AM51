@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +71,7 @@ class StudentMoverCharacterCardTest {
     public void increaseCostTest(){
         for(CharacterCard c : studentMoverCards){
             int initialCost = c.getCost();
-            c.increaseCost();
+            c.updateCost();
             assertEquals(initialCost + 1, c.getCost() );
         }
     }

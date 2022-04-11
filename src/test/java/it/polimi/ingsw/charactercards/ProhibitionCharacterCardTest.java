@@ -105,7 +105,7 @@ class ProhibitionCharacterCardTest {
     @Test
     public void testIncreaseCost() {
         ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
-        card.increaseCost();
+        card.updateCost();
         int finalCost = card.getCost();
         assertEquals(3, finalCost);
     }

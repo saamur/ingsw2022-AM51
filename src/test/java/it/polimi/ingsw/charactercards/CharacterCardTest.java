@@ -1,13 +1,10 @@
 package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
-import it.polimi.ingsw.charactercards.CharacterCard;
-import it.polimi.ingsw.charactercards.CharacterCardCreator;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;
@@ -39,7 +36,7 @@ public abstract class CharacterCardTest {
     @Test
     public void costTest(){
         assertEquals(1, characterCard.getCost());
-        characterCard.increaseCost();
+        characterCard.updateCost();
         assertEquals(2, characterCard.getCost());
     }
 
@@ -104,7 +101,7 @@ public abstract class CharacterCardTest {
     public void applyTest2(){
         Game game = new Game(3, "Giu", true);
         StudentContainer destination = new Island();
-        Map<Clan, Integer> students1 = new EnumMap<Clan, Integer>(Clan.class);
+        Map<Clan, Integer> students1 = new EnumMap<>(Clan.class);
         assertFalse(characterCard.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null
     }
 

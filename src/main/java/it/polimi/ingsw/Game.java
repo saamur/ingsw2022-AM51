@@ -536,7 +536,7 @@ public class Game implements GameInterface {
             return false;
 
         player.pay(characterCard.getCost());
-        characterCard.increaseCost();
+        characterCard.updateCost();
 
         turn.setActivatedCharacterCard(characterCard);
         characterCard.applyInitialEffect(turn, players);

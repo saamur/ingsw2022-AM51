@@ -13,11 +13,11 @@ import java.util.Map;
 public abstract class CharacterCard {
 
     private final CharacterID characterID;
-    private int cost;
+    private boolean alreadyUsed;
 
     public CharacterCard (CharacterID characterID) {
         this.characterID = characterID;
-        cost = characterID.getInitialCost();
+        alreadyUsed = false;
     }
 
     public CharacterID getCharacterID() {
@@ -33,14 +33,14 @@ public abstract class CharacterCard {
     }
 
     public int getCost() {
-        return cost;
+        return alreadyUsed ? characterID.getInitialCost() + 1 : characterID.getInitialCost();
     }
 
     /**
      * method increaseCost increases the cost of this CharacterCard by 1
      */
-    public void increaseCost() {
-        cost++;
+    public void updateCost() {
+        alreadyUsed = true;
     }
 
     /**

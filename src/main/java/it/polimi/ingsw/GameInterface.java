@@ -17,6 +17,6 @@ public interface GameInterface {
     boolean activateCharacterCard (String playerNickname, CharacterID characterID);
     boolean applyCharacterCardEffect (String playerNickname, int islandIndex);
     boolean setClanCharacter (String playerNickname, Clan clan);
-    boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
+    boolean applyCharacterCardEffect (String playerNickname, int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
 
 }

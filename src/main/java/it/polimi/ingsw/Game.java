@@ -607,7 +607,7 @@ public class Game implements GameInterface {
         turn.setCharacterClan(clan);
 
         if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF) {
-            return applyCharacterCardEffect(playerNickname, null, null, null);
+            return applyCharacterCardEffect(playerNickname, -1, null, null);
         }
 
         return true;
@@ -617,13 +617,13 @@ public class Game implements GameInterface {
     /**
      * method applyCharacterEffect applies the effect of the CharacterCard currently active with the given parameters
      * @param playerNickname    the nickname of the Player that requested this move
-     * @param destination       the destination of the students moved (if necessary)
+     * @param islandIndex       the index of the destination Island for the students moved (if necessary)
      * @param students1         the students to move to the destination (if necessary)
      * @param students2         the students to move from the destination, in case of an exchange of students (if necessary)
      * @return                  whether the move was valid and has been carried out
      */
     @Override
-    public boolean applyCharacterCardEffect (String playerNickname, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
+    public boolean applyCharacterCardEffect (String playerNickname, int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
 
         Player player = playerFromNickname(playerNickname);
         if (player == null)
@@ -641,7 +641,7 @@ public class Game implements GameInterface {
         if (turn.isCharacterEffectApplied())
             return false;
 
-        boolean ok = turn.getActivatedCharacterCard().applyEffect(this, destination, students1, students2);
+        boolean ok = turn.getActivatedCharacterCard().applyEffect(this, islandManager.getIsland(islandIndex), students1, students2);
 
         if (!ok)
             return false;

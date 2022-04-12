@@ -404,7 +404,7 @@ public class Game implements GameInterface {
             winners = new ArrayList<>();
             winners.add(players[indexCurrPlayer]);
         }
-        else if (islandManager.getNumberOfIslands() <= 3)
+        else if (islandManager.getNumberOfIslands() <= Constants.MIN_NUM_ISLANDS)
             calculateWin();
 
     }

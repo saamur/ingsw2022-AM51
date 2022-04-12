@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StudentMoverCharacterCardTest {
 
+    Game game;
     Bag bag;
     CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     List<CharacterCard> studentMoverCards = new ArrayList<>();
@@ -156,7 +157,7 @@ class StudentMoverCharacterCardTest {
      */
     @Test
     public void applyTest1(){
-        Game game = new Game(2, "Giulia", true);
+        game = new Game(2, "Giulia", true);
         game.addPlayer("Samu");
         Island island =game.getIslandManager().getIsland(1);
         if (game.getIndexCurrPlayer() == 0) {
@@ -181,7 +182,7 @@ class StudentMoverCharacterCardTest {
 
     @Test
     public void applyTest2Monk(){
-        Game game = new Game(2, "Giulia", true);
+        game = new Game(2, "Giulia", true);
         game.addPlayer("Samu");
         StudentContainer island = game.getIslandManager().getIsland(1);
         Map<Clan, Integer> initialStudents = game.getIslandManager().getIsland(1).getStudents();
@@ -237,7 +238,7 @@ class StudentMoverCharacterCardTest {
 
     @Test
     public void applyTest2MonkStudentNotOnTheCard(){
-        Game game = new Game(2, "Giulia", true);
+        game = new Game(2, "Giulia", true);
         StudentContainer island = game.getIslandManager().getIsland(1);
 
         if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(PIXIES)==0){
@@ -281,16 +282,7 @@ class StudentMoverCharacterCardTest {
 
     @Test
     public void applyTest2Jester(){
-        Game game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
-
-        if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
-        } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
-        }
+        setGame();
 
         Hall hall = game.getPlayers()[0].getHall();
         if(((StudentMoverCharacterCard) studentMoverCards.get(1)).getStudents().get(PIXIES)>=1){
@@ -357,16 +349,7 @@ class StudentMoverCharacterCardTest {
 
     @Test
     public void applyTest2Ministrel(){
-        Game game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
-
-        if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
-        } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
-        }
+        setGame();
 
         game.getPlayers()[0].getHall().addStudent(DRAGONS);
         game.getPlayers()[0].getChamber().addStudent(PIXIES);
@@ -399,16 +382,7 @@ class StudentMoverCharacterCardTest {
 
     @Test
     public void applyTest2Princess(){
-        Game game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
-
-        if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
-        } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
-        }
+        setGame();
 
         Chamber chamber = game.getPlayers()[0].getChamber();
         Map<Clan, Integer> initialStudents = chamber.getStudents();
@@ -458,19 +432,17 @@ class StudentMoverCharacterCardTest {
 
     }
 
-    //testare anche che se non ho studenti di un determinato colore non devo fare nulla
+    /**
+     * Method applyTest2Thief() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
+     * when the CharacterID is Thief.
+     * Is expected a true result and that the for each student 3 students, if present, belonging to a specific clan,
+     * are removed from each room. It is expected that if a player has fewer than three students, all he has is removed.
+     */
+
+
     @Test
     public void applyTest2Thief(){
-        Game game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
-
-        if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
-        } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
-        }
+        setGame();
 
         game.getTurn().setCharacterClan(DRAGONS);
 
@@ -487,6 +459,22 @@ class StudentMoverCharacterCardTest {
         assertEquals(0, game.getPlayers()[1].getChamber().getStudents().get(DRAGONS));
 
 
+    }
+
+    /**
+     * This method set the game. It is a shortcut for some tests
+     */
+    public void setGame(){
+        game = new Game(2, "Giulia", true);
+        game.addPlayer("Samu");
+
+        if (game.getIndexCurrPlayer() == 0) {
+            game.chosenCard("Giulia", Card.CHEETAH);
+            game.chosenCard("Samu", Card.CAT);
+        } else {
+            game.chosenCard("Samu", Card.CAT);
+            game.chosenCard("Giulia", Card.CHEETAH);
+        }
     }
 
 

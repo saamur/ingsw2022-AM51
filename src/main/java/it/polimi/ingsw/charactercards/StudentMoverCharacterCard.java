@@ -1,9 +1,6 @@
 package it.polimi.ingsw.charactercards;
 
-import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.Clan;
-import it.polimi.ingsw.Game;
-import it.polimi.ingsw.StudentContainer;
+import it.polimi.ingsw.*;
 import it.polimi.ingsw.player.Player;
 
 import java.util.EnumMap;
@@ -20,17 +17,7 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
-    private static final Map<CharacterID, Integer> NUM_INITIAL_STUDENTS;
     private static final Map<CharacterID, StudentMover> STUDENT_MOVERS;
-
-    static {
-        NUM_INITIAL_STUDENTS = new EnumMap<>(CharacterID.class);
-        NUM_INITIAL_STUDENTS.put(CharacterID.MONK, 4);
-        NUM_INITIAL_STUDENTS.put(CharacterID.JESTER, 6);
-        NUM_INITIAL_STUDENTS.put(CharacterID.MINISTREL, 0);
-        NUM_INITIAL_STUDENTS.put(CharacterID.PRINCESS, 4);
-        NUM_INITIAL_STUDENTS.put(CharacterID.THIEF, 0);
-    }
 
     static {
         STUDENT_MOVERS = new EnumMap<>(CharacterID.class);
@@ -110,7 +97,7 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
 
     public StudentMoverCharacterCard (CharacterID characterID, Bag bag) {
         super(characterID);
-        students = bag.draw(NUM_INITIAL_STUDENTS.get(characterID));
+        students = bag.draw(Constants.getNumInitialStudentsStudentMoverCharacterCard(characterID));
     }
 
     @Override
@@ -144,6 +131,7 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         return removedStudents;
 
     }
+
     //added for tests
     public Map<Clan, Integer> getStudents() {
         return new EnumMap<>(students);

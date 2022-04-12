@@ -1,10 +1,8 @@
 package it.polimi.ingsw.charactercards;
 
+import it.polimi.ingsw.Constants;
 import it.polimi.ingsw.Game;
 import it.polimi.ingsw.islands.Island;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 /**
  * ProhibitionCharacterCard class models the character cards
@@ -13,18 +11,11 @@ import java.util.Map;
  */
 public class ProhibitionCharacterCard extends CharacterCard {
 
-    private static final Map<CharacterID, Integer> INITIAL_PROHIBITION_CARDS;
-
-    static {
-        INITIAL_PROHIBITION_CARDS = new EnumMap<>(CharacterID.class);
-        INITIAL_PROHIBITION_CARDS.put(CharacterID.GRANDMA, 4);
-    }
-
     private int numProhibitionCards;
 
     public ProhibitionCharacterCard(CharacterID characterID) {
         super(characterID);
-        numProhibitionCards = INITIAL_PROHIBITION_CARDS.get(characterID);
+        numProhibitionCards = Constants.getNumInitialProhibitionCardsCharacterCard(characterID);
     }
 
     @Override

@@ -140,12 +140,12 @@ Game game;
         if (game.getIndexCurrPlayer() == 0) {
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.DOG));
-            assertFalse(game.getGameState() == GameState.PIANIFICATION);
+            assertNotSame(game.getGameState(), GameState.PIANIFICATION);
             assertThrows(WrongGamePhaseException.class, () -> game.chosenCard("Giulia", Card.DOG));
         } else {
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CHEETAH));
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.DOG));
-            assertFalse(game.getGameState() == GameState.PIANIFICATION);
+            assertNotSame(game.getGameState(), GameState.PIANIFICATION);
             assertThrows(WrongGamePhaseException.class, () -> game.chosenCard("Samu", Card.DOG));
         }
     }
@@ -310,8 +310,7 @@ Game game;
         game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
         int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
         int initialPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
-        boolean moved = game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
-        assertTrue(moved);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
         int finalPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
         assertEquals(initialNumOfPixies + 1, finalNumOfPixies);
@@ -320,7 +319,7 @@ Game game;
 
     /**
      * tests that a player, who is not the current one, can't move a student to an Island
-     * Is expected a false return
+     * The method moveStudentToIsland is expected to throw a WrongPlayerException
      */
 
     @Test
@@ -329,8 +328,7 @@ Game game;
         game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
         int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
         int initialPixiesInTheHall = game.getPlayers()[1].getHall().getStudents().get(Clan.values()[0]);
-        boolean moved = game.moveStudentToIsland("Samu", Clan.PIXIES, 1);
-        assertFalse(moved);
+        assertThrows(WrongPlayerException.class, () -> game.moveStudentToIsland("Samu", Clan.PIXIES, 1));
         int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
         int finalPixiesInTheHall = game.getPlayers()[1].getHall().getStudents().get(Clan.values()[0]);
         assertEquals(initialNumOfPixies, finalNumOfPixies);
@@ -339,7 +337,7 @@ Game game;
 
     /**
      * tests that the current player can't move a student to an island if the student is not in the hall
-     * Is expected a false return
+     * The method moveStudentToIsland is expected to throw a NotValidMoveException
      */
 
     @Test
@@ -349,8 +347,7 @@ Game game;
         for (int i = 0; i < numOfPixies; i++) {
             game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
         }
-        boolean moved = game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
-        assertFalse(moved);
+        assertThrows(NotValidMoveException.class, () -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
     }
 
     /**
@@ -367,7 +364,7 @@ Game game;
         addingStudents.put(Clan.DRAGONS, 0);
         addingStudents.put(Clan.FAIRIES, 0);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         TurnState turnState = game.getTurn().getTurnState();
@@ -396,7 +393,7 @@ Game game;
         addingStudents.put(Clan.DRAGONS, 0);
         addingStudents.put(Clan.FAIRIES, 0);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
@@ -532,7 +529,7 @@ Game game;
         addingStudents.put(Clan.FAIRIES, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
@@ -572,7 +569,7 @@ Game game;
 
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
@@ -600,7 +597,7 @@ Game game;
         addingStudents.put(Clan.FAIRIES, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
@@ -627,7 +624,7 @@ Game game;
         addingStudents.put(Clan.FAIRIES, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
@@ -654,7 +651,7 @@ Game game;
         addingStudents.put(Clan.FAIRIES, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        game.moveStudentToIsland("Giulia", Clan.PIXIES, 1);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         game.moveStudentToChamber("Giulia", Clan.PIXIES);
         boolean endedTurn = game.endTurn("Giulia");

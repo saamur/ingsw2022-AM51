@@ -2,9 +2,13 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.charactercards.CharacterCard;
 import it.polimi.ingsw.clouds.Cloud;
+import it.polimi.ingsw.exceptions.NotValidMoveException;
+import it.polimi.ingsw.exceptions.WrongTurnPhaseException;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
+
+import java.util.Locale;
 
 /**
  * Turn class contains the main logic for the managing of the turns and their phases,
@@ -91,24 +95,21 @@ public class Turn {
      * If the maximum number of students moved has been reached turnState is updated to MOTHER_MOVING
      * @param clan      the Clan of the student to move
      * @param island    the Island on to which move the student
-     * @return          whether the student has been actually moved
+     * @throws WrongTurnPhaseException  when it is called not during the student moving phase
+     * @throws NotValidMoveException    when there is no student of the given clan in the hall of the current Player
      */
-    public boolean moveStudentToIsland(Clan clan, Island island) {
+    public void moveStudentToIsland(Clan clan, Island island) throws WrongTurnPhaseException, NotValidMoveException {
 
-        if (turnState != TurnState.STUDENT_MOVING)
-            return false;
+        if (turnState != TurnState.STUDENT_MOVING) throw new WrongTurnPhaseException("The turn is not in the student moving phase");
 
         boolean ok = currPlayer.getHall().removeStudent(clan);
-        if(!ok)
-            return false;
+        if(!ok) throw new NotValidMoveException("No " + clan.name().toLowerCase() + " in the hall");
 
         island.addStudent(clan);
 
         studentMoved++;
         if (studentMoved == numStudentsToMove)
             turnState = TurnState.MOTHER_MOVING;
-
-        return true;
 
     }
 

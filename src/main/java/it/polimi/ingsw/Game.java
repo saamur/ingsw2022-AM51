@@ -312,20 +312,24 @@ public class Game implements GameInterface {
      * @param playerNickname    the nickname of the Player that requested this move
      * @param clan              the Clan of the student to move
      * @param islandIndex       the index of the Island on which to move the student
-     * @return                  whether the move was valid and the student was actually moved
+     * @throws WrongGamePhaseException      when it is called not during the action phase
+     * @throws NonExistingPlayerException   when there is no Player with the given nickname
+     * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
+     * @throws NotValidIndexException       when there is no Island with the given index
+     * @throws WrongTurnPhaseException      when it is called not during the student moving phase
+     * @throws NotValidMoveException        when there is no student of the given clan in the hall of the current Player
      */
     @Override
-    public boolean moveStudentToIsland (String playerNickname, Clan clan, int islandIndex) {
+    public void moveStudentToIsland (String playerNickname, Clan clan, int islandIndex) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException, WrongTurnPhaseException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
         Island island = islandManager.getIsland(islandIndex);
-        if (player == null || island == null)
-            return false;
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        return turn.moveStudentToIsland(clan, island);
+        turn.moveStudentToIsland(clan, island);
 
     }
 

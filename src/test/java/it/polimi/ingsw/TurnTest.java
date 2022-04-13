@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.clouds.Cloud;
 import it.polimi.ingsw.clouds.CloudManager;
+import it.polimi.ingsw.exceptions.NotValidMoveException;
+import it.polimi.ingsw.exceptions.WrongTurnPhaseException;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
@@ -44,9 +46,7 @@ public class TurnTest {
         Map<Clan,Integer> hallStudentsBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsBefore = island.getStudents();
 
-        boolean ok = turn.moveStudentToIsland(Clan.DRAGONS, island);
-
-        assertTrue(ok);
+        assertDoesNotThrow(() -> turn.moveStudentToIsland(Clan.DRAGONS, island));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsAfter = island.getStudents();
@@ -67,7 +67,7 @@ public class TurnTest {
     }
 
     /**
-     * test checks if the method moveStudentToIsland returns false if there are no students
+     * test checks if the method moveStudentToIsland throws a NotValidMoveException if there are no students
      * of the given Clan in the player's hall, without changing the students in the hall and on the island
      */
     @Test
@@ -79,9 +79,7 @@ public class TurnTest {
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsBefore = island.getStudents();
 
-        boolean ok = turn.moveStudentToIsland(Clan.DRAGONS, island);
-
-        assertFalse(ok);
+        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToIsland(Clan.DRAGONS, island));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsAfter = island.getStudents();
@@ -202,26 +200,26 @@ public class TurnTest {
 
     /**
      * test verifies that the method moveStudentToIsland changes turnState to MOTHER_MOVING
+     * after the correct number of students have been moved and verifies that an additional attempt to call the method
+     * will result in a WrongTurnPhaseException thrown
      */
     @Test
     public void changeStateToMotherMovingTest() {
 
         Island island = islandManager.getIsland(3);
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)+1; i++)
             players[0].getHall().addStudent(Clan.DRAGONS);
 
-        for (int i = 0; i < 3; i++) {
-            turn.moveStudentToIsland(Clan.DRAGONS, island);
+        for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)-1; i++) {
+            assertDoesNotThrow(() -> turn.moveStudentToIsland(Clan.DRAGONS, island));
             assertSame(turn.getTurnState(), TurnState.STUDENT_MOVING);
         }
 
-        turn.moveStudentToIsland(Clan.DRAGONS, island);
+        assertDoesNotThrow(() -> turn.moveStudentToIsland(Clan.DRAGONS, island));
         assertSame(turn.getTurnState(), TurnState.MOTHER_MOVING);
 
-        boolean ok = turn.moveStudentToIsland(Clan.DRAGONS, island);        //FIXME better to do another test?
-
-        assertFalse(ok);
+        assertThrows(WrongTurnPhaseException.class, () -> turn.moveStudentToIsland(Clan.DRAGONS, island));
 
     }
 

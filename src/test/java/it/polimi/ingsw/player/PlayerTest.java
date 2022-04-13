@@ -6,6 +6,9 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,10 +36,11 @@ public class PlayerTest {
      */
     @Test
     public void payTest(){
+        int amount = 1;
         int originalCoins = player1.getChamber().getCoins();
-        player1.pay(1);
+        player1.pay(amount);
         int coins = player1.getCoins();
-        assertEquals(originalCoins - 1, coins);
+        assertEquals(originalCoins - amount, coins);
     }
 
     /**
@@ -66,12 +70,13 @@ public class PlayerTest {
      * Method addTowersTest() tests method addTowers(int n).
      * After the method is called the number of towers is expected to increase by n.
      */
-    @Test
-    public void addTowersTest(){
-        player1.removeTowers(5);
+    @ParameterizedTest
+    @CsvSource({"5, 0", "5, 3"})
+    public void addTowersTest(int removeTowers, int addTowers){
+        player1.removeTowers(removeTowers);
         int originalNumTowers = player1.getNumberOfTowers();
-        player1.addTowers(3);
-        assertEquals(originalNumTowers + 3, player1.getNumberOfTowers());
+        player1.addTowers(addTowers);
+        assertEquals(originalNumTowers + addTowers, player1.getNumberOfTowers());
     }
 
 

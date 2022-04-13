@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class DeckTest {
     Deck deck;
-    Random rand;
     Card card;
 
     /**

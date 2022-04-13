@@ -4,6 +4,8 @@ import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.Random;
@@ -31,14 +33,15 @@ public class IslandManagerTest {
      */
     @Test
     public void distanceTest(){
+        int bound = 12;
         Random random = new Random();
         Island motherNaturePosition = islandManager.getMotherNaturePosition();
         List<Island> islands = islandManager.getIslands();
-        int chosenIslandPosition = random.nextInt(12);
+        int chosenIslandPosition = random.nextInt(bound);
         int distance = islandManager.distanceFromMotherNature(islands.get(chosenIslandPosition));
         int difference = chosenIslandPosition - islands.indexOf(motherNaturePosition);
 
-        assertEquals(difference >= 0 ? difference : 12 + difference, distance);
+        assertEquals(difference >= 0 ? difference : bound + difference, distance);
     }
 
 
@@ -73,9 +76,10 @@ public class IslandManagerTest {
      * Method tests case when an invalid index is called.
      * Method is expected to return null.
      */
-    @Test
-    public void invalidIndexTest(){
-        assertNull(islandManager.getIsland(-1));
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 13})
+    public void invalidIndexTest(int islandIndex){
+        assertNull(islandManager.getIsland(islandIndex));
 
     }
     //TODO have not tested getIslands e getNumberOfIslands

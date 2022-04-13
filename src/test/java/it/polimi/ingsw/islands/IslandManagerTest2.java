@@ -5,6 +5,9 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,24 +26,28 @@ public class IslandManagerTest2 {
 
     @BeforeEach
     public void initialization() {
+        int numOfPlayers = 3;
         bag = new Bag();
-        players.add(new Player("Giulia", TowerColor.BLACK, 3, bag));
-        players.add(new Player("Fede", TowerColor.GRAY, 3, bag));
-        players.add(new Player("Samu", TowerColor.WHITE, 3, bag));
+        players.add(new Player("Giulia", TowerColor.BLACK, numOfPlayers, bag));
+        players.add(new Player("Fede", TowerColor.GRAY, numOfPlayers, bag));
+        players.add(new Player("Samu", TowerColor.WHITE, numOfPlayers, bag));
 
         islandManager = new IslandManager();
     }
 
     /**
      * test check if after conquerIsland() is called, the number of islands is decreased.
+     * tests both cases, the normal conquest and the conquest of two islands at the ends of the array
      * Number of Islands is expected to be 11 after method gets called on two adjacent islands.
      */
-    @Test
-    public void normalConquerTest() {
+    @ParameterizedTest
+    @CsvSource({"5, 6", "0, 11"})
+    public void ConquerTest(int indexFirstIsland, int indexSecondIsland) {
         List<Island> islands = islandManager.getIslands();
+        int playerIndex = 1;
 
-        islandManager.conquerIsland(players.get(1), islands.get(5));
-        islandManager.conquerIsland(players.get(1), islands.get(6));
+        islandManager.conquerIsland(players.get(playerIndex), islands.get(indexFirstIsland));
+        islandManager.conquerIsland(players.get(playerIndex), islands.get(indexSecondIsland));
 
         islands = islandManager.getIslands();
 
@@ -48,25 +55,16 @@ public class IslandManagerTest2 {
 
     }
 
-    /**
-     * Checking if merge works at the extremes of the array
-     */
-    @Test
-    public void limitsConquerTest() {
-        islandManager.conquerIsland(players.get(1), islandManager.getIslands().get(0));
-        islandManager.conquerIsland(players.get(1), islandManager.getIslands().get(11));
-
-        assertEquals(11, islandManager.getIslands().size());
-    }
 
     /**
      * Checking if merge works if both neighbouring islands have been conquered by the same player
      */
     @Test
     public void tripleMergingTest() {
-        islandManager.conquerIsland(players.get(1), islandManager.getIsland(11));
-        islandManager.conquerIsland(players.get(1), islandManager.getIsland(1));
-        islandManager.conquerIsland(players.get(1), islandManager.getIsland(0));
+        int playerIndex = 1;
+        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(11));
+        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(1));
+        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(0));
 
         assertEquals(10, islandManager.getNumberOfIslands());
     }

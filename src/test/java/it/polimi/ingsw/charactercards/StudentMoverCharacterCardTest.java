@@ -5,8 +5,12 @@ import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.player.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,25 +132,27 @@ class StudentMoverCharacterCardTest {
      * Method effectProfessorTest() tests the outcome of calling effectPlayerProfessor on a influenceCharacterCard class.
      * The expected result is that a player has to have greater students than any other player.
      */
-    @Test
-    public void effectPlayerProfessor() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void effectPlayerProfessor(Clan clan) {
         Player[] players = createPlayers();
-        players[0].getChamber().addStudent(DRAGONS);
-        players[0].getChamber().addStudent(DRAGONS);
-        players[1].getChamber().addStudent(DRAGONS);
-        players[1].getChamber().addStudent(DRAGONS);
+        players[0].getChamber().addStudent(clan);
+        players[0].getChamber().addStudent(clan);
+        players[1].getChamber().addStudent(clan);
+        players[1].getChamber().addStudent(clan);
         for (CharacterCard c : studentMoverCards)
-            assertNull(c.effectPlayerProfessor(players, players[1], DRAGONS));
+            assertNull(c.effectPlayerProfessor(players, players[1], clan));
     }
 
     /**
-     * Method initialEffectTest() tests the method applyInitialEffect().
+     * Method initialEffectTest() tests the method applyInitialEffect() for both 2 and 3 players game.
      * A true return is expected.
      */
-    @Test
-    public void initialEffectTest(){
+    @ParameterizedTest
+    @ValueSource(ints = {2, 3})
+    public void initialEffectTest(int numOfPlayers){
         Player[] players = createPlayers();
-        Turn turn = new Turn(players[0], 2);
+        Turn turn = new Turn(players[0], numOfPlayers);
         for(CharacterCard cc: studentMoverCards)
             assertTrue(cc.applyInitialEffect(turn, players));
     }
@@ -180,96 +186,42 @@ class StudentMoverCharacterCardTest {
      *
      */
 
-    @Test
-    public void applyTest2Monk(){
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void applyTest2Monk(Clan clan){
         game = new Game(2, "Giulia", true);
         assertDoesNotThrow(() -> game.addPlayer("Samu"));
         StudentContainer island = game.getIslandManager().getIsland(1);
         Map<Clan, Integer> initialStudents = game.getIslandManager().getIsland(1).getStudents();
-        if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(PIXIES)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
+
+        if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(clan)>=1){
+            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+            students.put(clan, 1);
             boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
             assertTrue(moved);
             Map<Clan, Integer> finalStudents = game.getIslandManager().getIsland(1).getStudents();
-            assertEquals(initialStudents.get(PIXIES) + 1, finalStudents.get(PIXIES));
-
+            assertEquals(initialStudents.get(clan) + 1, finalStudents.get(clan));
         }
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(UNICORNS)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 1, 0, 0, 0);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = game.getIslandManager().getIsland(1).getStudents();
-            assertEquals(initialStudents.get(UNICORNS) + 1, finalStudents.get(UNICORNS));
-
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(TOADS)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 1, 0, 0);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = game.getIslandManager().getIsland(1).getStudents();
-            assertEquals(initialStudents.get(TOADS) + 1, finalStudents.get(TOADS));
-
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(DRAGONS)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = game.getIslandManager().getIsland(1).getStudents();
-            assertEquals(initialStudents.get(DRAGONS) + 1, finalStudents.get(DRAGONS));
-
-        }
-        else{
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 1);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = game.getIslandManager().getIsland(1).getStudents();
-            assertEquals(initialStudents.get(FAIRIES) + 1, finalStudents.get(FAIRIES));
-
-        }
-
     }
+
 
     /**
      * Method applyTest2Monk() tests the applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2) when
      * the CharacterID is MONK and moving a student who is not on the card
+     * Is expected a false return
      */
 
-    @Test
-    public void applyTest2MonkStudentNotOnTheCard(){
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void applyTest2MonkStudentNotOnTheCard(Clan clan){
         game = new Game(2, "Giulia", true);
         StudentContainer island = game.getIslandManager().getIsland(1);
 
-        if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(PIXIES)==0){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
+        if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(clan)==0){
+            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+            students.put(clan, 1);
             boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
             assertFalse(moved);
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(UNICORNS)==0){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 1, 0, 0, 0);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertFalse(moved);
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(TOADS)==0){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 1, 0, 0);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertFalse(moved);
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(DRAGONS)==0){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertFalse(moved);
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(FAIRIES)==0){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 1);
-            boolean moved = studentMoverCards.get(0).applyEffect(game, island, students, null );
-            assertFalse(moved);
-
         }
 
     }
@@ -280,62 +232,23 @@ class StudentMoverCharacterCardTest {
      * Is expected a true result and that the chosen students are moved in the player's hall
      */
 
-    @Test
-    public void applyTest2Jester(){
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void applyTest2Jester(Clan clan){
         setGame();
 
         Hall hall = game.getPlayers()[0].getHall();
-        if(((StudentMoverCharacterCard) studentMoverCards.get(1)).getStudents().get(PIXIES)>=1){
-            hall.addStudent(DRAGONS);
+        if(((StudentMoverCharacterCard) studentMoverCards.get(1)).getStudents().get(clan)>=1){
+            hall.addStudent(Clan.values()[(clan.ordinal()+1)%5]);
             Map<Clan, Integer> initialStudents = hall.getStudents();
-            Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
-            Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(1).applyEffect(game, hall, addingStudents, removingStudents);
+            Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+            addingStudents.put(clan, 1);
+            Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+            removingStudents.put(Clan.values()[(clan.ordinal()+1)%5], 1);
+            boolean moved = studentMoverCards.get(1).applyEffect(game, null, addingStudents, removingStudents);
             assertTrue(moved);
             Map<Clan, Integer> finalStudents = hall.getStudents();
-            assertEquals(initialStudents.get(PIXIES)+1, finalStudents.get(PIXIES));
-        }
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(1)).getStudents().get(UNICORNS)>=1){
-            hall.addStudent(DRAGONS);
-            Map<Clan, Integer> initialStudents = hall.getStudents();
-            Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 1, 0, 0, 0);
-            Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(1).applyEffect(game, hall, addingStudents, removingStudents);
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = hall.getStudents();
-            assertEquals(initialStudents.get(UNICORNS)+1, finalStudents.get(UNICORNS));
-        }
-
-        if(((StudentMoverCharacterCard) studentMoverCards.get(1)).getStudents().get(TOADS)>=1){
-            hall.addStudent(DRAGONS);
-            Map<Clan, Integer> initialStudents = hall.getStudents();
-            Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 1, 0, 0);
-            Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(1).applyEffect(game, hall, addingStudents, removingStudents);
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = hall.getStudents();
-            assertEquals(initialStudents.get(TOADS)+1, finalStudents.get(TOADS));
-        }
-
-        if(((StudentMoverCharacterCard) studentMoverCards.get(1)).getStudents().get(DRAGONS)>=1){
-            hall.addStudent(PIXIES);
-            Map<Clan, Integer> initialStudents = hall.getStudents();
-            Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
-            boolean moved = studentMoverCards.get(1).applyEffect(game, hall, addingStudents, removingStudents);
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = hall.getStudents();
-            assertEquals(initialStudents.get(DRAGONS)+1, finalStudents.get(DRAGONS));
-        }
-        else{
-            hall.addStudent(DRAGONS);
-            Map<Clan, Integer> initialStudents = hall.getStudents();
-            Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 1);
-            Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(1).applyEffect(game, hall, addingStudents, removingStudents);
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = hall.getStudents();
-            assertEquals(initialStudents.get(FAIRIES)+1, finalStudents.get(FAIRIES));
+            assertEquals(initialStudents.get(clan)+1, finalStudents.get(clan));
         }
 
     }
@@ -380,53 +293,21 @@ class StudentMoverCharacterCardTest {
      */
 
 
-    @Test
-    public void applyTest2Princess(){
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void applyTest2Princess(Clan clan){
         setGame();
 
         Chamber chamber = game.getPlayers()[0].getChamber();
         Map<Clan, Integer> initialStudents = chamber.getStudents();
 
-        if(((StudentMoverCharacterCard) studentMoverCards.get(3)).getStudents().get(PIXIES)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
-            boolean moved = studentMoverCards.get(3).applyEffect(game, chamber, students, null);
+        if(((StudentMoverCharacterCard) studentMoverCards.get(3)).getStudents().get(clan)>=1){
+            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+            students.put(clan, 1);
+            boolean moved = studentMoverCards.get(3).applyEffect(game, null, students, null);
             assertTrue(moved);
             Map<Clan, Integer> finalStudents = chamber.getStudents();
-            assertEquals(initialStudents.get(PIXIES) + 1, finalStudents.get(PIXIES));
-
-        }
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(3)).getStudents().get(UNICORNS)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 1, 0, 0, 0);
-            boolean moved = studentMoverCards.get(3).applyEffect(game, chamber, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = chamber.getStudents();
-            assertEquals(initialStudents.get(UNICORNS) + 1, finalStudents.get(UNICORNS));
-
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(3)).getStudents().get(TOADS)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 1, 0, 0);
-            boolean moved = studentMoverCards.get(3).applyEffect(game, chamber, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = chamber.getStudents();
-            assertEquals(initialStudents.get(TOADS) + 1, finalStudents.get(TOADS));
-
-        }
-
-        else if(((StudentMoverCharacterCard) studentMoverCards.get(3)).getStudents().get(DRAGONS)>=1){
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
-            boolean moved = studentMoverCards.get(3).applyEffect(game, chamber, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = chamber.getStudents();
-            assertEquals(initialStudents.get(DRAGONS) + 1, finalStudents.get(DRAGONS));
-
-        }
-        else{
-            Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 1);
-            boolean moved = studentMoverCards.get(3).applyEffect(game, chamber, students, null );
-            assertTrue(moved);
-            Map<Clan, Integer> finalStudents = chamber.getStudents();
-            assertEquals(initialStudents.get(FAIRIES) + 1, finalStudents.get(FAIRIES));
+            assertEquals(initialStudents.get(clan) + 1, finalStudents.get(clan));
 
         }
 
@@ -440,23 +321,25 @@ class StudentMoverCharacterCardTest {
      */
 
 
-    @Test
-    public void applyTest2Thief(){
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void applyTest2Thief(Clan clan){
         setGame();
 
-        game.getTurn().setCharacterClan(DRAGONS);
+        game.getTurn().setCharacterClan(clan);
 
-        Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 3, 0);
+        Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        students.put(clan, 3);
 
         game.getPlayers()[1].getChamber().addStudents(students);
-        game.getPlayers()[0].getChamber().addStudent(DRAGONS);
+        game.getPlayers()[0].getChamber().addStudent(clan);
 
         boolean moved = studentMoverCards.get(4).applyEffect(game, null, null, null );
 
         assertTrue(moved);
 
-        assertEquals(0, game.getPlayers()[0].getChamber().getStudents().get(DRAGONS));
-        assertEquals(0, game.getPlayers()[1].getChamber().getStudents().get(DRAGONS));
+        assertEquals(0, game.getPlayers()[0].getChamber().getStudents().get(clan));
+        assertEquals(0, game.getPlayers()[1].getChamber().getStudents().get(clan));
 
 
     }

@@ -20,6 +20,19 @@ public class TestUtil {
 
     }
 
+    public static Map<Clan, Integer> coinMapCreator(int pixies, int unicorns, int toads, int dragons, int fairies) {
+
+        EnumMap<Clan, Integer> students = new EnumMap<>(Clan.class);
+        students.put(Clan.PIXIES, pixies);
+        students.put(Clan.UNICORNS, unicorns);
+        students.put(Clan.TOADS, toads);
+        students.put(Clan.DRAGONS, dragons);
+        students.put(Clan.FAIRIES, fairies);
+
+        return students;
+
+    }
+
     public static Map<Clan, Player> professorMapCreator(Player pixies, Player unicorns, Player toads, Player dragons, Player fairies) {
 
         EnumMap<Clan, Player> professors = new EnumMap<>(Clan.class);

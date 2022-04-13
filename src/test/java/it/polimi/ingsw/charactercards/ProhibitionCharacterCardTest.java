@@ -2,6 +2,7 @@ package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.Bag;
 import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.TestUtil;
 import it.polimi.ingsw.Turn;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.player.Player;
@@ -19,37 +20,21 @@ class ProhibitionCharacterCardTest {
     Bag bag;
     CharacterCardCreator creator = new CharacterCardCreator();
     CharacterCard generalCard;
+    int numOfPlayers = 3;
 
     @BeforeEach
     public void initialization(){
         bag = new Bag();
-        players[0] = new Player("Fede", TowerColor.BLACK, 3, bag);
-        players[1] = new Player("Giulia", TowerColor.WHITE, 3, bag);
-        players[2] = new Player("Samu", TowerColor.GRAY, 3, bag);
+        players[0] = new Player("Fede", TowerColor.BLACK, numOfPlayers, bag);
+        players[1] = new Player("Giulia", TowerColor.WHITE, numOfPlayers, bag);
+        players[2] = new Player("Samu", TowerColor.GRAY, numOfPlayers, bag);
 
         generalCard = creator.createCharacterCard(CharacterID.GRANDMA, bag);
 
-        Map<Clan, Integer> addingStudentsFirstPlayer = new EnumMap<>(Clan.class);
-        Map<Clan, Integer> addingStudentsSecondPlayer = new EnumMap<>(Clan.class);
-        Map<Clan, Integer> addingStudentsThirdPlayer = new EnumMap<>(Clan.class);
+        Map<Clan, Integer> addingStudentsFirstPlayer = TestUtil.studentMapCreator(1, 8, 2, 0, 0);
+        Map<Clan, Integer> addingStudentsSecondPlayer = TestUtil.studentMapCreator(2, 8, 3, 4, 0);
+        Map<Clan, Integer> addingStudentsThirdPlayer = TestUtil.studentMapCreator(3, 0, 0, 5, 0);
 
-        addingStudentsFirstPlayer.put(Clan.PIXIES, 1); //FIXME is there a better way??
-        addingStudentsFirstPlayer.put(Clan.UNICORNS, 8);
-        addingStudentsFirstPlayer.put(Clan.TOADS, 2);
-        addingStudentsFirstPlayer.put(Clan.DRAGONS, 0);
-        addingStudentsFirstPlayer.put(Clan.FAIRIES, 0);
-
-        addingStudentsSecondPlayer.put(Clan.PIXIES, 2);
-        addingStudentsSecondPlayer.put(Clan.UNICORNS, 8);
-        addingStudentsSecondPlayer.put(Clan.TOADS, 3);
-        addingStudentsSecondPlayer.put(Clan.DRAGONS, 4);
-        addingStudentsSecondPlayer.put(Clan.FAIRIES, 0);
-
-        addingStudentsThirdPlayer.put(Clan.PIXIES, 3);
-        addingStudentsThirdPlayer.put(Clan.UNICORNS, 0);
-        addingStudentsThirdPlayer.put(Clan.TOADS, 0);
-        addingStudentsThirdPlayer.put(Clan.DRAGONS, 5);
-        addingStudentsThirdPlayer.put(Clan.FAIRIES, 0);
 
         players[0].getChamber().addStudents(addingStudentsFirstPlayer);
         players[1].getChamber().addStudents(addingStudentsSecondPlayer);
@@ -171,7 +156,7 @@ class ProhibitionCharacterCardTest {
 
     @Test
     public void testApplyInitialEffect(){
-        Turn turn = new Turn(players[0], 3);
+        Turn turn = new Turn(players[0], numOfPlayers);
         ProhibitionCharacterCard card = (ProhibitionCharacterCard)generalCard;
         boolean initialEffect = card.applyInitialEffect(turn, players);
         assertTrue(initialEffect);

@@ -10,6 +10,9 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.*;
 
@@ -21,16 +24,17 @@ public class TurnTest {
     Player [] players;
     IslandManager islandManager;
     Bag bag;
+    int numOfPlayers = 3;
 
     @BeforeEach
     public void initialization() {
-        players = new Player[3];
+        players = new Player[numOfPlayers];
         bag = new Bag();
-        players[0] = new Player("Giulia", TowerColor.BLACK, 3, bag);
-        players[1] = new Player("Fede", TowerColor.GRAY, 3, bag);
-        players[2] = new Player("Samu", TowerColor.WHITE, 3, bag);
+        players[0] = new Player("Giulia", TowerColor.BLACK, numOfPlayers, bag);
+        players[1] = new Player("Fede", TowerColor.GRAY, numOfPlayers, bag);
+        players[2] = new Player("Samu", TowerColor.WHITE, numOfPlayers, bag);
 
-        turn = new Turn(players[0], 3);
+        turn = new Turn(players[0], numOfPlayers);
 
         islandManager = new IslandManager();
     }
@@ -74,7 +78,7 @@ public class TurnTest {
     public void moveMissingStudentToIslandTest () {
 
         Island island = islandManager.getIsland(3);
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
             players[0].getHall().removeStudent(Clan.DRAGONS);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsBefore = island.getStudents();
@@ -126,7 +130,7 @@ public class TurnTest {
         players[0].getHall().addStudent(Clan.DRAGONS);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
             players[0].getChamber().addStudent(Clan.DRAGONS);
 
         Map<Clan, Integer> chamberStudentsBefore = players[0].getChamber().getStudents();
@@ -150,7 +154,7 @@ public class TurnTest {
     @Test
     public void moveMissingStudentToChamberTest () {
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
             players[0].getHall().removeStudent(Clan.DRAGONS);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
@@ -200,7 +204,9 @@ public class TurnTest {
     @Test
     public void changeStateToMotherMovingTest() {
 
-        Island island = islandManager.getIsland(3);
+        int islandIndex = 3;
+
+        Island island = islandManager.getIsland(islandIndex);
 
         for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)+1; i++)
             players[0].getHall().addStudent(Clan.DRAGONS);
@@ -218,17 +224,18 @@ public class TurnTest {
     }
 
     /**
-     * test checks if method updateInfluence behaves as expected in a normal situation
+     * test checks if method updateInfluence behaves as expected in a normal situation and on a "limit of array" situation
      */
-    @Test
-    public void updateInfluenceTest() {
+    @ParameterizedTest
+    @CsvSource({"3, 5, 4", "0, 11, 10"})
+    public void updateInfluenceTest(int indexFirstIsland, int indexSecondIsland, int indexThirdIsland) {
 
-        Island island = islandManager.getIsland(3);
+        Island island = islandManager.getIsland(indexFirstIsland);
         Map<Clan, Integer> islandStudents = TestUtil.studentMapCreator(0, 5, 3, 7, 1);
 
-        islandManager.conquerIsland(players[0], islandManager.getIsland(5));
-        islandManager.conquerIsland(players[0], islandManager.getIsland(4));
-        islandManager.conquerIsland(players[0], islandManager.getIsland(3));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(indexSecondIsland));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(indexThirdIsland));
+        islandManager.conquerIsland(players[0], islandManager.getIsland(indexFirstIsland));
 
         island.removeStudents(island.getStudents());
         island.addStudents(islandStudents);
@@ -275,14 +282,15 @@ public class TurnTest {
     }
 
     /**
-     * test check if chooseCloud method behaves as expected in a normal situation
+     * test check if chooseCloud method behaves as expected in a normal situation, on both 2 and 3 players game.
      */
-    @Test
-    public void chooseCloudTest() {
+    @ParameterizedTest
+    @ValueSource(ints = {2, 3})
+    public void chooseCloudTest(int numOfPlayers) {
 
         turn.setTurnState(TurnState.CLOUD_CHOOSING);
 
-        CloudManager cloudManager = new CloudManager(3);
+        CloudManager cloudManager = new CloudManager(numOfPlayers);
         cloudManager.fillClouds(bag);
         Cloud cloud = cloudManager.getCloud(1);
 
@@ -311,16 +319,18 @@ public class TurnTest {
 
     /**
      * test check if chooseCloud method behaves as expected when the chosen cloud has already been picked
+     * test both the two-player and three-player game
      * the method is expected to throw a NotValidMoveException
      */
-    @Test
-    public void chooseAlreadyPickedCloudTest() {
+    @ParameterizedTest
+    @ValueSource(ints = {2, 3})
+    public void chooseAlreadyPickedCloudTest(int numOfPlayers) {
 
-        CloudManager cloudManager = new CloudManager(3);
+        CloudManager cloudManager = new CloudManager(numOfPlayers);
         cloudManager.fillClouds(bag);
         Cloud cloud = cloudManager.getCloud(1);
 
-        Turn turn2 = new Turn(players[2], 3);
+        Turn turn2 = new Turn(players[2], numOfPlayers);
         turn2.setTurnState(TurnState.CLOUD_CHOOSING);
         assertDoesNotThrow(() -> turn2.chooseCloud(cloud));
 

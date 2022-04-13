@@ -1,9 +1,12 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.TestUtil;
 import it.polimi.ingsw.player.Chamber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -26,12 +29,7 @@ public class ChamberTest {
      */
     @Test
     public void testAddStudents(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
         Map<Clan, Integer> addedStudents = chamber.addStudents(addingStudents);
         Map<Clan, Integer> students = chamber.getStudents();
@@ -48,12 +46,7 @@ public class ChamberTest {
 
     @Test
     public void testAddMoreStudents(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 12);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 7);
-        addingStudents.put(Clan.DRAGONS, 6);
-        addingStudents.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(12, 2, 7, 6, 10);
 
         Map<Clan, Integer> addedStudents = chamber.addStudents(addingStudents);
         assertEquals(10, addedStudents.get(Clan.values()[0]));
@@ -70,37 +63,17 @@ public class ChamberTest {
 
     @Test
     public void testRemoveStudents(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 12);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 7);
-        addingStudents.put(Clan.DRAGONS, 6);
-        addingStudents.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(12, 2, 7, 6, 10);
 
         chamber.addStudents(addingStudents);
 
-        Map<Clan, Integer> removingStudents = new EnumMap<>(Clan.class);
-        removingStudents.put(Clan.PIXIES, 8);
-        removingStudents.put(Clan.UNICORNS, 3);
-        removingStudents.put(Clan.TOADS, 8);
-        removingStudents.put(Clan.DRAGONS, 0);
-        removingStudents.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> removingStudents = TestUtil.studentMapCreator(8, 3, 8, 0, 10);
 
         Map<Clan, Integer> removed = chamber.removeStudents(removingStudents);
 
-        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
-        expectedStudents.put(Clan.PIXIES, 2);
-        expectedStudents.put(Clan.UNICORNS, 0);
-        expectedStudents.put(Clan.TOADS, 0);
-        expectedStudents.put(Clan.DRAGONS, 6);
-        expectedStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> expectedStudents = TestUtil.studentMapCreator(2, 0, 0, 6, 0);
 
-        Map<Clan, Integer> expectedRemoved = new EnumMap<>(Clan.class);
-        expectedRemoved.put(Clan.PIXIES, 8);
-        expectedRemoved.put(Clan.UNICORNS, 2);
-        expectedRemoved.put(Clan.TOADS, 7);
-        expectedRemoved.put(Clan.DRAGONS, 0);
-        expectedRemoved.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> expectedRemoved = TestUtil.studentMapCreator(8, 2, 7, 0, 10);
 
         Map<Clan, Integer> students = chamber.getStudents();
         for(int i=0; i<Clan.values().length; i++){
@@ -131,22 +104,12 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoins(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 12);
-        addingStudents.put(Clan.UNICORNS, 1);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 5);
-        addingStudents.put(Clan.FAIRIES, 9);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(12, 1, 3, 5, 9);
 
         chamber.addStudents(addingStudents);
         Map<Clan, Integer> coinsGiven = chamber.getCoinsGiven();
 
-        Map<Clan, Integer> expectedCoinsGiven = new EnumMap<>(Clan.class);
-        expectedCoinsGiven.put(Clan.PIXIES, 3);
-        expectedCoinsGiven.put(Clan.UNICORNS, 0);
-        expectedCoinsGiven.put(Clan.TOADS, 1);
-        expectedCoinsGiven.put(Clan.DRAGONS, 1);
-        expectedCoinsGiven.put(Clan.FAIRIES, 3);
+        Map<Clan, Integer> expectedCoinsGiven = TestUtil.coinMapCreator(3, 0, 1, 1, 3);
 
         for(int i = 0; i< Clan.values().length; i++){
             assertEquals(expectedCoinsGiven.get(Clan.values()[i]), coinsGiven.get(Clan.values()[i]));
@@ -163,39 +126,19 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoinsTwiceCaseOne(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 4);
-        addingStudents.put(Clan.TOADS, 6);
-        addingStudents.put(Clan.DRAGONS, 9);
-        addingStudents.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 4, 6, 9, 10);
 
         chamber.addStudents(addingStudents);
 
-        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
-        remove.put(Clan.PIXIES, 3);
-        remove.put(Clan.UNICORNS, 0);
-        remove.put(Clan.TOADS, 0);
-        remove.put(Clan.DRAGONS, 0);
-        remove.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> remove = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         chamber.removeStudents(remove);
 
-        Map<Clan, Integer> newAddingStudents = new EnumMap<>(Clan.class);
-        newAddingStudents.put(Clan.PIXIES, 3);
-        newAddingStudents.put(Clan.UNICORNS, 0);
-        newAddingStudents.put(Clan.TOADS, 0);
-        newAddingStudents.put(Clan.DRAGONS, 0);
-        newAddingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> newAddingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         chamber.addStudents(newAddingStudents);
 
-        Map<Clan, Integer> expectedCoinsGiven = new EnumMap<>(Clan.class);
-        expectedCoinsGiven.put(Clan.PIXIES, 1);
-        expectedCoinsGiven.put(Clan.UNICORNS, 1);
-        expectedCoinsGiven.put(Clan.TOADS, 2);
-        expectedCoinsGiven.put(Clan.DRAGONS, 3);
-        expectedCoinsGiven.put(Clan.FAIRIES, 3);
+        Map<Clan, Integer> expectedCoinsGiven = TestUtil.coinMapCreator(1, 1, 2, 3, 3);
 
         Map<Clan, Integer> result = chamber.getCoinsGiven();
 
@@ -214,39 +157,19 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoinsTwiceCaseTwo(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 4);
-        addingStudents.put(Clan.TOADS, 6);
-        addingStudents.put(Clan.DRAGONS, 9);
-        addingStudents.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 4, 6, 9, 10);
 
         chamber.addStudents(addingStudents);
 
-        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
-        remove.put(Clan.PIXIES, 0);
-        remove.put(Clan.UNICORNS, 2);
-        remove.put(Clan.TOADS, 0);
-        remove.put(Clan.DRAGONS, 0);
-        remove.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> remove = TestUtil.studentMapCreator(0, 2, 0, 0, 0);
 
         chamber.removeStudents(remove);
 
-        Map<Clan, Integer> newAddingStudents = new EnumMap<>(Clan.class);
-        newAddingStudents.put(Clan.PIXIES, 0);
-        newAddingStudents.put(Clan.UNICORNS, 4);
-        newAddingStudents.put(Clan.TOADS, 0);
-        newAddingStudents.put(Clan.DRAGONS, 0);
-        newAddingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> newAddingStudents = TestUtil.studentMapCreator(0, 4, 0, 0, 0);
 
         chamber.addStudents(newAddingStudents);
 
-        Map<Clan, Integer> expectedCoinsGiven = new EnumMap<>(Clan.class);
-        expectedCoinsGiven.put(Clan.PIXIES, 1);
-        expectedCoinsGiven.put(Clan.UNICORNS, 2);
-        expectedCoinsGiven.put(Clan.TOADS, 2);
-        expectedCoinsGiven.put(Clan.DRAGONS, 3);
-        expectedCoinsGiven.put(Clan.FAIRIES, 3);
+        Map<Clan, Integer> expectedCoinsGiven = TestUtil.coinMapCreator(1, 2, 2 , 3, 3);
 
         Map<Clan, Integer> result = chamber.getCoinsGiven();
 
@@ -265,39 +188,19 @@ public class ChamberTest {
 
     @Test
     public void testUpdateCoinsTwiceCaseThree(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 4);
-        addingStudents.put(Clan.TOADS, 6);
-        addingStudents.put(Clan.DRAGONS, 9);
-        addingStudents.put(Clan.FAIRIES, 10);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 4, 6, 9, 10);
 
         chamber.addStudents(addingStudents);
 
-        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
-        remove.put(Clan.PIXIES, 0);
-        remove.put(Clan.UNICORNS, 0);
-        remove.put(Clan.TOADS, 0);
-        remove.put(Clan.DRAGONS, 5);
-        remove.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> remove = TestUtil.studentMapCreator(0, 0, 0, 5, 0);
 
         chamber.removeStudents(remove);
 
-        Map<Clan, Integer> newAddingStudents = new EnumMap<>(Clan.class);
-        newAddingStudents.put(Clan.PIXIES, 0);
-        newAddingStudents.put(Clan.UNICORNS, 0);
-        newAddingStudents.put(Clan.TOADS, 0);
-        newAddingStudents.put(Clan.DRAGONS, 2);
-        newAddingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> newAddingStudents = TestUtil.studentMapCreator(0, 0, 0, 2, 0);
 
         chamber.addStudents(newAddingStudents);
 
-        Map<Clan, Integer> expectedCoinsGiven = new EnumMap<>(Clan.class);
-        expectedCoinsGiven.put(Clan.PIXIES, 1);
-        expectedCoinsGiven.put(Clan.UNICORNS, 1);
-        expectedCoinsGiven.put(Clan.TOADS, 2);
-        expectedCoinsGiven.put(Clan.DRAGONS, 3);
-        expectedCoinsGiven.put(Clan.FAIRIES, 3);
+        Map<Clan, Integer> expectedCoinsGiven = TestUtil.coinMapCreator(1, 1, 2, 3, 3);
 
         Map<Clan, Integer> result = chamber.getCoinsGiven();
 
@@ -314,18 +217,15 @@ public class ChamberTest {
      * chosen clan
      */
 
-    @Test
-    public void testAddStudent(){
-        boolean added = chamber.addStudent(Clan.DRAGONS);
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testAddStudent(Clan clan){
+        boolean added = chamber.addStudent(clan);
         assertTrue(added);
         Map<Clan, Integer> students = chamber.getStudents();
 
-        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
-        expectedStudents.put(Clan.PIXIES, 0);
-        expectedStudents.put(Clan.UNICORNS, 0);
-        expectedStudents.put(Clan.TOADS, 0);
-        expectedStudents.put(Clan.DRAGONS, 1);
-        expectedStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> expectedStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        expectedStudents.put(clan, 1);
 
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
@@ -338,19 +238,16 @@ public class ChamberTest {
      * Is expected a false return and an unmodified situation of the students
      */
 
-    @Test
-    public void testAddInAFullChamber(){
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testAddInAFullChamber(Clan clan){
 
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 0);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 10);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 10);
 
         chamber.addStudents(addingStudents);
 
-        boolean added = chamber.addStudent(Clan.DRAGONS);
+        boolean added = chamber.addStudent(clan);
         assertFalse(added);
         Map<Clan, Integer> students = chamber.getStudents();
         for(int i=0; i<Clan.values().length; i++){

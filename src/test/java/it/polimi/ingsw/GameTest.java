@@ -427,10 +427,12 @@ Game game;
 
         Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 4, 0);
 
-        islandManager.getIsland(0).addStudents(students);
+        int islandIndex = 0;
+
+        islandManager.getIsland(islandIndex).addStudents(students);
         players[2].getChamber().setProfessor(Clan.DRAGONS, true);
 
-        game.checkInfluence(islandManager.getIsland(0));
+        game.checkInfluence(islandManager.getIsland(islandIndex));
 
         List<Player> winners = game.getWinners();
 

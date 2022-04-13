@@ -51,7 +51,6 @@ public class IslandManagerTest {
      */
     @Test
     public void distanceZeroTest(){
-        Random random = new Random();
         int distance = islandManager.distanceFromMotherNature(islandManager.getMotherNaturePosition());
         assertEquals(0, distance);
     }

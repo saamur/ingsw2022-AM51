@@ -45,28 +45,37 @@ public class InfluenceCharacterTurnTest extends CharacterTurnTest{
     @Test
     public void influenceTestCentaur(){
         islandInitialization();
+
+        int islandIndex = 3;
+
         turn.setActivatedCharacterCard(characterCards[CharacterID.CENTAUR.ordinal()]);
         //Samu has conquered the island and has same influence but with 1 tower present
-        turn.updateInfluence(islandManager, islandManager.getIsland(3), players);
-        assertEquals("Fede", islandManager.getIsland(3).getControllingPlayer().getNickname());
+        turn.updateInfluence(islandManager, islandManager.getIsland(islandIndex), players);
+        assertEquals("Fede", islandManager.getIsland(islandIndex).getControllingPlayer().getNickname());
 
     }
 
     @Test
     public void influenceTestKnight(){
         islandInitialization();
+
+        int islandIndex = 3;
+
         turn.setActivatedCharacterCard(characterCards[CharacterID.KNIGHT.ordinal()]);
-        islandManager.getIsland(3).addStudent(Clan.FAIRIES);
-        turn.updateInfluence(islandManager, islandManager.getIsland(3), players);
-        assertEquals("Fede", islandManager.getIsland(3).getControllingPlayer().getNickname()); //Fede is currPlayer
+        islandManager.getIsland(islandIndex).addStudent(Clan.FAIRIES);
+        turn.updateInfluence(islandManager, islandManager.getIsland(islandIndex), players);
+        assertEquals("Fede", islandManager.getIsland(islandIndex).getControllingPlayer().getNickname()); //Fede is currPlayer
     }
 
     @Test
     public void influenceTestMushroomPicker(){
         islandInitialization();
+
+        int islandIndex = 3;
+
         turn.setActivatedCharacterCard(characterCards[CharacterID.MUSHROOMPICKER.ordinal()]);
         turn.setCharacterClan(Clan.TOADS);
-        turn.updateInfluence(islandManager, islandManager.getIsland(3), players);
-        assertEquals("Samu", islandManager.getIsland(3).getControllingPlayer().getNickname());
+        turn.updateInfluence(islandManager, islandManager.getIsland(islandIndex), players);
+        assertEquals("Samu", islandManager.getIsland(islandIndex).getControllingPlayer().getNickname());
     }
 }

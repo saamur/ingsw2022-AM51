@@ -64,12 +64,7 @@ public class BagTest {
         Map<Clan, Integer> remaining = b.getStudents();
         int sum = remaining.values().stream().mapToInt(a -> a).sum();
         assertEquals(119, sum);  //initialNumberStudents, remaining
-        Map<Clan, Integer> studentsToBeRemoved = new EnumMap<>(Clan.class);
-        studentsToBeRemoved.put(Clan.PIXIES, 0);
-        studentsToBeRemoved.put(Clan.UNICORNS, 1);
-        studentsToBeRemoved.put(Clan.TOADS, 0);
-        studentsToBeRemoved.put(Clan.DRAGONS, 3);
-        studentsToBeRemoved.put(Clan.FAIRIES, 4);
+        Map<Clan, Integer> studentsToBeRemoved = TestUtil.studentMapCreator(0, 1, 0, 3, 4);
         Map<Clan, Integer> studentsRemoved = b.removeStudents(studentsToBeRemoved);
         int removed = studentsRemoved.values().stream().mapToInt(a -> a).sum();
 
@@ -125,11 +120,11 @@ public class BagTest {
             assertEquals(result.get(c), drawStudents.get(c));
 
         Map<Clan, Integer> filledBag = new EnumMap<>(Clan.class);
-        for(int i=0; i<5; i++){
+        for(int i=0; i<Clan.values().length; i++){
             filledBag.put(Clan.values()[i], 24);
         }
         Map<Clan, Integer> actualBag = b.getStudents();
-        for(int i=0; i<5; i++)
+        for(int i=0; i<Clan.values().length; i++)
             assertEquals(filledBag.get(Clan.values()[i]), actualBag.get(Clan.values()[i]));
     }
 

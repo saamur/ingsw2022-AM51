@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Constants {
 
+    public static final int MAX_NUM_STUDENTS_PER_CLAN_CHAMBER = 10;
     public static final int NUM_INITIAL_STUDENTS_PER_CLAN_BAG = 24;
     public static final int NUM_INITIAL_ISLANDS = 12;
     public static final int MIN_NUM_ISLANDS = 3;

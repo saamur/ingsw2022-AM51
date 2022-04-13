@@ -6,6 +6,8 @@ import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -75,10 +77,11 @@ public abstract class CharacterCardTest {
      * A true return is expected.
      *
      */
-    @Test
-    public void initialEffectTest(){
+    @ParameterizedTest
+    @ValueSource(ints = {2, 3})
+    public void initialEffectTest(int numOfPlayers){
         Player[] players = createPlayers();
-        Turn turn = new Turn(players[0], 2);
+        Turn turn = new Turn(players[0], numOfPlayers);
         assertTrue(characterCard.applyInitialEffect(turn, players));
     }
 
@@ -86,9 +89,10 @@ public abstract class CharacterCardTest {
      * Method applyTest1() tests the method applyEffect(Game game, Island island).
      * The return is expected to be false.
      */
-    @Test
-    public void applyTest1(){
-        Game game = new Game(2, "Fede", true);
+    @ParameterizedTest
+    @ValueSource(ints = {2, 3})
+    public void applyTest1(int numOfPlayers){
+        Game game = new Game(numOfPlayers, "Fede", true);
         Island island = new Island();
         assertFalse(characterCard.applyEffect(game, island));
     }
@@ -97,9 +101,10 @@ public abstract class CharacterCardTest {
      * Method applyTest2() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
      * A false return is expected.
      */
-    @Test
-    public void applyTest2(){
-        Game game = new Game(3, "Giu", true);
+    @ParameterizedTest
+    @ValueSource(ints = {2, 3})
+    public void applyTest2(int numOfPlayers){
+        Game game = new Game(numOfPlayers, "Giu", true);
         StudentContainer destination = new Island();
         Map<Clan, Integer> students1 = new EnumMap<>(Clan.class);
         assertFalse(characterCard.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null

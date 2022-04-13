@@ -150,6 +150,7 @@ public abstract class CharacterTurnTest {
 
     public void islandInitialization(){
         professorsInitialization();
+        int islandIndex = 3;
         Map<Clan, Integer> studentsToBeAdded = TestUtil.studentMapCreator(0, 1, 2, 0, 1);
 
         /*if (islandManager.getIsland(3).getStudents()[Clan.FAIRIES.ordinal()] == 1) {
@@ -164,9 +165,9 @@ public abstract class CharacterTurnTest {
             //If there is one Giulia's students (unicorns) already on the Island it will not add any more.
             studentsToBeAdded[Clan.TOADS.ordinal()] = 0;
         }*/
-        islandManager.getIsland(3).removeStudents(islandManager.getIsland(3).getStudents());
-        islandManager.getIsland(3).addStudents(studentsToBeAdded);
-        islandManager.conquerIsland(players[2], islandManager.getIsland(3));
+        islandManager.getIsland(islandIndex).removeStudents(islandManager.getIsland(islandIndex).getStudents());
+        islandManager.getIsland(islandIndex).addStudents(studentsToBeAdded);
+        islandManager.conquerIsland(players[2], islandManager.getIsland(islandIndex));
 
         //NORMAL INFLUENCE: {1, 2, 1+1(tower)}
     }

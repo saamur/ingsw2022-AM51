@@ -501,39 +501,33 @@ public class Game implements GameInterface {
      * and performs any potential initial effect
      * @param playerNickname    the nickname of the Player that requested this move
      * @param characterID       the CharacterID of the CharacterCard to activate
-     * @return                  whether the move is valid and the CharacterCard has been activated
+     * @throws ExpertModeNotEnabledException    when it is called in a not expert game
+     * @throws WrongGamePhaseException          when it is called not during the action phase
+     * @throws NonExistingPlayerException       when there is no Player with the given nickname
+     * @throws WrongPlayerException             when it is not the turn of the player with the given nickname
+     * @throws NotValidMoveException            when the selected character is not in this game or it is not available,
+     *                                          another character card has been activated in this turn or the Player
+     *                                          does not have enough coins to pay for it
      */
     @Override
-    public boolean activateCharacterCard (String playerNickname, CharacterID characterID) {
+    public void activateCharacterCard (String playerNickname, CharacterID characterID) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
         CharacterCard characterCard = characterCardFromID(characterID);
-
-        if (player == null || characterCard == null)
-            return false;
-
-        if (!expertModeEnabled)
-            return false;
-
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        if (turn.getActivatedCharacterCard() != null)
-            return false;
-
-        if (player.getCoins() < characterCard.getCost())
-            return false;
-
-        if (!characterCard.isAvailable())                   //for example GRANDMA can't be used if there aren't prohibition cards on it
-            return false;
+        if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (characterCard == null) throw new NotValidMoveException("The selected character card cannot be activated in this game");
+        if (turn.getActivatedCharacterCard() != null) throw new NotValidMoveException("Another character card has been activated in this turn");
+        if (player.getCoins() < characterCard.getCost()) throw new NotValidMoveException("There are not enough coins to pay for the selected character card");
+        if (!characterCard.isAvailable()) throw new NotValidMoveException("The selected character card is not available");
 
         player.pay(characterCard.getCost());
         characterCard.updateCost();
 
         turn.setActivatedCharacterCard(characterCard);
         characterCard.applyInitialEffect(turn, players);
-
-        return true;
 
     }
 
@@ -542,36 +536,31 @@ public class Game implements GameInterface {
      * on the Island with the specified index
      * @param playerNickname    the nickname of the Player that requested this move
      * @param islandIndex       the index of the Island on which the effect has to be applied
-     * @return                  whether the move is valid and has been carried out
+     * @throws ExpertModeNotEnabledException    when it is called in a not expert game
+     * @throws WrongGamePhaseException          when it is called not during the action phase
+     * @throws NonExistingPlayerException       when there is no Player with the given nickname
+     * @throws WrongPlayerException             when it is not the turn of the player with the given nickname
+     * @throws NotValidMoveException            when there is no activated character card, its effect has already been
+     *                                          applied or the move is not valid
+     * @throws NotValidIndexException           when there is no Island with the given index
      */
     @Override
-    public boolean applyCharacterCardEffect (String playerNickname, int islandIndex) {
+    public void applyCharacterCardEffect (String playerNickname, int islandIndex) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException, NotValidIndexException {
 
         Player player = playerFromNickname(playerNickname);
         Island island = islandManager.getIsland(islandIndex);
-        if (player == null || island == null)
-            return false;
-
-        if (!expertModeEnabled)             //redundant
-            return false;
-
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        if (turn.getActivatedCharacterCard() == null)
-            return false;
-
-        if (turn.isCharacterEffectApplied())
-            return false;
+        if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
+        if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
+        if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
-
-        if (!ok)
-            return false;
+        if (!ok) throw new NotValidMoveException("This move is not valid");
 
         turn.characterEffectApplied();
-
-        return true;
 
     }
 
@@ -580,29 +569,29 @@ public class Game implements GameInterface {
      * necessary for some CharacterCards to perform their effects
      * @param playerNickname    the nickname of the Player that requested this move
      * @param clan              the Clan chosen by the Player
-     * @return                  whether the move was valid and has been carried out
+     * @throws ExpertModeNotEnabledException    when it is called in a not expert game
+     * @throws WrongGamePhaseException          when it is called not during the action phase
+     * @throws NonExistingPlayerException       when there is no Player with the given nickname
+     * @throws WrongPlayerException             when it is not the turn of the player with the given nickname
+     * @throws NotValidMoveException            when there is no activated character card, or the Clan for the effect
+     *                                          of the character card has already been set
      */
     @Override
-    public boolean setClanCharacter (String playerNickname, Clan clan) {
+    public void setClanCharacter (String playerNickname, Clan clan) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
-
-        if (player == null)
-            return false;
-
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        if (turn.isCharacterEffectApplied())
-            return false;
+        if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
+        if (turn.getCharacterClan() != null) throw new NotValidMoveException("The clan for the effect of the selected character card has already been set");
 
         turn.setCharacterClan(clan);
 
         if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF) {
-            return applyCharacterCardEffect(playerNickname, -1, null, null);
+            applyCharacterCardEffect(playerNickname, -1, null, null);
         }
-
-        return true;
 
     }
 
@@ -612,38 +601,32 @@ public class Game implements GameInterface {
      * @param islandIndex       the index of the destination Island for the students moved (if necessary)
      * @param students1         the students to move to the destination (if necessary)
      * @param students2         the students to move from the destination, in case of an exchange of students (if necessary)
-     * @return                  whether the move was valid and has been carried out
+     * @throws ExpertModeNotEnabledException    when it is called in a not expert game
+     * @throws WrongGamePhaseException          when it is called not during the action phase
+     * @throws NonExistingPlayerException       when there is no Player with the given nickname
+     * @throws WrongPlayerException             when it is not the turn of the player with the given nickname
+     * @throws NotValidMoveException            when there is no activated character card, its effect has already been
+     *                                          applied or the move is not valid
      */
     @Override
-    public boolean applyCharacterCardEffect (String playerNickname, int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
+    public void applyCharacterCardEffect (String playerNickname, int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
-        if (player == null)
-            return false;
-
-        if (!expertModeEnabled)             //redundant
-            return false;
-
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        if (turn.getActivatedCharacterCard() == null)
-            return false;
-
-        if (turn.isCharacterEffectApplied())
-            return false;
+        if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
+        if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, islandManager.getIsland(islandIndex), students1, students2);
 
-        if (!ok)
-            return false;
+        if (!ok) throw new NotValidMoveException("This move is not valid");
 
         turn.characterEffectApplied();
 
         if (bag.isEmpty())
             lastRound = true;
-
-        return true;
 
     }
 

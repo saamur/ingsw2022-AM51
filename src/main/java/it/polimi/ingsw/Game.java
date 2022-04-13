@@ -342,24 +342,24 @@ public class Game implements GameInterface {
      * If it's the last round it calls endTurn
      * @param playerNickname    the nickname of the Player that requested this move
      * @param islandIndex       the index of the Island on which to move Mother Nature
-     * @return                  whether the move is valid and has been carried out
+     * @throws WrongGamePhaseException      when it is called not during the action phase
+     * @throws NonExistingPlayerException   when there is no Player with the given nickname
+     * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
+     * @throws WrongTurnPhaseException      when it is called not during the student moving phase
+     * @throws NotValidIndexException       when there is no Island with the given index
+     * @throws NotValidMoveException        when the Island with the given index is too distant to be reached by Mother Nature
      */
     @Override
-    public boolean moveMotherNature (String playerNickname, int islandIndex) {
+    public void moveMotherNature (String playerNickname, int islandIndex) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException, NotValidIndexException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
         Island island = islandManager.getIsland(islandIndex);
-        if (player == null || island == null)
-            return false;
-
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        if (turn.getTurnState() != TurnState.MOTHER_MOVING)
-            return false;
-
-        if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature())
-            return false;
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (turn.getTurnState() != TurnState.MOTHER_MOVING) throw new WrongTurnPhaseException("The turn is not in the mother moving phase");
+        if (island == null) throw new NotValidIndexException("There is no island with the given index");
+        if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature()) throw new NotValidMoveException("The selected island is too far from Mother Nature");
 
         islandManager.setMotherNaturePosition(island);
         checkInfluence(island);
@@ -368,8 +368,6 @@ public class Game implements GameInterface {
             turn.setTurnState(TurnState.END_TURN);
         else
             turn.setTurnState(TurnState.CLOUD_CHOOSING);
-
-        return true;
 
     }
 
@@ -405,51 +403,54 @@ public class Game implements GameInterface {
      * to the Hall of the current Player
      * @param playerNickname    the nickname of the Player that requested this move
      * @param cloudIndex        the index of the chosen Cloud
-     * @return                  whether the move is valid and has been carried out
+     * @throws WrongGamePhaseException      when it is called not during the action phase
+     * @throws NonExistingPlayerException   when there is no Player with the given nickname
+     * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
+     * @throws NotValidIndexException       when there is no Cloud with the given index
+     * @throws WrongTurnPhaseException      when it is called not during the cloud choosing phase
+     * @throws NotValidMoveException        when the Cloud with the given index has already been picked
      */
     @Override
-    public boolean chosenCloud (String playerNickname, int cloudIndex) {
+    public void chosenCloud (String playerNickname, int cloudIndex) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException, WrongTurnPhaseException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
         Cloud cloud = cloudManager.getCloud(cloudIndex);
-        if (player == null || cloud == null)
-            return false;
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        return turn.chooseCloud(cloud);
+        turn.chooseCloud(cloud);
 
     }
 
     /**
      * method endTurn calls InitRound if the current Player is the last one of this round phase,
      * otherwise it instantiates a new Turn for the next Player
+     * @param playerNickname    the nickname of the Player that requested this move
+     * @throws WrongGamePhaseException      when it is called not during the action phase
+     * @throws NonExistingPlayerException   when there is no Player with the given nickname
+     * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
+     * @throws WrongTurnPhaseException      when it is called not during the end turn phase
      */
     @Override
-    public boolean endTurn(String playerNickname) {
+    public void endTurn(String playerNickname) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException {
 
         Player player = playerFromNickname(playerNickname);
-        if (player == null)
-            return false;
-
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        if (turn.getTurnState() != TurnState.END_TURN)
-            return false;
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (turn.getTurnState() != TurnState.END_TURN) throw new WrongTurnPhaseException("The turn is not in the end turn phase");
 
         indexCurrPlayer++;
 
         if (gameState == GameState.GAME_OVER)
-            return true;
+            return;
 
         if (indexCurrPlayer == players.length)
             initRound();
         else
             turn = new Turn(playersOrder[indexCurrPlayer], players.length);
-
-        return true;
 
     }
 

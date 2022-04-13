@@ -1,9 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
-import it.polimi.ingsw.exceptions.NotValidMoveException;
-import it.polimi.ingsw.exceptions.WrongGamePhaseException;
-import it.polimi.ingsw.exceptions.WrongPlayerException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
@@ -357,12 +354,7 @@ Game game;
     @Test
     public void testMoveMotherNature() {
         setPlanning();
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
@@ -371,8 +363,7 @@ Game game;
         assertEquals(TurnState.MOTHER_MOVING, turnState);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        boolean moved = game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
-        assertTrue(moved);
+        assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
         Island NewMotherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int finalIndex = game.getIslandManager().getIslands().indexOf(NewMotherNaturePosition);
         assertEquals((index + 1) % game.getIslandManager().getIslands().size(), finalIndex);
@@ -381,25 +372,19 @@ Game game;
     /**
      * the test checks that the currPlayer cannot move the Mother Nature more than the Max steps written on the card he
      * played
-     * A false return is expected
+     * A NotValidMoveException is expected to be thrown
      */
     @Test
     public void testMoveMotherNatureTooMuch() {
         setPlanning();
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        boolean moved = game.moveMotherNature("Giulia", (index + 2) % (game.getIslandManager().getIslands().size()));
-        assertFalse(moved);
+        assertThrows(NotValidMoveException.class, () -> game.moveMotherNature("Giulia", (index + 2) % (game.getIslandManager().getIslands().size())));
         int finalIndex = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertEquals(index, finalIndex);
     }
@@ -440,12 +425,7 @@ Game game;
         List<Player> expectedWinners = new ArrayList<>();
         expectedWinners.add(players[2]);
 
-        Map<Clan, Integer> students = new EnumMap<>(Clan.class);
-        students.put(Clan.PIXIES, 0);
-        students.put(Clan.UNICORNS, 0);
-        students.put(Clan.TOADS, 0);
-        students.put(Clan.DRAGONS, 4);
-        students.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 4, 0);
 
         islandManager.getIsland(0).addStudents(students);
         players[2].getChamber().setProfessor(Clan.DRAGONS, true);
@@ -494,12 +474,7 @@ Game game;
         expectedWinners.add(players[2]);
         expectedWinners.add(players[1]);
 
-        Map<Clan, Integer> students = new EnumMap<>(Clan.class);
-        students.put(Clan.PIXIES, 0);
-        students.put(Clan.UNICORNS, 0);
-        students.put(Clan.TOADS, 0);
-        students.put(Clan.DRAGONS, 4);
-        students.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> students = TestUtil.studentMapCreator(0, 0, 0, 4, 0);
 
         islandManager.getIsland(0).addStudents(students);
         players[2].getChamber().setProfessor(Clan.DRAGONS, true);
@@ -515,18 +490,13 @@ Game game;
 
     /**
      * the test checks if the chosenCloud method let the current player pick a cloud which is not empty
-     * Is expected a True result
+     * It is expected not to throw any exception
      */
 
     @Test
     public void testChosenCloud() {
         setPlanning();
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
@@ -534,39 +504,31 @@ Game game;
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
+        assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
         Map<Clan, Integer> initialStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
         Map<Clan, Integer> studentsInTheCloud = game.getCloudManager().getCloud(1).getStudents();
-        boolean chosen = game.chosenCloud("Giulia", 1);
-        assertTrue(chosen);
+        assertDoesNotThrow(() -> game.chosenCloud("Giulia", 1));
         Map<Clan, Integer> finalStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
         Map<Clan, Integer> expectedFinalStudentInTheHall = new EnumMap<>(Clan.class);
         for (Clan c : Clan.values()) {
             expectedFinalStudentInTheHall.put(c, initialStudentsInTheHall.get(c) + studentsInTheCloud.get(c));
         }
-        for (int i = 0; i < Clan.values().length; i++) {
-            assertEquals(finalStudentsInTheHall.get(Clan.values()[i]), expectedFinalStudentInTheHall.get(Clan.values()[i]));
+        for (Clan c : Clan.values()) {
+            assertEquals(finalStudentsInTheHall.get(c), expectedFinalStudentInTheHall.get(c));
 
         }
     }
 
     /**
      * tests that two players cannot choose the same cloud
-     * A false result is expected
+     * the method chosenCloud is expected to throw a NotValidMoveException
      */
-
     @Test
     public void testAlreadyChosenCloud(){
         setPlanning();
         game.getCloudManager().getCloud(1).pick();
 
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
-
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
@@ -574,14 +536,13 @@ Game game;
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
-        boolean chosen = game.chosenCloud("Giulia", 1);
-        assertFalse(chosen);
+        assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
+        assertThrows(NotValidMoveException.class, () -> game.chosenCloud("Giulia", 1));
     }
 
     /**
      * checks that a non-current player cannot choose a cloud
-     * a false return is expected
+     * the method chosenCloud is expected to throw a WrongPlayerException
      */
 
     @Test
@@ -589,12 +550,7 @@ Game game;
         setPlanning();
         game.getCloudManager().getCloud(1).pick();
 
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
@@ -602,26 +558,20 @@ Game game;
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
-        boolean chosen = game.chosenCloud("Samu", 1);
-        assertFalse(chosen);
+        assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
+        assertThrows(WrongPlayerException.class, () -> game.chosenCloud("Samu", 1));
     }
 
     /**
-     * check if, after that the first Player end his turn, the endTurn method instantiates a new turn
-     * Is expected a true result
+     * checks if, after that the first Player ends his turn, the endTurn method instantiates a new turn
+     * the method endTurn is expected not to throw any exception
      */
 
     @Test
     public void testEndTurn(){
         setPlanning();
 
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
@@ -629,33 +579,28 @@ Game game;
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
-        game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
-        game.chosenCloud("Giulia", 1);
-        boolean ended = game.endTurn("Giulia");
-        assertTrue(ended);
+        assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
+        assertDoesNotThrow(() -> game.chosenCloud("Giulia", 1));
+
+        assertDoesNotThrow(() -> game.endTurn("Giulia"));
     }
 
     /**
      * the test checks that it isn't possible to call the endTurn method in a non-valid position
-     * Is expected a false return
+     * the method endTurn is expected to throw a NotValidMoveException
      */
     @Test
     public void testEndTurnBeforeTime() {
         setPlanning();
 
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 3);
-        addingStudents.put(Clan.UNICORNS, 0);
-        addingStudents.put(Clan.TOADS, 0);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
         assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
         assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        boolean endedTurn = game.endTurn("Giulia");
-        assertFalse(endedTurn);
+
+        assertThrows(WrongTurnPhaseException.class, () -> game.endTurn("Giulia"));
     }
 
 }

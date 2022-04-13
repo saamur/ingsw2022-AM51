@@ -294,9 +294,7 @@ public class TurnTest {
         for(Clan c : Clan.values())
             studentsHallExpected.put(c, studentsHallBefore.get(c) + studentsCloudBefore.get(c));
 
-        boolean ok = turn.chooseCloud(cloud);
-
-        assertTrue(ok);
+        assertDoesNotThrow(() -> turn.chooseCloud(cloud));
 
         for(Clan c : Clan.values())
             assertEquals(studentsHallExpected.get(c), players[0].getHall().getStudents().get(c));
@@ -312,7 +310,8 @@ public class TurnTest {
     }
 
     /**
-     * test check if chooseCloud method behaves as expected when the chosen cloud is already picked
+     * test check if chooseCloud method behaves as expected when the chosen cloud has already been picked
+     * the method is expected to throw a NotValidMoveException
      */
     @Test
     public void chooseAlreadyPickedCloudTest() {
@@ -323,17 +322,16 @@ public class TurnTest {
 
         Turn turn2 = new Turn(players[2], 3);
         turn2.setTurnState(TurnState.CLOUD_CHOOSING);
-        turn2.chooseCloud(cloud);
+        assertDoesNotThrow(() -> turn2.chooseCloud(cloud));
 
         turn.setTurnState(TurnState.CLOUD_CHOOSING);
 
         Map<Clan, Integer> studentsHallBefore = players[0].getHall().getStudents();
 
-        boolean ok = turn.chooseCloud(cloud);
+        assertThrows(NotValidMoveException.class, () -> turn.chooseCloud(cloud));
 
-        assertFalse(ok);
-        for(int i=0; i<Clan.values().length; i++)
-            assertEquals(studentsHallBefore.get(Clan.values()[i]), players[0].getHall().getStudents().get(Clan.values()[i]));
+        for(Clan c : Clan.values())
+            assertEquals(studentsHallBefore.get(c), players[0].getHall().getStudents().get(c));
 
     }
 

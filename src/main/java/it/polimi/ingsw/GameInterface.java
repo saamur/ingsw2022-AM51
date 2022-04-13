@@ -12,9 +12,9 @@ public interface GameInterface {
     void chosenCard (String playerNickname, Card card) throws NonExistingPlayerException, WrongPlayerException, WrongGamePhaseException, NotValidMoveException;
     void moveStudentToChamber (String playerNickname, Clan clan) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException, NotValidMoveException;
     void moveStudentToIsland (String playerNickname, Clan clan, int islandIndex) throws WrongTurnPhaseException, NotValidMoveException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException;
-    boolean moveMotherNature (String playerNickname, int islandIndex);
-    boolean chosenCloud (String playerNickname, int cloudIndex);
-    boolean endTurn (String playerNickname);
+    void moveMotherNature (String playerNickname, int islandIndex) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException, WrongTurnPhaseException, NotValidMoveException;
+    void chosenCloud (String playerNickname, int cloudIndex) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException, WrongTurnPhaseException, NotValidMoveException;
+    void endTurn (String playerNickname) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException;
     boolean activateCharacterCard (String playerNickname, CharacterID characterID);
     boolean applyCharacterCardEffect (String playerNickname, int islandIndex);
     boolean setClanCharacter (String playerNickname, Clan clan);

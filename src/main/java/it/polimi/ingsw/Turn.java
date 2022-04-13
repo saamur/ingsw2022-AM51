@@ -8,8 +8,6 @@ import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 
-import java.util.Locale;
-
 /**
  * Turn class contains the main logic for the managing of the turns and their phases,
  * with the attributes and methods needed; it's tightly connected with the Game class
@@ -180,6 +178,7 @@ public class Turn {
             maxSteps += activatedCharacterCard.effectStepsMotherNature();
 
         return maxSteps;
+
     }
 
     /**
@@ -221,21 +220,17 @@ public class Turn {
      * method chooseCloud, if turnState is CLOUD_CHOOSING, picks the students on the given cloud
      * and puts them in the Hall of the currPlayer, then sets turnState to END_TURN
      * @param cloud the Cloud from which the students will be taken
-     * @return      whether the Cloud wasn't already picked this Round
+     * @throws WrongTurnPhaseException  when it is called not during the cloud choosing phase
+     * @throws NotValidMoveException    when the given cloud has already been picked
      */
-    public boolean chooseCloud (Cloud cloud) {
+    public void chooseCloud (Cloud cloud) throws WrongTurnPhaseException, NotValidMoveException {
 
-        if (turnState != TurnState.CLOUD_CHOOSING)
-            return false;
-
-        if (cloud.isPicked())
-            return false;
+        if (turnState != TurnState.CLOUD_CHOOSING) throw new WrongTurnPhaseException("The turn is not in the cloud choosing phase");
+        if (cloud.isPicked()) throw new NotValidMoveException("This cloud has already been picked");
 
         currPlayer.getHall().addStudents(cloud.pick());
 
         turnState = TurnState.END_TURN;
-
-        return true;
 
     }
 

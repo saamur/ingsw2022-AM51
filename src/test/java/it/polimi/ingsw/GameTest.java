@@ -1,10 +1,13 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
+import it.polimi.ingsw.exceptions.NotValidMoveException;
+import it.polimi.ingsw.exceptions.WrongGamePhaseException;
+import it.polimi.ingsw.exceptions.WrongPlayerException;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -21,41 +24,51 @@ Game game;
 
     public void setNotExpertGameTwoPlayers(){
         game = new Game(2, "Giulia", false);
-        game.addPlayer("Samu");
+        try {
+            game.addPlayer("Samu");
+        } catch (WrongGamePhaseException | NicknameNotAvailableException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void setNotExpertGameThreePlayers(){
         game = new Game(3, "Giulia", false);
-        game.addPlayer("Samu");
-        game.addPlayer("Fede");
+        try {
+            game.addPlayer("Samu");
+        } catch (WrongGamePhaseException | NicknameNotAvailableException e) {
+            e.printStackTrace();
+        }
+        try {
+            game.addPlayer("Fede");
+        } catch (WrongGamePhaseException | NicknameNotAvailableException e) {
+            e.printStackTrace();
+        }
 
-}
+    }
 
     /**
      * test check if the addPlayer method add the player in the game
-     * Is expected a true result
+     * It is expected not to throw exceptions
      */
 
     @Test
     public void testAddPlayer() {
         setNotExpertGame();
-        boolean addedSecondPlayer = game.addPlayer("Samu");
+        assertDoesNotThrow(() -> game.addPlayer("Samu"));
         String nicknameAddedPlayer = game.getPlayers()[1].getNickname();
-        assertTrue(addedSecondPlayer);
         assertEquals("Samu", nicknameAddedPlayer);
     }
 
     /**
      * the test check that the addPlayer method doesn't add a third player into a two players game
-     * Is expected a false result
+     * It is expected to throw a WrongGamePhaseException
      */
 
     @Test
     public void testAddTooManyPlayers() {
         setNotExpertGameTwoPlayers();
-        boolean addedThirdPlayer = game.addPlayer("Fede");
-        assertFalse(addedThirdPlayer);
+        assertThrows(WrongGamePhaseException.class, () -> game.addPlayer("Fede"));
     }
 
     /**
@@ -75,78 +88,71 @@ Game game;
     }
 
     /**
-     * the test check if the chosenCard method return the currCard if the Player who choose the card is the currentPlayer
-     * Is expected a false return if the Player, who is not the Current one, chose the card
-     * Is expected a true return if the current Player chose the card, and the increase of the indexCurrPlayer
+     * the test checks if the chosenCard method correctly throws a WrongPlayerException if and only if
+     * the Player who choose the card is not the currentPlayer
+     * The method is expected to throw a WrongPlayerException if the Player, who is not the Current one, chose the card
+     * The method is expected not to throw any exception if the current Player chose the card, and the increase of the indexCurrPlayer
      */
 
     @Test
     public void testChosenCard() {
         setNotExpertGameTwoPlayers();
         if (game.getIndexCurrFirstPlayer() == 0) {
-            boolean wrongChooseCard = game.chosenCard("Samu", Card.CAT);
+            assertThrows(WrongPlayerException.class, () -> game.chosenCard("Samu", Card.CAT));
             GameState invariantGameState = game.getGameState();
             assertEquals(GameState.PIANIFICATION, invariantGameState);
-            boolean chooseCard = game.chosenCard("Giulia", Card.CHEETAH);
-            assertTrue(chooseCard);
-            assertFalse(wrongChooseCard);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
         } else {
-            boolean wrongChooseCard = game.chosenCard("Giulia", Card.CAT);
+            assertThrows(WrongPlayerException.class, () -> game.chosenCard("Giulia", Card.CAT));
             GameState invariantGameState = game.getGameState();
             assertEquals(GameState.PIANIFICATION, invariantGameState);
-            boolean chooseCard = game.chosenCard("Samu", Card.CHEETAH);
-            assertTrue(chooseCard);
-            assertFalse(wrongChooseCard);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CHEETAH));
         }
     }
 
     /**
      * the test check if, with a full deck, the player, who is the currPlayer, can't choose the same card played by
      * the other one
-     * Is expected a false return
+     * On the second time the method is expected to throw a NotValidMoveException
      */
 
     @Test
     public void testChooseTheSameCard() {
         setNotExpertGameTwoPlayers();
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.DOG);
-            boolean chosen = game.chosenCard("Samu", Card.DOG);
-            assertFalse(chosen);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.DOG));
+            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Samu", Card.DOG));
         } else {
-            game.chosenCard("Samu", Card.DOG);
-            boolean chosen = game.chosenCard("Giulia", Card.DOG);
-            assertFalse(chosen);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.DOG));
+            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Giulia", Card.DOG));
         }
     }
 
 
     /**
      * the test checks that the player cannot choose a card in a non PIANIFICATION fase of the game
-     * Is expected a false return
+     * The method chosenCard is expected to throw a WrongGamePhaseException if gameState is not PIANIFICATION
      */
 
     @Test
     public void testNotCorrectPhaseToChooseCard() {
         setNotExpertGameTwoPlayers();
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.DOG);
-            boolean chosen = game.chosenCard("Giulia", Card.DOG);
-            assertFalse(chosen);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.DOG));
+            assertFalse(game.getGameState() == GameState.PIANIFICATION);
+            assertThrows(WrongGamePhaseException.class, () -> game.chosenCard("Giulia", Card.DOG));
         } else {
-            game.chosenCard("Samu", Card.CHEETAH);
-            game.chosenCard("Giulia", Card.DOG);
-            boolean chosen = game.chosenCard("Samu", Card.DOG);
-            assertFalse(chosen);
-
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.DOG));
+            assertFalse(game.getGameState() == GameState.PIANIFICATION);
+            assertThrows(WrongGamePhaseException.class, () -> game.chosenCard("Samu", Card.DOG));
         }
-
     }
 
     /**
      * the test checks that the Player cannot choose a Card that he has already chosen
-     * Is expected a false result
+     * The method chosenCard is expected to throw a NotValidMoveException
      */
 
     @Test
@@ -154,14 +160,12 @@ Game game;
         setNotExpertGameTwoPlayers();
         game.getPlayers()[0].getDeck().removeCard(Card.CAT);
         game.getPlayers()[1].getDeck().removeCard(Card.CAT);
-        boolean chosen;
         if (game.getIndexCurrPlayer() == 0) {
-            chosen = game.chosenCard("Giulia", Card.CAT);
+            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Giulia", Card.CAT));
 
         } else {
-            chosen = game.chosenCard("Samu", Card.CAT);
+            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Samu", Card.CAT));
         }
-        assertFalse(chosen);
     }
 
 
@@ -176,12 +180,12 @@ Game game;
         setNotExpertGameTwoPlayers();
         Player[] playersOrder;
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
             playersOrder = game.getPlayersOrder();
         } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
             playersOrder = game.getPlayersOrder();
         }
 
@@ -202,37 +206,39 @@ Game game;
     }
 
     /**
-     * the test check that it is possible to choose the same card of the other Player if it is the only one in the Deck
-     * the test check that the Action order, in this particular case, is created taking into account who
+     * the test checks that it is possible to choose the same card of the other Player if it is the only one in the Deck
+     * the test checks that the Action order, in this particular case, is created taking into account who
      * first chose the card
-     * Is expected a true result
+     * The method chosenCard is expected not to throw any exception, and the playersOrder is expected to have
+     * in position 0 the first player who chose the card
      */
     @Test
     public void testOnlyOneLeftChooseCard() {
         setGameAndRemoveCards();
-        boolean chosen;
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.TURTLE);
-            chosen = game.chosenCard("Samu", Card.TURTLE);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.TURTLE));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
             Player[] playersOrder = game.getPlayersOrder();
             assertEquals("Giulia", playersOrder[0].getNickname());
             assertEquals("Samu", playersOrder[1].getNickname());
         } else {
-            game.chosenCard("Samu", Card.TURTLE);
-            chosen = game.chosenCard("Giulia", Card.TURTLE);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.TURTLE));
+            Player[] playersOrder = game.getPlayersOrder();
+            assertEquals("Samu", playersOrder[0].getNickname());
+            assertEquals("Giulia", playersOrder[1].getNickname());
         }
-        assertTrue(chosen);
     }
 
 
     public void setPianification() {
         setNotExpertGameTwoPlayers();
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
         } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
         }
 
     }
@@ -428,9 +434,9 @@ Game game;
         int firstIndex = game.getIndexCurrFirstPlayer();
         for (int i = 0; i < 3; i++) {
             switch ((firstIndex+i)%3) {
-                case 0 -> game.chosenCard("Giulia", Card.TURTLE);
-                case 1 -> game.chosenCard("Samu", Card.LIZARD);
-                case 2 -> game.chosenCard("Fede", Card.CAT);
+                case 0 -> assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.TURTLE));
+                case 1 -> assertDoesNotThrow(() -> game.chosenCard("Samu", Card.LIZARD));
+                case 2 -> assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CAT));
             }
         }
 
@@ -481,9 +487,9 @@ Game game;
         int firstIndex = game.getIndexCurrFirstPlayer();
         for (int i = 0; i < 3; i++) {
             switch ((firstIndex+i)%3) {
-                case 0 -> game.chosenCard("Giulia", Card.TURTLE);
-                case 1 -> game.chosenCard("Samu", Card.LIZARD);
-                case 2 -> game.chosenCard("Fede", Card.CAT);
+                case 0 -> assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.TURTLE));
+                case 1 -> assertDoesNotThrow(() -> game.chosenCard("Samu", Card.LIZARD));
+                case 2 -> assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CAT));
             }
         }
 
@@ -628,7 +634,6 @@ Game game;
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size()));
         game.chosenCloud("Giulia", 1);
-        TurnState turnState = game.getTurn().getTurnState();
         boolean ended = game.endTurn("Giulia");
         assertTrue(ended);
     }

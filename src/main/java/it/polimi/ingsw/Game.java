@@ -6,6 +6,7 @@ import it.polimi.ingsw.charactercards.CharacterID;
 import it.polimi.ingsw.charactercards.ProhibitionCharacterCard;
 import it.polimi.ingsw.clouds.Cloud;
 import it.polimi.ingsw.clouds.CloudManager;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.islands.Island;
 import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
@@ -113,37 +114,27 @@ public class Game implements GameInterface {
         return indexNextFirstPlayer;
     }
 
-
     /**
      * method addPlayer adds a Player to the Game if there isn't already another with the same nickname
      * @param nickname  the nickname that will be assigned to the new Player
-     * @return          whether the nickname wasn't already used and the Player was consequently added
+     * @throws WrongGamePhaseException          when it is called not during initialisation
+     * @throws NicknameNotAvailableException    when the given nickname is already used by another Player
      */
     @Override
-    public boolean addPlayer (String nickname) {
+    public void addPlayer (String nickname) throws WrongGamePhaseException, NicknameNotAvailableException {
 
         if (gameState != GameState.INITIALIZATION)
-            return false;
+            throw new WrongGamePhaseException("The game is not in the initialisation phase");
 
-        boolean ok = true;
-
-        for (int i = 0; i <= indexCurrPlayer; i++) {
-            if (nickname.equals(players[i].getNickname())) {
-                ok = false;
-                break;
-            }
-        }
-
-        if (!ok)
-            return false;
+        for (int i = 0; i <= indexCurrPlayer; i++)
+            if (nickname.equals(players[i].getNickname()))
+                throw new NicknameNotAvailableException("Nickname already used");
 
         indexCurrPlayer++;
         players[indexCurrPlayer] = new Player(nickname, TowerColor.values()[indexCurrPlayer], players.length, bag);
 
         if (indexCurrPlayer == players.length-1)
             start();
-
-        return true;
 
     }
 
@@ -182,34 +173,27 @@ public class Game implements GameInterface {
     }
 
 
-
-
-
     /**
      * method sets currCard of the currentPlayer to card if the game phase is correct,
      * the choice is valid and playerNickname is the nickname of the current Player.
      * If every Player has chosen a Card the method calls createOrderActionPhase and initActionPhase
      * @param playerNickname    the nickname of the Player that called this method
      * @param card              the chosen Card
-     * @return                  whether currCard of the current Player was set to card or not
+     * @throws WrongGamePhaseException      when it is called not during pianification
+     * @throws NonExistingPlayerException   when there is no Player with the given nickname
+     * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
+     * @throws NotValidMoveException                 when the card choice is not valid
      */
     @Override
-    public boolean chosenCard (String playerNickname, Card card) {
+    public void chosenCard (String playerNickname, Card card) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
-        if (player == null)
-            return false;
+        if (gameState != GameState.PIANIFICATION) throw new WrongGamePhaseException("The game is not in the pianification phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (!validCard(player, card)) throw new NotValidMoveException("This card cannot be chosen");
 
-        if (gameState != GameState.PIANIFICATION || player != players[indexCurrPlayer])
-            return false;
-
-        if (!validCard(player, card))
-            return false;
-
-        boolean ok = player.chooseCard(card);
-
-        if (!ok)
-            return false;                      //never executed if everything works correctly
+        player.chooseCard(card);
 
         if (player.getDeck().getCards().isEmpty())
             lastRound = true;
@@ -220,8 +204,6 @@ public class Game implements GameInterface {
             createOrderActionPhase();
             initActionPhase();
         }
-
-        return true;
 
     }
 
@@ -238,8 +220,10 @@ public class Game implements GameInterface {
      */
     private boolean validCard (Player player, Card card) {
 
-        List<Card> otherPlayersCards = new ArrayList<>();
+        if (!player.getDeck().getCards().contains(card))
+            return false;
 
+        List<Card> otherPlayersCards = new ArrayList<>();
 
         for (int i = indexCurrFirstPlayer; players[i%players.length] != player; i++)
             otherPlayersCards.add(players[i%players.length].getCurrCard());

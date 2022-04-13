@@ -1,14 +1,15 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.charactercards.CharacterID;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.player.Card;
 
 import java.util.Map;
 
 public interface GameInterface {
 
-    boolean addPlayer (String nickname);
-    boolean chosenCard (String playerNickname, Card card);
+    void addPlayer (String nickname) throws NicknameNotAvailableException, WrongGamePhaseException;
+    void chosenCard (String playerNickname, Card card) throws NonExistingPlayerException, WrongPlayerException, WrongGamePhaseException, NotValidMoveException;
     boolean moveStudentToChamber (String playerNickname, Clan clan);
     boolean moveStudentToIsland (String playerNickname, Clan clan, int islandIndex);
     boolean moveMotherNature (String playerNickname, int islandIndex);

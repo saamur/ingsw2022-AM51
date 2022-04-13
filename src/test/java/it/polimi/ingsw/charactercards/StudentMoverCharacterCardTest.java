@@ -153,19 +153,19 @@ class StudentMoverCharacterCardTest {
 
     /**
      * Method applyTest1() tests the method applyEffect(Game game, Island island).
-     * The method is expected to return true.
+     * The method is expected to return false
      */
     @Test
     public void applyTest1(){
         game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
+        assertDoesNotThrow(() -> game.addPlayer("Samu"));
         Island island =game.getIslandManager().getIsland(1);
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
         } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
         }
 
         for(CharacterCard cc: studentMoverCards)
@@ -183,7 +183,7 @@ class StudentMoverCharacterCardTest {
     @Test
     public void applyTest2Monk(){
         game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
+        assertDoesNotThrow(() -> game.addPlayer("Samu"));
         StudentContainer island = game.getIslandManager().getIsland(1);
         Map<Clan, Integer> initialStudents = game.getIslandManager().getIsland(1).getStudents();
         if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(PIXIES)>=1){
@@ -466,21 +466,15 @@ class StudentMoverCharacterCardTest {
      */
     public void setGame(){
         game = new Game(2, "Giulia", true);
-        game.addPlayer("Samu");
+        assertDoesNotThrow(() -> game.addPlayer("Samu"));
 
         if (game.getIndexCurrPlayer() == 0) {
-            game.chosenCard("Giulia", Card.CHEETAH);
-            game.chosenCard("Samu", Card.CAT);
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
         } else {
-            game.chosenCard("Samu", Card.CAT);
-            game.chosenCard("Giulia", Card.CHEETAH);
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
+            assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
         }
     }
-
-
-
-
-
-
 
 }

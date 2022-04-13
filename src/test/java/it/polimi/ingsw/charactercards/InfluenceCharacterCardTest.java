@@ -184,12 +184,15 @@ public class InfluenceCharacterCardTest{
     @Test
     public void applyTest1(){
         Game game = new Game(2, "Fede", true);
-        game.addPlayer("Samu");
+        assertDoesNotThrow(() -> game.addPlayer("Samu"));
         Island island =game.getIslandManager().getIsland(1);
-        boolean result = game.chosenCard("Fede", Card.CHEETAH);
-        game.chosenCard("Samu", Card.TURTLE);
-        if(!result){ //I had some issued because the very first round firstPlayer is random
-            game.chosenCard("Fede", Card.CHEETAH);
+        if (game.getIndexCurrPlayer() == 0) {
+            assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CHEETAH));
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
+        }
+        else {
+            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
+            assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CHEETAH));
         }
 
         for(CharacterCard cc: influenceCards)

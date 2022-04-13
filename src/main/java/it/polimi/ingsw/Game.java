@@ -151,7 +151,7 @@ public class Game implements GameInterface {
     }
 
     /**
-     * method initRound calls calculateWin if lastRound is true, otherwise it sets gameState to PIANIFICATION
+     * method initRound calls calculateWin if lastRound is true, otherwise it sets gameState to PLANNING
      * and fills the Clouds
      */
     private void initRound() {
@@ -162,7 +162,7 @@ public class Game implements GameInterface {
         }
 
         indexCurrFirstPlayer = indexNextFirstPlayer;
-        gameState = GameState.PIANIFICATION;
+        gameState = GameState.PLANNING;
         indexCurrPlayer = indexCurrFirstPlayer;
 
         cloudManager.fillClouds(bag);
@@ -179,7 +179,7 @@ public class Game implements GameInterface {
      * If every Player has chosen a Card the method calls createOrderActionPhase and initActionPhase
      * @param playerNickname    the nickname of the Player that called this method
      * @param card              the chosen Card
-     * @throws WrongGamePhaseException      when it is called not during pianification
+     * @throws WrongGamePhaseException      when it is called not during planning
      * @throws NonExistingPlayerException   when there is no Player with the given nickname
      * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
      * @throws NotValidMoveException                 when the card choice is not valid
@@ -188,7 +188,7 @@ public class Game implements GameInterface {
     public void chosenCard (String playerNickname, Card card) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
-        if (gameState != GameState.PIANIFICATION) throw new WrongGamePhaseException("The game is not in the pianification phase");
+        if (gameState != GameState.PLANNING) throw new WrongGamePhaseException("The game is not in the planning phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
         if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
         if (!validCard(player, card)) throw new NotValidMoveException("This card cannot be chosen");
@@ -290,19 +290,22 @@ public class Game implements GameInterface {
      * method moveStudentToChamber moves a student of the specified Clan from the Hall to the Chamber of the current Player
      * @param playerNickname    the nickname of the Player that requested this move
      * @param clan              the Clan of the student to move
-     * @return                  whether the move was valid and the student was actually moved
+     * @throws WrongGamePhaseException      when it is called not during the action phase
+     * @throws NonExistingPlayerException   when there is no Player with the given nickname
+     * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
+     * @throws WrongTurnPhaseException      when it is called not during the student moving phase
+     * @throws NotValidMoveException        when there is no student of the given clan in the hall of the current Player
+     *                                      or the chamber has already the maximum number of students of the given clan
      */
     @Override
-    public boolean moveStudentToChamber (String playerNickname, Clan clan) {
+    public void moveStudentToChamber (String playerNickname, Clan clan) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
-        if (player == null)
-            return false;
+        if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
+        if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
+        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
 
-        if (gameState != GameState.ACTION || player != players[indexCurrPlayer])
-            return false;
-
-        return turn.moveStudentToChamber(clan, players);
+        turn.moveStudentToChamber(clan, players);
 
     }
 
@@ -694,7 +697,7 @@ public class Game implements GameInterface {
     }
 
     public Player getCurrPlayer (){
-        if (gameState == GameState.PIANIFICATION)
+        if (gameState == GameState.PLANNING)
             return players[indexCurrPlayer];
         if (gameState == GameState.ACTION)
             return playersOrder[indexCurrPlayer];

@@ -100,9 +100,7 @@ public class TurnTest {
         players[0].getHall().addStudent(Clan.DRAGONS);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
-        boolean ok = turn.moveStudentToChamber(Clan.DRAGONS, players);
-
-        assertTrue(ok);
+        assertDoesNotThrow(() -> turn.moveStudentToChamber(Clan.DRAGONS, players));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentAfter = players[0].getChamber().getStudents();
@@ -119,8 +117,8 @@ public class TurnTest {
     }
 
     /**
-     * test checks if the method correctly return false without changing the students in the hall and in the chamber
-     * in the case where there are already 10 students of the given Clan in the chamber
+     * test checks if the method throws a NotValidMoveException without changing the students in the hall and in the
+     * chamber in the case where there are already the maximum number of students of the given Clan in the chamber
      */
     @Test
     public void moveStudentToFullChamberTest () {
@@ -133,22 +131,20 @@ public class TurnTest {
 
         Map<Clan, Integer> chamberStudentsBefore = players[0].getChamber().getStudents();
 
-        boolean ok = turn.moveStudentToChamber(Clan.DRAGONS, players);
-
-        assertFalse(ok);
+        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToChamber(Clan.DRAGONS, players));
 
         Map<Clan,Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentAfter = players[0].getChamber().getStudents();
 
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(hallStudentsBefore.get(Clan.values()[i]), hallStudentsAfter.get(Clan.values()[i]));
-            assertEquals(chamberStudentsBefore.get(Clan.values()[i]), chamberStudentAfter.get(Clan.values()[i]));
+        for(Clan c : Clan.values()){
+            assertEquals(hallStudentsBefore.get(c), hallStudentsAfter.get(c));
+            assertEquals(chamberStudentsBefore.get(c), chamberStudentAfter.get(c));
         }
 
     }
 
     /**
-     * test checks if the method moveStudentToChamber returns false if there are no students
+     * test checks if the method moveStudentToChamber throws a NotValidMoveException if there are no students
      * of the given Clan in the player's hall, without changing the students in the hall and in the chamber
      */
     @Test
@@ -158,17 +154,15 @@ public class TurnTest {
             players[0].getHall().removeStudent(Clan.DRAGONS);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
-        boolean ok = turn.moveStudentToChamber(Clan.DRAGONS, players);
-
-        assertFalse(ok);
+        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToChamber(Clan.DRAGONS, players));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentsAfter = players[0].getChamber().getStudents();
         Map<Clan, Integer> chamberStudentsExpected = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
 
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(hallStudentsBefore.get(Clan.values()[i]), hallStudentsAfter.get(Clan.values()[i]));
-            assertEquals(chamberStudentsExpected.get(Clan.values()[i]), chamberStudentsAfter.get(Clan.values()[i]));
+        for(Clan c : Clan.values()){
+            assertEquals(hallStudentsBefore.get(c), hallStudentsAfter.get(c));
+            assertEquals(chamberStudentsExpected.get(c), chamberStudentsAfter.get(c));
         }
     }
 

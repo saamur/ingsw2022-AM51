@@ -48,7 +48,7 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             s.addStudents(s2);
             return true;
         });
-        STUDENT_MOVERS.put(CharacterID.MINISTREL, (g, s, d, s1, s2) -> {
+        STUDENT_MOVERS.put(CharacterID.MINSTREL, (g, s, d, s1, s2) -> {
             s = g.getCurrPlayer().getChamber();
             d = g.getCurrPlayer().getHall();
             if (s1.values().stream().mapToInt(i -> i).sum() > 2)

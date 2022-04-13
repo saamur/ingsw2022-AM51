@@ -21,7 +21,7 @@ public class CharacterCardCreator {
     public CharacterCard createCharacterCard(CharacterID characterID, Bag bag) {
 
         return switch (characterID) {
-            case MONK, JESTER, MINISTREL, PRINCESS, THIEF -> new StudentMoverCharacterCard(characterID, bag);
+            case MONK, JESTER, MINSTREL, PRINCESS, THIEF -> new StudentMoverCharacterCard(characterID, bag);
             case FARMER -> new ProfessorsCharacterCard(characterID);
             case HERALD, CENTAUR, KNIGHT, MUSHROOMPICKER -> new InfluenceCharacterCard(characterID);
             case POSTMAN -> new StepsCharacterCard(characterID);

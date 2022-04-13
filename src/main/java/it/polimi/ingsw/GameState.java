@@ -6,6 +6,6 @@ package it.polimi.ingsw;
  */
 public enum GameState {
 
-    INITIALIZATION, PIANIFICATION, ACTION, GAME_OVER
+    INITIALIZATION, PLANNING, ACTION, GAME_OVER
 
 }

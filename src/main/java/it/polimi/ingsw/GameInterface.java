@@ -10,7 +10,7 @@ public interface GameInterface {
 
     void addPlayer (String nickname) throws NicknameNotAvailableException, WrongGamePhaseException;
     void chosenCard (String playerNickname, Card card) throws NonExistingPlayerException, WrongPlayerException, WrongGamePhaseException, NotValidMoveException;
-    boolean moveStudentToChamber (String playerNickname, Clan clan);
+    void moveStudentToChamber (String playerNickname, Clan clan) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException, NotValidMoveException;
     void moveStudentToIsland (String playerNickname, Clan clan, int islandIndex) throws WrongTurnPhaseException, NotValidMoveException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException;
     boolean moveMotherNature (String playerNickname, int islandIndex);
     boolean chosenCloud (String playerNickname, int cloudIndex);

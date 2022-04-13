@@ -120,21 +120,21 @@ public class Turn {
      * The ownership of the professors get updated
      * @param clan      the Clan of the student to move
      * @param players   all the players of the game
-     * @return          whether the student has been actually moved
+     * @throws WrongTurnPhaseException  when it is called not during the student moving phase
+     * @throws NotValidMoveException    when there is no student of the given clan in the hall of the current Player
+     *                                  or the chamber has already the maximum number of students of the given clan
      */
-    public boolean moveStudentToChamber(Clan clan, Player[] players) {
+    public void moveStudentToChamber(Clan clan, Player[] players) throws WrongTurnPhaseException, NotValidMoveException {
 
-        if (turnState != TurnState.STUDENT_MOVING)
-            return false;
+        if (turnState != TurnState.STUDENT_MOVING) throw new WrongTurnPhaseException("The turn is not in the student moving phase");
 
         boolean ok = currPlayer.getHall().removeStudent(clan);
-        if(!ok)
-            return false;
+        if(!ok) throw new NotValidMoveException("No " + clan.name().toLowerCase() + " in the hall");
 
         ok = currPlayer.getChamber().addStudent(clan);
         if (!ok) {
             currPlayer.getHall().addStudent(clan);
-            return false;
+            throw new NotValidMoveException("No places left for " + clan.name().toLowerCase() + " in the chamber");
         }
 
         updateProfessors(players);
@@ -142,8 +142,6 @@ public class Turn {
         studentMoved++;
         if (studentMoved == numStudentsToMove)
             turnState = TurnState.MOTHER_MOVING;
-
-        return true;
 
     }
 

@@ -32,7 +32,7 @@ class StudentMoverCharacterCardTest {
         bag = new Bag();
         studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.MONK, bag));
         studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.JESTER, bag));
-        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.MINISTREL, bag));
+        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.MINSTREL, bag));
         studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.PRINCESS, bag));
         studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.THIEF, bag));
 
@@ -341,14 +341,14 @@ class StudentMoverCharacterCardTest {
     }
 
     /**
-     * Method applyTest2Ministrel() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
-     * when the CharacterID is Ministrel.
+     * Method applyTest2Minstrel() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
+     * when the CharacterID is Minstrel.
      * Is expected a true result and that the chosen students are moved from the hall to the chamber, and from the chamber
      * to the hall
      */
 
     @Test
-    public void applyTest2Ministrel(){
+    public void applyTest2Minstrel(){
         setGame();
 
         game.getPlayers()[0].getHall().addStudent(DRAGONS);

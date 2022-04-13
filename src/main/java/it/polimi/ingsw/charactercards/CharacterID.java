@@ -16,7 +16,7 @@ public enum CharacterID {
     JESTER(1),
     KNIGHT(2),
     MUSHROOMPICKER(3),
-    MINISTREL(1),
+    MINSTREL(1),
     PRINCESS(2),
     THIEF(3);
 

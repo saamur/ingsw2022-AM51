@@ -6,6 +6,10 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Constants class contains the main constants used in the Erianys game
+ *
+ */
 public class Constants {
 
     public static final int MAX_NUM_STUDENTS_PER_CLAN_CHAMBER = 10;

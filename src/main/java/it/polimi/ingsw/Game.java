@@ -513,11 +513,11 @@ public class Game implements GameInterface {
     public void activateCharacterCard (String playerNickname, CharacterID characterID) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
         Player player = playerFromNickname(playerNickname);
-        CharacterCard characterCard = characterCardFromID(characterID);
         if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
         if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        CharacterCard characterCard = characterCardFromID(characterID);
         if (characterCard == null) throw new NotValidMoveException("The selected character card cannot be activated in this game");
         if (turn.getActivatedCharacterCard() != null) throw new NotValidMoveException("Another character card has been activated in this turn");
         if (player.getCoins() < characterCard.getCost()) throw new NotValidMoveException("There are not enough coins to pay for the selected character card");
@@ -670,6 +670,10 @@ public class Game implements GameInterface {
 
     public Player[] getPlayers() {
         return players.clone();
+    }
+
+    public List<String> getPlayersNicknames () {
+        return Arrays.stream(players).map(Player::getNickname).toList();
     }
 
     public Bag getBag() {

@@ -9,10 +9,14 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -123,10 +127,10 @@ class ProfessorsCharacterCardTest {
      * Is expected an array of zeros
      */
 
-    @Test
-    public void testEffectInfluence(){
+    @ParameterizedTest
+    @MethodSource("effectInfluenceArguments")
+    public void testEffectInfluence(Map<Clan, Integer> addingStudents){
         Island island = new Island();
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
         island.addStudents(addingStudents);
         ProfessorsCharacterCard card = (ProfessorsCharacterCard)generalCard;
@@ -135,6 +139,17 @@ class ProfessorsCharacterCardTest {
             assertEquals(0, effect[i]);
         }
     }
+
+    private static Stream<Arguments> effectInfluenceArguments(){
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(2, 3, 4, 5, 6);
+
+        return Stream.of(
+                Arguments.of(addingStudents1),
+                Arguments.of(addingStudents2)
+        );
+    }
+
 
     /**
      * tests that the ProfessorCharacterCard doesn't add any Steps on the movement of Mother Nature

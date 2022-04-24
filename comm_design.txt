@@ -1,178 +1,173 @@
 
 
 
-	+----------+						                    +---------+
-	| Client   |						                    | Server  |
-	+----------+						                    +---------+
-	     |							                             |
-	     |							                             |
-	     |---------------------------------------------------->  |
-	     |		Message{"nickname": "Giulia",                    |
-	     |		      "numOfPlayers" : 2, 		                 |
-	     |			"expertMode": true}		                     |
-	     |							                             |
-	     |							                             |
-	     |					                        		     |      +--------------------+
-	     |            <------------------------------	         |------| GameInitialization |
-	     |			GenericMessage{"Game started,	             |      +--------------------+
-	     |		waiting for other players"}		                 |
-	     |							                             |
-	     |				                        			     |
-	     |            <------------------------------	         |
-	     |		GenericMessage{"player samu added"}	             |
-	     |							                             |
-	     |							                             | ??? Gui update
-	     |							                             |??? Server : "choose card"?
-	     |            ------------------------------>	         |
-	     |		Message {"playerNickName": "Giulia"	             |
-	     |			"chosenCard": "TURTLE"}		                 |
-	     |							                             |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			GenericMessage{"you will play                |
-	     |			after Samu"}	 		                     |
-	     |							                             |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			GenericMessage{"Samu" has finished           |
-	     |				his turn}		                         |
-	     |							                             |
-	     |							                             |??? Start Turn
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVECHAMBER,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : PIXIES}  		                     |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEISLAND,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : DRAGONS		                     |
-	     |			"islandIndex": 5}  		                     |
-	     |							                             |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEISLAND,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : "FAIRIES"  		                 |
-	     |			"islandIndex": 4}		                     |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |							                             |
-	     | 		Message {"command" : MOVEISLAND,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : "FAIRIES"  		                 |
-	     |			"islandIndex": 4}		                     |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEMN,		             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"islandIndex": 2 }		                     |
-	     |							                             |    +---------------+
-	     |							                             |----| checkInfluence|
-	     |							                             |    +---------------+
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			communicate changes		                     |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |			Message {"command" : ENDTURN}	             |
-	     |							                             |    +-------------+
-	     |							                             |----| Others turn |
- 	     |							                             |    +-------------+
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command": CHOOSECARD,		             |
-	     |			"playerNickName": "Giulia"	                 |
-	     |			"chosenCard": "TURTLE}		                 |    +-------------------+
-	     |							                             |----| Others choose card|
- 	     |							                             |    +-------------------+
-	     |							                             |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			You are the first to start	                 |
-	     |			Start turn			                         |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEISLAND,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : DRAGONS  		                     |
-	     |			"islandIndex": 2}		                     |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEISLAND,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : DRAGONS  		                     |
-	     |			"islandIndex": 2}		                     |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEISLAND,	             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"Clan" : DRAGONS  		                     |
-	     |			"islandIndex": 2}		                     |
-	     |							                             |
-	     |							                             |
-	     |            <------------------------------	         |
-	     |			ok, student moved		                     |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : ACTIVATE,		             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"characterCard" : HERALD,	                 |
-	     |			"islandIndex": 2}		                     |
-	     |							                             |
-	     |							                             |    +----------------+
-	     |							                             |----| checkInfluence |
- 	     |							                             |    +----------------+
-	     |            <------------------------------	         |
-	     |			ok, changes made 		                     |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |            ------------------------------>	         |
-	     |		Message {"command" : MOVEMN,		             |
-	     |			"playerNickName": "Giulia",	                 |
-	     |			"islandIndex": 6 }		                     |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
-	     |							                             |
+    +----------+                                            +---------+
+    | Client   |                                            | Server  |
+    +----------+                                            +---------+
+         |                                                       |
+         |                                                       |
+         |---------------------------------------------------->  |
+         |        Message{"nickname": "Giulia",                  |
+         |              "numOfPlayers" : 2,                      |
+         |            "expertMode": true}                        |
+         |                                                       |
+         |                                                       |
+         |                                                       |      +--------------------+
+         |            <------------------------------            |------| GameInitialization |
+         |            GenericMessage{"Game started,              |      +--------------------+
+         |        waiting for other players"}                    |
+         |                                                       |
+         |                                                       |
+         |            <------------------------------            |
+         |        GenericMessage{"player samu added"}            |
+         |                                                       |
+         |                                                       | ??? Gui update
+         |                                                       |??? Server : "choose card"?
+         |            ------------------------------>            |
+         |        Message {"playerNickName": "Giulia"            |
+         |            "chosenCard": "TURTLE"}                    |
+         |                                                       |
+         |                                                       |
+         |            <------------------------------            |
+         |            GenericMessage{"you will play              |
+         |            after Samu"}                               |
+         |                                                       |
+         |                                                       |
+         |            <------------------------------            |
+         |            GenericMessage{"Samu" has finished         |
+         |                his turn}                              |
+         |                                                       |
+         |                                                       |??? Start Turn
+         |                                                       |
+         |                                                       |
+     |            ------------------------------>                |
+         |        Message {"command" : MOVECHAMBER,              |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : PIXIES}                           |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEISLAND,               |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : DRAGONS                           |
+         |            "islandIndex": 5}                          |
+         |                                                       |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEISLAND,               |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : "FAIRIES"                         |
+         |            "islandIndex": 4}                          |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |                                                       |
+         |         Message {"command" : MOVEISLAND,              |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : "FAIRIES"                         |
+         |            "islandIndex": 4}                          |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEMN,                   |
+         |            "playerNickName": "Giulia",                |
+         |            "islandIndex": 2 }                         |
+         |                                                       |    +---------------+
+         |                                                       |----| checkInfluence|
+         |                                                       |    +---------------+
+         |                                                       |
+         |            <------------------------------            |
+         |            communicate changes                        |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |            Message {"command" : ENDTURN}              |
+         |                                                       |    +-------------+
+         |                                                       |----| Others turn |
+          |                                                      |    +-------------+
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command": CHOOSECARD,                |
+         |            "playerNickName": "Giulia"                 |
+         |            "chosenCard": "TURTLE}                     |    +-------------------+
+         |                                                       |----| Others choose card|
+          |                                                      |    +-------------------+
+         |                                                       |
+         |                                                       |
+         |            <------------------------------            |
+         |            You are the first to start                 |
+         |            Start turn                                 |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEISLAND,               |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : DRAGONS                           |
+         |            "islandIndex": 2}                          |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEISLAND,               |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : DRAGONS                           |
+         |            "islandIndex": 2}                          |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEISLAND,               |
+         |            "playerNickName": "Giulia",                |
+         |            "Clan" : DRAGONS                           |
+         |            "islandIndex": 2}                          |
+         |                                                       |
+         |                                                       |
+         |            <------------------------------            |
+         |            ok, student moved                          |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : ACTIVATE,                 |
+         |            "playerNickName": "Giulia",                |
+         |            "characterCard" : HERALD,                  |
+         |            "islandIndex": 2}                          |
+         |                                                       |
+         |                                                       |    +----------------+
+         |                                                       |----| checkInfluence |
+          |                                                      |    +----------------+
+         |            <------------------------------            |
+         |            ok, changes made                           |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |            ------------------------------>            |
+         |        Message {"command" : MOVEMN,                   |
+         |            "playerNickName": "Giulia",                |
+         |            "islandIndex": 6 }                         |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |
+         |                                                       |

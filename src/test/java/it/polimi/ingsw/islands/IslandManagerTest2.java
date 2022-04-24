@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +35,14 @@ public class IslandManagerTest2 {
     }
 
     /**
-     * test check if after conquerIsland() is called, the number of islands is decreased.
-     * tests both cases, the normal conquest and the conquest of two islands at the ends of the array
-     * Number of Islands is expected to be 11 after method gets called on two adjacent islands.
+     * test check if after conquerIsland() is called, the number of islands is decreased if the conquered islands are adjacent.
+     * tests all cases, the normal conquest, the conquest of two islands at the ends of the array and the conquest of two not adjacent islands
+     * Number of Islands is expected to be 11 after method gets called on two adjacent islands, 12 otherwise.
      */
+
     @ParameterizedTest
-    @CsvSource({"5, 6", "0, 11"})
-    public void ConquerTest(int indexFirstIsland, int indexSecondIsland) {
+    @CsvSource({"5, 6, 11", "0, 11, 11", "5, 7, 12"})
+    public void ConquerTest(int indexFirstIsland, int indexSecondIsland, int expectedNumOfIslands) {
         List<Island> islands = islandManager.getIslands();
         int playerIndex = 1;
 
@@ -51,22 +51,27 @@ public class IslandManagerTest2 {
 
         islands = islandManager.getIslands();
 
-        assertEquals(11, islands.size());
+        assertEquals(expectedNumOfIslands, islands.size());
 
     }
 
 
     /**
-     * Checking if merge works if both neighbouring islands have been conquered by the same player
+     * Checking if merge works if the same player conquer three islands
+     * In the first case all three conquered islands are close to each other.
+     * these are expected to unite and the final number of islands to become 10.
+     * In the second case, only 2 of the 3 conquered islands are close.
+     * Only the two neighboring islands are expected to merge and the number of islands will become 11.
      */
-    @Test
-    public void tripleMergingTest() {
+    @ParameterizedTest
+    @CsvSource(value = {"11, 1, 0, 10", "1, 2, 5, 11"})
+    public void tripleMergingTest(int indexFirstIsland, int indexSecondIsland, int indexThirdIsland, int expectedNumberOfIsland) {
         int playerIndex = 1;
-        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(11));
-        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(1));
-        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(0));
+        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(indexFirstIsland));
+        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(indexSecondIsland));
+        islandManager.conquerIsland(players.get(playerIndex), islandManager.getIsland(indexThirdIsland));
 
-        assertEquals(10, islandManager.getNumberOfIslands());
+        assertEquals(expectedNumberOfIsland, islandManager.getNumberOfIslands());
     }
 
     /**
@@ -104,5 +109,4 @@ public class IslandManagerTest2 {
     }
 
 
-    //TODO code 100% covered, but IDK if tests are complete
 }

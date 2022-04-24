@@ -6,9 +6,13 @@ import it.polimi.ingsw.TestUtil;
 import it.polimi.ingsw.islands.Island;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,84 +28,98 @@ public class IslandTest {
      * test to check if addStudents add the students in an empty Island
      * Is expected that all the students are added in the Island
      */
-    @Test
-    public void testAddStudents() {
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 0);
+
+    @ParameterizedTest
+    @MethodSource("addStudentsArguments")
+    public void testAddStudents(Map<Clan, Integer> addingStudents){
 
         Map<Clan, Integer> addedStudents = island.addStudents(addingStudents);
         for (int i = 0; i < Clan.values().length; i++) {
-            assertEquals(addingStudents.get(Clan.values()[i]), addedStudents.get(Clan.values()[i]));
-        }
+            assertEquals(addingStudents.get(Clan.values()[i]), addedStudents.get(Clan.values()[i]));}
+
+    }
+
+    private static Stream<Arguments> addStudentsArguments(){
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(1, 2, 3, 4, 0);
+
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(2, 4, 8, 4, 1);
+
+        return Stream.of(
+                Arguments.of(addingStudents1),
+                Arguments.of(addingStudents2)
+        );
     }
 
     /**
-     * test if removeStudents remove the students from the Island in normal condition, so if the chosen students
-     * actually are in the Island
-     * Is expected that all the students are removed from the Island
+     * test if removeStudents remove the students from the Island.
+     * In the first case the behavior of the method under normal conditions is analyzed, removing from an island a number
+     * of students actually present there.
+     * All selected students are expected to be removed from the island.
+     * In the second case, an attempt is made to remove a greater number of students than the one on the island.
+     * The number of students removed from the island is expected to be that of students that were on the island.
      */
-    @Test
-    public void testRemoveStudent() {
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 2, 4, 5, 6);
 
+    @ParameterizedTest
+    @MethodSource("removeStudentsArguments")
+    public void testRemoveStudents(Map<Clan, Integer> addingStudents, Map<Clan, Integer> remove, Map<Clan, Integer> expectedStudents){
         island.addStudents(addingStudents);
-
-        Map<Clan, Integer> remove = TestUtil.studentMapCreator(1, 1, 1, 0, 0);
 
         Map<Clan, Integer> removedStudents = island.removeStudents(remove);
 
         for (int i = 0; i < Clan.values().length; i++) {
-            assertEquals(remove.get(Clan.values()[i]), removedStudents.get(Clan.values()[i]));
+            if(addingStudents.get(Clan.values()[i])>remove.get(Clan.values()[i]))
+                assertEquals(remove.get(Clan.values()[i]), removedStudents.get(Clan.values()[i]));
+            else
+                assertEquals(addingStudents.get(Clan.values()[i]), removedStudents.get(Clan.values()[i]));
         }
 
         Map<Clan, Integer> students = island.getStudents();
-
-        Map<Clan, Integer> expectedStudents = TestUtil.studentMapCreator(2, 1, 3, 5, 6);
 
         for (int j = 0; j < Clan.values().length; j++) {
             assertEquals(expectedStudents.get(Clan.values()[j]), students.get(Clan.values()[j]));
         }
     }
 
-    /**
-     * Out-of-Bounds test: removeTooMuchStudents method tests the removal of the students from an Island that doesn't
-     * have that number of students.
-     * Is expected that in cases where the number of students to be removed is greater than the number of
-     * those present, only the students actually present on the Island are removed
-     */
-    @Test
-    public void removeTooMuchStudents() {
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 2, 4, 5, 6);
+    private static Stream<Arguments> removeStudentsArguments(){
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(3, 2, 4, 5, 6);
+        Map<Clan, Integer> remove1 = TestUtil.studentMapCreator(1, 1, 1, 0, 0);
+        Map<Clan, Integer> expectedStudents1 = TestUtil.studentMapCreator(2, 1, 3, 5, 6);
 
-        island.addStudents(addingStudents);
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(3, 2, 4, 5, 6);
+        Map<Clan, Integer> remove2 = TestUtil.studentMapCreator(4, 5, 6, 7, 8);
+        Map<Clan, Integer> expectedStudents2 = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
 
-        Map<Clan, Integer> remove = TestUtil.studentMapCreator(4, 5, 6, 7, 8);
+        return Stream.of(
+                Arguments.of(addingStudents1, remove1, expectedStudents1),
+                Arguments.of(addingStudents2, remove2, expectedStudents2)
+        );
 
-        Map<Clan, Integer> removedStudents = island.removeStudents(remove);
-
-        for (int j = 0; j < Clan.values().length; j++) {
-            assertEquals(addingStudents.get(Clan.values()[j]), removedStudents.get(Clan.values()[j]));
-        }
-
-        Map<Clan, Integer> students = island.getStudents();
-
-        for (int j = 0; j < Clan.values().length; j++) {
-            assertEquals(0, students.get(Clan.values()[j]));
-        }
     }
 
     /**
      * testAddStudent method tests if the AddStudent method add a student of a particular chosen clan on the Island
      */
 
-    @Test
-    public void testAddStudent() {
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 2, 4, 5, 0);
+    @ParameterizedTest
+    @MethodSource("addStudentArguments")
+    public void testAddStudent(Map<Clan, Integer> addingStudents, int expectedResult) {
 
         island.addStudents(addingStudents);
         island.addStudent(Clan.DRAGONS);
 
         Map<Clan, Integer> students = island.getStudents();
-        assertEquals(6, students.get(Clan.values()[3]));
+        assertEquals(expectedResult, students.get(Clan.values()[3]));
+    }
+
+    private static Stream<Arguments> addStudentArguments(){
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(3, 2, 4, 5, 0);
+        int expected1 = 6;
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(0, 4, 3, 0, 0);
+        int expected2 = 1;
+        return Stream.of(
+                Arguments.of(addingStudents1, expected1),
+                Arguments.of(addingStudents2, expected2)
+        );
     }
 
     /**
@@ -141,14 +159,14 @@ public class IslandTest {
      * test if the merge method unifies the islands by adding the students present on each one,
      * just as the unified island will have the sum of the number of prohibition cards present on the individual islands
      */
-    @Test
-    public void testMerge(){
+
+    @ParameterizedTest
+    @MethodSource("MergeTestArguments")
+    public void testMerge(Map<Clan, Integer> addingStudentsFirstIsland, Map<Clan, Integer> addingStudentsSecondIsland, Map<Clan, Integer> studentsExpected){
         Island firstIsland = new Island();
         Island secondIsland = new Island();
 
-        Map<Clan, Integer> addingStudentsFirstIsland = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
 
-        Map<Clan, Integer> addingStudentsSecondIsland = TestUtil.studentMapCreator(5, 4, 3, 2, 1);
 
         firstIsland.addStudents(addingStudentsFirstIsland);
         secondIsland.addStudents(addingStudentsSecondIsland);
@@ -156,7 +174,6 @@ public class IslandTest {
         firstIsland.merge(secondIsland);
         Map<Clan, Integer> students = firstIsland.getStudents();
 
-        Map<Clan, Integer> studentsExpected = TestUtil.studentMapCreator(6, 6, 6, 6, 6);
 
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(studentsExpected.get(Clan.values()[i]), students.get(Clan.values()[i]));
@@ -164,6 +181,21 @@ public class IslandTest {
 
         assertEquals(2, firstIsland.getNumberOfIslands());
         assertEquals(1, firstIsland.getNumProhibitionCards());
+    }
+
+    private static Stream<Arguments> MergeTestArguments(){
+        Map<Clan, Integer> studentsFirstIsland = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+        Map<Clan, Integer> studentsSecondIsland = TestUtil.studentMapCreator(5, 4, 3, 2, 1);
+        Map<Clan, Integer> expectedStudents = TestUtil.studentMapCreator(6, 6, 6, 6, 6);
+
+        Map<Clan, Integer> studentsFirstIsland2 = TestUtil.studentMapCreator(5, 6, 10, 11, 0);
+        Map<Clan, Integer> studentsSecondIsland2 = TestUtil.studentMapCreator(5, 7, 0, 1, 0);
+        Map<Clan, Integer> expectedStudents2 = TestUtil.studentMapCreator(10,13, 10, 12, 0);
+
+        return Stream.of(
+                Arguments.of(studentsFirstIsland, studentsSecondIsland, expectedStudents),
+                Arguments.of(studentsFirstIsland2, studentsSecondIsland2, expectedStudents2)
+        );
     }
 
 }

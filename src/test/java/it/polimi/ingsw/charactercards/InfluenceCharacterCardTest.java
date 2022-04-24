@@ -8,15 +8,20 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static it.polimi.ingsw.Clan.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO this cannot extend well CharacterCardTest
+
 public class InfluenceCharacterCardTest{
     Bag bag;
     CharacterCardCreator characterCardCreator = new CharacterCardCreator();
@@ -124,19 +129,34 @@ public class InfluenceCharacterCardTest{
      * The absolute value corresponds to the number of students present on the island.
      * All other positions are expected to have value 0.
      */
-    @Test
-    public void influenceTestMushroomPicker(){
+
+    @ParameterizedTest
+    @MethodSource("MushroomPickerArguments")
+
+    public void influenceTestMushroomPicker(int islandIndex, Map<Clan, Integer> studentsToBeAdded){
         Player[] players = createPlayers();
         IslandManager islandManager = new IslandManager();
-        Map<Clan, Integer> studentsOnIsland = islandManager.getIsland(3).getStudents();
-        Map<Clan, Integer> studentsToBeAdded = TestUtil.studentMapCreator(0, 2, 3, 5, 2);
+        Map<Clan, Integer> studentsOnIsland = islandManager.getIsland(islandIndex).getStudents();
 
-        islandManager.getIsland(3).addStudents(studentsToBeAdded);
+        islandManager.getIsland(islandIndex).addStudents(studentsToBeAdded);
         players[0].getChamber().setProfessor(DRAGONS, true);
         int[] expectedResult = {(-1) * (studentsOnIsland.get(DRAGONS) + studentsToBeAdded.get(DRAGONS)), 0};
-        int [] result = influenceCards.get(3).effectInfluence(players, players[0], islandManager.getIsland(3), DRAGONS); //TODO HashMap for Players too?
+        int [] result = influenceCards.get(3).effectInfluence(players, players[0], islandManager.getIsland(islandIndex), DRAGONS);
         for(int i=0; i<players.length; i++)
             assertEquals(expectedResult[i], result[i]);
+    }
+
+    private static Stream<Arguments> MushroomPickerArguments(){
+        int islandIndex1 = 3;
+        Map<Clan, Integer> studentsToBeAdded1 = TestUtil.studentMapCreator(0, 2, 3, 5, 2);
+
+        int islandIndex2 = 4;
+        Map<Clan, Integer> studentsToBeAdded2 = TestUtil.studentMapCreator(1, 7, 1, 0, 4);
+
+        return Stream.of(
+                Arguments.of(islandIndex1, studentsToBeAdded1),
+                Arguments.of(islandIndex2, studentsToBeAdded2)
+        );
     }
 
     /**
@@ -154,16 +174,19 @@ public class InfluenceCharacterCardTest{
      * Method effectProfessorTest() tests the outcome of calling effectPlayerProfessor on a influenceCharacterCard class.
      * The expected result is that a player has to have greater students than any other player.
      */
-    @Test
-    public void effectPlayerProfessor() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+
+    public void effectPlayerProfessor(Clan clan) {
         Player[] players = createPlayers();
-        players[0].getChamber().addStudent(DRAGONS); //FIXME is it a problem that I can change (addStudents) a private attribute (Chamber)?
-        players[0].getChamber().addStudent(DRAGONS);
-        players[1].getChamber().addStudent(DRAGONS);
-        players[1].getChamber().addStudent(DRAGONS);
+        players[0].getChamber().addStudent(clan);
+        players[0].getChamber().addStudent(clan);
+        players[1].getChamber().addStudent(clan);
+        players[1].getChamber().addStudent(clan);
         for (CharacterCard c : influenceCards)
-            assertNull(c.effectPlayerProfessor(players, players[1], DRAGONS));
+            assertNull(c.effectPlayerProfessor(players, players[1], clan));
     }
+
 
     /**
      * Method initialEffectTest() tests the method applyInitialEffect().
@@ -206,19 +229,31 @@ public class InfluenceCharacterCardTest{
      * Method applyTest2() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
      * The method when called is expected to return false.
      */
-    @Test
-    public void applyTest2(){
+
+    @ParameterizedTest
+    @MethodSource("applyTest2Arguments")
+    public void applyTest2(Map<Clan, Integer> students1, Map<Clan, Integer> students2){
         Game game = new Game(2, "Fede", true);
         StudentContainer island = game.getIslandManager().getIsland(1);
-
-        Map<Clan, Integer> students1 = TestUtil.studentMapCreator(0, 2, 3, 4, 1);
-
-        Map<Clan, Integer> students2 = TestUtil.studentMapCreator(2, 2, 5, 7, 6);
 
         for(CharacterCard cc: influenceCards) {
             assertFalse(cc.applyEffect(game, island, null, null));
             assertFalse(cc.applyEffect(game, island, students1, students2));
         }
+    }
+
+    private static Stream<Arguments> applyTest2Arguments(){
+        Map<Clan, Integer> students1FirstCase = TestUtil.studentMapCreator(0, 2, 3, 4, 1);
+        Map<Clan, Integer> students2FirstCase = TestUtil.studentMapCreator(2, 2, 5, 7, 6);
+
+        Map<Clan, Integer> students1SecondCase = TestUtil.studentMapCreator(7, 4, 0, 1, 0);
+        Map<Clan, Integer> students2SecondCase = TestUtil.studentMapCreator(2, 0, 2, 1, 5);
+
+
+        return Stream.of(
+                Arguments.of(students1FirstCase, students2FirstCase),
+                Arguments.of(students1SecondCase, students2SecondCase)
+        );
     }
 
 

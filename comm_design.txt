@@ -5,13 +5,16 @@
     | Client   |                                            | Server  |
     +----------+                                            +---------+
          |                                                       |
-         |                                                       |
-         |---------------------------------------------------->  |
-         |        Message{"nickname": "Giulia",                  |
-         |              "numOfPlayers" : 2,                      |
-         |            "expertMode": true}                        |
+         |          <----------------------------------          |
+         |            NicknameMessage{"nickname" : "Samu"}       |
          |                                                       |
          |                                                       |
+         |          --------------------------------->           |
+         |        GameInitializationMessage{"numOfPlayers" : 2,  |
+         |            "expertMode": true}                        |      +----------------------+
+         |                                                       |------| Socket is associated |
+         |                                                       |      | with given nickname  |
+         |                                                       |      +----------------------+
          |                                                       |      +--------------------+
          |            <------------------------------            |------| GameInitialization |
          |            GenericMessage{"Game started,              |      +--------------------+
@@ -24,8 +27,7 @@
          |                                                       | ??? Gui update
          |                                                       |??? Server : "choose card"?
          |            ------------------------------>            |
-         |        Message {"playerNickName": "Giulia"            |
-         |            "chosenCard": "TURTLE"}                    |
+         |        ChooseCardMessage{"chosenCard": "TURTLE"}      |
          |                                                       |
          |                                                       |
          |            <------------------------------            |
@@ -41,8 +43,7 @@
          |                                                       |
          |                                                       |
          |        ------------------------------>                |
-         |        Message {"command" : MOVECHAMBER,              |
-         |            "playerNickName": "Giulia",                |
+         |        MoveStudentToChamberMessage{                   |
          |            "Clan" : PIXIES}                           |
          |                                                       |
          |            <------------------------------            |
@@ -50,8 +51,7 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEISLAND,               |
-         |            "playerNickName": "Giulia",                |
+         |        MoveStudentToIslandMessage{                    |
          |            "Clan" : DRAGONS                           |
          |            "islandIndex": 5}                          |
          |                                                       |
@@ -61,8 +61,7 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEISLAND,               |
-         |            "playerNickName": "Giulia",                |
+         |        MoveStudentToIslandMessage{                    |
          |            "Clan" : "FAIRIES"                         |
          |            "islandIndex": 4}                          |
          |                                                       |
@@ -70,8 +69,9 @@
          |            ok, student moved                          |
          |                                                       |
          |                                                       |
-         |         Message {"command" : MOVEISLAND,              |
-         |            "playerNickName": "Giulia",                |
+         |                                                       |
+         |              <-----------------------                 |
+         |         MoveStudentToIslandMessage{                   |
          |            "Clan" : "FAIRIES"                         |
          |            "islandIndex": 4}                          |
          |                                                       |
@@ -80,9 +80,8 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEMN,                   |
-         |            "playerNickName": "Giulia",                |
-         |            "islandIndex": 2 }                         |
+         |        MoveMotherNatureMessage{"islandIndex": 2}      |
+         |                                                       |
          |                                                       |    +---------------+
          |                                                       |----| checkInfluence|
          |                                                       |    +---------------+
@@ -92,16 +91,15 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |            Message {"command" : ENDTURN}              |
+         |                EndTurnMessage{}                       |
          |                                                       |    +-------------+
          |                                                       |----| Others turn |
          |                                                       |    +-------------+
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command": CHOOSECARD,                |
-         |            "playerNickName": "Giulia"                 |
-         |            "chosenCard": "TURTLE}                     |    +-------------------+
+         |        ChooseCardMessage{"chosenCard": "TURTLE"       |
+         |                                                       |    +-------------------+
          |                                                       |----| Others choose card|
          |                                                       |    +-------------------+
          |                                                       |
@@ -111,8 +109,7 @@
          |            Start turn                                 |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEISLAND,               |
-         |            "playerNickName": "Giulia",                |
+         |        MoveToIslandMessage{"Clan" : DRAGONS           |
          |            "Clan" : DRAGONS                           |
          |            "islandIndex": 2}                          |
          |                                                       |
@@ -120,8 +117,7 @@
          |            ok, student moved                          |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEISLAND,               |
-         |            "playerNickName": "Giulia",                |
+         |        MoveStudentToIsland{                           |
          |            "Clan" : DRAGONS                           |
          |            "islandIndex": 2}                          |
          |                                                       |
@@ -130,8 +126,7 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEISLAND,               |
-         |            "playerNickName": "Giulia",                |
+         |        MoveStudentToIsland{                           |
          |            "Clan" : DRAGONS                           |
          |            "islandIndex": 2}                          |
          |                                                       |
@@ -141,8 +136,7 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : ACTIVATE,                 |
-         |            "playerNickName": "Giulia",                |
+         |        ActivateCarachterCardMessage{                  |
          |            "characterCard" : HERALD,                  |
          |            "islandIndex": 2}                          |
          |                                                       |
@@ -156,8 +150,7 @@
          |                                                       |
          |                                                       |
          |            ------------------------------>            |
-         |        Message {"command" : MOVEMN,                   |
-         |            "playerNickName": "Giulia",                |
+         |        MoveMotherNatureMessage{                       |
          |            "islandIndex": 6 }                         |
          |                                                       |
          |                                                       |

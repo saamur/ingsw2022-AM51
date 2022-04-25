@@ -4,10 +4,16 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.nio.channels.Pipe;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,24 +32,28 @@ public class BagTest {
     /**
      * Testing if the after the draw method is called, in Bag there is the correct number of students.
      */
-    @Test
-    public void multipleDrawTestRemaining(){
-        b.draw(4);
+
+    @ParameterizedTest
+    @CsvSource(value = {"4, 116", "7, 113"})
+    public void multipleDrawTestRemaining(int numOfDrawnOutStudents, int numOfRemainingStudents){
+        b.draw(numOfDrawnOutStudents);
         Map<Clan, Integer> students = b.getStudents();
         int sum = students.values().stream().mapToInt(a -> a).sum();
-        assertEquals(116, sum);
+        assertEquals(numOfRemainingStudents, sum);
     }
 
     /**
      * Testing if the after the draw method is called, the correct number of students is returned
      */
-    @Test
-    public void multipleDrawTestReturn(){
-        Map<Clan, Integer> drawn = b.draw(4);
+    @ParameterizedTest
+    @ValueSource(ints = {4, 7, 120})
+    public void multipleDrawTestReturn(int drawnStudents){
+        Map<Clan, Integer> drawn = b.draw(drawnStudents);
         int sum = drawn.values().stream().mapToInt(a -> a).sum();
 
-        assertEquals(4, sum);
+        assertEquals(drawnStudents, sum);
     }
+
     /**
      * Testing if the Bag.draw(int n) method returns the correct attribute.
      * The variable students is expected to be equal to one of the values of Card.
@@ -57,27 +67,45 @@ public class BagTest {
     /**
      * Testing if the Bag.draw(int n) and removeStudents() method return the correct amount of students
      */
-    @Test
-    public void singleDrawTestRemaining(){
-        //int[] initialNumberStudents = b.getStudents();
+
+    @ParameterizedTest
+    @MethodSource("singleDrawArguments")
+    public void singleDrawTestRemaining(Map<Clan, Integer> studentsToBeRemoved, int remainingStudents){
+
         b.draw();
         Map<Clan, Integer> remaining = b.getStudents();
         int sum = remaining.values().stream().mapToInt(a -> a).sum();
         assertEquals(119, sum);  //initialNumberStudents, remaining
-        Map<Clan, Integer> studentsToBeRemoved = TestUtil.studentMapCreator(0, 1, 0, 3, 4);
+
         Map<Clan, Integer> studentsRemoved = b.removeStudents(studentsToBeRemoved);
         int removed = studentsRemoved.values().stream().mapToInt(a -> a).sum();
 
-        assertEquals(111, sum-removed);
+        assertEquals(remainingStudents, sum-removed);
+
     }
 
+    private static Stream<Arguments> singleDrawArguments(){
+        Map<Clan, Integer> studentsToBeRemoved1 = TestUtil.studentMapCreator(0, 1, 0, 3, 4);
+        int remainingStudents1 = 111;
+
+        Map<Clan, Integer> studentsToBeRemoved2 = TestUtil.studentMapCreator(5, 1, 10, 0, 4);
+        int remainingStudents2 = 99;
+
+        return Stream.of(
+                Arguments.of(studentsToBeRemoved1, remainingStudents1),
+                Arguments.of(studentsToBeRemoved2, remainingStudents2)
+        );
+
+    }
+
+
     /**
-     * Out-of-Bounds test: testing if bag works correctly when the students drawn are more than the ones available
-     * Expected result: only the students that are actually available are expected to be removed.
+     * test that if you try to draw more students than the students currently in the bag, 120 students will be drawn
      */
-    @Test
-    public void drawMoreTest(){
-        Map<Clan, Integer> students = b.draw(130);
+    @ParameterizedTest
+    @ValueSource(ints = {130, 2500, 5000})
+    public void drawMoreTest(int drawnStudents){
+        Map<Clan, Integer> students = b.draw(drawnStudents);
         int result = students.values().stream().mapToInt(a -> a).sum();
         assertEquals(120, result);
         assertTrue(b.isEmpty());
@@ -96,12 +124,13 @@ public class BagTest {
     /**
      * Testing if calling draw() after (isEmpty() == true) returns false and draw(int n) returns null.
      */
-    @Test
-    public void emptyDrawTest(){
-        b.draw(130);
+    @ParameterizedTest
+    @CsvSource(value ={"130, 5", "120, 1"})
+    public void emptyDrawTest(int drawnStudents1, int drawnStudents2){
+        b.draw(drawnStudents1);
         b.isEmpty();
         Clan result = b.draw();
-        Map<Clan, Integer> students = b.draw(5);
+        Map<Clan, Integer> students = b.draw(drawnStudents2);
         int zero = students.values().stream().mapToInt(a -> a).sum();
         assertNull(result);
         assertEquals(0, zero);

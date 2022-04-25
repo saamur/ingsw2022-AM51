@@ -46,4 +46,18 @@ public class TestUtil {
 
     }
 
+    public static Map<Clan, Integer> professorsIndexMapCreator(Integer pixies, Integer unicorns, Integer toads, Integer dragons, Integer fairies) {
+
+        EnumMap<Clan, Integer> professorIndexes = new EnumMap<>(Clan.class);
+        professorIndexes.put(Clan.PIXIES, pixies);
+        professorIndexes.put(Clan.UNICORNS, unicorns);
+        professorIndexes.put(Clan.TOADS, toads);
+        professorIndexes.put(Clan.DRAGONS, dragons);
+        professorIndexes.put(Clan.FAIRIES, fairies);
+
+        return professorIndexes;
+
+
+    }
+
 }

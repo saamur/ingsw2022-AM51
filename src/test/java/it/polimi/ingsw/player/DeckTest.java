@@ -4,6 +4,8 @@ import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
 import java.util.Random;
@@ -31,9 +33,11 @@ public class DeckTest {
      * The chosen card is expected to be removed from the deck.
      * The size of the deck after the declaration of the method is expected to be 9.
      */
-    @Test
-    public void chooseCardTest(){
-        card = Card.CAT;
+
+    @ParameterizedTest
+    @EnumSource(Card.class)
+    public void chooseCardTest(Card card){
+
         boolean result = deck.removeCard(card);
         List<Card> cardsRemaining = deck.getCards();
         int size = cardsRemaining.size();
@@ -47,12 +51,14 @@ public class DeckTest {
      * Method multipleChoiceCard() tests the method choose() when it is called twice on the same Card.
      * The value returned is expected to be false.
      */
-    @Test
-    public void multipleChoiceCard(){
-        card = Card.CHEETAH;
+    @ParameterizedTest
+    @EnumSource(Card.class)
+    public void multipleChoiceCard(Card card){
+
         deck.removeCard(card);
         boolean result = deck.removeCard(card);
         assertFalse(result);
+
     }
 
     /**

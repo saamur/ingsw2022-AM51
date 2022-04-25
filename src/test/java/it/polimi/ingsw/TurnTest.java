@@ -11,10 +11,10 @@ import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,31 +42,29 @@ public class TurnTest {
     /**
      * test checks if the student is correctly removed from the player's hall and added to the given island
      */
-    @Test
-    public void moveStudentToIslandTest () {
 
-        Island island = islandManager.getIsland(3);
-        players[0].getHall().addStudent(Clan.DRAGONS);
+    @ParameterizedTest
+    @CsvSource(value = {"DRAGONS, 3", "UNICORNS, 5"})
+    public void moveStudentToIslandTest (Clan clan, int islandIndex) {
+
+        Island island = islandManager.getIsland(islandIndex);
+        players[0].getHall().addStudent(clan);
         Map<Clan,Integer> hallStudentsBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsBefore = island.getStudents();
 
-        assertDoesNotThrow(() -> turn.moveStudentToIsland(Clan.DRAGONS, island));
+        assertDoesNotThrow(() -> turn.moveStudentToIsland(clan, island));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsAfter = island.getStudents();
 
-        hallStudentsBefore.put(Clan.DRAGONS, hallStudentsBefore.get(Clan.DRAGONS)-1);
-        islandStudentsBefore.put(Clan.DRAGONS, islandStudentsBefore.get(Clan.DRAGONS)+1);
-        //I commented because i wanted the original instruction saved in case I do any mistake
-        //hallStudentsAfter[Clan.DRAGONS.ordinal()]++;
-        //islandStudentsAfter[Clan.DRAGONS.ordinal()]--;
+        hallStudentsBefore.put(clan, hallStudentsBefore.get(clan)-1);
+        islandStudentsBefore.put(clan, islandStudentsBefore.get(clan)+1);
+
 
         for(Clan c : Clan.values()){
             assertEquals(hallStudentsBefore.get(c), hallStudentsAfter.get(c));
             assertEquals(islandStudentsBefore.get(c), islandStudentsAfter.get(c));
         }
-        //assertArrayEquals(hallStudentsBefore, hallStudentsAfter);
-        //assertArrayEquals(islandStudentsBefore, islandStudentsAfter);
 
     }
 
@@ -74,16 +72,17 @@ public class TurnTest {
      * test checks if the method moveStudentToIsland throws a NotValidMoveException if there are no students
      * of the given Clan in the player's hall, without changing the students in the hall and on the island
      */
-    @Test
-    public void moveMissingStudentToIslandTest () {
+    @ParameterizedTest
+    @CsvSource(value = {"TOADS, 3", "PIXIES, 11"})
+    public void moveMissingStudentToIslandTest (Clan clan, int islandIndex) {
 
-        Island island = islandManager.getIsland(3);
+        Island island = islandManager.getIsland(islandIndex);
         for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
-            players[0].getHall().removeStudent(Clan.DRAGONS);
+            players[0].getHall().removeStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsBefore = island.getStudents();
 
-        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToIsland(Clan.DRAGONS, island));
+        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToIsland(clan, island));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsAfter = island.getStudents();
@@ -98,19 +97,21 @@ public class TurnTest {
     /**
      * test checks if the student is correctly removed from the player's hall and added to the player's chamber
      */
-    @Test
-    public void moveStudentToChamberTest () {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void moveStudentToChamberTest (Clan clan) {
 
-        players[0].getHall().addStudent(Clan.DRAGONS);
+        players[0].getHall().addStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
-        assertDoesNotThrow(() -> turn.moveStudentToChamber(Clan.DRAGONS, players));
+        assertDoesNotThrow(() -> turn.moveStudentToChamber(clan, players));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentAfter = players[0].getChamber().getStudents();
-        Map<Clan, Integer> chamberStudentsExpected = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
+        Map<Clan, Integer> chamberStudentsExpected = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        chamberStudentsExpected.put(clan, 1);
 
-        hallStudentsAfter.put(Clan.DRAGONS, hallStudentsAfter.get(Clan.DRAGONS) + 1);
+        hallStudentsAfter.put(clan, hallStudentsAfter.get(clan) + 1);
 
         for(int i=0; i<Clan.values().length; i++){
             assertEquals(hallStudentsBefore.get(Clan.values()[i]), hallStudentsAfter.get(Clan.values()[i]));
@@ -124,18 +125,19 @@ public class TurnTest {
      * test checks if the method throws a NotValidMoveException without changing the students in the hall and in the
      * chamber in the case where there are already the maximum number of students of the given Clan in the chamber
      */
-    @Test
-    public void moveStudentToFullChamberTest () {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void moveStudentToFullChamberTest (Clan clan) {
 
-        players[0].getHall().addStudent(Clan.DRAGONS);
+        players[0].getHall().addStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
         for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
-            players[0].getChamber().addStudent(Clan.DRAGONS);
+            players[0].getChamber().addStudent(clan);
 
         Map<Clan, Integer> chamberStudentsBefore = players[0].getChamber().getStudents();
 
-        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToChamber(Clan.DRAGONS, players));
+        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToChamber(clan, players));
 
         Map<Clan,Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentAfter = players[0].getChamber().getStudents();
@@ -151,14 +153,15 @@ public class TurnTest {
      * test checks if the method moveStudentToChamber throws a NotValidMoveException if there are no students
      * of the given Clan in the player's hall, without changing the students in the hall and in the chamber
      */
-    @Test
-    public void moveMissingStudentToChamberTest () {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void moveMissingStudentToChamberTest (Clan clan) {
 
         for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
-            players[0].getHall().removeStudent(Clan.DRAGONS);
+            players[0].getHall().removeStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
-        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToChamber(Clan.DRAGONS, players));
+        assertThrows(NotValidMoveException.class, () -> turn.moveStudentToChamber(clan, players));
 
         Map<Clan, Integer> hallStudentsAfter = players[0].getHall().getStudents();
         Map<Clan, Integer> chamberStudentsAfter = players[0].getChamber().getStudents();
@@ -174,21 +177,23 @@ public class TurnTest {
      * method updateProfessorsTest tests if the professors are updated as expected
      * after adding students to the players' chambers
      */
-    @Test
-    public void updateProfessorsTest() {
-
-        List<Map<Clan, Integer>> students = new ArrayList<>();
-
-        students.add(TestUtil.studentMapCreator(0, 2, 5, 2, 0));
-        students.add(TestUtil.studentMapCreator(0, 2, 7, 1, 1));
-        students.add(TestUtil.studentMapCreator(0, 1, 5, 8, 2));
-
-        Map<Clan, Player> expectedProfessors = TestUtil.professorMapCreator(null, null, players[1], players[2], players[2]);
+    @ParameterizedTest
+    @MethodSource("updateProfessorArguments")
+    public void updateProfessorsTest(List<Map<Clan, Integer>> students, Map<Clan, Integer> expectedIndexPlayersProfessors){
 
         for (int i = 0; i < players.length; i++)
             players[i].getChamber().addStudents(students.get(i));
 
         turn.updateProfessors(players);
+        Map<Clan, Player> expectedProfessors = TestUtil.professorMapCreator(null, null, null, null, null);
+
+        for(Clan c : Clan.values()){
+            if(expectedIndexPlayersProfessors.get(c)!=null)
+                expectedProfessors.put(c, players[expectedIndexPlayersProfessors.get(c)]);
+            else
+                expectedProfessors.put(c, null);
+        }
+
 
         for (Player player : players)
             for (Clan c : Clan.values())
@@ -196,30 +201,53 @@ public class TurnTest {
 
     }
 
+    private static Stream<Arguments> updateProfessorArguments(){
+        List<Map<Clan, Integer>> students1 = new ArrayList<>();
+
+        students1.add(TestUtil.studentMapCreator(0, 2, 5, 2, 0));
+        students1.add(TestUtil.studentMapCreator(0, 2, 7, 1, 1));
+        students1.add(TestUtil.studentMapCreator(0, 1, 5, 8, 2));
+
+        Map<Clan, Integer> expectedIndexPlayersProfessors1 = TestUtil.professorsIndexMapCreator(null, null, 1, 2, 2);
+
+        List<Map<Clan, Integer>> students2 = new ArrayList<>();
+
+        students2.add(TestUtil.studentMapCreator(1, 7, 0, 7, 3));
+        students2.add(TestUtil.studentMapCreator(4, 6, 1, 0, 3));
+        students2.add(TestUtil.studentMapCreator(0, 1, 5, 2, 2));
+
+        Map<Clan, Integer> expectedIndexPlayersProfessors2 = TestUtil.professorsIndexMapCreator(1, 0, 2, 0, null);
+
+        return Stream.of(
+                Arguments.of(students1, expectedIndexPlayersProfessors1),
+                Arguments.of(students2, expectedIndexPlayersProfessors2)
+        );
+    }
+
+
     /**
      * test verifies that the method moveStudentToIsland changes turnState to MOTHER_MOVING
      * after the correct number of students have been moved and verifies that an additional attempt to call the method
      * will result in a WrongTurnPhaseException thrown
      */
-    @Test
-    public void changeStateToMotherMovingTest() {
-
-        int islandIndex = 3;
+    @ParameterizedTest
+    @CsvSource(value = {"DRAGONS, 3", "FAIRIES, 8"})
+    public void changeStateToMotherMovingTest(Clan clan, int islandIndex) {
 
         Island island = islandManager.getIsland(islandIndex);
 
         for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)+1; i++)
-            players[0].getHall().addStudent(Clan.DRAGONS);
+            players[0].getHall().addStudent(clan);
 
         for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)-1; i++) {
-            assertDoesNotThrow(() -> turn.moveStudentToIsland(Clan.DRAGONS, island));
+            assertDoesNotThrow(() -> turn.moveStudentToIsland(clan, island));
             assertSame(turn.getTurnState(), TurnState.STUDENT_MOVING);
         }
 
-        assertDoesNotThrow(() -> turn.moveStudentToIsland(Clan.DRAGONS, island));
+        assertDoesNotThrow(() -> turn.moveStudentToIsland(clan, island));
         assertSame(turn.getTurnState(), TurnState.MOTHER_MOVING);
 
-        assertThrows(WrongTurnPhaseException.class, () -> turn.moveStudentToIsland(Clan.DRAGONS, island));
+        assertThrows(WrongTurnPhaseException.class, () -> turn.moveStudentToIsland(clan, island));
 
     }
 
@@ -256,20 +284,29 @@ public class TurnTest {
      * test checks if method updateInfluence behaves as expected in case of a tie,
      * not changing the controllingPlayer of the island
      */
-    @Test
-    public void updateInfluenceTieTest() {
 
-        Island island = islandManager.getIsland(3);
-        Map<Clan, Integer> islandStudents = TestUtil.studentMapCreator(0, 5, 8, 7, 1);
+    @ParameterizedTest
+    @MethodSource("updateInfluenceTieArguments")
+    public void updateInfluenceTieTest(int islandIndex1, int islandIndex2, int islandIndex3, Map<Clan, Integer> islandStudents, Map<Clan, Integer> initialProfessorsIndex){
 
-        islandManager.conquerIsland(players[1], islandManager.getIsland(5));
-        islandManager.conquerIsland(players[1], islandManager.getIsland(4));
-        islandManager.conquerIsland(players[1], islandManager.getIsland(3));
+        Island island = islandManager.getIsland(islandIndex1);
+
+
+        islandManager.conquerIsland(players[1], islandManager.getIsland(islandIndex3));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(islandIndex2));
+        islandManager.conquerIsland(players[1], islandManager.getIsland(islandIndex1));
 
         island.removeStudents(island.getStudents());
         island.addStudents(islandStudents);
 
-        Map<Clan, Player> initialProfessors = TestUtil.professorMapCreator(players[0], players[1], players[0], players[2], null);
+        Map<Clan, Player> initialProfessors = TestUtil.professorMapCreator(null, null, null, null, null);
+
+        for(Clan c : Clan.values()){
+            if(initialProfessorsIndex.get(c)!=null)
+                initialProfessors.put(c, players[initialProfessorsIndex.get(c)]);
+            else
+                initialProfessorsIndex.put(c, null);
+        }
 
         for (Player player : players)
             for (Clan c : Clan.values())
@@ -281,18 +318,39 @@ public class TurnTest {
 
     }
 
+    private static Stream<Arguments> updateInfluenceTieArguments(){
+        int islandIndex10 = 3;
+        Map<Clan, Integer> islandStudents1 = TestUtil.studentMapCreator(0, 5, 8, 7, 1);
+        int islandIndex11 = 4;
+        int islandIndex12 = 5;
+        Map<Clan, Integer> initialProfessorsIndex1 = TestUtil.professorsIndexMapCreator(0, 1, 0, 2, null);
+
+        int islandIndex20 = 6;
+        Map<Clan, Integer> islandStudents2 = TestUtil.studentMapCreator(3, 2, 8, 7, 3);
+        int islandIndex21 = 7;
+        int islandIndex22 = 8;
+        Map<Clan, Integer> initialProfessorsIndex2 = TestUtil.professorsIndexMapCreator(2, 1, 0, null, 1);
+
+        return Stream.of(
+                Arguments.of(islandIndex10, islandIndex11, islandIndex12, islandStudents1, initialProfessorsIndex1),
+                Arguments.of(islandIndex20, islandIndex21, islandIndex22, islandStudents2, initialProfessorsIndex2)
+        );
+
+    }
+
+
     /**
      * test check if chooseCloud method behaves as expected in a normal situation, on both 2 and 3 players game.
      */
     @ParameterizedTest
-    @ValueSource(ints = {2, 3})
-    public void chooseCloudTest(int numOfPlayers) {
+    @CsvSource(value = {"2, 0", "3, 1"})
+    public void chooseCloudTest(int numOfPlayers, int cloudIndex) {
 
         turn.setTurnState(TurnState.CLOUD_CHOOSING);
 
         CloudManager cloudManager = new CloudManager(numOfPlayers);
         cloudManager.fillClouds(bag);
-        Cloud cloud = cloudManager.getCloud(1);
+        Cloud cloud = cloudManager.getCloud(cloudIndex);
 
         Map<Clan, Integer> studentsHallBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> studentsCloudBefore = cloud.getStudents();
@@ -308,11 +366,9 @@ public class TurnTest {
             assertEquals(studentsHallExpected.get(c), players[0].getHall().getStudents().get(c));
 
 
-//        for(int i=0; i<Clan.values().length; i++){
-//            assertEquals(studentsHallExpected.get(Clan.values()[i]), players[0].getHall().getStudents().get(Clan.values()[i]));
+
         assertTrue(cloud.isEmpty());
-        /*assertArrayEquals(studentsHallExpected, players[0].getHall().getStudents());
-        assertArrayEquals(new int[Clan.values().length], cloud.getStudents());*/
+
         assertTrue(cloud.isPicked());
 
     }
@@ -323,12 +379,12 @@ public class TurnTest {
      * the method is expected to throw a NotValidMoveException
      */
     @ParameterizedTest
-    @ValueSource(ints = {2, 3})
-    public void chooseAlreadyPickedCloudTest(int numOfPlayers) {
+    @CsvSource(value = {"2, 0", "3, 1"})
+    public void chooseAlreadyPickedCloudTest(int numOfPlayers, int cloudIndex) {
 
         CloudManager cloudManager = new CloudManager(numOfPlayers);
         cloudManager.fillClouds(bag);
-        Cloud cloud = cloudManager.getCloud(1);
+        Cloud cloud = cloudManager.getCloud(cloudIndex);
 
         Turn turn2 = new Turn(players[2], numOfPlayers);
         turn2.setTurnState(TurnState.CLOUD_CHOOSING);

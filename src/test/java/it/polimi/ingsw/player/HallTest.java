@@ -2,11 +2,11 @@ package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Clan;
 import it.polimi.ingsw.TestUtil;
-import it.polimi.ingsw.player.Hall;
-import org.junit.jupiter.api.Test;
-
-import java.util.EnumMap;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,201 +15,152 @@ public class HallTest {
      * test if the addStudents method add the students in the Hall
      */
 
-    @Test
-    public void testAddStudents(){
-
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
-
+    @ParameterizedTest
+    @MethodSource("addStudentsArguments")
+    public void testAddStudents(Map<Clan, Integer> addingStudents) {
         Hall hall = new Hall(TestUtil.studentMapCreator(0, 0, 0, 0, 0));
         Map<Clan, Integer> addedStudents = hall.addStudents(addingStudents);
         Map<Clan, Integer> students = hall.getStudents();
-        for(int i = 0; i< Clan.values().length; i++){
+        for (int i = 0; i < Clan.values().length; i++) {
             assertEquals(addingStudents.get(Clan.values()[i]), addedStudents.get(Clan.values()[i]));
             assertEquals(addingStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
+
     }
 
+    private static Stream<Arguments> addStudentsArguments() {
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(7, 0, 1, 2, 4);
+
+        return Stream.of(
+                Arguments.of(addingStudents1),
+                Arguments.of(addingStudents2)
+        );
+    }
+
+
     /**
-     * test if the removeStudents removes the chosen students from the Hall in a situation where the number of students
+     * test if the removeStudents removes the chosen students from the Hall
+     * In the first scenario it is tested in a situation where the number of students
      * that actually are in the Hall is bigger than the one that we want to remove
-     */
-
-    @Test
-    public void testRemoveStudents(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
-
-        Hall hall = new Hall(addingStudents);
-
-        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
-        remove.put(Clan.PIXIES, 0);
-        remove.put(Clan.UNICORNS, 1);
-        remove.put(Clan.TOADS, 2);
-        remove.put(Clan.DRAGONS, 2);
-        remove.put(Clan.FAIRIES, 1);
-
-        Map<Clan, Integer> removed = hall.removeStudents(remove);
-        Map<Clan, Integer> students = hall.getStudents();
-        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
-
-        expectedStudents.put(Clan.PIXIES, 1);
-        expectedStudents.put(Clan.UNICORNS, 1);
-        expectedStudents.put(Clan.TOADS, 1);
-        expectedStudents.put(Clan.DRAGONS, 2);
-        expectedStudents.put(Clan.FAIRIES, 4);
-
-        for(int i = 0; i< Clan.values().length; i++){
-            assertEquals(remove.get(Clan.values()[i]), removed.get(Clan.values()[i]));
-            assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
-        }
-    }
-
-    /**
-     * test if the removeStudents method doesn't remove any student if we try to remove more students
+     * In the second one, it tests if the removeStudents method doesn't remove any student if we try to remove more students
      * than the actual number of students in the hall
-     * Is expected that in the second cell of removed there will be just 2 students instead of 3, because in the initial
+     * In this case is expected that in the second cell of removed there will be just 2 students instead of 3, because in the initial
      * situation there were just 2 students
      * Is expected that the number of students in the second cell of students is zero
      */
 
-    @Test
-    public void removeTooManyStudents(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
-
+    @ParameterizedTest
+    @MethodSource("removeStudentsArguments")
+    public void testRemoveStudents(Map<Clan, Integer> addingStudents, Map<Clan, Integer> remove, Map<Clan, Integer> expectedRemoved, Map<Clan, Integer> expectedStudents) {
         Hall hall = new Hall(addingStudents);
-
-        Map<Clan, Integer> remove = new EnumMap<>(Clan.class);
-        remove.put(Clan.PIXIES, 1);
-        remove.put(Clan.UNICORNS, 3);
-        remove.put(Clan.TOADS, 10);
-        remove.put(Clan.DRAGONS, 5);
-        remove.put(Clan.FAIRIES, 1);
 
         Map<Clan, Integer> removed = hall.removeStudents(remove);
 
-        Map<Clan, Integer> expectedRemoved = new EnumMap<>(Clan.class);
-        expectedRemoved.put(Clan.PIXIES, 1);
-        expectedRemoved.put(Clan.UNICORNS, 2);
-        expectedRemoved.put(Clan.TOADS, 3);
-        expectedRemoved.put(Clan.DRAGONS, 4);
-        expectedRemoved.put(Clan.FAIRIES, 1);
-
         Map<Clan, Integer> students = hall.getStudents();
 
-        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
-
-        expectedStudents.put(Clan.PIXIES, 0);
-        expectedStudents.put(Clan.UNICORNS, 0);
-        expectedStudents.put(Clan.TOADS, 0);
-        expectedStudents.put(Clan.DRAGONS, 0);
-        expectedStudents.put(Clan.FAIRIES, 4);
-
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(expectedRemoved.get(Clan.values()[i]), removed.get(Clan.values()[i]) );
-            assertEquals(expectedStudents.get(Clan.values()[i]) , students.get(Clan.values()[i]) );
+        for (int i = 0; i < Clan.values().length; i++) {
+            assertEquals(expectedRemoved.get(Clan.values()[i]), removed.get(Clan.values()[i]));
+            assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
     }
+
+    private static Stream<Arguments> removeStudentsArguments() {
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+        Map<Clan, Integer> remove1 = TestUtil.studentMapCreator(0, 1, 2, 2, 1);
+        Map<Clan, Integer> expectedRemoved1 = TestUtil.studentMapCreator(0, 1, 2, 2, 1);
+        Map<Clan, Integer> expectedStudents1 = TestUtil.studentMapCreator(1, 1, 1, 2, 4);
+
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+        Map<Clan, Integer> remove2 = TestUtil.studentMapCreator(1, 3, 10, 5, 1);
+        Map<Clan, Integer> expectedRemoved2 = TestUtil.studentMapCreator(1, 2, 3, 4, 1);
+        Map<Clan, Integer> expectedStudents2 = TestUtil.studentMapCreator(0, 0, 0, 0, 4);
+
+        return Stream.of(
+                Arguments.of(addingStudents1, remove1, expectedRemoved1, expectedStudents1),
+                Arguments.of(addingStudents2, remove2, expectedRemoved2, expectedStudents2)
+        );
+
+    }
+
 
     /**
      * test if the addStudent method adds a chosen student
      * True result is expected
      */
 
-    @Test
-    public void testAddStudent(){
-
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
+    @ParameterizedTest
+    @MethodSource("addStudentArguments")
+    public void testAddStudent(Map<Clan, Integer> addingStudents, Map<Clan, Integer> expectedStudents, Clan clan) {
 
         Hall hall = new Hall(addingStudents);
-        boolean added = hall.addStudent(Clan.DRAGONS);
-
-        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
-        expectedStudents.put(Clan.PIXIES, 1);
-        expectedStudents.put(Clan.UNICORNS, 2);
-        expectedStudents.put(Clan.TOADS, 3);
-        expectedStudents.put(Clan.DRAGONS, 5);
-        expectedStudents.put(Clan.FAIRIES, 5);
+        boolean added = hall.addStudent(clan);
 
         Map<Clan, Integer> students = hall.getStudents();
         assertTrue(added);
-        for(int i=0; i<Clan.values().length; i++){
+
+        for (int i = 0; i < Clan.values().length; i++) {
             assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
 
     }
 
+    private static Stream<Arguments> addStudentArguments() {
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+        Map<Clan, Integer> expectedStudents1 = TestUtil.studentMapCreator(1, 2, 3, 5, 5);
+        Clan clan1 = Clan.DRAGONS;
+
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(0, 10, 8, 2, 1);
+        Map<Clan, Integer> expectedStudents2 = TestUtil.studentMapCreator(1, 10, 8, 2, 1);
+        Clan clan2 = Clan.PIXIES;
+
+        return Stream.of(
+                Arguments.of(addingStudents1, expectedStudents1, clan1),
+                Arguments.of(addingStudents2, expectedStudents2, clan2)
+        );
+    }
+
     /**
-     * test if the removeStudent method removes a chosen student if he actually is in the Hall
+     * test if the removeStudent method removes a chosen student.
+     * In the first case it is remove a student that actually is in the Hall
      * True result is expected
+     * In the second case it is tested that the method doesn't remove a chosen student if he is not in the Hall
+     * A false result is expected
+     * It is expected an equal distribution of students respect to the initial one
      */
 
-    @Test
-    public void testRemoveStudent(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
-
-        addingStudents.put(Clan.PIXIES, 1);
-        addingStudents.put(Clan.UNICORNS, 2);
-        addingStudents.put(Clan.TOADS, 3);
-        addingStudents.put(Clan.DRAGONS, 4);
-        addingStudents.put(Clan.FAIRIES, 5);
-
+    @ParameterizedTest
+    @MethodSource("removeStudentArguments")
+    public void testRemoveStudent(Map<Clan, Integer> addingStudents, Map<Clan, Integer> expectedStudents, Clan clan, boolean expectedRemoved) {
         Hall hall = new Hall(addingStudents);
-        boolean removed = hall.removeStudent(Clan.DRAGONS);
-
-        Map<Clan, Integer> expectedStudents = new EnumMap<>(Clan.class);
-        expectedStudents.put(Clan.PIXIES, 1);
-        expectedStudents.put(Clan.UNICORNS, 2);
-        expectedStudents.put(Clan.TOADS, 3);
-        expectedStudents.put(Clan.DRAGONS, 3);
-        expectedStudents.put(Clan.FAIRIES, 5);
+        boolean removed = hall.removeStudent(clan);
 
         Map<Clan, Integer> students = hall.getStudents();
-        assertTrue(removed);
-        for(int i=0; i<Clan.values().length; i++){
+        assertEquals(expectedRemoved, removed);
+        for (int i = 0; i < Clan.values().length; i++) {
             assertEquals(expectedStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
         }
-
     }
 
-    /**
-     * test if the removeStudent method doesn't remove a chosen student if he is not in the Hall
-     * A false result is expected
-     * Is expected an equal distribution of students respect to the initial one
-     */
+    private static Stream<Arguments> removeStudentArguments() {
+        Map<Clan, Integer> addingStudents1 = TestUtil.studentMapCreator(1, 2, 3, 4, 5);
+        Map<Clan, Integer> expectedStudents1 = TestUtil.studentMapCreator(1, 2, 3, 3, 5);
+        Clan clan1 = Clan.DRAGONS;
+        boolean removed1 = true;
 
-    @Test
-    public void testRemoveNonExistingStudent(){
-        Map<Clan, Integer> addingStudents = new EnumMap<>(Clan.class);
+        Map<Clan, Integer> addingStudents2 = TestUtil.studentMapCreator(0, 10, 2, 2, 3);
+        Map<Clan, Integer> expectedStudents2 = TestUtil.studentMapCreator(0, 10, 2, 2, 3);
+        Clan clan2 = Clan.PIXIES;
+        boolean removed2 = false;
 
-        addingStudents.put(Clan.PIXIES, 2);
-        addingStudents.put(Clan.UNICORNS, 10);
-        addingStudents.put(Clan.TOADS, 2);
-        addingStudents.put(Clan.DRAGONS, 0);
-        addingStudents.put(Clan.FAIRIES, 3);
+        return Stream.of(
+                Arguments.of(addingStudents1, expectedStudents1, clan1, removed1),
+                Arguments.of(addingStudents2, expectedStudents2, clan2, removed2)
+        );
 
-        Hall hall = new Hall(addingStudents);
-        boolean removed = hall.removeStudent(Clan.DRAGONS);
-        assertFalse(removed);
-        Map<Clan, Integer> students = hall.getStudents();
-        for(int i=0; i<Clan.values().length; i++){
-            assertEquals(addingStudents.get(Clan.values()[i]), students.get(Clan.values()[i]));
-        }
     }
-
-
 
 }
+
+

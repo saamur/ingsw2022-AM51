@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,12 +48,13 @@ public class PlayerTest {
      * Method chooseCardTest() tests the chooseCard() method.
      * The result is expected true for the first time the card gets selected, and false the second time.
      */
-    @Test
-    public void chooseCardTest(){
-        assertTrue(player1.chooseCard(Card.CAT));
-        assertEquals(Card.CAT, player1.getCurrCard());
-        assertFalse(player1.getDeck().getCards().contains(Card.CAT));
-        assertFalse(player1.chooseCard(Card.CAT));
+    @ParameterizedTest
+    @EnumSource(Card.class)
+    public void chooseCardTest(Card card){
+        assertTrue(player1.chooseCard(card));
+        assertEquals(card, player1.getCurrCard());
+        assertFalse(player1.getDeck().getCards().contains(card));
+        assertFalse(player1.chooseCard(card));
     }
 
     /**

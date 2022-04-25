@@ -51,57 +51,16 @@ public abstract class CharacterTurnTest {
         students.add(TestUtil.studentMapCreator(0, 2, 5, 1, 0));
         students.add(TestUtil.studentMapCreator(0, 2, 7, 1, 2));
         students.add(TestUtil.studentMapCreator(0, 1, 5, 8, 2));
-        /*
-        //FIXME come faccio con le mappe?
-        int[][] students = { {0, 2, 5, 1, 0},
-                             {0, 2, 7, 1, 2},
-                             {0, 1, 5, 8, 2} };
-        */
-        /*
-        Map<Clan, Integer> studentsPlayer0 = new EnumMap<>(Clan.class); //FIXME it is not elegant but it would be much longer using not using arrays
-        for(int i=0; i<Clan.values().length; i++)
-            studentsPlayer0.put(Clan.values()[i], students[0][i]);
 
-        Map<Clan, Integer> studentsPlayer1 = new EnumMap<>(Clan.class);
-        for(int i=0; i<Clan.values().length; i++)
-            studentsPlayer0.put(Clan.values()[i], students[1][i]);
-
-        Map<Clan, Integer> studentsPlayer2 = new EnumMap<>(Clan.class);
-        for(int i=0; i<Clan.values().length; i++)
-            studentsPlayer0.put(Clan.values()[i], students[2][i]);
-        */
 
         Map<Clan, Player> initialProfessors = TestUtil.professorMapCreator(null, players[0], players[1], players[1], players[2]);
-        /*
-        boolean[][] initialProfessors = { {false, true, false, false, false},
-                                          {false, false, true, true, false},
-                                          {false, false, false, false, true} };
 
-        Map<Clan, Boolean> professorsPlayer0 = new EnumMap<>(Clan.class); //FIXME it is not elegant but it would be much longer using not using arrays
-        for(int i=0; i<Clan.values().length; i++)
-            professorsPlayer0.put(Clan.values()[i], initialProfessors[0][i]);
-
-        Map<Clan, Boolean> professorsPlayer1 = new EnumMap<>(Clan.class);
-        for(int i=0; i<Clan.values().length; i++)
-            professorsPlayer0.put(Clan.values()[i], initialProfessors[1][i]);
-
-        Map<Clan, Boolean> professorsPlayer2 = new EnumMap<>(Clan.class);
-        for(int i=0; i<Clan.values().length; i++)
-            professorsPlayer0.put(Clan.values()[i], initialProfessors[2][i]);
-        */
         for (int i = 0; i < players.length; i++)
             players[i].getChamber().addStudents(students.get(i));
         for (Player player : players)
             for (Clan c : Clan.values())
                 player.getChamber().setProfessor(c, player == initialProfessors.get(c));
-        /*
-        for (int i = 0; i < players.length; i++)
-            players[i].getChamber().addStudents(students[i]);//FIXME
 
-        for (int i = 0; i < players.length; i++)
-            for (int j = 0; j < Clan.values().length; j++)
-                players[i].getChamber().setProfessor(Clan.values()[j], initialProfessors[i][j]);
-        */
     }
 
     @Test
@@ -110,26 +69,14 @@ public abstract class CharacterTurnTest {
         professorsInitialization();
 
         Map<Clan, Player> expectedProfessors = TestUtil.professorMapCreator(null, players[0], players[1], players[2], players[2]);
-        /*
-        boolean[][] expectedProfessors = { {false, true, false, false, false},
-                                           {false, false, true, false, false},
-                                           {false, false, false, true, true} };
-        */
+
 
         turn.updateProfessors(players);
 
         for (Player player : players)
             for (Clan c : Clan.values())
                 assertEquals(player == expectedProfessors.get(c), player.getChamber().hasProfessor(c));
-        /*
-        boolean[][] professors = new boolean[players.length][Clan.values().length];
 
-        for (int i = 0; i < players.length; i++)
-            professors[i] = players[i].getChamber().getProfessors();
-
-        for (int i = 0; i < players.length; i++)
-            assertArrayEquals(expectedProfessors[i], professors[i]);
-        */
     }
 
     @Test
@@ -139,7 +86,7 @@ public abstract class CharacterTurnTest {
 
     }
 
-    //TODO non trovo un caso generico in cui senza torri vince uno ma senza colore vince un altro
+
     @Test
     public void updateInfluenceTest(){
         islandInitialization();
@@ -153,18 +100,7 @@ public abstract class CharacterTurnTest {
         int islandIndex = 3;
         Map<Clan, Integer> studentsToBeAdded = TestUtil.studentMapCreator(0, 1, 2, 0, 1);
 
-        /*if (islandManager.getIsland(3).getStudents()[Clan.FAIRIES.ordinal()] == 1) {
-            //If Samu already has a student (FAIRIES) on the Island, it will not add any more
-            studentsToBeAdded[Clan.FAIRIES.ordinal()] = 0;
-        }
-        if(islandManager.getIsland(3).getStudents()[Clan.TOADS.ordinal()] == 1 || islandManager.getIsland(3).getStudents()[Clan.DRAGONS.ordinal()] == 1){
-            //if Fede already has one of her students (TOADS or DRAGONS) on the island, it will only add one more
-            studentsToBeAdded[Clan.TOADS.ordinal()] = 1;
-        }
-        if(islandManager.getIsland(3).getStudents()[Clan.UNICORNS.ordinal()] == 1){
-            //If there is one Giulia's students (unicorns) already on the Island it will not add any more.
-            studentsToBeAdded[Clan.TOADS.ordinal()] = 0;
-        }*/
+
         islandManager.getIsland(islandIndex).removeStudents(islandManager.getIsland(islandIndex).getStudents());
         islandManager.getIsland(islandIndex).addStudents(studentsToBeAdded);
         islandManager.conquerIsland(players[2], islandManager.getIsland(islandIndex));

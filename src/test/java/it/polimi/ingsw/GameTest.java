@@ -6,8 +6,11 @@ import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Card;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -127,7 +130,7 @@ Game game;
 
 
     /**
-     * the test checks that the player cannot choose a card in a non PLANNING fase of the game
+     * the test checks that the player cannot choose a card in a non PLANNING phase of the game
      * The method chosenCard is expected to throw a WrongGamePhaseException if gameState is not PLANNING
      */
 
@@ -152,16 +155,18 @@ Game game;
      * The method chosenCard is expected to throw a NotValidMoveException
      */
 
-    @Test
-    public void testAlreadyChosenCard() {
+
+    @ParameterizedTest
+    @EnumSource(Card.class)
+    public void testAlreadyChosenCard(Card card) {
         setNotExpertGameTwoPlayers();
-        game.getPlayers()[0].getDeck().removeCard(Card.CAT);
-        game.getPlayers()[1].getDeck().removeCard(Card.CAT);
+        game.getPlayers()[0].getDeck().removeCard(card);
+        game.getPlayers()[1].getDeck().removeCard(card);
         if (game.getIndexCurrPlayer() == 0) {
-            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Giulia", Card.CAT));
+            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Giulia", card));
 
         } else {
-            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Samu", Card.CAT));
+            assertThrows(NotValidMoveException.class, () -> game.chosenCard("Samu", card));
         }
     }
 
@@ -245,20 +250,21 @@ Game game;
      * in the Chamber of the Current Player
      */
 
-    @Test
-    public void testMoveStudentToChamber() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testMoveStudentToChamber(Clan clan) {
         setPlanning();
-        game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
+        game.getPlayers()[0].getHall().addStudent(clan);
         Map<Clan, Integer> initialStudentsHall = game.getPlayers()[0].getHall().getStudents();
         Map<Clan, Integer> initialStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
 
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
 
         Map<Clan, Integer> finalStudentsHall = game.getPlayers()[0].getHall().getStudents();
         Map<Clan, Integer> finalStudentsChamber = game.getPlayers()[0].getChamber().getStudents();
 
-        assertEquals(initialStudentsChamber.get(Clan.values()[0]) + 1, finalStudentsChamber.get(Clan.values()[0]));
-        assertEquals(initialStudentsHall.get(Clan.values()[0]) - 1, finalStudentsHall.get(Clan.values()[0]));
+        assertEquals(initialStudentsChamber.get(clan) + 1, finalStudentsChamber.get(clan));
+        assertEquals(initialStudentsHall.get(clan) - 1, finalStudentsHall.get(clan));
     }
 
     /**
@@ -266,20 +272,22 @@ Game game;
      * method moveStudentToChamber is expected to throw a WrongPlayerException
      */
 
-    @Test
-    public void testWrongPlayerMoveStudentToChamber() {
+
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testWrongPlayerMoveStudentToChamber(Clan clan) {
         setPlanning();
-        game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
+        game.getPlayers()[1].getHall().addStudent(clan);
         Map<Clan, Integer> initialStudentsHall = game.getPlayers()[1].getHall().getStudents();
         Map<Clan, Integer> initialStudentsChamber = game.getPlayers()[1].getChamber().getStudents();
 
-        assertThrows(WrongPlayerException.class, () -> game.moveStudentToChamber("Samu", Clan.PIXIES));
+        assertThrows(WrongPlayerException.class, () -> game.moveStudentToChamber("Samu", clan));
 
         Map<Clan, Integer> finalStudentsHall = game.getPlayers()[1].getHall().getStudents();
         Map<Clan, Integer> finalStudentsChamber = game.getPlayers()[1].getChamber().getStudents();
 
-        assertEquals(initialStudentsChamber.get(Clan.values()[0]), finalStudentsChamber.get(Clan.values()[0]));
-        assertEquals(initialStudentsHall.get(Clan.values()[0]), finalStudentsHall.get(Clan.values()[0]));
+        assertEquals(initialStudentsChamber.get(clan), finalStudentsChamber.get(clan));
+        assertEquals(initialStudentsHall.get(clan), finalStudentsHall.get(clan));
     }
 
     /**
@@ -287,31 +295,33 @@ Game game;
      * method moveStudentToChamber is expected to throw a NotValidMoveException
      */
 
-    @Test
-    public void testNotStudentsToMoveToChamber() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testNotStudentsToMoveToChamber(Clan clan) {
         setPlanning();
-        int numOfPixies = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
-        for (int i = 0; i < numOfPixies; i++) {
-            game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
+        int numOfClanStudents = game.getPlayers()[0].getHall().getStudents().get(clan);
+        for (int i = 0; i < numOfClanStudents; i++) {
+            game.getPlayers()[0].getHall().removeStudent(clan);
         }
-        assertThrows(NotValidMoveException.class, () -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertThrows(NotValidMoveException.class, () -> game.moveStudentToChamber("Giulia", clan));
 
     }
 
     /**
      * the test check that the method moveStudentToIsland move a chosen student from the hall to an Island
      */
-    @Test
-    public void testMoveStudentToIsland() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testMoveStudentToIsland(Clan clan) {
         setPlanning();
-        game.getPlayers()[0].getHall().addStudent(Clan.PIXIES);
-        int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
-        int initialPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
-        int finalPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
-        assertEquals(initialNumOfPixies + 1, finalNumOfPixies);
-        assertEquals(initialPixiesInTheHall - 1, finalPixiesInTheHall);
+        game.getPlayers()[0].getHall().addStudent(clan);
+        int initialNumOfClanStudents = game.getIslandManager().getIsland(1).getStudents().get(clan);
+        int initialClanStudentsInTheHall = game.getPlayers()[0].getHall().getStudents().get(clan);
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, 1));
+        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(clan);
+        int finalPixiesInTheHall = game.getPlayers()[0].getHall().getStudents().get(clan);
+        assertEquals(initialNumOfClanStudents + 1, finalNumOfPixies);
+        assertEquals(initialClanStudentsInTheHall - 1, finalPixiesInTheHall);
     }
 
     /**
@@ -319,17 +329,18 @@ Game game;
      * The method moveStudentToIsland is expected to throw a WrongPlayerException
      */
 
-    @Test
-    public void testWrongPlayerMoveStudentToIsland() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testWrongPlayerMoveStudentToIsland(Clan clan) {
         setPlanning();
-        game.getPlayers()[1].getHall().addStudent(Clan.PIXIES);
-        int initialNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
-        int initialPixiesInTheHall = game.getPlayers()[1].getHall().getStudents().get(Clan.values()[0]);
-        assertThrows(WrongPlayerException.class, () -> game.moveStudentToIsland("Samu", Clan.PIXIES, 1));
-        int finalNumOfPixies = game.getIslandManager().getIsland(1).getStudents().get(Clan.values()[0]);
-        int finalPixiesInTheHall = game.getPlayers()[1].getHall().getStudents().get(Clan.values()[0]);
-        assertEquals(initialNumOfPixies, finalNumOfPixies);
-        assertEquals(initialPixiesInTheHall, finalPixiesInTheHall);
+        game.getPlayers()[1].getHall().addStudent(clan);
+        int initialNumOfClanStudents = game.getIslandManager().getIsland(1).getStudents().get(clan);
+        int initialClanStudentsInTheHall = game.getPlayers()[1].getHall().getStudents().get(clan);
+        assertThrows(WrongPlayerException.class, () -> game.moveStudentToIsland("Samu", clan, 1));
+        int finalNumOfClanStudents = game.getIslandManager().getIsland(1).getStudents().get(clan);
+        int finalClanStudentsInTheHall = game.getPlayers()[1].getHall().getStudents().get(clan);
+        assertEquals(initialNumOfClanStudents, finalNumOfClanStudents);
+        assertEquals(initialClanStudentsInTheHall, finalClanStudentsInTheHall);
     }
 
     /**
@@ -337,28 +348,31 @@ Game game;
      * The method moveStudentToIsland is expected to throw a NotValidMoveException
      */
 
-    @Test
-    public void testNotStudentsToMoveToIsland() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testNotStudentsToMoveToIsland(Clan clan) {
         setPlanning();
-        int numOfPixies = game.getPlayers()[0].getHall().getStudents().get(Clan.values()[0]);
-        for (int i = 0; i < numOfPixies; i++) {
-            game.getPlayers()[0].getHall().removeStudent(Clan.PIXIES);
+        int numOfClanStudents = game.getPlayers()[0].getHall().getStudents().get(clan);
+        for (int i = 0; i < numOfClanStudents; i++) {
+            game.getPlayers()[0].getHall().removeStudent(clan);
         }
-        assertThrows(NotValidMoveException.class, () -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
+        assertThrows(NotValidMoveException.class, () -> game.moveStudentToIsland("Giulia", clan, 1));
     }
 
     /**
      * tests if with the moveMotherNature method the current player moves Mother Nature on a chosen Island
      */
 
-    @Test
-    public void testMoveMotherNature() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testMoveMotherNature(Clan clan) {
         setPlanning();
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, 1));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
         TurnState turnState = game.getTurn().getTurnState();
         assertEquals(TurnState.MOTHER_MOVING, turnState);
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
@@ -374,14 +388,16 @@ Game game;
      * played
      * A NotValidMoveException is expected to be thrown
      */
-    @Test
-    public void testMoveMotherNatureTooMuch() {
+    @ParameterizedTest
+    @EnumSource(Clan.class)
+    public void testMoveMotherNatureTooMuch(Clan clan) {
         setPlanning();
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, 1));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertThrows(NotValidMoveException.class, () -> game.moveMotherNature("Giulia", (index + 2) % (game.getIslandManager().getIslands().size())));
@@ -495,21 +511,24 @@ Game game;
      * It is expected not to throw any exception
      */
 
-    @Test
-    public void testChosenCloud() {
+    @ParameterizedTest
+    @CsvSource(value = {"PIXIES, 1, 1", "DRAGONS, 3, 0"})
+    public void testChosenCloud(Clan clan, int islandIndex, int cloudIndex) {
         setPlanning();
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, islandIndex));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
         Map<Clan, Integer> initialStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
-        Map<Clan, Integer> studentsInTheCloud = game.getCloudManager().getCloud(1).getStudents();
-        assertDoesNotThrow(() -> game.chosenCloud("Giulia", 1));
+        Map<Clan, Integer> studentsInTheCloud = game.getCloudManager().getCloud(cloudIndex).getStudents();
+        assertDoesNotThrow(() -> game.chosenCloud("Giulia", cloudIndex));
         Map<Clan, Integer> finalStudentsInTheHall = game.getPlayers()[0].getHall().getStudents();
         Map<Clan, Integer> expectedFinalStudentInTheHall = new EnumMap<>(Clan.class);
         for (Clan c : Clan.values()) {
@@ -525,21 +544,23 @@ Game game;
      * tests that two players cannot choose the same cloud
      * the method chosenCloud is expected to throw a NotValidMoveException
      */
-    @Test
-    public void testAlreadyChosenCloud(){
+    @ParameterizedTest
+    @CsvSource(value = {"PIXIES, 1, 1", "DRAGONS, 6, 0"})
+    public void testAlreadyChosenCloud(Clan clan, int islandIndex, int cloudIndex){
         setPlanning();
-        game.getCloudManager().getCloud(1).pick();
+        game.getCloudManager().getCloud(cloudIndex).pick();
 
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, islandIndex));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
-        assertThrows(NotValidMoveException.class, () -> game.chosenCloud("Giulia", 1));
+        assertThrows(NotValidMoveException.class, () -> game.chosenCloud("Giulia", cloudIndex));
     }
 
     /**
@@ -547,21 +568,23 @@ Game game;
      * the method chosenCloud is expected to throw a WrongPlayerException
      */
 
-    @Test
-    public void testWrongPlayerChooseCloud(){
+    @ParameterizedTest
+    @CsvSource(value = {"PIXIES, 1, 1", "UNICORNS, 7, 0"})
+    public void testWrongPlayerChooseCloud(Clan clan, int islandIndex, int cloudIndex){
         setPlanning();
-        game.getCloudManager().getCloud(1).pick();
+        game.getCloudManager().getCloud(cloudIndex).pick();
 
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, islandIndex));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
-        assertThrows(WrongPlayerException.class, () -> game.chosenCloud("Samu", 1));
+        assertThrows(WrongPlayerException.class, () -> game.chosenCloud("Samu", cloudIndex));
     }
 
     /**
@@ -569,20 +592,22 @@ Game game;
      * the method endTurn is expected not to throw any exception
      */
 
-    @Test
-    public void testEndTurn(){
+    @ParameterizedTest
+    @CsvSource(value = {"PIXIES, 1, 1", "FAIRIES, 6, 0"})
+    public void testEndTurn(Clan clan, int islandIndex, int cloudIndex){
         setPlanning();
 
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, islandIndex));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
         Island motherNaturePosition = game.getIslandManager().getMotherNaturePosition();
         int index = game.getIslandManager().getIslands().indexOf(motherNaturePosition);
         assertDoesNotThrow(() -> game.moveMotherNature("Giulia", (index + 1) % (game.getIslandManager().getIslands().size())));
-        assertDoesNotThrow(() -> game.chosenCloud("Giulia", 1));
+        assertDoesNotThrow(() -> game.chosenCloud("Giulia", cloudIndex));
 
         assertDoesNotThrow(() -> game.endTurn("Giulia"));
     }
@@ -591,16 +616,18 @@ Game game;
      * the test checks that it isn't possible to call the endTurn method in a non-valid position
      * the method endTurn is expected to throw a NotValidMoveException
      */
-    @Test
-    public void testEndTurnBeforeTime() {
+    @ParameterizedTest
+    @CsvSource(value = {"TOADS, 4", "UNICORNS, 9"})
+    public void testEndTurnBeforeTime(Clan clan, int islandIndex) {
         setPlanning();
 
-        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(3, 0, 0, 0, 0);
+        Map<Clan, Integer> addingStudents = TestUtil.studentMapCreator(0, 0, 0, 0, 0);
+        addingStudents.put(clan, 3);
 
         game.getPlayers()[0].getHall().addStudents(addingStudents);
-        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", Clan.PIXIES, 1));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
-        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", Clan.PIXIES));
+        assertDoesNotThrow(() -> game.moveStudentToIsland("Giulia", clan, islandIndex));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
+        assertDoesNotThrow(() -> game.moveStudentToChamber("Giulia", clan));
 
         assertThrows(WrongTurnPhaseException.class, () -> game.endTurn("Giulia"));
     }

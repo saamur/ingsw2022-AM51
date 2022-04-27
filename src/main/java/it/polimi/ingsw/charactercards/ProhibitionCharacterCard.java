@@ -1,6 +1,6 @@
 package it.polimi.ingsw.charactercards;
 
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.GameConstants;
 import it.polimi.ingsw.Game;
 import it.polimi.ingsw.islands.Island;
 
@@ -15,7 +15,7 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
     public ProhibitionCharacterCard(CharacterID characterID) {
         super(characterID);
-        numProhibitionCards = Constants.getNumInitialProhibitionCardsCharacterCard(characterID);
+        numProhibitionCards = GameConstants.getNumInitialProhibitionCardsCharacterCard(characterID);
     }
 
     @Override

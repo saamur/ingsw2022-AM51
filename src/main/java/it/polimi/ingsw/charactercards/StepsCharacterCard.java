@@ -1,6 +1,6 @@
 package it.polimi.ingsw.charactercards;
 
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.GameConstants;
 
 /**
  * StepsCharacterCard class models the character cards
@@ -15,7 +15,7 @@ public class StepsCharacterCard extends CharacterCard {
 
     @Override
     public int effectStepsMotherNature() {
-        return Constants.getNumAdditionalStepsCharacterCard(getCharacterID());
+        return GameConstants.getNumAdditionalStepsCharacterCard(getCharacterID());
     }
 
 }

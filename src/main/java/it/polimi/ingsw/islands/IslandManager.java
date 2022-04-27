@@ -1,7 +1,7 @@
 package it.polimi.ingsw.islands;
 
 import it.polimi.ingsw.Clan;
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.GameConstants;
 import it.polimi.ingsw.player.Player;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class IslandManager {
     public IslandManager() {
 
         islands = new ArrayList<>();
-        for (int i = 0; i < Constants.NUM_INITIAL_ISLANDS; i++)
+        for (int i = 0; i < GameConstants.NUM_INITIAL_ISLANDS; i++)
             islands.add(new Island());
 
         Random random = new Random();
@@ -32,8 +32,8 @@ public class IslandManager {
         stud.addAll(Arrays.asList(Clan.values()));
         stud.addAll(Arrays.asList(Clan.values()));
 
-        for (int i = 0; i < Constants.NUM_INITIAL_ISLANDS; i++)
-            if (islands.get(i) != motherNaturePosition && islands.get((i+Constants.NUM_INITIAL_ISLANDS/2)%Constants.NUM_INITIAL_ISLANDS) != motherNaturePosition)
+        for (int i = 0; i < GameConstants.NUM_INITIAL_ISLANDS; i++)
+            if (islands.get(i) != motherNaturePosition && islands.get((i+ GameConstants.NUM_INITIAL_ISLANDS/2)% GameConstants.NUM_INITIAL_ISLANDS) != motherNaturePosition)
                 islands.get(i).addStudent(stud.remove(random.nextInt(stud.size())));
 
     }

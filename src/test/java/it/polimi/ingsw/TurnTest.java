@@ -9,7 +9,6 @@ import it.polimi.ingsw.islands.IslandManager;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
@@ -77,7 +76,7 @@ public class TurnTest {
     public void moveMissingStudentToIslandTest (Clan clan, int islandIndex) {
 
         Island island = islandManager.getIsland(islandIndex);
-        for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
+        for (int i = 0; i < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
             players[0].getHall().removeStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
         Map<Clan, Integer> islandStudentsBefore = island.getStudents();
@@ -132,7 +131,7 @@ public class TurnTest {
         players[0].getHall().addStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
-        for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
+        for (int i = 0; i < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
             players[0].getChamber().addStudent(clan);
 
         Map<Clan, Integer> chamberStudentsBefore = players[0].getChamber().getStudents();
@@ -157,7 +156,7 @@ public class TurnTest {
     @EnumSource(Clan.class)
     public void moveMissingStudentToChamberTest (Clan clan) {
 
-        for (int i = 0; i < Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
+        for (int i = 0; i < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; i++)
             players[0].getHall().removeStudent(clan);
         Map<Clan, Integer> hallStudentsBefore = players[0].getHall().getStudents();
 
@@ -236,10 +235,10 @@ public class TurnTest {
 
         Island island = islandManager.getIsland(islandIndex);
 
-        for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)+1; i++)
+        for (int i = 0; i < GameConstants.getNumStudentsPerCloud(players.length)+1; i++)
             players[0].getHall().addStudent(clan);
 
-        for (int i = 0; i < Constants.getNumStudentsPerCloud(players.length)-1; i++) {
+        for (int i = 0; i < GameConstants.getNumStudentsPerCloud(players.length)-1; i++) {
             assertDoesNotThrow(() -> turn.moveStudentToIsland(clan, island));
             assertSame(turn.getTurnState(), TurnState.STUDENT_MOVING);
         }

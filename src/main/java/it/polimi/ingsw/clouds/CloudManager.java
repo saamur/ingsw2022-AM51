@@ -1,7 +1,7 @@
 package it.polimi.ingsw.clouds;
 
 import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.GameConstants;
 
 /**
  * CloudManager class manages the clouds of the game and their filling
@@ -16,7 +16,7 @@ public class CloudManager {
         clouds = new Cloud[numPlayers];
         for (int i = 0; i < clouds.length; i++)
             clouds[i] = new Cloud();
-        numStudentsPerCloud = Constants.getNumStudentsPerCloud(numPlayers);
+        numStudentsPerCloud = GameConstants.getNumStudentsPerCloud(numPlayers);
     }
 
     /**

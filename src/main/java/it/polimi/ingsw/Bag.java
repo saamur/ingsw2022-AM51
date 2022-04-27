@@ -17,7 +17,7 @@ public class Bag implements StudentContainer {
 
         students = new EnumMap<>(Clan.class);
         for (Clan c : Clan.values())
-            students.put(c, Constants.NUM_INITIAL_STUDENTS_PER_CLAN_BAG);
+            students.put(c, GameConstants.NUM_INITIAL_STUDENTS_PER_CLAN_BAG);
 
         random = new Random();
     }

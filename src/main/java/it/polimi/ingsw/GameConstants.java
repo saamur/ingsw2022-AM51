@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Constants class contains the main constants used in the Erianys game
+ * GameConstants class contains the main constants used in the Erianys game
  *
  */
-public class Constants {
+public class GameConstants {
 
     public static final int NUM_INITIAL_STUDENTS_PER_CLAN_BAG = 24;
     public static final int NUM_INITIAL_ISLANDS = 12;

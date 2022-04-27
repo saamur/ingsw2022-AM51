@@ -1,7 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.GameConstants;
 
 /**
  * Player class models the player of the game Eriantys with its nickname,
@@ -21,10 +21,10 @@ public class Player {
     public Player (String nickname, TowerColor colorOfTowers, int numPlayers, Bag bag) {
 
         this.nickname = nickname;
-        hall = new Hall(bag.draw(Constants.getNumInitialStudentsHall(numPlayers)));
+        hall = new Hall(bag.draw(GameConstants.getNumInitialStudentsHall(numPlayers)));
         chamber = new Chamber();
         this.colorOfTowers = colorOfTowers;
-        numberOfTowers = Constants.getNumInitialTowers(numPlayers);
+        numberOfTowers = GameConstants.getNumInitialTowers(numPlayers);
         deck = new Deck();
         currCard = null;
 

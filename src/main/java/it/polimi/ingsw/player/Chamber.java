@@ -1,7 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.Clan;
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.GameConstants;
 import it.polimi.ingsw.StudentContainer;
 
 import java.util.EnumMap;
@@ -60,13 +60,13 @@ public class Chamber implements StudentContainer {
         Map<Clan, Integer> addedStudents = new EnumMap<>(Clan.class);
 
         for (Clan c : Clan.values()) {
-            if (students.get(c) + stud.get(c) <= Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER) {
+            if (students.get(c) + stud.get(c) <= GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER) {
                 addedStudents.put(c, stud.get(c));
                 students.put(c, students.get(c) + stud.get(c));
             }
             else {
-                addedStudents.put(c, Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER - students.get(c));
-                students.put(c, Constants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER);
+                addedStudents.put(c, GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER - students.get(c));
+                students.put(c, GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER);
             }
         }
 

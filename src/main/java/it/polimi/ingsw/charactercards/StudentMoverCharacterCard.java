@@ -97,7 +97,7 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
 
     public StudentMoverCharacterCard (CharacterID characterID, Bag bag) {
         super(characterID);
-        students = bag.draw(Constants.getNumInitialStudentsStudentMoverCharacterCard(characterID));
+        students = bag.draw(GameConstants.getNumInitialStudentsStudentMoverCharacterCard(characterID));
     }
 
     @Override

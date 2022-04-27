@@ -1,16 +1,19 @@
 package it.polimi.ingsw.charactercards;
 
-import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.TestUtil;
-import it.polimi.ingsw.Turn;
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.player.TowerColor;
+import it.polimi.ingsw.model.Turn;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
+import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
+import it.polimi.ingsw.model.charactercards.CharacterID;
+import it.polimi.ingsw.model.charactercards.ProhibitionCharacterCard;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.ConnectionConstants;
+import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.ErrorMessage;
 import it.polimi.ingsw.messages.GenericMessage;

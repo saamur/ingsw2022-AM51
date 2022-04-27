@@ -1,15 +1,14 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.charactercards.CharacterCard;
-import it.polimi.ingsw.charactercards.CharacterID;
-import it.polimi.ingsw.charactercards.InfluenceCharacterCard;
+import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InfluenceCharacterTurnTest extends CharacterTurnTest{

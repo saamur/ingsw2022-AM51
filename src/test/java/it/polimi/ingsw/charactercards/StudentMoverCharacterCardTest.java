@@ -1,8 +1,13 @@
 package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.player.*;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
+import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
+import it.polimi.ingsw.model.charactercards.CharacterID;
+import it.polimi.ingsw.model.charactercards.StudentMoverCharacterCard;
+import it.polimi.ingsw.model.player.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,11 +15,10 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static it.polimi.ingsw.Clan.*;
+import static it.polimi.ingsw.model.Clan.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentMoverCharacterCardTest {

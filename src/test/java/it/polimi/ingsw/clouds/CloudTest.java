@@ -1,15 +1,14 @@
 package it.polimi.ingsw.clouds;
 
-import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.TestUtil;
-import it.polimi.ingsw.clouds.Cloud;
+import it.polimi.ingsw.model.clouds.Cloud;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;
 

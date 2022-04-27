@@ -1,7 +1,7 @@
 package it.polimi.ingsw.islands;
 
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.islands.IslandManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

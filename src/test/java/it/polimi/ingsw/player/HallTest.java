@@ -1,7 +1,8 @@
 package it.polimi.ingsw.player;
 
-import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.TestUtil;
+import it.polimi.ingsw.model.player.Hall;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

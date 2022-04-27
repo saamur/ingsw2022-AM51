@@ -1,8 +1,10 @@
 package it.polimi.ingsw.islands;
 
-import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.player.TowerColor;
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.islands.IslandManager;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

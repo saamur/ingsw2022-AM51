@@ -1,14 +1,13 @@
 package it.polimi.ingsw.player;
 
-import it.polimi.ingsw.player.Card;
-import it.polimi.ingsw.player.Deck;
+import it.polimi.ingsw.model.player.Card;
+import it.polimi.ingsw.model.player.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 

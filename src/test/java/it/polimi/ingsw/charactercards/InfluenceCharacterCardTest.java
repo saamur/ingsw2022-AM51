@@ -1,11 +1,15 @@
 package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
-import it.polimi.ingsw.player.Card;
-import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.player.TowerColor;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.islands.IslandManager;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
+import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
+import it.polimi.ingsw.model.charactercards.CharacterID;
+import it.polimi.ingsw.model.player.Card;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.Clan.*;
+import static it.polimi.ingsw.model.Clan.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 

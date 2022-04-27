@@ -1,14 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.CharacterTurnTest;
-import it.polimi.ingsw.Clan;
-import it.polimi.ingsw.charactercards.CharacterID;
-import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.charactercards.CharacterID;
+import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;

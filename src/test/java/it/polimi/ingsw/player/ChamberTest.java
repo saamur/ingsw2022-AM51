@@ -1,8 +1,8 @@
 package it.polimi.ingsw.player;
 
-import it.polimi.ingsw.Clan;
+import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.TestUtil;
-import it.polimi.ingsw.player.Chamber;
+import it.polimi.ingsw.model.player.Chamber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;
 

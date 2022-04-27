@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.EnumMap;
 import java.util.Map;

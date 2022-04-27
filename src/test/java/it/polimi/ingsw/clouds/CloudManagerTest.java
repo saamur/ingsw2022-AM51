@@ -1,9 +1,7 @@
 package it.polimi.ingsw.clouds;
 
-import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.clouds.CloudManager;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.clouds.CloudManager;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;

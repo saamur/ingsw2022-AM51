@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 
 
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.Clan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +12,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.nio.channels.Pipe;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;

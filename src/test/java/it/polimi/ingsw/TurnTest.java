@@ -1,13 +1,18 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.clouds.Cloud;
-import it.polimi.ingsw.clouds.CloudManager;
+import it.polimi.ingsw.constants.GameConstants;
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.Turn;
+import it.polimi.ingsw.model.TurnState;
+import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.exceptions.NotValidMoveException;
 import it.polimi.ingsw.exceptions.WrongTurnPhaseException;
-import it.polimi.ingsw.islands.Island;
-import it.polimi.ingsw.islands.IslandManager;
-import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.player.TowerColor;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.islands.IslandManager;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;

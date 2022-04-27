@@ -1,8 +1,7 @@
 package it.polimi.ingsw.charactercards;
 
-import it.polimi.ingsw.Bag;
-import it.polimi.ingsw.charactercards.CharacterCardTest;
-import it.polimi.ingsw.charactercards.CharacterID;
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

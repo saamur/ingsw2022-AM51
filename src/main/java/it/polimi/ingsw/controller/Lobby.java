@@ -9,9 +9,6 @@ import java.util.Map;
 
 public class Lobby {
 
-    private static final String SAVED_GAMES_DIRECTORY = "SavedGames";
-    private static final String SAVED_GAMES_INDEX = "index.txt";
-
     private static Lobby instance;
 
     private final Map<ClientHandler, String> clientNicknames;

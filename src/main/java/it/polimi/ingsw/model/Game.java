@@ -673,8 +673,9 @@ public class Game implements GameInterface {
         return players.clone();
     }
 
+    @Override
     public List<String> getPlayersNicknames () {
-        return Arrays.stream(players).map(Player::getNickname).toList();
+        return Arrays.stream(players).filter(Objects::nonNull).map(Player::getNickname).toList();
     }
 
     public Bag getBag() {

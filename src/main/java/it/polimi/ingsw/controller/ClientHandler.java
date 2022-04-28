@@ -70,9 +70,10 @@ public class ClientHandler implements Runnable{
                         out.writeObject(new ErrorMessage("You cannot change your nickname in this phase"));
                     }
                 }
-                //TODO messages to join in game
+                //TODO messages to join in game or new game
                 else if (o instanceof Message) {
-                    //TODO call on controller
+                    Message answer = controller.messageOnGame(Lobby.getInstance().getNicknameFromClientHandler(this), (Message) o);
+                    out.writeObject(answer);
                 }
                 else if (!(o instanceof String && o.equals("pong")))
                     System.err.println("this shouldn't happen");

@@ -3,5 +3,9 @@ package it.polimi.ingsw.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record SavedGameData(int numOfPlayers, boolean expertMode, LocalDateTime localDateTime, String fileName, List<String> nicknames) {
+public record SavedGameData(String fileName,
+                            int numOfPlayers,
+                            boolean expertMode,
+                            LocalDateTime localDateTime,
+                            List<String> nicknames) {
 }

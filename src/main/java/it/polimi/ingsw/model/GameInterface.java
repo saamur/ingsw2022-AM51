@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.player.Card;
 
+import java.util.List;
 import java.util.Map;
 
 public interface GameInterface {
@@ -19,5 +20,6 @@ public interface GameInterface {
     void applyCharacterCardEffect (String playerNickname, int islandIndex) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidIndexException, NotValidMoveException;
     void setClanCharacter (String playerNickname, Clan clan) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException;
     void applyCharacterCardEffect (String playerNickname, int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException;
+    List<String> getPlayersNicknames();
 
 }

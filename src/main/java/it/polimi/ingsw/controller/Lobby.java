@@ -45,6 +45,10 @@ public class Lobby {
 
     }
 
+    public synchronized void unregisterNickname(ClientHandler clientHandler) {
+        clientNicknames.remove(clientHandler);
+    }
+
     public synchronized String getNicknameFromClientHandler (ClientHandler clientHandler) {
         return clientNicknames.get(clientHandler);
     }

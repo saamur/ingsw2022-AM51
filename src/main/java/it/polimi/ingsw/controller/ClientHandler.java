@@ -20,6 +20,8 @@ public class ClientHandler implements Runnable{
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
     private boolean initialization;
+    private Controller controller;
+
     public ClientHandler (Socket socket) throws IOException {
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());
@@ -77,13 +79,16 @@ public class ClientHandler implements Runnable{
 
             } catch (IOException e) {           //non tutte le IOException in realtà
                 System.out.println(Lobby.getInstance().getNicknameFromClientHandler(this) + " has disconnected");
-                //TODO notify other players and remove the nicknames from the lobby
+                controller.clientDisconnected(Lobby.getInstance().getNicknameFromClientHandler(this));
                 t.interrupt();
                 connected = false;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+
         }
+
+        Lobby.getInstance().unregisterNickname(this);
 
     }
 

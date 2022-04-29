@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Random;
  * IslandManager class manages the islands of the game, the position of Mother Nature and the merging of islands
  *
  */
-public class IslandManager {
+public class IslandManager implements Serializable {
 
     private final List<Island> islands;
     private Island motherNaturePosition;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.constants.GameConstants;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,7 +11,7 @@ import java.util.Random;
  * Bag class models the game's bag from which the students are drawn
  *
  */
-public class Bag implements StudentContainer {
+public class Bag implements Serializable, StudentContainer {
 
     private final Map<Clan, Integer> students;
     private final Random random;

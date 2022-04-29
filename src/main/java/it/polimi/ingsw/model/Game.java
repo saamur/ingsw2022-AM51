@@ -705,4 +705,9 @@ public class Game implements GameInterface {
     public CloudManager getCloudManager() {
         return cloudManager;
     }
+
+    @Override
+    public boolean isExpertModeEnabled() {
+        return expertModeEnabled;
+    }
 }

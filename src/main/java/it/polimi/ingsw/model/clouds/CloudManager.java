@@ -3,11 +3,13 @@ package it.polimi.ingsw.model.clouds;
 import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.constants.GameConstants;
 
+import java.io.Serializable;
+
 /**
  * CloudManager class manages the clouds of the game and their filling
  *
  */
-public class CloudManager {
+public class CloudManager implements Serializable {
 
     private final Cloud[] clouds;
     private final int numStudentsPerCloud;

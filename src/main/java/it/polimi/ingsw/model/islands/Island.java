@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.StudentContainer;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * needed for their management and merging
  *
  */
-public class Island implements StudentContainer {
+public class Island implements Serializable, StudentContainer {
 
     private int numberOfIslands;
     private final Map<Clan, Integer> students;

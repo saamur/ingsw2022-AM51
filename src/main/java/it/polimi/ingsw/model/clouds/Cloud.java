@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.clouds;
 
 import it.polimi.ingsw.model.Clan;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * needed for their management
  *
  */
-public class Cloud {
+public class Cloud implements Serializable {
 
     private Map<Clan, Integer> students;
     private boolean picked;

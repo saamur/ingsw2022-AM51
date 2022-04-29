@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.StudentContainer;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * Hall class models the hall of the school board with its students
  *
  */
-public class Hall implements StudentContainer {
+public class Hall implements Serializable, StudentContainer {
 
     private final Map<Clan, Integer> students;
 

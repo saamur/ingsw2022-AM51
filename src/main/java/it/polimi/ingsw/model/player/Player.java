@@ -3,12 +3,14 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.constants.GameConstants;
 
+import java.io.Serializable;
+
 /**
  * Player class models the player of the game Eriantys with its nickname,
  * its school board and its deck of assistant cards
  *
  */
-public class Player {
+public class Player implements Serializable {
 
     private final String nickname;
     private final Hall hall;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Deck class models the deck of the assistant cards of the game
  *
  */
-public class Deck {
+public class Deck implements Serializable {
 
     private final List<Card> cards;
 

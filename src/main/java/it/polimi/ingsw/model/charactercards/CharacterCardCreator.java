@@ -2,12 +2,14 @@ package it.polimi.ingsw.model.charactercards;
 
 import it.polimi.ingsw.model.Bag;
 
+import java.io.Serializable;
+
 /**
  * CharacterCardCreator class contains the method needed to create
  * CharacterCard objects with the correct concrete subclass
  *
  */
-public class CharacterCardCreator {
+public class CharacterCardCreator implements Serializable {     //todo Serializable shouldn't be necessary
 
     public CharacterCardCreator(){}
 

@@ -7,13 +7,14 @@ import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * CharacterCard abstract class models the character cards of the game and their effects
  *
  */
-public abstract class CharacterCard {
+public abstract class CharacterCard implements Serializable {
 
     private final CharacterID characterID;
     private boolean alreadyUsed;

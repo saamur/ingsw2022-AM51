@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.StudentContainer;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * and the methods needed for their management
  *
  */
-public class Chamber implements StudentContainer {
+public class Chamber implements Serializable, StudentContainer {
 
     private final Map<Clan, Integer> students;
     private final Map<Clan, Boolean> professors;

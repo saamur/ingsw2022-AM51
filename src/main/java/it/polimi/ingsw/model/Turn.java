@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
+
 /**
  * Turn class contains the main logic for the managing of the turns and their phases,
  * with the attributes and methods needed; it's tightly connected with the Game class
@@ -15,7 +17,7 @@ import it.polimi.ingsw.model.player.Player;
  * @see Game
  *
  */
-public class Turn {
+public class Turn implements Serializable {
 
     private final Player currPlayer;
     private final int numStudentsToMove;

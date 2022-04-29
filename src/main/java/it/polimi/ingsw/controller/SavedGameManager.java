@@ -30,24 +30,18 @@ public class SavedGameManager {
         }
     }
 
-    private synchronized static List<SavedGameData> getSavedGameList () {
+    public synchronized static List<SavedGameData> getSavedGameList () {
 
         List<SavedGameData> savedGameDataList = new ArrayList<>();
 
-        BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String line;
-        try {
-
+            BufferedReader br = new BufferedReader(new FileReader(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX));
+            String line;
             while ((line = br.readLine()) != null)
                 if (!line.equals(""))
                     savedGameDataList.add(SavedGameData.savedGameDataParser(line));
-
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,18 +58,14 @@ public class SavedGameManager {
         while (alreadySavedGamesFileNames.contains(SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION))
             i++;
 
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(new
-                    BufferedOutputStream(new FileOutputStream(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION)));
+        try (ObjectOutputStream out = new ObjectOutputStream(new
+                BufferedOutputStream(new FileOutputStream(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION)))) {
 
             out.writeObject(game);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            out.close();
         }
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX, true));
@@ -85,7 +75,7 @@ public class SavedGameManager {
                 game.getPlayersNicknames().size(),
                 game.isExpertModeEnabled(),
                 LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
-                game.getPlayersNicknames()).toString() + "\n");
+                game.getPlayersNicknames()) + "\n");
         bw.close();
 
     }
@@ -113,7 +103,7 @@ public class SavedGameManager {
 
         fileGame.delete();
 
-        File file = new File(SAVED_GAMES_INDEX);
+        File file = new File(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX);
         List<String> out = Files.lines(file.toPath())
                 .filter(line -> !SavedGameData.savedGameDataParser(line).fileName().equals(fileName))
                 .collect(Collectors.toList());

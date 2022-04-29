@@ -18,11 +18,11 @@
 |:-----------------|:--------------------------------------------------:|
 | Basic rules      | 🟢 |
 | Complete rules   | 🟢 |
-| Socket           | 🔴 |
+| Socket           | 🟡 |
 | GUI              | 🔴 |
 | CLI              | 🔴 |
 | Multiple games   | 🔴 |
-| Persistence      | 🔴 |
+| Persistence      | 🟡 |
 | CharacterCards   | 🟢 |
 
 

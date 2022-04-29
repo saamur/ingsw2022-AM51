@@ -22,7 +22,7 @@
 | GUI              | 🔴 |
 | CLI              | 🔴 |
 | Multiple games   | 🔴 |
-| Persistence      | 🔴 |
+| Persistence      | 🟡 |
 | CharacterCards   | 🟢 |
 
 

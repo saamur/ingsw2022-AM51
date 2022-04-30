@@ -16,7 +16,10 @@ public class RestoredGameController extends Controller {
     @Override
     public void addPlayer(String nickname) {
         missingPlayers.remove(nickname);
-        //todo broadcast startGame if missingPlayers.isEmpty()
+        if (missingPlayers.isEmpty()) {
+            started = true;
+            //todo broadcast startGame
+        }
     }
 
 }

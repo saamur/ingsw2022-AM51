@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.GameState;
 
 public class NewGameController extends Controller {
 
@@ -18,6 +19,10 @@ public class NewGameController extends Controller {
         } catch (NicknameNotAvailableException | WrongGamePhaseException e) {
             e.printStackTrace();
         }
-        //todo broadcast startGame if game.getGameState == PLANNING
+        if (game.getGameState() == GameState.PLANNING) {
+            started = true;
+            //todo broadcast startGame
+        }
+
     }
 }

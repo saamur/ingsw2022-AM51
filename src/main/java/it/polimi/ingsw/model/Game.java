@@ -208,10 +208,6 @@ public class Game implements GameInterface {
 
     }
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
     /**
      * method validCard calculates whether a Player can use a certain Card
      * based on the Cards used in this round by the other Players
@@ -667,6 +663,11 @@ public class Game implements GameInterface {
             if (c.getCharacterID() == characterID)
                 return c;
         return null;
+    }
+
+    @Override
+    public GameState getGameState() {
+        return gameState;
     }
 
     public Player[] getPlayers() {

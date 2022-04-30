@@ -2,10 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
-import it.polimi.ingsw.messages.ErrorMessage;
-import it.polimi.ingsw.messages.GenericMessage;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.NicknameMessage;
+import it.polimi.ingsw.messages.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -56,7 +53,12 @@ public class ClientHandler implements Runnable{
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 Object o = in.readObject();
 
-                if (o instanceof NicknameMessage) {
+                if (o instanceof String) {
+                    if (!o.equals("pong"))
+                        System.err.println("this shouldn't happen");
+                }
+
+                else if (o instanceof NicknameMessage) {
                     if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
                         try {
                             Lobby.getInstance().registerNickname(this, ((NicknameMessage) o).nickname());
@@ -70,12 +72,40 @@ public class ClientHandler implements Runnable{
                         out.writeObject(new ErrorMessage("You cannot change your nickname in this phase"));
                     }
                 }
-                //TODO messages to join in game or new game
+                else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null)
+                    out.writeObject(new ErrorMessage("You have to choose a nickname first"));
+                else if (o instanceof NewGameMessage) {
+                    if (initialization) {
+                        controller = Lobby.getInstance().createNewController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
+                        //todo add listeners to controller
+                        initialization = false;
+                        out.writeObject(new GenericMessage("You have created a new game"));
+                    }
+                    else
+                        out.writeObject(new ErrorMessage("This is not the right game phase"));
+                }
+                else if (o instanceof AddPlayerMessage) {
+                    if (initialization) {
+                        controller = Lobby.getInstance().addClientToController(Lobby.getInstance().getNicknameFromClientHandler(this), ((AddPlayerMessage) o).gameID());
+                        if (controller != null) {
+                            //todo add listeners to controller
+                            initialization = false;
+                            out.writeObject(new GenericMessage("You have been added to the game"));
+                        }
+                        else {
+                            out.writeObject(new ErrorMessage("Something went wrong, choose another game"));
+                            //todo send again games
+                        }
+                    }
+                    else
+                        out.writeObject(new ErrorMessage("This is not the right game phase"));
+                }
+                //TODO message to restore game
                 else if (o instanceof Message) {
                     Message answer = controller.messageOnGame(Lobby.getInstance().getNicknameFromClientHandler(this), (Message) o);
                     out.writeObject(answer);
                 }
-                else if (!(o instanceof String && o.equals("pong")))
+                else
                     System.err.println("this shouldn't happen");
 
             } catch (IOException e) {           //non tutte le IOException in realtà

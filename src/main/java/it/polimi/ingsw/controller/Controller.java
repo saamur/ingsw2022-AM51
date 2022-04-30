@@ -13,6 +13,7 @@ public abstract class Controller {
     private final int id;
 
     protected final GameInterface game;
+    protected boolean started;
     private boolean closing;
 
     public Controller(GameInterface game) {
@@ -21,11 +22,16 @@ public abstract class Controller {
             counter++;
         }
         this.game = game;
+        started = false;
         closing = false;
     }
 
     public int getId() {
         return id;
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 
     public List<String> getPlayersNicknames () {
@@ -35,6 +41,9 @@ public abstract class Controller {
     public abstract void addPlayer (String nickname);
 
     public synchronized Message messageOnGame (String nickname, Message message) {
+
+        if (!started)
+            return new ErrorMessage("You cannot make this move now");
 
         Message answer = null;
 
@@ -161,6 +170,7 @@ public abstract class Controller {
             Message message = new PlayerDisconnectedMessage(nickname);
 
             //todo send broadcast
+            //todo save game
 
         }
 

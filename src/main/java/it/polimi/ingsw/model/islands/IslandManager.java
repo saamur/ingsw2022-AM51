@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.islands;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.player.Player;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +21,7 @@ public class IslandManager implements Serializable {
 
     private final List<Island> islands;
     private Island motherNaturePosition;
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public IslandManager() {
 
@@ -77,8 +81,10 @@ public class IslandManager implements Serializable {
     }
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
+        Island oldMNPosition = this.motherNaturePosition;
         if(islands.contains(motherNaturePosition))
             this.motherNaturePosition = motherNaturePosition;
+        pcs.firePropertyChange("MotherNature", oldMNPosition, motherNaturePosition);
     }
 
     /**
@@ -103,7 +109,9 @@ public class IslandManager implements Serializable {
                 p.removeTowers(p.getNumberOfTowers());
             }
 
+            Player oldControllingPlayer = isl.getControllingPlayer();
             isl.setControllingPlayer(p);
+            pcs.firePropertyChange("conqueredIsland", oldControllingPlayer, p);
             checkMerge(isl);
         }
 
@@ -115,6 +123,7 @@ public class IslandManager implements Serializable {
      * @param isl   the island that could be merged with its neighbouring islands
      */
     private void checkMerge(Island isl) {
+        boolean merge = false;
 
         if (!islands.contains(isl) || islands.size() < 2)
             return;
@@ -125,6 +134,7 @@ public class IslandManager implements Serializable {
         if (isl.getControllingPlayer() == prev.getControllingPlayer()) {
             isl.merge(prev);
             islands.remove(prev);
+            merge = true;
         }
 
         if (prev == next)
@@ -133,8 +143,15 @@ public class IslandManager implements Serializable {
         if (isl.getControllingPlayer() == next.getControllingPlayer()) {
             isl.merge(next);
             islands.remove(next);
+            merge = true;
         }
+        //I used the boolean variable merge so that if a double merge happens only one fire will be sent
+        if(merge)
+            pcs.firePropertyChange("merge", null, this); //Come new value gli metto tutto islandManager
+    }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
     }
 
 }

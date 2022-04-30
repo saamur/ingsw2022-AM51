@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.player.Card;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -24,5 +25,6 @@ public interface GameInterface extends Serializable {
     GameState getGameState();
     List<String> getPlayersNicknames();
     boolean isExpertModeEnabled();
+    void addListeners(PropertyChangeListener listener);
 
 }

@@ -14,6 +14,9 @@ import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.function.Function;
 
@@ -56,6 +59,8 @@ public class Game implements GameInterface {
 
     private boolean lastRound;
     private List<Player> winners;
+
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
     public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) {
@@ -137,6 +142,7 @@ public class Game implements GameInterface {
         if (indexCurrPlayer == players.length-1)
             start();
 
+        //TODO fire?
     }
 
     /**
@@ -170,7 +176,7 @@ public class Game implements GameInterface {
 
         if (bag.isEmpty())
             lastRound = true;
-
+        //TODO fire??
     }
 
 
@@ -303,6 +309,7 @@ public class Game implements GameInterface {
         if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
 
         turn.moveStudentToChamber(clan, players);
+        pcs.firePropertyChange("movedStudentChamber", null, player); //oppure players?
 
     }
 
@@ -330,6 +337,7 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         turn.moveStudentToIsland(clan, island);
+        pcs.firePropertyChange("movedStudentIsland", null, island); //oppure players?
 
     }
 
@@ -359,6 +367,7 @@ public class Game implements GameInterface {
         if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature()) throw new NotValidMoveException("The selected island is too far from Mother Nature");
 
         islandManager.setMotherNaturePosition(island);
+        //FIXME ho messo il fire già in islandManager, dovrei metterlo anche qui?
         checkInfluence(island);
 
         if (lastRound)
@@ -418,6 +427,7 @@ public class Game implements GameInterface {
         if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
         turn.chooseCloud(cloud);
+        pcs.firePropertyChange("chosenCloud", null, cloud); //TODO Non sono sicura sia giusto scritto così
 
     }
 
@@ -525,6 +535,7 @@ public class Game implements GameInterface {
 
         turn.setActivatedCharacterCard(characterCard);
         characterCard.applyInitialEffect(turn, players);
+        pcs.firePropertyChange("activatedCharacter", null, characterCard);
 
     }
 
@@ -635,6 +646,7 @@ public class Game implements GameInterface {
             if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
                 ProhibitionCharacterCard c = (ProhibitionCharacterCard) card;
                 c.addProhibitionCard();
+                pcs.firePropertyChange("addedProhibitionCard", null, card); //ho messo card solo perchè non sapevo cosa scrivere, magari così dice quante ce ne sono di tessere divieto attualmente
                 break;
             }
         }
@@ -710,5 +722,11 @@ public class Game implements GameInterface {
     @Override
     public boolean isExpertModeEnabled() {
         return expertModeEnabled;
+    }
+
+    @Override
+    public void addListeners(PropertyChangeListener listener){
+        islandManager.addPropertyChangeListener(listener);
+        pcs.addPropertyChangeListener( listener);
     }
 }

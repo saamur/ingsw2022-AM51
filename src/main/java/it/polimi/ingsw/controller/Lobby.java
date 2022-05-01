@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
+import it.polimi.ingsw.messages.RestoreGameMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
@@ -81,7 +82,16 @@ public class Lobby {
 
     }
 
-    //todo add createNewRestoredGameController
+    public synchronized Controller createNewRestoredGameController (String nickname, String fileName) {
+        try {
+            GameInterface game = SavedGameManager.restoreGame(fileName);
+            RestoredGameController controller = new RestoredGameController(game);
+            controller.addPlayer(nickname);
+            return controller;
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
     public synchronized void registerNickname(ClientHandler clientHandler, String nickname) throws NicknameNotAvailableException {
 

@@ -100,7 +100,23 @@ public class ClientHandler implements Runnable{
                     else
                         out.writeObject(new ErrorMessage("This is not the right game phase"));
                 }
-                //TODO message to restore game
+                else if (o instanceof RestoreGameMessage) {
+                    if (initialization) {
+                        controller = Lobby.getInstance().createNewRestoredGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((RestoreGameMessage) o).fileName());
+                        if (controller != null) {
+                            //todo add listeners to controller
+                            initialization = false;
+                            out.writeObject(new GenericMessage("You have reloaded the game"));
+                        }
+                        else {
+                            out.writeObject(new ErrorMessage("Something went wrong, choose another game"));
+                            //todo send again games
+                        }
+                    }
+                }
+                else if (!initialization) {
+                    out.writeObject(new ErrorMessage("This is not the correct game phase"));
+                }
                 else if (o instanceof Message) {
                     Message answer = controller.messageOnGame(Lobby.getInstance().getNicknameFromClientHandler(this), (Message) o);
                     out.writeObject(answer);

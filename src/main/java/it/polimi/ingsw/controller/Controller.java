@@ -171,6 +171,7 @@ public abstract class Controller {
 
             //todo send broadcast
             //todo save game
+            //todo remove this from lobby
 
         }
 

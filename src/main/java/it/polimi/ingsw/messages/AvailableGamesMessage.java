@@ -9,5 +9,9 @@ import java.util.List;
 
 public record AvailableGamesMessage(List<OpeningNewGameData> openingNewGameDataList,
                                     List<OpeningRestoredGameData> openingRestoredGameDataList,
-                                    List<SavedGameData> savedGameData) implements Serializable {
+                                    List<SavedGameData> savedGameData) implements Message {
+    @Override
+    public String getMessage() {
+        return toString();
+    }
 }

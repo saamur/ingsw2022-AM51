@@ -156,6 +156,7 @@ Game game;
     /**
      * the test checks that the Player cannot choose a Card that he has already chosen
      * The method chosenCard is expected to throw a NotValidMoveException
+     * @param card is the card of the deck on which we are going to test the method
      */
 
 
@@ -251,6 +252,7 @@ Game game;
     /**
      * the test checks that the moveStudentToChamber removes a student from the Hall and adds a student
      * in the Chamber of the Current Player
+     * @param clan it is the clan of belonging of the students on which we are going to test the effect
      */
 
     @ParameterizedTest
@@ -273,6 +275,7 @@ Game game;
     /**
      * the test check that a non-current player can't move a student to the Chamber
      * method moveStudentToChamber is expected to throw a WrongPlayerException
+     * @param clan it is the clan of belonging of the students on which we are going to test the effect
      */
 
 
@@ -296,6 +299,7 @@ Game game;
     /**
      * tests that the current player can't move a student to Chamber if the student is not in the hall
      * method moveStudentToChamber is expected to throw a NotValidMoveException
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
 
     @ParameterizedTest
@@ -312,6 +316,7 @@ Game game;
 
     /**
      * the test check that the method moveStudentToIsland move a chosen student from the hall to an Island
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Clan.class)
@@ -330,6 +335,7 @@ Game game;
     /**
      * tests that a player, who is not the current one, can't move a student to an Island
      * The method moveStudentToIsland is expected to throw a WrongPlayerException
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
 
     @ParameterizedTest
@@ -349,6 +355,7 @@ Game game;
     /**
      * tests that the current player can't move a student to an island if the student is not in the hall
      * The method moveStudentToIsland is expected to throw a NotValidMoveException
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
 
     @ParameterizedTest
@@ -364,6 +371,7 @@ Game game;
 
     /**
      * tests if with the moveMotherNature method the current player moves Mother Nature on a chosen Island
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
 
     @ParameterizedTest
@@ -390,6 +398,7 @@ Game game;
      * the test checks that the currPlayer cannot move the Mother Nature more than the Max steps written on the card he
      * played
      * A NotValidMoveException is expected to be thrown
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Clan.class)
@@ -512,6 +521,9 @@ Game game;
     /**
      * the test checks if the chosenCloud method let the current player pick a cloud which is not empty
      * It is expected not to throw any exception
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where the player decide to move a student
+     * @param cloudIndex index of the chosen cloud
      */
 
     @ParameterizedTest
@@ -546,6 +558,9 @@ Game game;
     /**
      * tests that two players cannot choose the same cloud
      * the method chosenCloud is expected to throw a NotValidMoveException
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where the player decide to move a student
+     * @param cloudIndex index of the chosen cloud
      */
     @ParameterizedTest
     @CsvSource(value = {"PIXIES, 1, 1", "DRAGONS, 6, 0"})
@@ -569,6 +584,9 @@ Game game;
     /**
      * checks that a non-current player cannot choose a cloud
      * the method chosenCloud is expected to throw a WrongPlayerException
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where the player decide to move a student
+     * @param cloudIndex index of the chosen cloud
      */
 
     @ParameterizedTest
@@ -593,6 +611,9 @@ Game game;
     /**
      * checks if, after that the first Player ends his turn, the endTurn method instantiates a new turn
      * the method endTurn is expected not to throw any exception
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where the player decide to move a student
+     * @param cloudIndex index of the chosen cloud
      */
 
     @ParameterizedTest
@@ -618,6 +639,8 @@ Game game;
     /**
      * the test checks that it isn't possible to call the endTurn method in a non-valid position
      * the method endTurn is expected to throw a NotValidMoveException
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where the player decide to move a student
      */
     @ParameterizedTest
     @CsvSource(value = {"TOADS, 4", "UNICORNS, 9"})

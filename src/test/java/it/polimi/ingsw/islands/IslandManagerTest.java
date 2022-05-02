@@ -74,6 +74,7 @@ public class IslandManagerTest {
     /**
      * Method tests case when an invalid index is called.
      * Method is expected to return null.
+     * @param islandIndex invalid island index
      */
     @ParameterizedTest
     @ValueSource(ints = {-1, 13})

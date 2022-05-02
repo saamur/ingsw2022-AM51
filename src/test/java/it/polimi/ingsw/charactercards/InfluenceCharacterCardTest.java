@@ -132,6 +132,8 @@ public class InfluenceCharacterCardTest{
      * The array returned by the method is expected to have a negative value in the position of the player that has the professor of the color corresponding to the Clan parameter.
      * The absolute value corresponds to the number of students present on the island.
      * All other positions are expected to have value 0.
+     * @param islandIndex index of the island on which the effect is activated
+     * @param studentsToBeAdded students to add on the island to set the initial conditions
      */
 
     @ParameterizedTest
@@ -177,6 +179,7 @@ public class InfluenceCharacterCardTest{
     /**
      * Method effectProfessorTest() tests the outcome of calling effectPlayerProfessor on a influenceCharacterCard class.
      * The expected result is that a player has to have greater students than any other player.
+     * @param clan it is the clan of belonging of the students on which we are going to test the effect
      */
     @ParameterizedTest
     @EnumSource(Clan.class)
@@ -232,6 +235,8 @@ public class InfluenceCharacterCardTest{
     /**
      * Method applyTest2() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
      * The method when called is expected to return false.
+     * @param students1 the students to move to the destination (if necessary)
+     * @param students2 the students to move from the destination, in case of an exchange of students (if necessary)
      */
 
     @ParameterizedTest

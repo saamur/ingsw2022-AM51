@@ -187,7 +187,7 @@ class StudentMoverCharacterCardTest {
      * the CharacterID is MONK. The method has to move a student, present on the Monk card to a chosen Island
      * Is expected that the chosen student, if it is present on the Monk card, is added on the island
      * A true result is expected
-     *
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
      */
 
     @ParameterizedTest
@@ -213,6 +213,7 @@ class StudentMoverCharacterCardTest {
      * Method applyTest2Monk() tests the applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2) when
      * the CharacterID is MONK and moving a student who is not on the card
      * Is expected a false return
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
      */
 
     @ParameterizedTest
@@ -234,6 +235,7 @@ class StudentMoverCharacterCardTest {
      * Method applyTest2Jester() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
      * when the CharacterID is Jester.
      * Is expected a true result and that the chosen students are moved in the player's hall
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
      */
 
     @ParameterizedTest
@@ -294,6 +296,7 @@ class StudentMoverCharacterCardTest {
      * Method applyTest2Princess() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
      * when the CharacterID is Princess.
      * Is expected a true result and that the chosen student is moved from the card to the chamber.
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
      */
 
 
@@ -322,6 +325,7 @@ class StudentMoverCharacterCardTest {
      * when the CharacterID is Thief.
      * Is expected a true result and that the for each student 3 students, if present, belonging to a specific clan,
      * are removed from each room. It is expected that if a player has fewer than three students, all he has is removed.
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
      */
 
 

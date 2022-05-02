@@ -135,8 +135,6 @@ class ProhibitionCharacterCardTest {
 
     }
 
-    //it would be better to test different character cards and see the different effect they have after the call of these
-    //methods. It is better to redo the following tests with the initialization of game and turn
 
     /**
      * check if the effectInfluence method called by a Prohibition Card return an array of zeros

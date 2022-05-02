@@ -26,7 +26,7 @@ public class CloudManagerTest {
 
     /**
      * Method fillCloudsTest() tests the method fillClouds() for 2 and 3 player games
-     *
+     * @param numOfPlayers number of players in the game
      */
     @ParameterizedTest
     @ValueSource(ints = {2, 3})
@@ -44,6 +44,8 @@ public class CloudManagerTest {
     /**
      * Method getUnexistentCloud() tests the method getCloud(int index).
      * When an index less than 0 and greater than the length of the array the method should return null.
+     * @param numOfPlayers number of players in the game
+     * @param outOfBoundsIndex index of an unexistent cloud
      */
 
     @ParameterizedTest

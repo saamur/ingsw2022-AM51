@@ -2,12 +2,12 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.model.charactercards.CharacterID;
 
+/**
+ * ActivateCharacterCardMessage gets a message to activate a character card
+ * @param characterCardID ID of the card to activate
+ */
 public record ActivateCharacterCardMessage(CharacterID characterCardID) implements Message{
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String getMessage(){
         return this.toString();

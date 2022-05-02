@@ -21,7 +21,7 @@
 | Socket           | 🟡 |
 | GUI              | 🔴 |
 | CLI              | 🔴 |
-| Multiple games   | 🔴 |
+| Multiple games   | 🟡 |
 | Persistence      | 🟡 |
 | CharacterCards   | 🟢 |
 

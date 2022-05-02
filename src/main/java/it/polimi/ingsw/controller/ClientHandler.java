@@ -4,9 +4,7 @@ import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 import static java.lang.Thread.sleep;

@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
-import it.polimi.ingsw.messages.RestoreGameMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
@@ -23,12 +22,10 @@ public class Lobby {
     private final List<RestoredGameController> openingRestoredGameControllers;
 
     private Lobby () {
-
         clientNicknames = new HashMap<>();
         runningGameControllers = new ArrayList<>();
         openingNewGameControllers = new ArrayList<>();
         openingRestoredGameControllers =new ArrayList<>();
-
     }
 
     public static Lobby getInstance() {
@@ -48,37 +45,27 @@ public class Lobby {
 
     }
 
-    public AvailableGamesMessage createAvailableGamesMessage (String nickname) {
+    public synchronized AvailableGamesMessage createAvailableGamesMessage (String nickname) {
 
-        List<OpeningNewGameData> openingNewGameDataList;
-        List<OpeningRestoredGameData> openingRestoredGameDataList;
-        List<SavedGameData> savedGameDataList;
+        List<OpeningNewGameData> openingNewGameDataList = openingNewGameControllers.stream()
+                .map(NewGameController::createOpeningNewGameData)
+                .toList();
 
-        synchronized (openingNewGameControllers) {
-            openingNewGameDataList = openingNewGameControllers.stream()
-                    .map(NewGameController::createOpeningNewGameData)
-                    .toList();
-        }
+        List<OpeningRestoredGameData> openingRestoredGameDataList = openingRestoredGameControllers.stream()
+                .map(RestoredGameController::createOpeningRestoredGameData)
+                .filter(d -> d.missingNicknames().contains(nickname))
+                .toList();
 
-        synchronized (openingRestoredGameControllers) {
-            openingRestoredGameDataList = openingRestoredGameControllers.stream()
-                    .map(RestoredGameController::createOpeningRestoredGameData)
-                    .filter(d -> d.missingNicknames().contains(nickname))
-                    .toList();
-        }
-
-        synchronized (clientNicknames) {
-            savedGameDataList = SavedGameManager.getSavedGameList().stream()
-                    .filter(d -> d.nicknames().contains(nickname))
-                    .filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //fixme optional, remove it?
-                    .toList();
-        }
+        List<SavedGameData> savedGameDataList = SavedGameManager.getSavedGameList().stream()
+                .filter(d -> d.nicknames().contains(nickname))
+                //.filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //fixme optional, remove it?
+                .toList();
 
         return new AvailableGamesMessage(openingNewGameDataList, openingRestoredGameDataList, savedGameDataList);
 
     }
 
-    public synchronized Controller createNewController (String nickname, int numOfPlayers, boolean expertMode) {
+    public synchronized NewGameController createNewController (String nickname, int numOfPlayers, boolean expertMode) {
         GameInterface game = new Game(numOfPlayers, nickname, expertMode);
         NewGameController controller = new NewGameController(game);
         openingNewGameControllers.add(controller);
@@ -113,7 +100,7 @@ public class Lobby {
 
     }
 
-    public synchronized Controller createNewRestoredGameController (String nickname, SavedGameData savedGameData) {
+    public synchronized RestoredGameController createNewRestoredGameController (String nickname, SavedGameData savedGameData) {
         try {
             GameInterface game = SavedGameManager.restoreGame(savedGameData.fileName());
             RestoredGameController controller = new RestoredGameController(game, savedGameData.localDateTime());

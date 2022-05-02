@@ -62,27 +62,27 @@ public class ClientHandler implements Runnable{
                     if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
                         try {
                             Lobby.getInstance().registerNickname(this, ((NicknameMessage) o).nickname());
-                            out.writeObject(new GenericMessage("Welcome " + ((NicknameMessage) o).nickname()));
-                            //TODO send available games
+                            sendObject(new GenericMessage("Welcome " + ((NicknameMessage) o).nickname()));
+                            sendObject(Lobby.getInstance().createAvailableGamesMessage(((NicknameMessage) o).nickname()));
                         } catch (NicknameNotAvailableException e) {
-                            out.writeObject(new ErrorMessage("Nickname \"" + ((NicknameMessage) o).nickname() + "\" is already taken"));
+                            sendObject(new ErrorMessage("Nickname \"" + ((NicknameMessage) o).nickname() + "\" is already taken"));
                         }
                     }
                     else {
-                        out.writeObject(new ErrorMessage("You cannot change your nickname in this phase"));
+                        sendObject(new ErrorMessage("You cannot change your nickname in this phase"));
                     }
                 }
                 else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null)
-                    out.writeObject(new ErrorMessage("You have to choose a nickname first"));
+                    sendObject(new ErrorMessage("You have to choose a nickname first"));
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {
                         controller = Lobby.getInstance().createNewController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
                         //todo add listeners to controller
                         initialization = false;
-                        out.writeObject(new GenericMessage("You have created a new game"));
+                        sendObject(new GenericMessage("You have created a new game"));
                     }
                     else
-                        out.writeObject(new ErrorMessage("This is not the right game phase"));
+                        sendObject(new ErrorMessage("This is not the right game phase"));
                 }
                 else if (o instanceof AddPlayerMessage) {
                     if (initialization) {
@@ -90,36 +90,36 @@ public class ClientHandler implements Runnable{
                         if (controller != null) {
                             //todo add listeners to controller
                             initialization = false;
-                            out.writeObject(new GenericMessage("You have been added to the game"));
+                            sendObject(new GenericMessage("You have been added to the game"));
                         }
                         else {
-                            out.writeObject(new ErrorMessage("Something went wrong, choose another game"));
-                            //todo send again games
+                            sendObject(new ErrorMessage("Something went wrong, choose another game"));
+                            sendObject(Lobby.getInstance().createAvailableGamesMessage(Lobby.getInstance().getNicknameFromClientHandler(this)));
                         }
                     }
                     else
-                        out.writeObject(new ErrorMessage("This is not the right game phase"));
+                        sendObject(new ErrorMessage("This is not the right game phase"));
                 }
                 else if (o instanceof RestoreGameMessage) {
                     if (initialization) {
-                        controller = Lobby.getInstance().createNewRestoredGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((RestoreGameMessage) o).fileName());
+                        controller = Lobby.getInstance().createNewRestoredGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((RestoreGameMessage) o).savedGameData());
                         if (controller != null) {
                             //todo add listeners to controller
                             initialization = false;
-                            out.writeObject(new GenericMessage("You have reloaded the game"));
+                            sendObject(new GenericMessage("You have reloaded the game"));
                         }
                         else {
-                            out.writeObject(new ErrorMessage("Something went wrong, choose another game"));
-                            //todo send again games
+                            sendObject(new ErrorMessage("Something went wrong, choose another game"));
+                            sendObject(Lobby.getInstance().createAvailableGamesMessage(Lobby.getInstance().getNicknameFromClientHandler(this)));
                         }
                     }
                 }
                 else if (!initialization) {
-                    out.writeObject(new ErrorMessage("This is not the correct game phase"));
+                    sendObject(new ErrorMessage("This is not the correct game phase"));
                 }
                 else if (o instanceof Message) {
                     Message answer = controller.messageOnGame(Lobby.getInstance().getNicknameFromClientHandler(this), (Message) o);
-                    out.writeObject(answer);
+                    sendObject(answer);
                 }
                 else
                     System.err.println("this shouldn't happen");
@@ -137,6 +137,10 @@ public class ClientHandler implements Runnable{
 
         Lobby.getInstance().unregisterNickname(this);
 
+    }
+
+    public synchronized void sendObject (Object o) throws IOException {
+        out.writeObject(o);
     }
 
 }

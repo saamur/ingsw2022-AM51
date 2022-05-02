@@ -25,4 +25,9 @@ public class NewGameController extends Controller {
         }
 
     }
+
+    public OpeningNewGameData createOpeningNewGameData() {
+        return new OpeningNewGameData(game.getNumOfPlayers(), game.isExpertModeEnabled(), game.getPlayersNicknames());
+    }
+
 }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.messages;
 
-public record RestoreGameMessage(String fileName) implements Message {
+import it.polimi.ingsw.controller.SavedGameData;
+
+public record RestoreGameMessage(SavedGameData savedGameData) implements Message {
 
     @Override
     public String getMessage() {

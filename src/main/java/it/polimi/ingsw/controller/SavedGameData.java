@@ -1,9 +1,7 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GameInterface;
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +10,7 @@ public record SavedGameData(String fileName,
                             int numOfPlayers,
                             boolean expertMode,
                             LocalDateTime localDateTime,
-                            List<String> nicknames) {
+                            List<String> nicknames) implements Serializable {
 
     public static SavedGameData savedGameDataParser (String line) {
 

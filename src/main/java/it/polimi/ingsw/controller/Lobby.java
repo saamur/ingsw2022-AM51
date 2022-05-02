@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
+import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.RestoreGameMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -47,6 +48,36 @@ public class Lobby {
 
     }
 
+    public AvailableGamesMessage createAvailableGamesMessage (String nickname) {
+
+        List<OpeningNewGameData> openingNewGameDataList;
+        List<OpeningRestoredGameData> openingRestoredGameDataList;
+        List<SavedGameData> savedGameDataList;
+
+        synchronized (openingNewGameControllers) {
+            openingNewGameDataList = openingNewGameControllers.stream()
+                    .map(NewGameController::createOpeningNewGameData)
+                    .toList();
+        }
+
+        synchronized (openingRestoredGameControllers) {
+            openingRestoredGameDataList = openingRestoredGameControllers.stream()
+                    .map(RestoredGameController::createOpeningRestoredGameData)
+                    .filter(d -> d.missingNicknames().contains(nickname))
+                    .toList();
+        }
+
+        synchronized (clientNicknames) {
+            savedGameDataList = SavedGameManager.getSavedGameList().stream()
+                    .filter(d -> d.nicknames().contains(nickname))
+                    .filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //fixme optional, remove it?
+                    .toList();
+        }
+
+        return new AvailableGamesMessage(openingNewGameDataList, openingRestoredGameDataList, savedGameDataList);
+
+    }
+
     public synchronized Controller createNewController (String nickname, int numOfPlayers, boolean expertMode) {
         GameInterface game = new Game(numOfPlayers, nickname, expertMode);
         NewGameController controller = new NewGameController(game);
@@ -72,7 +103,7 @@ public class Lobby {
                 c.addPlayer(nickname);
                 if (c.isStarted()) {
                     runningGameControllers.add(c);
-                    openingNewGameControllers.remove(c);
+                    openingRestoredGameControllers.remove(c);
                 }
                 return c;
             }
@@ -82,10 +113,10 @@ public class Lobby {
 
     }
 
-    public synchronized Controller createNewRestoredGameController (String nickname, String fileName) {
+    public synchronized Controller createNewRestoredGameController (String nickname, SavedGameData savedGameData) {
         try {
-            GameInterface game = SavedGameManager.restoreGame(fileName);
-            RestoredGameController controller = new RestoredGameController(game);
+            GameInterface game = SavedGameManager.restoreGame(savedGameData.fileName());
+            RestoredGameController controller = new RestoredGameController(game, savedGameData.localDateTime());
             controller.addPlayer(nickname);
             return controller;
         } catch (IOException e) {

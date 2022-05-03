@@ -31,6 +31,7 @@ public class DeckTest {
      * The value returned by the method is expected to be true.
      * The chosen card is expected to be removed from the deck.
      * The size of the deck after the declaration of the method is expected to be 9.
+     * @param card is the card of the deck on which we are going to test the method
      */
 
     @ParameterizedTest
@@ -49,6 +50,7 @@ public class DeckTest {
     /**
      * Method multipleChoiceCard() tests the method choose() when it is called twice on the same Card.
      * The value returned is expected to be false.
+     * @param card is the card of the deck on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Card.class)

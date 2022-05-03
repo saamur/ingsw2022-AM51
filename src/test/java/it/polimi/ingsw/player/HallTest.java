@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HallTest {
     /**
      * test if the addStudents method add the students in the Hall
+     * @param addingStudents students to add to the hall
      */
 
     @ParameterizedTest
@@ -50,6 +51,10 @@ public class HallTest {
      * In this case is expected that in the second cell of removed there will be just 2 students instead of 3, because in the initial
      * situation there were just 2 students
      * Is expected that the number of students in the second cell of students is zero
+     * @param addingStudents students to add to the hall and set the initial conditions
+     * @param remove students to remove from the hall
+     * @param expectedRemoved students expected to be removed after calling removeStudents method
+     * @param expectedStudents students expected to be in the hall after calling removeStudents method
      */
 
     @ParameterizedTest
@@ -89,6 +94,9 @@ public class HallTest {
     /**
      * test if the addStudent method adds a chosen student
      * True result is expected
+     * @param addingStudents students to add to the hall and set the initial conditions
+     * @param expectedStudents students expected to be in the hall after calling the addStudent method
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
      */
 
     @ParameterizedTest
@@ -129,6 +137,10 @@ public class HallTest {
      * In the second case it is tested that the method doesn't remove a chosen student if he is not in the Hall
      * A false result is expected
      * It is expected an equal distribution of students respect to the initial one
+     * @param addingStudents students to add to the hall and set the initial conditions
+     * @param expectedStudents students expected to be in the hall after calling the addStudent method
+     * @param clan is the clan of belonging of the students on which we are going to test the effect
+     * @param expectedRemoved outcome of an attempt to remove a student from the hall
      */
 
     @ParameterizedTest

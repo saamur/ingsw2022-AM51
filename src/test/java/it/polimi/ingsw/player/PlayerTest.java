@@ -46,6 +46,7 @@ public class PlayerTest {
     /**
      * Method chooseCardTest() tests the chooseCard() method.
      * The result is expected true for the first time the card gets selected, and false the second time.
+     * @param card is the card of the deck on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Card.class)
@@ -70,6 +71,8 @@ public class PlayerTest {
     /**
      * Method addTowersTest() tests method addTowers(int n).
      * After the method is called the number of towers is expected to increase by n.
+     * @param removeTowers number of towers to remove
+     * @param addTowers number of towers to add
      */
     @ParameterizedTest
     @CsvSource({"5, 0", "5, 3"})

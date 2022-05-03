@@ -77,6 +77,7 @@ public abstract class CharacterCardTest {
     /**
      * Method initialEffectTest() tests the method applyInitialEffect().
      * A true return is expected.
+     * @param numOfPlayers number of players in the game
      *
      */
     @ParameterizedTest
@@ -90,6 +91,7 @@ public abstract class CharacterCardTest {
     /**
      * Method applyTest1() tests the method applyEffect(Game game, Island island).
      * The return is expected to be false.
+     * @param numOfPlayers number of players in the game
      */
     @ParameterizedTest
     @ValueSource(ints = {2, 3})
@@ -99,10 +101,13 @@ public abstract class CharacterCardTest {
         assertFalse(characterCard.applyEffect(game, island));
     }
 
+
     /**
      * Method applyTest2() tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2).
      * A false return is expected.
+     * @param numOfPlayers number of players in the game
      */
+
     @ParameterizedTest
     @ValueSource(ints = {2, 3})
     public void applyTest2(int numOfPlayers){

@@ -129,6 +129,7 @@ class ProfessorsCharacterCardTest {
     /**
      * tests that the ProfessorCharacterCard doesn't modify the calculation of the influence
      * Is expected an array of zeros
+     * @param addingStudents students to add on the island to set the initial conditions
      */
 
     @ParameterizedTest

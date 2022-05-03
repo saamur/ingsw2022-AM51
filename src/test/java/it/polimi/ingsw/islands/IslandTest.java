@@ -26,6 +26,7 @@ public class IslandTest {
     /**
      * test to check if addStudents add the students in an empty Island
      * Is expected that all the students are added in the Island
+     * @param addingStudents students to add to the island and set the initial condition
      */
 
     @ParameterizedTest
@@ -56,6 +57,9 @@ public class IslandTest {
      * All selected students are expected to be removed from the island.
      * In the second case, an attempt is made to remove a greater number of students than the one on the island.
      * The number of students removed from the island is expected to be that of students that were on the island.
+     * @param addingStudents students to add to the island and set the initial condition
+     * @param remove students to remove from the island
+     * @param expectedStudents students expected to be present on the island after calling the removeStudents method
      */
 
     @ParameterizedTest
@@ -97,6 +101,8 @@ public class IslandTest {
 
     /**
      * testAddStudent method tests if the AddStudent method add a student of a particular chosen clan on the Island
+     * @param addingStudents students to add to the island and set the initial condition
+     * @param expectedResult students expected to be present on the island after calling the addStudent method
      */
 
     @ParameterizedTest
@@ -157,6 +163,10 @@ public class IslandTest {
     /**
      * test if the merge method unifies the islands by adding the students present on each one,
      * just as the unified island will have the sum of the number of prohibition cards present on the individual islands
+     * @param addingStudentsFirstIsland students to add to the first island and set the initial condition
+     * @param addingStudentsSecondIsland students to add to the second island and set the initial condition
+     * @param studentsExpected students expected to be present on the island after the merge of the two islands
+     *
      */
 
     @ParameterizedTest

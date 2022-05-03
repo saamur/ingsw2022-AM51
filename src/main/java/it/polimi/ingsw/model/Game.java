@@ -14,6 +14,9 @@ import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.function.Function;
 
@@ -56,6 +59,8 @@ public class Game implements GameInterface {
 
     private boolean lastRound;
     private List<Player> winners;
+
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
     public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) {
@@ -137,6 +142,7 @@ public class Game implements GameInterface {
         if (indexCurrPlayer == players.length-1)
             start();
 
+        //TODO fire?
     }
 
     /**
@@ -167,10 +173,10 @@ public class Game implements GameInterface {
         indexCurrPlayer = indexCurrFirstPlayer;
 
         cloudManager.fillClouds(bag);
-
+        pcs.firePropertyChange("filledClouds", null, cloudManager);
+        //FIXME i'm not sure this is considered an update
         if (bag.isEmpty())
             lastRound = true;
-
     }
 
 
@@ -303,6 +309,7 @@ public class Game implements GameInterface {
         if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
 
         turn.moveStudentToChamber(clan, players);
+        pcs.firePropertyChange("modifiedPlayer", null, player); //TODO oppure "moveStudentsChamber"
 
     }
 
@@ -330,7 +337,9 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         turn.moveStudentToIsland(clan, island);
-
+        pcs.firePropertyChange("modifiedIsland", null, island); //oppure players?
+        pcs.firePropertyChange("modifiedPlayer", null , player);
+        //FIXME ASK fire from Player??
     }
 
     /**
@@ -392,6 +401,7 @@ public class Game implements GameInterface {
         }
         else if (islandManager.getNumberOfIslands() <= GameConstants.MIN_NUM_ISLANDS)
             calculateWin();
+        //TODO FIRE
 
     }
 
@@ -418,7 +428,8 @@ public class Game implements GameInterface {
         if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
         turn.chooseCloud(cloud);
-
+        pcs.firePropertyChange("chosenCloud", null, cloudIndex); //TODO Non sono sicura sia giusto scritto così
+        pcs.firePropertyChange("modifiedPlayer", null, player);
     }
 
     /**
@@ -448,7 +459,7 @@ public class Game implements GameInterface {
             initRound();
         else
             turn = new Turn(playersOrder[indexCurrPlayer], players.length);
-
+        //TODO fire?
     }
 
     /**
@@ -524,8 +535,8 @@ public class Game implements GameInterface {
         characterCard.updateCost();
 
         turn.setActivatedCharacterCard(characterCard);
+        pcs.firePropertyChange("activatedCharacter", null, characterCard);
         characterCard.applyInitialEffect(turn, players);
-
     }
 
     /**
@@ -715,5 +726,23 @@ public class Game implements GameInterface {
     @Override
     public boolean isExpertModeEnabled() {
         return expertModeEnabled;
+    }
+
+    @Override
+    public void setListeners(PropertyChangeListener listener){
+        islandManager.addPropertyChangeListener(listener);
+        pcs.addPropertyChangeListener( listener);
+        for(CharacterCard c : availableCharacterCards){
+            c.removePropertyChangeListener(listener);
+        }
+    }
+
+    @Override
+    public void removeListeners(PropertyChangeListener listener){
+        islandManager.removePropertyChangeListener(listener);
+        pcs.removePropertyChangeListener(listener);
+        for(CharacterCard c : availableCharacterCards){
+            c.removePropertyChangeListener(listener);
+        }
     }
 }

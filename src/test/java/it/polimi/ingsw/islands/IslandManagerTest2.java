@@ -40,6 +40,9 @@ public class IslandManagerTest2 {
      * test check if after conquerIsland() is called, the number of islands is decreased if the conquered islands are adjacent.
      * tests all cases, the normal conquest, the conquest of two islands at the ends of the array and the conquest of two not adjacent islands
      * Number of Islands is expected to be 11 after method gets called on two adjacent islands, 12 otherwise.
+     * @param indexFirstIsland index of the first conquered island
+     * @param indexSecondIsland index of the second conquered island
+     * @param expectedNumOfIslands number of islands remaining after the same player has conquered two islands
      */
 
     @ParameterizedTest
@@ -64,6 +67,10 @@ public class IslandManagerTest2 {
      * these are expected to unite and the final number of islands to become 10.
      * In the second case, only 2 of the 3 conquered islands are close.
      * Only the two neighboring islands are expected to merge and the number of islands will become 11.
+     * @param indexFirstIsland index of the first conquered island
+     * @param indexSecondIsland index of the second conquered island
+     * @param indexThirdIsland index of the third conquered island
+     * @param expectedNumberOfIsland number of islands remaining after the same player has conquered three islands
      */
     @ParameterizedTest
     @CsvSource(value = {"11, 1, 0, 10", "1, 2, 5, 11"})

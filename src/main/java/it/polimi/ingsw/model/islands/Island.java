@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.StudentContainer;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Island class models the islands of the game, with the attributes and the methods
@@ -122,6 +123,14 @@ public class Island implements Serializable, StudentContainer {
         this.numberOfTowers += mergingIsland.numberOfTowers;
         this.numProhibitionCards += mergingIsland.numProhibitionCards;
 
+    }
+
+    @Override //implemented so that fire method doesn't fire if islands have same parameters
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Island island = (Island) o;
+        return numberOfIslands == island.numberOfIslands && numberOfTowers == island.numberOfTowers && numProhibitionCards == island.numProhibitionCards && students.equals(island.students) && controllingPlayer.equals(island.controllingPlayer);
     }
 
 }

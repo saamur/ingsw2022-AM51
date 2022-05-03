@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.constants.GameConstants;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Player class models the player of the game Eriantys with its nickname,
@@ -101,8 +102,16 @@ public class Player implements Serializable {
      * method removeTowers decreases the variable numberOfTowers
      * @param n the amount of towers to remove
      */
-    public void removeTowers (int n) {
+    public void removeTowers (int n) { //potrei mettere qui pcs.fire ma riceve fire per ogni singolo cambiamento che avviene
         numberOfTowers -= n;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return numberOfTowers == player.numberOfTowers && nickname.equals(player.nickname) && hall.equals(player.hall) && chamber.equals(player.chamber) && colorOfTowers == player.colorOfTowers && deck.equals(player.deck) && currCard == player.currCard;
+    }
+    
 }

@@ -5,6 +5,8 @@ import it.polimi.ingsw.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
 
+import java.beans.PropertyChangeEvent;
+
 public class NewGameController extends Controller {
 
 

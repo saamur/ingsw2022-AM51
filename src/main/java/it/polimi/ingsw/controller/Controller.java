@@ -1,12 +1,23 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.modeldata.HallData;
+import it.polimi.ingsw.client.modeldata.IslandManagerData;
+import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
+import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.islands.IslandManager;
+import it.polimi.ingsw.model.player.Player;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-public abstract class Controller {
+public abstract class Controller implements PropertyChangeListener {
 
     private static int counter = 0;
 
@@ -16,12 +27,15 @@ public abstract class Controller {
     protected boolean started;
     private boolean closing;
 
+    //The class Controller is listened by the ClientHandlerClass
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     public Controller(GameInterface game) {
         synchronized (Controller.class) {
             id = counter;
             counter++;
         }
         this.game = game;
+        game.setListeners(this); //FIXME penso abbia senso metterlo nel costruttore
         started = false;
         closing = false;
     }
@@ -175,6 +189,62 @@ public abstract class Controller {
 
         }
 
+    }
+
+    /**
+     * The method propertyChange is called after the method fire is executed from a class to which the controller is listening to.
+     * If the property name is "playerModified" the controller will send the updated Player (data?) to all of the players in the game.
+     * @param evt is the PropertyChangeEvent that describes the object that has been modified
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        Message update = null;
+        switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
+            case "MotherNature" -> {
+                int islandIndex = (Integer) evt.getNewValue();
+                update = new MoveMotherNatureMessage(islandIndex);
+            }
+            /*case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
+                Player oldConqueringPlayer = (Player) evt.getOldValue();
+                Player newConqueringPlayer = (Player) evt.getNewValue();
+                Message update1 = new UpdatePlayer(PlayerData.createPlayerData(oldConqueringPlayer));
+                Message update2 = new UpdatePlayer(PlayerData.createPlayerData(newConqueringPlayer));
+                //FIXME meglio così o con due "modifiedPlayer"?
+            }*/
+            case "merge" -> {
+                IslandManager islandManager = (IslandManager) evt.getNewValue();
+                update = new UpdateIslandManager(IslandManagerData.createIslandManagerData(islandManager));
+            }
+            case "chosenCloud" -> {
+                int cloudIndex = (Integer) evt.getNewValue();
+                update = new ChosenCloudMessage(cloudIndex);
+            }
+            case "activatedCharacter" -> {
+                CharacterCard characterCard = (CharacterCard) evt.getNewValue();
+                update = new ActivateCharacterCardMessage(characterCard.getCharacterID());
+                //FIXME i'm not sure this is the right message, the playernickname is currPlayer
+            }
+            case "modifiedPlayer" -> {
+                Player modifiedPlayer = (Player) evt.getNewValue();
+                update = new UpdatePlayer(PlayerData.createPlayerData(modifiedPlayer));
+            }
+            /*case "filledClouds" -> {
+                FIXME is this an update?
+            }*/
+            case "modifiedIsland" -> {
+                int modifiedIsland = (Integer) evt.getNewValue();
+                update = new UpdateIsland(modifiedIsland);
+            }
+            case "modifiedCharacter" -> {
+                CharacterCard characterCard = (CharacterCard) evt.getNewValue();
+                update = new UpdateCharacterCard(characterCard.getCharacterID());
+            }
+        }
+        pcs.firePropertyChange("message", null, update);
+    }
+
+    public void setPropertyChangeListener (PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
     }
 
 }

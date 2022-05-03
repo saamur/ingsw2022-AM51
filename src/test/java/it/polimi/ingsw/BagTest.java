@@ -32,6 +32,8 @@ public class BagTest {
     }
     /**
      * Testing if the after the draw method is called, in Bag there is the correct number of students.
+     * @param numOfDrawnOutStudents number of drawn students
+     * @param numOfRemainingStudents number of remaining students in the bag
      */
 
     @ParameterizedTest
@@ -45,6 +47,7 @@ public class BagTest {
 
     /**
      * Testing if the after the draw method is called, the correct number of students is returned
+     * @param drawnStudents number of drawn students
      */
     @ParameterizedTest
     @ValueSource(ints = {4, 7, 120})
@@ -67,6 +70,8 @@ public class BagTest {
 
     /**
      * Testing if the Bag.draw(int n) and removeStudents() method return the correct amount of students
+     * @param studentsToBeRemoved students to remove from the bag
+     * @param remainingStudents number of students expected to remain in the bag after calling removeStudents method
      */
 
     @ParameterizedTest
@@ -102,6 +107,7 @@ public class BagTest {
 
     /**
      * test that if you try to draw more students than the students currently in the bag, 120 students will be drawn
+     * @param drawnStudents number of drawn students
      */
     @ParameterizedTest
     @ValueSource(ints = {130, 2500, 5000})
@@ -124,6 +130,8 @@ public class BagTest {
 
     /**
      * Testing if calling draw() after (isEmpty() == true) returns false and draw(int n) returns null.
+     * @param drawnStudents1 number of drawn students to obtain an empty bag
+     * @param drawnStudents2 number of drawn students
      */
     @ParameterizedTest
     @CsvSource(value ={"130, 5", "120, 1"})

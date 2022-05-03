@@ -27,6 +27,7 @@ public class CloudTest {
     /**
      * testFill tests if an empty Cloud is filled with a given array of students
      * Is expected that the cloud contains all the students given
+     * @param addingStudents students to add to fill the cloud and set the initial condition
      */
 
     @ParameterizedTest
@@ -55,6 +56,7 @@ public class CloudTest {
     /**
      * testPick method tests if the Cloud is an unpicked cloud is picked in normal condition
      * Is expected that the cloud is empty after the call of the pick method and the cloud is marked as picked
+     * @param addingStudents students to add to fill the cloud and set the initial condition
      */
 
     @ParameterizedTest
@@ -101,6 +103,7 @@ public class CloudTest {
     /**
      * test if the isEmpty method checks that the cloud is not empty after that the cloud is filled with the fill method
      * A false return is expected
+     * @param addingStudents students to add to fill the cloud and set the initial condition
      */
 
     @ParameterizedTest
@@ -126,6 +129,7 @@ public class CloudTest {
     /**
      * test if the isEmpty method checks correctly that the cloud is empty after calling the fill and the pick methods
      * A true result is expected
+     * @param addingStudents students to add to fill the cloud and set the initial condition
      */
     @ParameterizedTest
     @MethodSource("fillPickIsEmptyArguments")
@@ -152,6 +156,7 @@ public class CloudTest {
     /**
      * test if the method pick return null if the could was already picked, it has to be impossible to choose the same
      * cloud twice
+     * @param addingStudents students to add to fill the cloud and set the initial condition
      */
 
     @ParameterizedTest

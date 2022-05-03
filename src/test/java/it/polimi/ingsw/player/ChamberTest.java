@@ -31,6 +31,8 @@ public class ChamberTest {
      * Is expected that all the students are added
      * In the second case the method tests if the Chamber doesn't add student in the Chamber when it is full
      * Is expected that even if you try to add a number of students greater than 10, that will be the resulting number of students present in the chamber
+     * @param addingStudents students to add to the chamber
+     * @param expectedAddedStudents students expected to be present on the chamber after calling the method addStudents
      */
 
     @ParameterizedTest
@@ -65,6 +67,10 @@ public class ChamberTest {
      * testRemoveStudents method tests the removal of the students from a Chamber that doesn't have that number of
      * students. Is expected that in cases where the number of students to be removed is greater than the number of
      * those present, only the students actually present in the chamber are removed
+     * @param addingStudents students to add to the chamber and set the initial conditions
+     * @param removingStudents students to remove from the chamber
+     * @param expectedStudents students expected to be present on the chamber after calling the method removeStudents
+     * @param expectedRemoved students expected to be removed from the chamber after calling the method removeStudents
      */
 
     @ParameterizedTest
@@ -104,6 +110,7 @@ public class ChamberTest {
 
     /**
      * testHasProfessor tests if, in the initial condition, the HasProfessor method return false
+     *
      */
 
     @Test
@@ -120,6 +127,10 @@ public class ChamberTest {
     /**
      * testUpdateCoins method tests if the calculation for the attribution of coins is correct after
      * the initial addition of students. Is expected a coin to be given after each addiction of 3 students.
+     * @param addingStudents students to add to the chamber and set the initial conditions
+     * @param expectedCoinsGiven coins expected to be given for each clan, after adding students to the chamber
+     * @param numOfCoins total number of coins obtained after adding students to the chamber
+     *
      */
 
     @ParameterizedTest
@@ -161,6 +172,11 @@ public class ChamberTest {
      * fact just one new givenCoin position is covered
      * In the third case, is expected that in the fourth cell of coinsGiven the coins remain 3, even if not all the three givenCoin position
      * are covered
+     * @param addingStudents students to add to the chamber and set the initial conditions
+     * @param remove students to remove from the chamber
+     * @param newAddingStudents students to add to the chamber
+     * @param expectedCoinsGiven coins expected to be given for each clan, after adding students to the chamber
+     * @param expectedCoins total number of coins obtained after adding students to the chamber
      */
 
     @ParameterizedTest
@@ -213,6 +229,7 @@ public class ChamberTest {
     /**
      * testAddStudent method tests if, in an unfilled chamber, the AddStudent method add a student of a particular
      * chosen clan
+     * @param clan is the clan of belonging of the students on which we are going to test the method
      */
 
     @ParameterizedTest
@@ -234,6 +251,7 @@ public class ChamberTest {
      * test if the addStudents method doesn't add the student of a particular clan if in the Chamber there are already
      * 10 students of that clan
      * Is expected a false return and an unmodified situation of the students
+     * @param clan is the clan of belonging of the students on which we are going to test the method
      */
 
     @ParameterizedTest

@@ -17,10 +17,6 @@ import java.util.Map;
  */
 public class StudentMoverCharacterCard extends CharacterCard implements StudentContainer {
 
-    private interface StudentMover {
-        boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
-    }
-
     private static final Map<CharacterID, StudentMover> STUDENT_MOVERS;
 
     static {
@@ -106,7 +102,29 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
 
     @Override
     public boolean applyEffect(Game game, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2) {
-        return STUDENT_MOVERS.get(getCharacterID()).move(game, this, destination, students1, students2);
+        boolean effect = STUDENT_MOVERS.get(getCharacterID()).move(game, this, destination, students1, students2);
+        switch(getCharacterID()){
+            case MONK ->{
+                pcs.firePropertyChange("modifiedCharacter", null, this);
+                pcs.firePropertyChange("modifiedIsland", null, destination);
+            }
+            /*case JESTER -> {
+                pcs.firePropertyChange("modifiedCard", null, this);
+                pcs.firePropertyChange("modifiedPlayer", null, game.getCurrPlayer());
+            }*/
+            case MINSTREL -> pcs.firePropertyChange("modifiedPlayer", null, game.getCurrPlayer());
+            /*case PRINCESS -> {
+                pcs.firePropertyChange("modifiedCard", null, this);
+                pcs.firePropertyChange("modifiedPlayer", null, game.getCurrPlayer());
+            }*/
+            case THIEF -> pcs.firePropertyChange("modifiedPlayers", null, game.getPlayers());
+            default -> { //TODO default case for PRINCESS and JESTER
+                pcs.firePropertyChange("modifiedCharacter", null, this);
+                pcs.firePropertyChange("modifiedPlayer", null, game.getCurrPlayer());
+            }
+        }
+
+        return effect;
     }
 
     @Override
@@ -115,6 +133,8 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
             students.put(c, students.get(c) + stud.get(c));
         return new EnumMap<>(stud);
     }
+
+    //FIXME sarebbe meglio mettere i fire nelle lambda functions ma non sono static!
 
     @Override
     public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
@@ -139,6 +159,10 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
     //added for tests
     public Map<Clan, Integer> getStudents() {
         return new EnumMap<>(students);
+    }
+
+    private interface StudentMover {
+        boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
 }

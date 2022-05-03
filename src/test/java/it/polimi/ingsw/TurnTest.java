@@ -45,6 +45,8 @@ public class TurnTest {
 
     /**
      * test checks if the student is correctly removed from the player's hall and added to the given island
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where to add a student
      */
 
     @ParameterizedTest
@@ -75,6 +77,8 @@ public class TurnTest {
     /**
      * test checks if the method moveStudentToIsland throws a NotValidMoveException if there are no students
      * of the given Clan in the player's hall, without changing the students in the hall and on the island
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where to add a student
      */
     @ParameterizedTest
     @CsvSource(value = {"TOADS, 3", "PIXIES, 11"})
@@ -100,6 +104,7 @@ public class TurnTest {
 
     /**
      * test checks if the student is correctly removed from the player's hall and added to the player's chamber
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Clan.class)
@@ -128,6 +133,7 @@ public class TurnTest {
     /**
      * test checks if the method throws a NotValidMoveException without changing the students in the hall and in the
      * chamber in the case where there are already the maximum number of students of the given Clan in the chamber
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Clan.class)
@@ -156,6 +162,7 @@ public class TurnTest {
     /**
      * test checks if the method moveStudentToChamber throws a NotValidMoveException if there are no students
      * of the given Clan in the player's hall, without changing the students in the hall and in the chamber
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
      */
     @ParameterizedTest
     @EnumSource(Clan.class)
@@ -180,6 +187,8 @@ public class TurnTest {
     /**
      * method updateProfessorsTest tests if the professors are updated as expected
      * after adding students to the players' chambers
+     * @param students students to add to the chamber to set the initial conditions
+     * @param expectedIndexPlayersProfessors indices of players who own a professor from a particular clan
      */
     @ParameterizedTest
     @MethodSource("updateProfessorArguments")
@@ -233,6 +242,8 @@ public class TurnTest {
      * test verifies that the method moveStudentToIsland changes turnState to MOTHER_MOVING
      * after the correct number of students have been moved and verifies that an additional attempt to call the method
      * will result in a WrongTurnPhaseException thrown
+     * @param clan it is the clan of belonging of the students on which we are going to test the method
+     * @param islandIndex index of the island where to move a student
      */
     @ParameterizedTest
     @CsvSource(value = {"DRAGONS, 3", "FAIRIES, 8"})
@@ -257,6 +268,9 @@ public class TurnTest {
 
     /**
      * test checks if method updateInfluence behaves as expected in a normal situation and on a "limit of array" situation
+     * @param indexFirstIsland index of the first island conquered
+     * @param indexSecondIsland index of the second island conquered
+     * @param indexThirdIsland index of the third island conquered
      */
     @ParameterizedTest
     @CsvSource({"3, 5, 4", "0, 11, 10"})
@@ -287,6 +301,11 @@ public class TurnTest {
     /**
      * test checks if method updateInfluence behaves as expected in case of a tie,
      * not changing the controllingPlayer of the island
+     * @param islandIndex1 index of the first conquered island
+     * @param islandIndex2 index of the second conquered island
+     * @param islandIndex3 index of the third conquered island
+     * @param islandStudents students to add to the island
+     * @param initialProfessorsIndex indices of players who own a professor from a particular clan
      */
 
     @ParameterizedTest
@@ -345,6 +364,8 @@ public class TurnTest {
 
     /**
      * test check if chooseCloud method behaves as expected in a normal situation, on both 2 and 3 players game.
+     * @param numOfPlayers number of players of the game
+     * @param cloudIndex index of the chosen cloud
      */
     @ParameterizedTest
     @CsvSource(value = {"2, 0", "3, 1"})
@@ -381,6 +402,8 @@ public class TurnTest {
      * test check if chooseCloud method behaves as expected when the chosen cloud has already been picked
      * test both the two-player and three-player game
      * the method is expected to throw a NotValidMoveException
+     * @param numOfPlayers number of players of the game
+     * @param cloudIndex index of the chosen cloud
      */
     @ParameterizedTest
     @CsvSource(value = {"2, 0", "3, 1"})

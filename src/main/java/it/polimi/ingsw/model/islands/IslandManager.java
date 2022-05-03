@@ -112,9 +112,10 @@ public class IslandManager implements Serializable {
             }
 
             Player oldControllingPlayer = isl.getControllingPlayer();
+            pcs.firePropertyChange("modifiedPlayer", null, oldControllingPlayer);
             isl.setControllingPlayer(p);
-            pcs.firePropertyChange("conqueredIsland", oldControllingPlayer, p);
-            pcs.firePropertyChange("modifiedIsland", null, isl);
+            pcs.firePropertyChange("modifiedPlayer", null, p);
+            pcs.firePropertyChange("modifiedIsland", null, islands.indexOf(isl));
             checkMerge(isl);
         }
 

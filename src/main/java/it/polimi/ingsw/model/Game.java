@@ -174,7 +174,7 @@ public class Game implements GameInterface {
 
         cloudManager.fillClouds(bag);
         pcs.firePropertyChange("filledClouds", null, cloudManager);
-
+        //FIXME i'm not sure this is considered an update
         if (bag.isEmpty())
             lastRound = true;
     }
@@ -428,7 +428,7 @@ public class Game implements GameInterface {
         if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
         turn.chooseCloud(cloud);
-        pcs.firePropertyChange("chosenCloud", null, cloud); //TODO Non sono sicura sia giusto scritto così
+        pcs.firePropertyChange("chosenCloud", null, cloudIndex); //TODO Non sono sicura sia giusto scritto così
         pcs.firePropertyChange("modifiedPlayer", null, player);
     }
 

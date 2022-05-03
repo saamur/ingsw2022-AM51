@@ -1,10 +1,15 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.modeldata.HallData;
+import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
+import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.islands.Island;
+import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeEvent;
@@ -185,49 +190,52 @@ public abstract class Controller implements PropertyChangeListener {
     /**
      * The method propertyChange is called after the method fire is executed from a class to which the controller is listening to.
      * If the property name is "playerModified" the controller will send the updated Player (data?) to all of the players in the game.
-     * @param evt
+     * @param evt is the PropertyChangeEvent that describes the object that has been modified
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //TODO needs to be valid both for NewGame and RestoredGame
-        /*
-        Controller listens to: IslandManager V, Game V, Player, Clouds
-         */
-        /*
-        Legend:
-        MotherNature -> moved mother nature
-        ConqueredIsland ->
-        Merge ->
-        movedStudentChamber
-        movedStudentIsland
-        chosenCloud
-        activatedCharacter
-        addedProhibitionCard
-         */
-        System.out.println("This is the object writing the sentences: " + this);
         switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
             case "MotherNature" -> {
                 int islandIndex = (Integer) evt.getNewValue();
                 Message update = new MoveMotherNatureMessage(islandIndex);
             }
-            case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
-                Player oldConqueringPlayer = (Player) evt.getNewValue();
-                //PlayerData oldConquering = new PlayerData(oldConqueringPlayer.getNickname(), );
-                //Message update = new UpdatePlayer((Player) evt.getNewValue());
-
+            /*case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
+                Player oldConqueringPlayer = (Player) evt.getOldValue();
+                Player newConqueringPlayer = (Player) evt.getNewValue();
+                Message update1 = new UpdatePlayer(PlayerData.createPlayerData(oldConqueringPlayer));
+                Message update2 = new UpdatePlayer(PlayerData.createPlayerData(newConqueringPlayer));
+                //FIXME meglio così o con due "modifiedPlayer"?
+            }*/
+            case "merge" -> {
+                IslandManager islandManager = (IslandManager) evt.getNewValue();
+                Message update = new UpdateIslandManager(IslandManagerData.createIslandManagerData(islandManager));
             }
-            case "merge" -> System.out.println("Islands have been merged");
-            case "chosenCloud" -> System.out.println("A cloud has been picked");
-            case "activatedCharacter" -> System.out.println("A character has been activated");
-            case "addedProhibition" -> System.out.println("The prohibition card has one more prohibition tile available");
-            case "modifiedPlayer" -> System.out.println("The player has been modified");
-            case "modifiedPlayers" -> System.out.println("Two or more players have been modified");
-            case "filledClouds" -> System.out.println("The clouds have been filled");
-            case "modifiedIsland" -> System.out.println("An island has been modified");
-            case "addProhibition" -> System.out.println("The prohibition card has been modified");
-            case "modifiedCharacter" -> System.out.println("modified character");
+            case "chosenCloud" -> {
+                int cloudIndex = (Integer) evt.getNewValue();
+                Message update = new ChosenCloudMessage(cloudIndex);
+            }
+            case "activatedCharacter" -> {
+                CharacterCard characterCard = (CharacterCard) evt.getNewValue();
+                Message update = new ActivateCharacterCardMessage(characterCard.getCharacterID());
+                //FIXME i'm not sure this is the right message, the playernickname is currPlayer
+            }
+            case "modifiedPlayer" -> {
+                Player modifiedPlayer = (Player) evt.getNewValue();
+                Message update = new UpdatePlayer(PlayerData.createPlayerData(modifiedPlayer));
+            }
+            /*case "filledClouds" -> {
+                FIXME is this an update?
+            }*/
+            case "modifiedIsland" -> {
+                int modifiedIsland = (Integer) evt.getNewValue();
+                Message update = new UpdateIsland(modifiedIsland);
+            }
+            case "modifiedCharacter" -> {
+                CharacterCard characterCard = (CharacterCard) evt.getNewValue();
+                Message update = new UpdateCharacterCard(characterCard.getCharacterID());
+            }
         }
-        System.out.println("This is the object firing the change: " + evt.getSource().toString());
+        //TODO controller needs to send the message to client
     }
 
 }

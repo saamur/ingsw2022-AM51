@@ -125,12 +125,4 @@ public class Island implements Serializable, StudentContainer {
 
     }
 
-    @Override //implemented so that fire method doesn't fire if islands have same parameters
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Island island = (Island) o;
-        return numberOfIslands == island.numberOfIslands && numberOfTowers == island.numberOfTowers && numProhibitionCards == island.numProhibitionCards && students.equals(island.students) && controllingPlayer.equals(island.controllingPlayer);
-    }
-
 }

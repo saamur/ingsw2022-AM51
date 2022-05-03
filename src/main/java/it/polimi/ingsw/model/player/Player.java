@@ -106,12 +106,5 @@ public class Player implements Serializable {
         numberOfTowers -= n;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Player player = (Player) o;
-        return numberOfTowers == player.numberOfTowers && nickname.equals(player.nickname) && hall.equals(player.hall) && chamber.equals(player.chamber) && colorOfTowers == player.colorOfTowers && deck.equals(player.deck) && currCard == player.currCard;
-    }
     
 }

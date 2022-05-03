@@ -9,4 +9,11 @@ public record UpdateCharacterCard(CharacterID characterID) implements UpdateMess
     public String getMessage() {
         return toString();
     }
+
+    @Override
+    public String toString() {
+        return "UpdateCharacterCard{" +
+                "characterID=" + characterID +
+                '}';
+    }
 }

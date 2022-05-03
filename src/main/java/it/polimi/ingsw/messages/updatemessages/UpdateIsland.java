@@ -7,4 +7,11 @@ public record UpdateIsland(int modifiedIslandIndex) implements UpdateMessage {
     public String getMessage(){
         return this.toString();
     }
+
+    @Override
+    public String toString() {
+        return "UpdateIsland{" +
+                "modifiedIslandIndex=" + modifiedIslandIndex +
+                '}';
+    }
 }

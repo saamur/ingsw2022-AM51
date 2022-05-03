@@ -9,5 +9,10 @@ public record UpdatePlayer(PlayerData modifiedPlayer) implements UpdateMessage {
         return this.toString();
     }
 
-
+    @Override
+    public String toString() {
+        return "UpdatePlayer{" +
+                "modifiedPlayer=" + modifiedPlayer +
+                '}';
+    }
 }

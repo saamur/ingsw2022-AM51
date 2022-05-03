@@ -8,4 +8,11 @@ public record UpdateIslandManager(IslandManagerData islandManagerData) implement
     public String getMessage(){
         return toString();
     }
+
+    @Override
+    public String toString() {
+        return "UpdateIslandManager{" +
+                "islandManagerData=" + islandManagerData +
+                '}';
+    }
 }

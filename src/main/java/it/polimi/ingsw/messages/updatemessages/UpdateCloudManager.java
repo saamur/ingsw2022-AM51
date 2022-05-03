@@ -8,4 +8,11 @@ public record UpdateCloudManager(CloudManagerData cloudManagerData) implements U
     public String getMessage() {
         return toString();
     }
+
+    @Override
+    public String toString() {
+        return "UpdateCloudManager{" +
+                "cloudManagerData=" + cloudManagerData +
+                '}';
+    }
 }

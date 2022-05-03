@@ -5,4 +5,11 @@ public record UpdateMotherNaturePosition(int islandIndex) implements UpdateMessa
     public String getMessage() {
         return toString();
     }
+
+    @Override
+    public String toString() {
+        return "UpdateMotherNaturePosition{" +
+                "islandIndex=" + islandIndex +
+                '}';
+    }
 }

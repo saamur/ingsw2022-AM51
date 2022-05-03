@@ -1,14 +1,17 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.modeldata.HallData;
+import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public abstract class Controller implements PropertyChangeListener { //FIXME LISTENER
+public abstract class Controller implements PropertyChangeListener {
 
     private static int counter = 0;
 
@@ -24,7 +27,7 @@ public abstract class Controller implements PropertyChangeListener { //FIXME LIS
             counter++;
         }
         this.game = game;
-        game.addListeners(this); //FIXME penso abbia senso metterlo nel costruttore
+        game.setListeners(this); //FIXME penso abbia senso metterlo nel costruttore
         started = false;
         closing = false;
     }
@@ -179,9 +182,13 @@ public abstract class Controller implements PropertyChangeListener { //FIXME LIS
 
     }
 
+    /**
+     * The method propertyChange is called after the method fire is executed from a class to which the controller is listening to.
+     * If the property name is "playerModified" the controller will send the updated Player (data?) to all of the players in the game.
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //FIXME propertyChange is called twice
         //TODO needs to be valid both for NewGame and RestoredGame
         /*
         Controller listens to: IslandManager V, Game V, Player, Clouds
@@ -199,14 +206,26 @@ public abstract class Controller implements PropertyChangeListener { //FIXME LIS
          */
         System.out.println("This is the object writing the sentences: " + this);
         switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
-            case "MotherNature" -> System.out.println("MotherNature moved");
-            case "conqueredIsland" -> System.out.println("An island has been conquered");
+            case "MotherNature" -> {
+                int islandIndex = (Integer) evt.getNewValue();
+                Message update = new MoveMotherNatureMessage(islandIndex);
+            }
+            case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
+                Player oldConqueringPlayer = (Player) evt.getNewValue();
+                //PlayerData oldConquering = new PlayerData(oldConqueringPlayer.getNickname(), );
+                //Message update = new UpdatePlayer((Player) evt.getNewValue());
+
+            }
             case "merge" -> System.out.println("Islands have been merged");
-            case "movedStudentChamber" -> System.out.println("A student has been moved to a Chamber");
-            case "movedStudentIsland" -> System.out.println("A student has been moved to an Island");
             case "chosenCloud" -> System.out.println("A cloud has been picked");
             case "activatedCharacter" -> System.out.println("A character has been activated");
             case "addedProhibition" -> System.out.println("The prohibition card has one more prohibition tile available");
+            case "modifiedPlayer" -> System.out.println("The player has been modified");
+            case "modifiedPlayers" -> System.out.println("Two or more players have been modified");
+            case "filledClouds" -> System.out.println("The clouds have been filled");
+            case "modifiedIsland" -> System.out.println("An island has been modified");
+            case "addProhibition" -> System.out.println("The prohibition card has been modified");
+            case "modifiedCharacter" -> System.out.println("modified character");
         }
         System.out.println("This is the object firing the change: " + evt.getSource().toString());
     }

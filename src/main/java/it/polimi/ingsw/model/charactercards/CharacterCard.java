@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.player.Player;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeListenerProxy;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -18,10 +21,12 @@ public abstract class CharacterCard implements Serializable {
 
     private final CharacterID characterID;
     private boolean alreadyUsed;
+    protected PropertyChangeSupport pcs;
 
     public CharacterCard (CharacterID characterID) {
         this.characterID = characterID;
         alreadyUsed = false;
+        pcs = new PropertyChangeSupport(this);
     }
 
     public CharacterID getCharacterID() {
@@ -112,6 +117,14 @@ public abstract class CharacterCard implements Serializable {
      */
     public boolean applyEffect (Game game, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2){
         return false;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        pcs.removePropertyChangeListener(listener);
     }
 
 }

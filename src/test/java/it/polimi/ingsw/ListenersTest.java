@@ -8,19 +8,25 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Card;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.model.Clan.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ListenersTest {
+    final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
     @Test
     public void conquerIslandTest(){
 
-        //FIXME messaggio viene inviato due volte
         Game game = new Game(2, "Fede", false);
         Controller controller = new NewGameController(game);
         IslandManager islM = game.getIslandManager();
@@ -53,5 +59,18 @@ public class ListenersTest {
         } catch (WrongGamePhaseException | NicknameNotAvailableException | NonExistingPlayerException | WrongTurnPhaseException | NotValidIndexException |WrongPlayerException | NotValidMoveException e){
             e.printStackTrace();
         }
+
+        assertEquals("This is the object writing the sentences: " + controller + "\r\nA student has been moved to an Island\r\n" + "This is the object firing the change: " + game + "\r\n", outContent.toString());
+        //TODO change not game but chamber firing to listener
+    }
+
+    @BeforeEach
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    public void restoreStreams() {
+        System.setOut(originalOut);
     }
 }

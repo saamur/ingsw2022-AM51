@@ -173,10 +173,10 @@ public class Game implements GameInterface {
         indexCurrPlayer = indexCurrFirstPlayer;
 
         cloudManager.fillClouds(bag);
+        pcs.firePropertyChange("filledClouds", null, cloudManager);
 
         if (bag.isEmpty())
             lastRound = true;
-        //TODO fire??
     }
 
 
@@ -309,7 +309,7 @@ public class Game implements GameInterface {
         if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
 
         turn.moveStudentToChamber(clan, players);
-        pcs.firePropertyChange("movedStudentChamber", null, player); //oppure players?
+        pcs.firePropertyChange("modifiedPlayer", null, player); //TODO oppure "moveStudentsChamber"
 
     }
 
@@ -337,8 +337,9 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         turn.moveStudentToIsland(clan, island);
-        pcs.firePropertyChange("movedStudentIsland", null, island); //oppure players?
-
+        pcs.firePropertyChange("modifiedIsland", null, island); //oppure players?
+        pcs.firePropertyChange("modifiedPlayer", null , player);
+        //FIXME ASK fire from Player??
     }
 
     /**
@@ -367,7 +368,6 @@ public class Game implements GameInterface {
         if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature()) throw new NotValidMoveException("The selected island is too far from Mother Nature");
 
         islandManager.setMotherNaturePosition(island);
-        //FIXME ho messo il fire già in islandManager, dovrei metterlo anche qui?
         checkInfluence(island);
 
         if (lastRound)
@@ -401,6 +401,7 @@ public class Game implements GameInterface {
         }
         else if (islandManager.getNumberOfIslands() <= GameConstants.MIN_NUM_ISLANDS)
             calculateWin();
+        //TODO FIRE
 
     }
 
@@ -428,7 +429,7 @@ public class Game implements GameInterface {
 
         turn.chooseCloud(cloud);
         pcs.firePropertyChange("chosenCloud", null, cloud); //TODO Non sono sicura sia giusto scritto così
-
+        pcs.firePropertyChange("modifiedPlayer", null, player);
     }
 
     /**
@@ -458,7 +459,7 @@ public class Game implements GameInterface {
             initRound();
         else
             turn = new Turn(playersOrder[indexCurrPlayer], players.length);
-
+        //TODO fire?
     }
 
     /**
@@ -534,9 +535,8 @@ public class Game implements GameInterface {
         characterCard.updateCost();
 
         turn.setActivatedCharacterCard(characterCard);
-        characterCard.applyInitialEffect(turn, players);
         pcs.firePropertyChange("activatedCharacter", null, characterCard);
-
+        characterCard.applyInitialEffect(turn, players);
     }
 
     /**
@@ -646,7 +646,6 @@ public class Game implements GameInterface {
             if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
                 ProhibitionCharacterCard c = (ProhibitionCharacterCard) card;
                 c.addProhibitionCard();
-                pcs.firePropertyChange("addedProhibitionCard", null, card); //ho messo card solo perchè non sapevo cosa scrivere, magari così dice quante ce ne sono di tessere divieto attualmente
                 break;
             }
         }
@@ -725,8 +724,20 @@ public class Game implements GameInterface {
     }
 
     @Override
-    public void addListeners(PropertyChangeListener listener){
+    public void setListeners(PropertyChangeListener listener){
         islandManager.addPropertyChangeListener(listener);
         pcs.addPropertyChangeListener( listener);
+        for(CharacterCard c : availableCharacterCards){
+            c.removePropertyChangeListener(listener);
+        }
+    }
+
+    @Override
+    public void removeListeners(PropertyChangeListener listener){
+        islandManager.removePropertyChangeListener(listener);
+        pcs.removePropertyChangeListener(listener);
+        for(CharacterCard c : availableCharacterCards){
+            c.removePropertyChangeListener(listener);
+        }
     }
 }

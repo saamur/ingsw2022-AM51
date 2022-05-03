@@ -81,10 +81,12 @@ public class IslandManager implements Serializable {
     }
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
-        Island oldMNPosition = this.motherNaturePosition;
+        List<Island> islands = getIslands();
+        int oldMNPosition = islands.indexOf(getMotherNaturePosition());
+        int newMNPosition = islands.indexOf(motherNaturePosition);
         if(islands.contains(motherNaturePosition))
             this.motherNaturePosition = motherNaturePosition;
-        pcs.firePropertyChange("MotherNature", oldMNPosition, motherNaturePosition);
+        pcs.firePropertyChange("MotherNature", oldMNPosition, newMNPosition);
     }
 
     /**
@@ -112,6 +114,7 @@ public class IslandManager implements Serializable {
             Player oldControllingPlayer = isl.getControllingPlayer();
             isl.setControllingPlayer(p);
             pcs.firePropertyChange("conqueredIsland", oldControllingPlayer, p);
+            pcs.firePropertyChange("modifiedIsland", null, isl);
             checkMerge(isl);
         }
 
@@ -152,6 +155,9 @@ public class IslandManager implements Serializable {
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        pcs.removePropertyChangeListener(listener);
     }
 
 }

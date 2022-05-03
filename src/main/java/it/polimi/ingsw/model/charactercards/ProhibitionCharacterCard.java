@@ -4,12 +4,16 @@ import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.islands.Island;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 /**
  * ProhibitionCharacterCard class models the character cards
  * whose effect is to add prohibition cards on islands
  *
  */
 public class ProhibitionCharacterCard extends CharacterCard {
+    //FIXME posso aggiungere PCS? costruttore dovrebbe essere senza parametri
 
     private int numProhibitionCards;
 
@@ -31,7 +35,8 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
         numProhibitionCards--;
         isl.addProhibitionCard();
-
+        pcs.firePropertyChange("modifiedIsland", null, isl);
+        pcs.firePropertyChange("modifiedCharacter", null, this); //FIXME "modifiedCard"?
         return true;
 
     }
@@ -46,4 +51,5 @@ public class ProhibitionCharacterCard extends CharacterCard {
     public int getNumProhibitionCards() {
         return numProhibitionCards;
     }
+
 }

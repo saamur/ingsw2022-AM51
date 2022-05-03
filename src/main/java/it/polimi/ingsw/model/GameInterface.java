@@ -25,6 +25,7 @@ public interface GameInterface extends Serializable {
     GameState getGameState();
     List<String> getPlayersNicknames();
     boolean isExpertModeEnabled();
-    void addListeners(PropertyChangeListener listener);
+    void setListeners(PropertyChangeListener listener);
+    void removeListeners(PropertyChangeListener listener);
 
 }

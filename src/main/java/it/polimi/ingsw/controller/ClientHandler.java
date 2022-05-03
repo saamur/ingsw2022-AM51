@@ -57,6 +57,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
             try {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 Object o = in.readObject();
+                System.out.println("Object received: " + o);
 
                 if (o instanceof String) {
                     if (!o.equals("pong"))
@@ -148,6 +149,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
+        System.out.println("Sent object: " + o);
     }
 
     @Override

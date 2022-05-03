@@ -5,9 +5,17 @@ package it.polimi.ingsw.messages;
  * @param islandIndex index of the island where to activate the effect
  */
 
-public record ApplyCharacterCardEffectMessage1(int islandIndex) implements Message{
+public record ApplyCharacterCardEffectMessage1(int islandIndex) implements Message {
+
     @Override
     public String getMessage(){
         return this.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "ApplyCharacterCardEffectMessage1{" +
+                "islandIndex=" + islandIndex +
+                '}';
     }
 }

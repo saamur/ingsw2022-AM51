@@ -14,4 +14,14 @@ public record AvailableGamesMessage(List<OpeningNewGameData> openingNewGameDataL
     public String getMessage() {
         return toString();
     }
+
+    @Override
+    public String toString() {
+        return "AvailableGamesMessage{" +
+                "openingNewGameDataList=" + openingNewGameDataList +
+                ", openingRestoredGameDataList=" + openingRestoredGameDataList +
+                ", savedGameData=" + savedGameData +
+                '}';
+    }
+
 }

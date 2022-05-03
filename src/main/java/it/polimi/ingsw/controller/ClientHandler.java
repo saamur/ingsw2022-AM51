@@ -56,9 +56,11 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
         while (connected) {
             try {
+                System.out.println(controller);
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 Object o = in.readObject();
-                System.out.println("Object received: " + o);
+                if(!(o instanceof String))
+                    System.out.println("Object received: " + o);
 
                 if (o instanceof String) {
                     if (!o.equals("pong"))
@@ -79,8 +81,9 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                         sendObject(new ErrorMessage("You cannot change your nickname in this phase"));
                     }
                 }
-                else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null)
+                else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
                     sendObject(new ErrorMessage("You have to choose a nickname first"));
+                }
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {
                         controller = Lobby.getInstance().createNewController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
@@ -121,7 +124,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                         }
                     }
                 }
-                else if (!initialization) {
+                else if (initialization) {
                     sendObject(new ErrorMessage("This is not the correct game phase"));
                 }
                 else if (o instanceof Message) {
@@ -133,8 +136,8 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
             } catch (IOException e) {           //non tutte le IOException in realtà
                 System.out.println(Lobby.getInstance().getNicknameFromClientHandler(this) + " has disconnected");
-                controller.clientDisconnected(Lobby.getInstance().getNicknameFromClientHandler(this));
-                t.interrupt();
+                if (controller != null)
+                    controller.clientDisconnected(Lobby.getInstance().getNicknameFromClientHandler(this));
                 connected = false;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -143,14 +146,14 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
         }
 
         ping = false;
-
         Lobby.getInstance().unregisterNickname(this);
 
     }
 
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
-        System.out.println("Sent object: " + o);
+        if(!(o instanceof String))
+            System.out.println("Sent Message : "+ o);
     }
 
     @Override

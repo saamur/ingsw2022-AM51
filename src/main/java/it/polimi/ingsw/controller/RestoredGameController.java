@@ -29,7 +29,7 @@ public class RestoredGameController extends Controller {
     public OpeningRestoredGameData createOpeningRestoredGameData () {
         List<String> alreadyJoinedPlayers = game.getPlayersNicknames();
         alreadyJoinedPlayers.removeAll(missingPlayers);
-        return new OpeningRestoredGameData(game.getNumOfPlayers(), game.isExpertModeEnabled(), localDateTime, alreadyJoinedPlayers, new ArrayList<>(missingPlayers));
+        return new OpeningRestoredGameData(getId(), game.getNumOfPlayers(), game.isExpertModeEnabled(), localDateTime, alreadyJoinedPlayers, new ArrayList<>(missingPlayers));
     }
 
 }

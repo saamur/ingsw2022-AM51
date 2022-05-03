@@ -2,7 +2,7 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.model.Clan;
 
-public record SetClanCharacterMessage(Clan clan) implements Message{
+public record SetClanCharacterMessage(Clan clan) implements Message {
 
 
     @Override
@@ -10,4 +10,10 @@ public record SetClanCharacterMessage(Clan clan) implements Message{
         return this.toString();
     }
 
+    @Override
+    public String toString() {
+        return "SetClanCharacterMessage{" +
+                "clan=" + clan +
+                '}';
+    }
 }

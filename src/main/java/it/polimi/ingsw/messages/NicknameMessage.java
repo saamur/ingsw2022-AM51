@@ -7,4 +7,10 @@ public record NicknameMessage(String nickname) implements Message {
         return nickname;
     }
 
+    @Override
+    public String toString() {
+        return "NicknameMessage{" +
+                "nickname='" + nickname + '\'' +
+                '}';
+    }
 }

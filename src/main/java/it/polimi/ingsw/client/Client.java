@@ -42,7 +42,7 @@ public class Client implements Runnable {
         hostName = args[0];
         portNumber = Integer.parseInt(args[1]);
 
-        System.out.println("acceso");
+        System.out.println("on");
 
         try {
             instance = new Client(hostName, portNumber);

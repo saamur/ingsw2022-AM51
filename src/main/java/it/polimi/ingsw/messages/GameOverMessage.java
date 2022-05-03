@@ -15,4 +15,10 @@ public record GameOverMessage(List<String> nicknameWinners) implements Message{
         return winners.toString();
     }
 
+    @Override
+    public String toString() {
+        return "GameOverMessage{" +
+                "nicknameWinners=" + nicknameWinners +
+                '}';
+    }
 }

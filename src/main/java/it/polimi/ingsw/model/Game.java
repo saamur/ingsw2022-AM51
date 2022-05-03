@@ -174,7 +174,6 @@ public class Game implements GameInterface {
 
         cloudManager.fillClouds(bag);
         pcs.firePropertyChange("filledClouds", null, cloudManager);
-        //FIXME i'm not sure this is considered an update
         if (bag.isEmpty())
             lastRound = true;
     }

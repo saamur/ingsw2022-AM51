@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.modeldata.CloudManagerData;
 import it.polimi.ingsw.client.modeldata.HallData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Player;
@@ -229,9 +231,10 @@ public abstract class Controller implements PropertyChangeListener {
                 Player modifiedPlayer = (Player) evt.getNewValue();
                 update = new UpdatePlayer(PlayerData.createPlayerData(modifiedPlayer));
             }
-            /*case "filledClouds" -> {
-                FIXME is this an update?
-            }*/
+            case "filledClouds" -> {
+                CloudManager cloudManager = (CloudManager) evt.getNewValue();
+                update = new UpdateCloudManager(CloudManagerData.createCloudManagerData(cloudManager));
+            }
             case "modifiedIsland" -> {
                 int modifiedIsland = (Integer) evt.getNewValue();
                 update = new UpdateIsland(modifiedIsland); //TODO Control all modifiedIsland fire are created with islandIndex and not island object

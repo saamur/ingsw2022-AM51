@@ -9,11 +9,10 @@ import java.util.Map;
 
 public record IslandData(int numberOfIslands,
                          Map<Clan, Integer> students,
-                         //FIXME TowerColor towerColor,
-                         PlayerData controllingPlayer,
+                         TowerColor towerColor,
                          int numberOfTowers,
                          int numProhibitionCards) implements Serializable {
     public static IslandData createIslandData(Island island){
-        return new IslandData(island.getNumberOfIslands(), island.getStudents(), PlayerData.createPlayerData(island.getControllingPlayer()), island.getNumberOfTowers(), island.getNumProhibitionCards());
+        return new IslandData(island.getNumberOfIslands(), island.getStudents(), island.getControllingPlayer().getColorOfTowers(), island.getNumberOfTowers(), island.getNumProhibitionCards());
     }
 }

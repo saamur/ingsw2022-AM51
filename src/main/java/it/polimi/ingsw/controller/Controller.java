@@ -184,7 +184,7 @@ public abstract class Controller implements PropertyChangeListener {
             closing = true;
             Message message = new PlayerDisconnectedMessage(nickname);
 
-            //todo send broadcast
+            pcs.firePropertyChange("disconnectedPlayer", null, message);
             //todo save game
             //todo remove this from lobby
 

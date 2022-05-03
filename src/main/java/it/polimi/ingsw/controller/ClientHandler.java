@@ -155,10 +155,11 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        UpdateMessage update = (UpdateMessage) evt.getNewValue();
+        Message message = (Message) evt.getNewValue();
         try {
             switch (evt.getPropertyName()) {
-                case "message" -> sendObject(update);//TODO send update to view;
+                case "message" -> sendObject(message);//TODO send update to view;
+                case "disconnectedMessage" -> sendObject(message);
                 default -> System.out.println("There will be more properties in the future...");
             }
         } catch(Exception e){

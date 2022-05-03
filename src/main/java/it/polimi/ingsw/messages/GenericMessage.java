@@ -7,4 +7,10 @@ public record GenericMessage(String message) implements Message {
         return message;
     }
 
+    @Override
+    public String toString() {
+        return "GenericMessage{" +
+                "message='" + message + '\'' +
+                '}';
+    }
 }

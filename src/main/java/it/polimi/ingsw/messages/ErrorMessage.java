@@ -5,4 +5,11 @@ public record ErrorMessage(String error) implements Message {
     public String getMessage() {
         return error;
     }
+
+    @Override
+    public String toString() {
+        return "ErrorMessage{" +
+                "error='" + error + '\'' +
+                '}';
+    }
 }

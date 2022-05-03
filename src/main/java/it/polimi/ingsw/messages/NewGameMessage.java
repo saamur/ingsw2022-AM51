@@ -7,4 +7,11 @@ public record NewGameMessage(int numOfPlayers, boolean expertMode) implements Me
         return toString();
     }
 
+    @Override
+    public String toString() {
+        return "NewGameMessage{" +
+                "numOfPlayers=" + numOfPlayers +
+                ", expertMode=" + expertMode +
+                '}';
+    }
 }

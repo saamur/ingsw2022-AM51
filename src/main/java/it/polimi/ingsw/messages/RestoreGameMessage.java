@@ -9,4 +9,10 @@ public record RestoreGameMessage(SavedGameData savedGameData) implements Message
         return toString();
     }
 
+    @Override
+    public String toString() {
+        return "RestoreGameMessage{" +
+                "savedGameData=" + savedGameData +
+                '}';
+    }
 }

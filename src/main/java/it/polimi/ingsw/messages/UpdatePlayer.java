@@ -7,4 +7,6 @@ public record UpdatePlayer(PlayerData modifiedPlayer) implements Message{
     public String getMessage(){
         return this.toString();
     }
+
+
 }

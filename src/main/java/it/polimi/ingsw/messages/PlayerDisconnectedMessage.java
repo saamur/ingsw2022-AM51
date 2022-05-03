@@ -7,4 +7,10 @@ public record PlayerDisconnectedMessage(String disconnectedPlayerNickname) imple
         return disconnectedPlayerNickname + " has disconnected";
     }
 
+    @Override
+    public String toString() {
+        return "PlayerDisconnectedMessage{" +
+                "disconnectedPlayerNickname='" + disconnectedPlayerNickname + '\'' +
+                '}';
+    }
 }

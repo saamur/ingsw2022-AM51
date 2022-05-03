@@ -13,10 +13,20 @@ import java.util.Map;
  * @param students2 the students to move from the destination, in case of an exchange of students (if necessary)
  */
 
-public record ApplyCharacterCardEffectMessage2(int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) implements Message{
+public record ApplyCharacterCardEffectMessage2(int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) implements Message {
 
     @Override
     public String getMessage() {
         return this.toString();
     }
+
+    @Override
+    public String toString() {
+        return "ApplyCharacterCardEffectMessage2{" +
+                "islandIndex=" + islandIndex +
+                ", students1=" + students1 +
+                ", students2=" + students2 +
+                '}';
+    }
+
 }

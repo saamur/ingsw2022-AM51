@@ -35,8 +35,7 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
         numProhibitionCards--;
         isl.addProhibitionCard();
-        pcs.firePropertyChange("modifiedIsland", null, isl);
-        pcs.firePropertyChange("modifiedCharacter", null, this); //FIXME "modifiedCard"?
+
         return true;
 
     }

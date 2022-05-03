@@ -337,7 +337,7 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         turn.moveStudentToIsland(clan, island);
-        pcs.firePropertyChange("modifiedIsland", null, island); //oppure players?
+        pcs.firePropertyChange("modifiedIsland", null, islandIndex); //oppure players?
         pcs.firePropertyChange("modifiedPlayer", null , player);
         //FIXME ASK fire from Player??
     }
@@ -566,6 +566,11 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
+        if (turn.getActivatedCharacterCard() instanceof ProhibitionCharacterCard){ //if card is GRANDMA
+            pcs.firePropertyChange("modifiedCharacter", null, turn.getActivatedCharacterCard());
+            pcs.firePropertyChange("modifiedIsland", null, islandIndex);
+        }
+
         if (!ok) throw new NotValidMoveException("This move is not valid");
 
         turn.characterEffectApplied();
@@ -646,6 +651,7 @@ public class Game implements GameInterface {
             if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
                 ProhibitionCharacterCard c = (ProhibitionCharacterCard) card;
                 c.addProhibitionCard();
+                pcs.firePropertyChange("modifiedCharacter", null, c);
                 break;
             }
         }
@@ -732,17 +738,21 @@ public class Game implements GameInterface {
     public void setListeners(PropertyChangeListener listener){
         islandManager.addPropertyChangeListener(listener);
         pcs.addPropertyChangeListener( listener);
-        for(CharacterCard c : availableCharacterCards){
-            c.removePropertyChangeListener(listener);
-        }
+        if(expertModeEnabled)
+            for (CharacterCard c : availableCharacterCards)
+                c.addPropertyChangeListener(listener);
+
+
     }
 
     @Override
     public void removeListeners(PropertyChangeListener listener){
         islandManager.removePropertyChangeListener(listener);
         pcs.removePropertyChangeListener(listener);
-        for(CharacterCard c : availableCharacterCards){
-            c.removePropertyChangeListener(listener);
-        }
+        if(expertModeEnabled)
+            for (CharacterCard c : availableCharacterCards)
+                c.removePropertyChangeListener(listener);
+
+
     }
 }

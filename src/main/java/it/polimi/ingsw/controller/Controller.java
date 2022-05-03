@@ -29,6 +29,7 @@ public abstract class Controller implements PropertyChangeListener {
 
     //The class Controller is listened by the ClientHandlerClass
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
     public Controller(GameInterface game) {
         synchronized (Controller.class) {
             id = counter;
@@ -233,7 +234,7 @@ public abstract class Controller implements PropertyChangeListener {
             }*/
             case "modifiedIsland" -> {
                 int modifiedIsland = (Integer) evt.getNewValue();
-                update = new UpdateIsland(modifiedIsland);
+                update = new UpdateIsland(modifiedIsland); //TODO Control all modifiedIsland fire are created with islandIndex and not island object
             }
             case "modifiedCharacter" -> {
                 CharacterCard characterCard = (CharacterCard) evt.getNewValue();

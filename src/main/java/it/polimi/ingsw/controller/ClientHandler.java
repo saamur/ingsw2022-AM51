@@ -17,11 +17,14 @@ public class ClientHandler implements Runnable{
     private boolean initialization;
     private Controller controller;
 
+    private volatile boolean ping;
+
     public ClientHandler (Socket socket) throws IOException {
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
         initialization = true;
+        ping = true;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class ClientHandler implements Runnable{
         boolean connected = true;
 
         Thread t = new Thread(() -> {
-            while (true){
+            while (ping){
                 try {
                     sleep(ConnectionConstants.PING_TIME);
                 } catch (InterruptedException e) {
@@ -41,7 +44,6 @@ public class ClientHandler implements Runnable{
                 } catch (IOException e) {
                     //e.printStackTrace();
                 }
-
             }
         });
         t.start();
@@ -132,6 +134,8 @@ public class ClientHandler implements Runnable{
             }
 
         }
+
+        ping = false;
 
         Lobby.getInstance().unregisterNickname(this);
 

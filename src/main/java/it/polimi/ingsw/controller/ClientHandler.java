@@ -93,7 +93,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                     if (initialization) {
                         controller = Lobby.getInstance().addClientToController(Lobby.getInstance().getNicknameFromClientHandler(this), ((AddPlayerMessage) o).gameID());
                         if (controller != null) {
-                            //todo add listeners to controller
+                            controller.setPropertyChangeListener(this);
                             initialization = false;
                             sendObject(new GenericMessage("You have been added to the game"));
                         }
@@ -109,7 +109,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                     if (initialization) {
                         controller = Lobby.getInstance().createNewRestoredGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((RestoreGameMessage) o).savedGameData());
                         if (controller != null) {
-                            //todo add listeners to controller
+                            controller.setPropertyChangeListener(this);
                             initialization = false;
                             sendObject(new GenericMessage("You have reloaded the game"));
                         }

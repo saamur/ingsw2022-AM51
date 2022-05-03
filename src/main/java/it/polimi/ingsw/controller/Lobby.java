@@ -74,6 +74,9 @@ public class Lobby {
 
     public synchronized Controller addClientToController (String nickname, int controllerID) {
 
+        System.out.println("add player to controller " + controllerID + nickname);
+
+
         for (NewGameController c : openingNewGameControllers) {
             if (c.getId() == controllerID) {
                 c.addPlayer(nickname);

@@ -88,7 +88,8 @@ public class Client implements Runnable {
             try {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 o = in.readObject();
-                System.out.println("Message received: " + o);
+                if(!(o instanceof String))
+                    System.out.println("Message received: " + o);
                 if (o instanceof String) {
                     if (o.equals("ping")) {
                         //System.out.println("ping ricevuto");
@@ -136,7 +137,8 @@ public class Client implements Runnable {
 
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
-        System.out.println("Sent Message : "+ o);
+        if(!(o instanceof String))
+            System.out.println("Sent Message : "+ o);
     }
 
 

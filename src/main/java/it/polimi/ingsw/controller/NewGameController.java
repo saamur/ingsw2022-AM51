@@ -16,6 +16,7 @@ public class NewGameController extends Controller {
 
     @Override
     public void addPlayer(String nickname) {
+        System.out.println("add player controller");
         try {
             game.addPlayer(nickname);
         } catch (NicknameNotAvailableException | WrongGamePhaseException e) {
@@ -29,7 +30,7 @@ public class NewGameController extends Controller {
     }
 
     public OpeningNewGameData createOpeningNewGameData() {
-        return new OpeningNewGameData(game.getNumOfPlayers(), game.isExpertModeEnabled(), game.getPlayersNicknames());
+        return new OpeningNewGameData(getId(), game.getNumOfPlayers(), game.isExpertModeEnabled(), game.getPlayersNicknames());
     }
 
 }

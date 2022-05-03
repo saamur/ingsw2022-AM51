@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record OpeningRestoredGameData(int numOfPlayers,
+public record OpeningRestoredGameData(int id,
+                                      int numOfPlayers,
                                       boolean expertMode,
                                       LocalDateTime localDateTime,
                                       List<String> nicknamesAlreadyJoined,

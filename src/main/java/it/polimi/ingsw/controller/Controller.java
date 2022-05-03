@@ -1,16 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.modeldata.CloudManagerData;
-import it.polimi.ingsw.client.modeldata.HallData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.updatemessages.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
-import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
-import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Player;
 
@@ -201,11 +199,11 @@ public abstract class Controller implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        Message update = null;
+        UpdateMessage update = null;
         switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
             case "MotherNature" -> {
                 int islandIndex = (Integer) evt.getNewValue();
-                update = new MoveMotherNatureMessage(islandIndex);
+                update = new UpdateMotherNaturePosition(islandIndex);
             }
             /*case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
                 Player oldConqueringPlayer = (Player) evt.getOldValue();
@@ -220,11 +218,11 @@ public abstract class Controller implements PropertyChangeListener {
             }
             case "chosenCloud" -> {
                 int cloudIndex = (Integer) evt.getNewValue();
-                update = new ChosenCloudMessage(cloudIndex);
+                update = new UpdateCloud(cloudIndex);
             }
             case "activatedCharacter" -> {
                 CharacterCard characterCard = (CharacterCard) evt.getNewValue();
-                update = new ActivateCharacterCardMessage(characterCard.getCharacterID());
+                update = new UpdateActivatedCard(characterCard.getCharacterID());
                 //FIXME i'm not sure this is the right message, the playernickname is currPlayer
             }
             case "modifiedPlayer" -> {

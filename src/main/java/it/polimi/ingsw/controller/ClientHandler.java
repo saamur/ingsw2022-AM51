@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 
 import java.io.*;
 import java.beans.PropertyChangeEvent;
@@ -154,7 +155,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        Message update = (Message) evt.getNewValue();
+        UpdateMessage update = (UpdateMessage) evt.getNewValue();
         try {
             switch (evt.getPropertyName()) {
                 case "message" -> sendObject(update);//TODO send update to view;

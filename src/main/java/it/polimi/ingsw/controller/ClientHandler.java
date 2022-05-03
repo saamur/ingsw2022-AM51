@@ -4,6 +4,8 @@ import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.*;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,7 +13,7 @@ import java.net.Socket;
 
 import static java.lang.Thread.sleep;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable, PropertyChangeListener {
 
     private final Socket socket;
     private final ObjectOutputStream out;
@@ -24,6 +26,7 @@ public class ClientHandler implements Runnable{
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
         initialization = true;
+
     }
 
     @Override
@@ -77,7 +80,7 @@ public class ClientHandler implements Runnable{
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {
                         controller = Lobby.getInstance().createNewController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
-                        //todo add listeners to controller
+                        controller.setPropertyChangeListener(this);
                         initialization = false;
                         out.writeObject(new GenericMessage("You have created a new game"));
                     }
@@ -123,4 +126,16 @@ public class ClientHandler implements Runnable{
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        Message update = (Message) evt.getNewValue();
+        try {
+            switch (evt.getPropertyName()) {
+                case "message" -> out.writeObject(update);//TODO send update to view;
+                default -> System.out.println("There will be more properties in the future...");
+            }
+        } catch(Exception e){
+           return;
+        }
+    }
 }

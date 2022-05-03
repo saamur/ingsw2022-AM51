@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 public abstract class Controller implements PropertyChangeListener {
@@ -26,6 +27,8 @@ public abstract class Controller implements PropertyChangeListener {
     protected boolean started;
     private boolean closing;
 
+    //The class Controller is listened by the ClientHandlerClass
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     public Controller(GameInterface game) {
         synchronized (Controller.class) {
             id = counter;
@@ -194,10 +197,11 @@ public abstract class Controller implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        Message update = null;
         switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
             case "MotherNature" -> {
                 int islandIndex = (Integer) evt.getNewValue();
-                Message update = new MoveMotherNatureMessage(islandIndex);
+                update = new MoveMotherNatureMessage(islandIndex);
             }
             /*case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
                 Player oldConqueringPlayer = (Player) evt.getOldValue();
@@ -208,34 +212,38 @@ public abstract class Controller implements PropertyChangeListener {
             }*/
             case "merge" -> {
                 IslandManager islandManager = (IslandManager) evt.getNewValue();
-                Message update = new UpdateIslandManager(IslandManagerData.createIslandManagerData(islandManager));
+                update = new UpdateIslandManager(IslandManagerData.createIslandManagerData(islandManager));
             }
             case "chosenCloud" -> {
                 int cloudIndex = (Integer) evt.getNewValue();
-                Message update = new ChosenCloudMessage(cloudIndex);
+                update = new ChosenCloudMessage(cloudIndex);
             }
             case "activatedCharacter" -> {
                 CharacterCard characterCard = (CharacterCard) evt.getNewValue();
-                Message update = new ActivateCharacterCardMessage(characterCard.getCharacterID());
+                update = new ActivateCharacterCardMessage(characterCard.getCharacterID());
                 //FIXME i'm not sure this is the right message, the playernickname is currPlayer
             }
             case "modifiedPlayer" -> {
                 Player modifiedPlayer = (Player) evt.getNewValue();
-                Message update = new UpdatePlayer(PlayerData.createPlayerData(modifiedPlayer));
+                update = new UpdatePlayer(PlayerData.createPlayerData(modifiedPlayer));
             }
             /*case "filledClouds" -> {
                 FIXME is this an update?
             }*/
             case "modifiedIsland" -> {
                 int modifiedIsland = (Integer) evt.getNewValue();
-                Message update = new UpdateIsland(modifiedIsland);
+                update = new UpdateIsland(modifiedIsland);
             }
             case "modifiedCharacter" -> {
                 CharacterCard characterCard = (CharacterCard) evt.getNewValue();
-                Message update = new UpdateCharacterCard(characterCard.getCharacterID());
+                update = new UpdateCharacterCard(characterCard.getCharacterID());
             }
         }
-        //TODO controller needs to send the message to client
+        pcs.firePropertyChange("message", null, update);
+    }
+
+    public void setPropertyChangeListener (PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
     }
 
 }

@@ -2,6 +2,11 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.controller.SavedGameData;
 
+/**
+ * RestoreGameMessage receives a message to restore a previously saved game
+ * @param savedGameData data of the game to restore
+ */
+
 public record RestoreGameMessage(SavedGameData savedGameData) implements Message {
 
     @Override

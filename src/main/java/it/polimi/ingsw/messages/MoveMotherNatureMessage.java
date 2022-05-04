@@ -1,5 +1,10 @@
 package it.polimi.ingsw.messages;
 
+/**
+ * MoveMotherNatureMessage receive a message to move mother nature in a chosen island
+ * @param islandIndex the index of the island on which to place mother nature
+ */
+
 public record MoveMotherNatureMessage(int islandIndex) implements Message {
     @Override
     public String getMessage(){

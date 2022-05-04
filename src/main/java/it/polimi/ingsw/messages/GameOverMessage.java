@@ -2,6 +2,11 @@ package it.polimi.ingsw.messages;
 
 import java.util.List;
 
+/**
+ * GameOverMessage receives the message announcing the winners of the game
+ * @param nicknameWinners nicknames of the winners
+ */
+
 public record GameOverMessage(List<String> nicknameWinners) implements Message{
 
     @Override

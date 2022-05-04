@@ -1,5 +1,10 @@
 package it.polimi.ingsw.messages;
 
+/**
+ * NicknameMessage receive the nickname of the player
+ * @param nickname nickname chosen by the player
+ */
+
 public record NicknameMessage(String nickname) implements Message {
 
     @Override

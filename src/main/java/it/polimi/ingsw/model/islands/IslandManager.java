@@ -99,8 +99,10 @@ public class IslandManager implements Serializable {
     public void conquerIsland (Player p, Island isl) {
 
         if (p != isl.getControllingPlayer()) {
-            if (isl.getControllingPlayer() != null)
+            if (isl.getControllingPlayer() != null) {
                 isl.getControllingPlayer().addTowers(isl.getNumberOfTowers());
+                pcs.firePropertyChange("modifiedPlayer", null, isl.getControllingPlayer());
+            }
 
             if (p.getNumberOfTowers() >= isl.getNumberOfIslands()) {
                 p.removeTowers(isl.getNumberOfIslands());
@@ -111,8 +113,6 @@ public class IslandManager implements Serializable {
                 p.removeTowers(p.getNumberOfTowers());
             }
 
-            Player oldControllingPlayer = isl.getControllingPlayer();
-            pcs.firePropertyChange("modifiedPlayer", null, oldControllingPlayer);
             isl.setControllingPlayer(p);
             pcs.firePropertyChange("modifiedPlayer", null, p);
             pcs.firePropertyChange("modifiedIsland", null, islands.indexOf(isl));

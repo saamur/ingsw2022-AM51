@@ -2,7 +2,7 @@ package it.polimi.ingsw.messages.updatemessages;
 
 import it.polimi.ingsw.model.player.Card;
 
-public record UpdateCard(Card card) implements UpdateMessage {
+public record UpdateChosenCard(Card card, String playerNickname) implements UpdateMessage {
 
     @Override
     public String getMessage(){

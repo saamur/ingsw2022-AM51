@@ -199,7 +199,7 @@ public class Game implements GameInterface {
         if (!validCard(player, card)) throw new NotValidMoveException("This card cannot be chosen");
 
         player.chooseCard(card);
-        pcs.firePropertyChange("chosenCard", null, card);
+        pcs.firePropertyChange("chosenCard", null, player);
 
         if (player.getDeck().getCards().isEmpty())
             lastRound = true;

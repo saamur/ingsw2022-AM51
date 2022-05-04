@@ -259,9 +259,9 @@ public abstract class Controller implements PropertyChangeListener {
                 update = new UpdateCharacterCard(characterCard.getCharacterID());
             }
             case "chosenCard" -> {
-                Card card = (Card) evt.getNewValue();
-                update = new UpdateCard(card);
-            }
+                Player player = (Player) evt.getNewValue();
+                update = new UpdateChosenCard(player.getCurrCard(), player.getNickname());
+             }
         }
         pcs.firePropertyChange("message", null, update);
     }

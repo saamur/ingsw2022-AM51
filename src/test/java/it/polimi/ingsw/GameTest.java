@@ -188,11 +188,11 @@ Game game;
         if (game.getIndexCurrPlayer() == 0) {
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
-            playersOrder = game.getPlayersOrder();
+            playersOrder = game.getPlayersOrderActionPhase();
         } else {
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
-            playersOrder = game.getPlayersOrder();
+            playersOrder = game.getPlayersOrderActionPhase();
         }
 
         assertEquals("Giulia", playersOrder[0].getNickname());
@@ -224,13 +224,13 @@ Game game;
         if (game.getIndexCurrPlayer() == 0) {
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.TURTLE));
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
-            Player[] playersOrder = game.getPlayersOrder();
+            Player[] playersOrder = game.getPlayersOrderActionPhase();
             assertEquals("Giulia", playersOrder[0].getNickname());
             assertEquals("Samu", playersOrder[1].getNickname());
         } else {
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.TURTLE));
-            Player[] playersOrder = game.getPlayersOrder();
+            Player[] playersOrder = game.getPlayersOrderActionPhase();
             assertEquals("Samu", playersOrder[0].getNickname());
             assertEquals("Giulia", playersOrder[1].getNickname());
         }

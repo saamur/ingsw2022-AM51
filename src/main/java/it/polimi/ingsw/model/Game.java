@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
@@ -47,7 +46,7 @@ public class Game implements GameInterface {
     private final Bag bag;
 
     private final Player[] players;
-    private final Player[] playersOrder;
+    private final Player[] playersOrderActionPhase;
     private int indexCurrFirstPlayer;
     private int indexNextFirstPlayer;
     private int indexCurrPlayer;
@@ -60,7 +59,7 @@ public class Game implements GameInterface {
     private boolean lastRound;
     private List<Player> winners;
 
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
     public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) {
@@ -73,7 +72,7 @@ public class Game implements GameInterface {
 
         players = new Player[numPlayers];
         players[0] = new Player(nicknameFirstPlayer, TowerColor.values()[0], numPlayers, bag);
-        playersOrder = new Player[numPlayers];
+        playersOrderActionPhase = new Player[numPlayers];
         indexCurrPlayer = 0;
 
         this.expertModeEnabled = expertModeEnabled;
@@ -130,7 +129,7 @@ public class Game implements GameInterface {
     public void addPlayer (String nickname) throws WrongGamePhaseException, NicknameNotAvailableException {
 
         if (gameState != GameState.INITIALIZATION)
-            throw new WrongGamePhaseException("The game is not in the initialisation phase");
+            throw new WrongGamePhaseException("The game is not in the initialization phase");
 
         for (int i = 0; i <= indexCurrPlayer; i++)
             if (nickname.equals(players[i].getNickname()))
@@ -196,7 +195,7 @@ public class Game implements GameInterface {
         Player player = playerFromNickname(playerNickname);
         if (gameState != GameState.PLANNING) throw new WrongGamePhaseException("The game is not in the planning phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (!validCard(player, card)) throw new NotValidMoveException("This card cannot be chosen");
 
         player.chooseCard(card);
@@ -242,7 +241,7 @@ public class Game implements GameInterface {
     }
 
     /**
-     * method createOrderActionPhase fills the attribute playersOrder and the attribute nextFirstPlayer
+     * method createOrderActionPhase fills the attribute playersOrderActionPhase and the attribute nextFirstPlayer
      * based on the cards chosen by the Players in this round
      */
     private void createOrderActionPhase() {             //TODO needs deep testing
@@ -263,18 +262,18 @@ public class Game implements GameInterface {
         }
 
         for (int i = 0; i < players.length; i++)
-            playersOrder[i] = order.get(i);
+            playersOrderActionPhase[i] = order.get(i);
 
         for (int i = 0; i < players.length; i++)
-            if (players[i] == playersOrder[0]) {
+            if (players[i] == playersOrderActionPhase[0]) {
                 indexNextFirstPlayer = i;
                 break;
             }
 
     }
 
-    public Player[] getPlayersOrder() {
-        return playersOrder;
+    public Player[] getPlayersOrderActionPhase() {
+        return playersOrderActionPhase;
     }
 
     /**
@@ -285,7 +284,7 @@ public class Game implements GameInterface {
 
         gameState = GameState.ACTION;
         indexCurrPlayer = 0;
-        turn = new Turn(playersOrder[0], players.length);
+        turn = new Turn(playersOrderActionPhase[0], players.length);
 
     }
 
@@ -306,7 +305,7 @@ public class Game implements GameInterface {
         Player player = playerFromNickname(playerNickname);
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
 
         turn.moveStudentToChamber(clan, players);
         pcs.firePropertyChange("modifiedPlayer", null, player); //TODO oppure "moveStudentsChamber"
@@ -333,7 +332,7 @@ public class Game implements GameInterface {
         Island island = islandManager.getIsland(islandIndex);
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         turn.moveStudentToIsland(clan, island);
@@ -362,7 +361,7 @@ public class Game implements GameInterface {
         Island island = islandManager.getIsland(islandIndex);
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getTurnState() != TurnState.MOTHER_MOVING) throw new WrongTurnPhaseException("The turn is not in the mother moving phase");
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
         if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature()) throw new NotValidMoveException("The selected island is too far from Mother Nature");
@@ -424,7 +423,7 @@ public class Game implements GameInterface {
         Cloud cloud = cloudManager.getCloud(cloudIndex);
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
         turn.chooseCloud(cloud);
@@ -447,7 +446,7 @@ public class Game implements GameInterface {
         Player player = playerFromNickname(playerNickname);
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getTurnState() != TurnState.END_TURN) throw new WrongTurnPhaseException("The turn is not in the end turn phase");
 
         indexCurrPlayer++;
@@ -458,7 +457,7 @@ public class Game implements GameInterface {
         if (indexCurrPlayer == players.length)
             initRound();
         else
-            turn = new Turn(playersOrder[indexCurrPlayer], players.length);
+            turn = new Turn(playersOrderActionPhase[indexCurrPlayer], players.length);
         //TODO fire?
     }
 
@@ -524,7 +523,7 @@ public class Game implements GameInterface {
         if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         CharacterCard characterCard = characterCardFromID(characterID);
         if (characterCard == null) throw new NotValidMoveException("The selected character card cannot be activated in this game");
         if (turn.getActivatedCharacterCard() != null) throw new NotValidMoveException("Another character card has been activated in this turn");
@@ -560,7 +559,7 @@ public class Game implements GameInterface {
         if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
         if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
@@ -596,7 +595,7 @@ public class Game implements GameInterface {
         if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
         if (turn.getCharacterClan() != null) throw new NotValidMoveException("The clan for the effect of the selected character card has already been set");
 
@@ -628,7 +627,7 @@ public class Game implements GameInterface {
         if (!expertModeEnabled) throw new ExpertModeNotEnabledException("The expert mode is disabled");
         if (gameState != GameState.ACTION) throw new WrongGamePhaseException("The game is not in the action phase");
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
-        if (player != players[indexCurrPlayer]) throw new WrongPlayerException("Not the turn of this player");
+        if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
         if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
 
@@ -713,7 +712,7 @@ public class Game implements GameInterface {
         if (gameState == GameState.PLANNING)
             return players[indexCurrPlayer];
         if (gameState == GameState.ACTION)
-            return playersOrder[indexCurrPlayer];
+            return playersOrderActionPhase[indexCurrPlayer];
         return null;
     }
 

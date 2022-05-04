@@ -772,7 +772,7 @@ public class Game implements GameInterface {
 
     @Override
     public TurnState getTurnState() {
-        if(turn.getTurnState() == null){
+        if(turn == null){
             return null;
         }
         return turn.getTurnState();
@@ -785,6 +785,8 @@ public class Game implements GameInterface {
 
     @Override
     public CharacterID getActivatedCharacterCard() {
+        if(turn == null)
+            return null;
         return turn.getActivatedCharacterCard().getCharacterID();
     }
 }

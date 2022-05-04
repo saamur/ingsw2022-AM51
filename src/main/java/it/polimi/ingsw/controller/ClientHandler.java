@@ -3,9 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 
-import java.io.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -86,7 +84,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 }
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {
-                        controller = Lobby.getInstance().createNewController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
+                        controller = Lobby.getInstance().createNewGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
                         controller.setPropertyChangeListener(this);
                         initialization = false;
                         sendObject(new GenericMessage("You have created a new game"));

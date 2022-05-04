@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.islands.IslandManager;
+import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeEvent;
@@ -246,6 +247,10 @@ public abstract class Controller implements PropertyChangeListener {
             case "modifiedCharacter" -> {
                 CharacterCard characterCard = (CharacterCard) evt.getNewValue();
                 update = new UpdateCharacterCard(characterCard.getCharacterID());
+            }
+            case "chosenCard" -> {
+                Card card = (Card) evt.getNewValue();
+                update = new UpdateCard(card);
             }
         }
         pcs.firePropertyChange("message", null, update);

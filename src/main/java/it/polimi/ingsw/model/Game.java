@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
@@ -734,6 +735,15 @@ public class Game implements GameInterface {
     }
 
     @Override
+    public boolean isLastRound(){ //FIXME Added for GameData
+        return lastRound;
+    }
+
+    public CharacterCard[] getAvailableCharacterCards(){
+        return availableCharacterCards;
+    }
+
+    @Override
     public void setListeners(PropertyChangeListener listener){
         islandManager.addPropertyChangeListener(listener);
         pcs.addPropertyChangeListener( listener);
@@ -753,5 +763,28 @@ public class Game implements GameInterface {
                 c.removePropertyChangeListener(listener);
 
 
+    }
+
+    @Override
+    public GameData getGameData() {
+        return GameData.createGameData(this);
+    }
+
+    @Override
+    public TurnState getTurnState() {
+        if(turn.getTurnState() == null){
+            return null;
+        }
+        return turn.getTurnState();
+    }
+
+    @Override
+    public String getNicknameCurrPlayer() {
+        return getCurrPlayer().getNickname();
+    }
+
+    @Override
+    public CharacterID getActivatedCharacterCard() {
+        return turn.getActivatedCharacterCard().getCharacterID();
     }
 }

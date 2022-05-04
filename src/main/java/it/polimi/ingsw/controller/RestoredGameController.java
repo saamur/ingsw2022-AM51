@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.modeldata.GameData;
+import it.polimi.ingsw.messages.updatemessages.UpdateGameInfo;
 import it.polimi.ingsw.model.GameInterface;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class RestoredGameController extends Controller {
         if (missingPlayers.isEmpty()) {
             started = true;
             //todo broadcast startGame
+            pcs.firePropertyChange("gameInfo", null, new UpdateGameInfo(game.getGameData()));
         }
     }
 

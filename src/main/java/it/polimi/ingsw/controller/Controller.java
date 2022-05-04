@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.modeldata.CloudManagerData;
+import it.polimi.ingsw.client.modeldata.GamePhaseData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.exceptions.*;
@@ -11,7 +12,6 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.islands.IslandManager;
-import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeEvent;
@@ -31,7 +31,7 @@ public abstract class Controller implements PropertyChangeListener {
     private boolean closing;
 
     //The class Controller is listened by the ClientHandlerClass
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public Controller(GameInterface game) {
         synchronized (Controller.class) {
@@ -182,6 +182,8 @@ public abstract class Controller implements PropertyChangeListener {
             }
         }
 
+
+        pcs.firePropertyChange("updateGamePhase", null, GamePhaseData.createGamePhaseData(game));
         return answer;
 
     }
@@ -222,13 +224,6 @@ public abstract class Controller implements PropertyChangeListener {
                 int islandIndex = (Integer) evt.getNewValue();
                 update = new UpdateMotherNaturePosition(islandIndex);
             }
-            /*case "conqueredIsland" -> { //with conquered Island only the players will be changed, the island is modified with the modifiedIsland message
-                Player oldConqueringPlayer = (Player) evt.getOldValue();
-                Player newConqueringPlayer = (Player) evt.getNewValue();
-                Message update1 = new UpdatePlayer(PlayerData.createPlayerData(oldConqueringPlayer));
-                Message update2 = new UpdatePlayer(PlayerData.createPlayerData(newConqueringPlayer));
-                //FIXME meglio così o con due "modifiedPlayer"?
-            }*/
             case "merge" -> {
                 IslandManager islandManager = (IslandManager) evt.getNewValue();
                 update = new UpdateIslandManager(IslandManagerData.createIslandManagerData(islandManager));

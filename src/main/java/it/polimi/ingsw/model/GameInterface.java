@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.player.Card;
@@ -28,5 +29,10 @@ public interface GameInterface extends Serializable {
     boolean isExpertModeEnabled();
     void setListeners(PropertyChangeListener listener);
     void removeListeners(PropertyChangeListener listener);
+    GameData getGameData(); //controller chiama funzione e lo manda tramite fire (Messaggio GameUpdate) e lo invia ai ClientHandler
+    TurnState getTurnState();
+    String getNicknameCurrPlayer();
+    boolean isLastRound();
+    CharacterID getActivatedCharacterCard();
 
 }

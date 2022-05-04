@@ -160,7 +160,8 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
         try {
             switch (evt.getPropertyName()) {
                 case "message" -> sendObject(message);//TODO send update to view;
-                case "disconnectedMessage" -> sendObject(message);
+                case "disconnectedPlayer" -> sendObject(message);
+                case "gameInfo" -> sendObject(message);
                 default -> System.out.println("There will be more properties in the future...");
             }
         } catch(Exception e){

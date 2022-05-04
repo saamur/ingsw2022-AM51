@@ -181,7 +181,7 @@ public class Client implements Runnable {
                 if (words.length != 2)
                     return null;
                 try {
-                    message = new ChosenCardMessage(Card.valueOf(words[1]));
+                    message = new ChosenCardMessage(Card.valueOf(words[1].toUpperCase()));
                 } catch (IllegalArgumentException e) {
                     return null;
                 }
@@ -231,7 +231,7 @@ public class Client implements Runnable {
                 if (words.length != 2)
                     return null;
                 try {
-                    message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1]));
+                    message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
                 } catch (IllegalArgumentException e) {
                     return  null;
                 }
@@ -262,7 +262,7 @@ public class Client implements Runnable {
                 if (words.length != 2)
                     return null;
                 try {
-                    message = new SetClanCharacterMessage(Clan.valueOf(words[1]));
+                    message = new SetClanCharacterMessage(Clan.valueOf(words[1].toUpperCase()));
                 } catch (IllegalArgumentException e) {
                     return  null;
                 }

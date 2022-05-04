@@ -65,7 +65,7 @@ public class Lobby {
 
     }
 
-    public synchronized NewGameController createNewController (String nickname, int numOfPlayers, boolean expertMode) {
+    public synchronized NewGameController createNewGameController(String nickname, int numOfPlayers, boolean expertMode) {
         GameInterface game = new Game(numOfPlayers, nickname, expertMode);
         NewGameController controller = new NewGameController(game);
         openingNewGameControllers.add(controller);
@@ -129,6 +129,12 @@ public class Lobby {
 
     public synchronized String getNicknameFromClientHandler (ClientHandler clientHandler) {
         return clientNicknames.get(clientHandler);
+    }
+
+    public synchronized void removeController (Controller controller) {
+        runningGameControllers.remove(controller);
+        openingNewGameControllers.remove(controller);
+        openingRestoredGameControllers.remove(controller);
     }
 
 }

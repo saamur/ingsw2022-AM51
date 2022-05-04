@@ -47,19 +47,19 @@ public class Lobby {
 
     public synchronized AvailableGamesMessage createAvailableGamesMessage (String nickname) {
 
-        List<OpeningNewGameData> openingNewGameDataList = openingNewGameControllers.stream()
+        List<OpeningNewGameData> openingNewGameDataList = new ArrayList<>(openingNewGameControllers.stream()
                 .map(NewGameController::createOpeningNewGameData)
-                .toList();
+                .toList());
 
-        List<OpeningRestoredGameData> openingRestoredGameDataList = openingRestoredGameControllers.stream()
+        List<OpeningRestoredGameData> openingRestoredGameDataList = new ArrayList<>(openingRestoredGameControllers.stream()
                 .map(RestoredGameController::createOpeningRestoredGameData)
                 .filter(d -> d.missingNicknames().contains(nickname))
-                .toList();
+                .toList());
 
-        List<SavedGameData> savedGameDataList = SavedGameManager.getSavedGameList().stream()
+        List<SavedGameData> savedGameDataList = new ArrayList<>(SavedGameManager.getSavedGameList().stream()
                 .filter(d -> d.nicknames().contains(nickname))
                 //.filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //fixme optional, remove it?
-                .toList();
+                .toList());
 
         return new AvailableGamesMessage(openingNewGameDataList, openingRestoredGameDataList, savedGameDataList);
 
@@ -107,6 +107,7 @@ public class Lobby {
         try {
             GameInterface game = SavedGameManager.restoreGame(savedGameData.fileName());
             RestoredGameController controller = new RestoredGameController(game, savedGameData.localDateTime());
+            openingRestoredGameControllers.add(controller);
             controller.addPlayer(nickname);
             return controller;
         } catch (IOException e) {

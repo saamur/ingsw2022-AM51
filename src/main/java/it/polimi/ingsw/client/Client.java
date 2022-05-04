@@ -21,6 +21,8 @@ public class Client implements Runnable {
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
 
+    private AvailableGamesMessage availableGamesMessage;
+
     private Client (String hostName, int portNumber) throws IOException {
         socket = new Socket(hostName, portNumber);
         out = new ObjectOutputStream(socket.getOutputStream());
@@ -101,6 +103,7 @@ public class Client implements Runnable {
                     }
                 }
                 else if (o instanceof AvailableGamesMessage) {
+                    availableGamesMessage = (AvailableGamesMessage) o;
                     //todo print things
                 }
                 else if (o instanceof GameOverMessage) {
@@ -166,7 +169,18 @@ public class Client implements Runnable {
                 }
                 break;
             case "restoregame":
-                //todo send the proper RestoreGameMessage
+                if (availableGamesMessage == null || words.length != 2)
+                    return null;
+                int index;
+                try {
+                    index = Integer.parseInt(words[1]);
+                }
+                catch (NumberFormatException e) {
+                    return null;
+                }
+                if (index >= availableGamesMessage.savedGameData().size())
+                    return null;
+                message = new RestoreGameMessage(availableGamesMessage.savedGameData().get(index));
                 break;
             case "createnewgame":
                 if (words.length != 3)

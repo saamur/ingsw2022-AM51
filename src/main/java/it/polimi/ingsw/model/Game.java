@@ -697,7 +697,7 @@ public class Game implements GameInterface {
 
     @Override
     public List<String> getPlayersNicknames () {
-        return Arrays.stream(players).filter(Objects::nonNull).map(Player::getNickname).toList();
+        return new ArrayList<>(Arrays.stream(players).filter(Objects::nonNull).map(Player::getNickname).toList());
     }
 
     public Bag getBag() {

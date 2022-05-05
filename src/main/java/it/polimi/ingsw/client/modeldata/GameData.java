@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameData implements Serializable {
@@ -50,7 +51,7 @@ public class GameData implements Serializable {
             }
         }
 
-        return new GameData(islandManagerData, cloudManagerData, playerData, game.getGameState(), game.getTurn().getTurnState(), game.getCurrPlayer().getNickname(), game.isExpertModeEnabled(), characterData, game.isLastRound());
+        return new GameData(islandManagerData, cloudManagerData, playerData, game.getGameState(), game.getTurnState(), game.getCurrPlayer().getNickname(), game.isExpertModeEnabled(), characterData, game.isLastRound());
     }
 
     public IslandManagerData getIslandManager() {
@@ -111,5 +112,21 @@ public class GameData implements Serializable {
 
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
+    }
+
+    @Override
+    public String toString() {
+        return "GameData{" +
+                "islandManager=" + islandManager +
+                ", cloudManager=" + cloudManager +
+                ", playerData=" + Arrays.toString(playerData) +
+                ", gameState=" + gameState +
+                ", turnState=" + turnState +
+                ", currPlayer='" + currPlayer + '\'' +
+                ", expertModeEnabled=" + expertModeEnabled +
+                ", characterCardData=" + Arrays.toString(characterCardData) +
+                ", lastRound=" + lastRound +
+                ", winnersNicknames=" + winnersNicknames +
+                '}';
     }
 }

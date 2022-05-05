@@ -13,6 +13,6 @@ public record IslandData(int numberOfIslands,
                          int numberOfTowers,
                          int numProhibitionCards) implements Serializable {
     public static IslandData createIslandData(Island island){
-        return new IslandData(island.getNumberOfIslands(), island.getStudents(), island.getControllingPlayer().getColorOfTowers(), island.getNumberOfTowers(), island.getNumProhibitionCards());
+        return new IslandData(island.getNumberOfIslands(), island.getStudents(), (island.getControllingPlayer() == null ? null : island.getControllingPlayer().getColorOfTowers()), island.getNumberOfTowers(), island.getNumProhibitionCards());
     }
 }

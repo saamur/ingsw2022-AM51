@@ -772,9 +772,8 @@ public class Game implements GameInterface {
 
     @Override
     public TurnState getTurnState() {
-        if(turn == null){
+        if(turn == null)
             return null;
-        }
         return turn.getTurnState();
     }
 

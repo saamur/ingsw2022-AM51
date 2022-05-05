@@ -94,9 +94,10 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 }
                 else if (o instanceof AddPlayerMessage) {
                     if (initialization) {
-                        controller = Lobby.getInstance().addClientToController(Lobby.getInstance().getNicknameFromClientHandler(this), ((AddPlayerMessage) o).gameID());
+                        controller = Lobby.getInstance().getOpeningController(((AddPlayerMessage) o).gameID());
                         if (controller != null) {
                             controller.setPropertyChangeListener(this);
+                            controller.addPlayer(Lobby.getInstance().getNicknameFromClientHandler(this));
                             initialization = false;
                             sendObject(new GenericMessage("You have been added to the game"));
                         }

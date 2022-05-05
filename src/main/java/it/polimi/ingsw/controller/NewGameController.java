@@ -26,6 +26,7 @@ public class NewGameController extends Controller {
         }
         if (game.getGameState() == GameState.PLANNING) {
             started = true;
+            Lobby.getInstance().startController(this);
             pcs.firePropertyChange("gameInfo", null, new UpdateGameInfo(game.getGameData()));
             pcs.firePropertyChange("gameStarted", null, new GameStartedMessage());
         }

@@ -72,32 +72,17 @@ public class Lobby {
         return controller;
     }
 
-    public synchronized Controller addClientToController (String nickname, int controllerID) {
+    public synchronized Controller getOpeningController (int controllerID) {
 
-        System.out.println("add player to controller " + controllerID + nickname);
+        System.out.println("get opening controller " + controllerID);
 
-
-        for (NewGameController c : openingNewGameControllers) {
-            if (c.getId() == controllerID) {
-                c.addPlayer(nickname);
-                if (c.isStarted()) {
-                    runningGameControllers.add(c);
-                    openingNewGameControllers.remove(c);
-                }
+        for (NewGameController c : openingNewGameControllers)
+            if (c.getId() == controllerID)
                 return c;
-            }
-        }
 
-        for (RestoredGameController c : openingRestoredGameControllers) {
-            if (c.getId() == controllerID) {
-                c.addPlayer(nickname);
-                if (c.isStarted()) {
-                    runningGameControllers.add(c);
-                    openingRestoredGameControllers.remove(c);
-                }
+        for (RestoredGameController c : openingRestoredGameControllers)
+            if (c.getId() == controllerID)
                 return c;
-            }
-        }
 
         return null;
 
@@ -130,6 +115,12 @@ public class Lobby {
 
     public synchronized String getNicknameFromClientHandler (ClientHandler clientHandler) {
         return clientNicknames.get(clientHandler);
+    }
+
+    public synchronized void startController (Controller controller) {
+        runningGameControllers.add(controller);
+        openingNewGameControllers.remove(controller);
+        openingRestoredGameControllers.remove(controller);
     }
 
     public synchronized void removeController (Controller controller) {

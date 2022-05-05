@@ -25,6 +25,7 @@ public class RestoredGameController extends Controller {
         missingPlayers.remove(nickname);
         if (missingPlayers.isEmpty()) {
             started = true;
+            Lobby.getInstance().startController(this);
             pcs.firePropertyChange("gameInfo", null, new UpdateGameInfo(game.getGameData()));
             pcs.firePropertyChange("gameStarted", null, new GameStartedMessage());
         }

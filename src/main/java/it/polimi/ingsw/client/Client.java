@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.Card;
@@ -114,6 +115,9 @@ public class Client implements Runnable {
                     System.out.println(((Message) o).getMessage());
                     break;
                 }
+                else if (o instanceof UpdateMessage) {
+                    System.out.println("UpdateMessage: " + ((Message) o).getMessage());
+                }
                 else if (o instanceof Message) {
                     System.out.println(((Message) o).getMessage());
                 }
@@ -121,7 +125,7 @@ public class Client implements Runnable {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                System.out.println("The server disconnected");
+                System.out.println("The server has disconnected");
                 connected = false;
             }
 

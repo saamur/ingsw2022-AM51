@@ -784,7 +784,7 @@ public class Game implements GameInterface {
 
     @Override
     public CharacterID getActivatedCharacterCard() {
-        if(turn == null)
+        if(turn == null || turn.getActivatedCharacterCard() == null)
             return null;
         return turn.getActivatedCharacterCard().getCharacterID();
     }

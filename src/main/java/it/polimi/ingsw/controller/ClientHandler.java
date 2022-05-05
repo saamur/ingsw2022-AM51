@@ -135,6 +135,8 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
             } catch (IOException e) {           //non tutte le IOException in realtà
                 System.out.println(Lobby.getInstance().getNicknameFromClientHandler(this) + " has disconnected");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
                 if (controller != null)
                     controller.clientDisconnected(Lobby.getInstance().getNicknameFromClientHandler(this));
                 connected = false;
@@ -161,9 +163,10 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
         try {
             switch (evt.getPropertyName()) {
                 case "message" -> sendObject(message);//TODO send update to view;
-                case "disconnectedPlayer" -> sendObject(message);
+                case "updateGamePhase" -> sendObject(message);
                 case "gameInfo" -> sendObject(message);
                 case "gameStarted" -> sendObject(message);
+                case "disconnectedPlayer" -> sendObject(message);
                 default -> System.out.println("There will be more properties in the future...");
             }
         } catch(Exception e){

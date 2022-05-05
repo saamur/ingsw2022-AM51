@@ -6,11 +6,13 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 
+import java.io.Serializable;
+
 public record GamePhaseData(GameState gameState,
                             TurnState turnState,
                             String currPlayerNickname,
                             boolean lastRound,
-                            CharacterID activatedCharacter) {
+                            CharacterID activatedCharacter) implements Serializable {
 
     public static GamePhaseData createGamePhaseData(GameInterface game){
         return new GamePhaseData(game.getGameState(), game.getTurnState(), game.getNicknameCurrPlayer(), game.isLastRound(), game.getActivatedCharacterCard());

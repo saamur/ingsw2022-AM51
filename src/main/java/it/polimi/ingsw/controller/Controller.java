@@ -183,7 +183,7 @@ public abstract class Controller implements PropertyChangeListener {
         }
 
 
-        pcs.firePropertyChange("updateGamePhase", null, GamePhaseData.createGamePhaseData(game));
+        pcs.firePropertyChange("updateGamePhase", null, new UpdateGamePhase(GamePhaseData.createGamePhaseData(game)));
         return answer;
 
     }

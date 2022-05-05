@@ -15,4 +15,16 @@ public record GamePhaseData(GameState gameState,
     public static GamePhaseData createGamePhaseData(GameInterface game){
         return new GamePhaseData(game.getGameState(), game.getTurnState(), game.getNicknameCurrPlayer(), game.isLastRound(), game.getActivatedCharacterCard());
     }
+
+    @Override
+    public String toString() {
+        return "GamePhaseData{" +
+                "gameState=" + gameState +
+                ", turnState=" + turnState +
+                ", currPlayerNickname='" + currPlayerNickname + '\'' +
+                ", lastRound=" + lastRound +
+                ", activatedCharacter=" + activatedCharacter +
+                '}';
+    }
+
 }

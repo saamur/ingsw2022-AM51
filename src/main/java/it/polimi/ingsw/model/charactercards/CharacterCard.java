@@ -21,7 +21,7 @@ public abstract class CharacterCard implements Serializable {
 
     private final CharacterID characterID;
     private boolean alreadyUsed;
-    protected PropertyChangeSupport pcs;
+    protected final PropertyChangeSupport pcs;
 
     public CharacterCard (CharacterID characterID) {
         this.characterID = characterID;

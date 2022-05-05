@@ -97,7 +97,8 @@ public class SavedGameManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            in.close();
+            if (in != null)
+                in.close();
         }
 
         fileGame.delete();

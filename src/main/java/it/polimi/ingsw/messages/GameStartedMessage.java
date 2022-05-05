@@ -8,7 +8,7 @@ public record GameStartedMessage() implements Message {
 
     @Override
     public String getMessage(){
-        return this.toString();
+        return toString();
     }
 
     @Override

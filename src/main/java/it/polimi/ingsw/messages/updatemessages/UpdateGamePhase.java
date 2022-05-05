@@ -1,9 +1,6 @@
 package it.polimi.ingsw.messages.updatemessages;
 
 import it.polimi.ingsw.client.modeldata.GamePhaseData;
-import it.polimi.ingsw.model.GameState;
-import it.polimi.ingsw.model.TurnState;
-import it.polimi.ingsw.model.charactercards.CharacterID;
 
 public record UpdateGamePhase(GamePhaseData gamePhaseData) implements UpdateMessage {
     @Override

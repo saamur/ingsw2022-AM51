@@ -25,7 +25,7 @@ public class Cloud implements Serializable {
 
     /**
      * method isEmpty returns true if the Cloud doesn't contain any student
-     * @return  whether the Cloud doesn't contains any student
+     * @return  whether the Cloud doesn't contain any student
      */
     public boolean isEmpty() {
 

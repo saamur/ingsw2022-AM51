@@ -188,12 +188,11 @@ Game game;
         if (game.getIndexCurrPlayer() == 0) {
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
-            playersOrder = game.getPlayersOrderActionPhase();
         } else {
             assertDoesNotThrow(() -> game.chosenCard("Samu", Card.CAT));
             assertDoesNotThrow(() -> game.chosenCard("Giulia", Card.CHEETAH));
-            playersOrder = game.getPlayersOrderActionPhase();
         }
+        playersOrder = game.getPlayersOrderActionPhase();
 
         assertEquals("Giulia", playersOrder[0].getNickname());
         assertEquals("Samu", playersOrder[1].getNickname());

@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.modeldata;
 
-import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;
-import org.w3c.dom.CharacterData;
 
 import java.io.Serializable;
 import java.util.List;
@@ -53,5 +51,65 @@ public class GameData implements Serializable {
         }
 
         return new GameData(islandManagerData, cloudManagerData, playerData, game.getGameState(), game.getTurn().getTurnState(), game.getCurrPlayer().getNickname(), game.isExpertModeEnabled(), characterData, game.isLastRound());
+    }
+
+    public IslandManagerData getIslandManager() {
+        return islandManager;
+    }
+
+    public void setIslandManager(IslandManagerData islandManager) {
+        this.islandManager = islandManager;
+    }
+
+    public CloudManagerData getCloudManager() {
+        return cloudManager;
+    }
+
+    public void setCloudManager(CloudManagerData cloudManager) {
+        this.cloudManager = cloudManager;
+    }
+
+    public PlayerData[] getPlayerData() {
+        return playerData;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public TurnState getTurnState() {
+        return turnState;
+    }
+
+    public void setTurnState(TurnState turnState) {
+        this.turnState = turnState;
+    }
+
+    public String getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public void setCurrPlayer(String currPlayer) {
+        this.currPlayer = currPlayer;
+    }
+
+    public boolean isExpertModeEnabled() {
+        return expertModeEnabled;
+    }
+
+    public CharacterCardData[] getCharacterCardData() {
+        return characterCardData;
+    }
+
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
     }
 }

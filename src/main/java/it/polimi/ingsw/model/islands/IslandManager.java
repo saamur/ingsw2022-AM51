@@ -21,7 +21,7 @@ public class IslandManager implements Serializable {
 
     private final List<Island> islands;
     private Island motherNaturePosition;
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public IslandManager() {
 

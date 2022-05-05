@@ -31,7 +31,7 @@ public abstract class Controller implements PropertyChangeListener {
     private boolean closing;
 
     //The class Controller is listened by the ClientHandlerClass
-    protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public Controller(GameInterface game) {
         synchronized (Controller.class) {

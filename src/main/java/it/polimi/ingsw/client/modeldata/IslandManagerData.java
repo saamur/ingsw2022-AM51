@@ -13,9 +13,16 @@ public record IslandManagerData(List<IslandData> islands,
         List<Island> islands = islandManager.getIslands();
         List<IslandData> islandData = new ArrayList<>();
         for(int i=0; i<islands.size(); i++){
-            islandData.add(i, IslandData.createIslandData(islands.get(i)));
+            islandData.add(i, IslandData.createIslandData(islands.get(i), i));
         }
         return new IslandManagerData(islandData, islands.indexOf(islandManager.getMotherNaturePosition()));
     }
 
+    @Override
+    public String toString() {
+        return "IslandManagerData{" +
+                "islands=" + islands +
+                ", motherNaturePosition=" + motherNaturePosition +
+                '}';
+    }
 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.islands;
 
+import it.polimi.ingsw.client.modeldata.IslandData;
+import it.polimi.ingsw.client.modeldata.IslandManagerData;
+import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.constants.GameConstants;
@@ -86,7 +89,7 @@ public class IslandManager implements Serializable {
         int newMNPosition = islands.indexOf(motherNaturePosition);
         if(islands.contains(motherNaturePosition))
             this.motherNaturePosition = motherNaturePosition;
-        pcs.firePropertyChange("MotherNature", oldMNPosition, newMNPosition);
+        pcs.firePropertyChange("MotherNature", oldMNPosition, newMNPosition); //FIXME index or Island?
     }
 
     /**
@@ -101,7 +104,7 @@ public class IslandManager implements Serializable {
         if (p != isl.getControllingPlayer()) {
             if (isl.getControllingPlayer() != null) {
                 isl.getControllingPlayer().addTowers(isl.getNumberOfTowers());
-                pcs.firePropertyChange("modifiedPlayer", null, isl.getControllingPlayer());
+                pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(isl.getControllingPlayer()));
             }
 
             if (p.getNumberOfTowers() >= isl.getNumberOfIslands()) {
@@ -114,8 +117,8 @@ public class IslandManager implements Serializable {
             }
 
             isl.setControllingPlayer(p);
-            pcs.firePropertyChange("modifiedPlayer", null, p);
-            pcs.firePropertyChange("modifiedIsland", null, islands.indexOf(isl));
+            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(p));
+            pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(isl, islands.indexOf(isl)));
             checkMerge(isl);
         }
 
@@ -151,7 +154,7 @@ public class IslandManager implements Serializable {
         }
         //I used the boolean variable merge so that if a double merge happens only one fire will be sent
         if(merge)
-            pcs.firePropertyChange("merge", null, this); //Come new value gli metto tutto islandManager
+            pcs.firePropertyChange("merge", null, IslandManagerData.createIslandManagerData(this)); //Come new value gli metto tutto islandManager
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){

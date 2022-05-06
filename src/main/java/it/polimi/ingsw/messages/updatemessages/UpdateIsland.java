@@ -1,8 +1,9 @@
 package it.polimi.ingsw.messages.updatemessages;
 
+import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 
-public record UpdateIsland(int modifiedIslandIndex) implements UpdateMessage {
+public record UpdateIsland(IslandData islandData) implements UpdateMessage {
     @Override
     public String getMessage(){
         return this.toString();
@@ -11,7 +12,7 @@ public record UpdateIsland(int modifiedIslandIndex) implements UpdateMessage {
     @Override
     public String toString() {
         return "UpdateIsland{" +
-                "modifiedIslandIndex=" + modifiedIslandIndex +
+                "islandData=" + islandData +
                 '}';
     }
 }

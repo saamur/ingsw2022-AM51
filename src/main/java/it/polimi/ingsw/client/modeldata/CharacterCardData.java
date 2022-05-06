@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.charactercards.StudentMoverCharacterCard;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 
 public record CharacterCardData(CharacterID characterID,
                                 int cost,
@@ -20,5 +21,28 @@ public record CharacterCardData(CharacterID characterID,
         }
         boolean studentMover = characterCard instanceof StudentMoverCharacterCard;
         return new CharacterCardData(characterCard.getCharacterID(), characterCard.getCost(), numProhibitionCards, studentMover ? ((StudentMoverCharacterCard) characterCard).getStudents(): null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CharacterCardData that = (CharacterCardData) o;
+        return cost == that.cost && numProhibitionCards == that.numProhibitionCards && characterID == that.characterID && students.equals(that.students);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(characterID, cost, numProhibitionCards, students);
+    }
+
+    @Override
+    public String toString() {
+        return "CharacterCardData{" +
+                "characterID=" + characterID +
+                ", cost=" + cost +
+                ", numProhibitionCards=" + numProhibitionCards +
+                ", students=" + students +
+                '}';
     }
 }

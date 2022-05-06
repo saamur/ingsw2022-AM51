@@ -10,4 +10,11 @@ public record HallData(Map<Clan, Integer> students) implements Serializable {
     public static HallData createHallData (Hall hall){
         return new HallData(hall.getStudents());
     }
+
+    @Override
+    public String toString() {
+        return "HallData{" +
+                "students=" + students +
+                '}';
+    }
 }

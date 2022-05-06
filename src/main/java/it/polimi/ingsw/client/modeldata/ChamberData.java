@@ -13,4 +13,14 @@ public record ChamberData(Map<Clan, Integer> students,
     public static ChamberData createChamberData (Chamber chamber){
         return new ChamberData(chamber.getStudents(), chamber.getProfessors(), chamber.getCoins(), chamber.getCoinsGiven());
     }
+
+    @Override
+    public String toString() {
+        return "ChamberData{" +
+                "students=" + students +
+                ", professors=" + professors +
+                ", coins=" + coins +
+                ", coinsGiven=" + coinsGiven +
+                '}';
+    }
 }

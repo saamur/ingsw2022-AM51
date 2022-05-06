@@ -1,6 +1,8 @@
 package it.polimi.ingsw.messages.updatemessages;
 
-public record UpdateCloud(int cloudIndex) implements UpdateMessage {
+import it.polimi.ingsw.client.modeldata.CloudData;
+
+public record UpdateCloud(CloudData cloudData) implements UpdateMessage {
     @Override
     public String getMessage(){
         return this.toString();
@@ -9,8 +11,7 @@ public record UpdateCloud(int cloudIndex) implements UpdateMessage {
     @Override
     public String toString() {
         return "UpdateCloud{" +
-                "cloudIndex=" + cloudIndex +
+                "cloudData=" + cloudData +
                 '}';
     }
-
 }

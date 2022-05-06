@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.client.modeldata.GameData;
+import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
@@ -173,7 +173,7 @@ public class Game implements GameInterface {
         indexCurrPlayer = indexCurrFirstPlayer;
 
         cloudManager.fillClouds(bag);
-        pcs.firePropertyChange("filledClouds", null, cloudManager);
+        pcs.firePropertyChange("filledClouds", null, CloudManagerData.createCloudManagerData(cloudManager));
         if (bag.isEmpty())
             lastRound = true;
     }
@@ -200,7 +200,7 @@ public class Game implements GameInterface {
         if (!validCard(player, card)) throw new NotValidMoveException("This card cannot be chosen");
 
         player.chooseCard(card);
-        pcs.firePropertyChange("chosenCard", null, player);
+        pcs.firePropertyChange("chosenCard", null, PlayerData.createPlayerData(player));
 
         if (player.getDeck().getCards().isEmpty())
             lastRound = true;
@@ -309,7 +309,7 @@ public class Game implements GameInterface {
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
 
         turn.moveStudentToChamber(clan, players);
-        pcs.firePropertyChange("modifiedPlayer", null, player); //TODO oppure "moveStudentsChamber"
+        pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player)); //TODO oppure "moveStudentsChamber"
 
     }
 
@@ -337,9 +337,8 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         turn.moveStudentToIsland(clan, island);
-        pcs.firePropertyChange("modifiedIsland", null, islandIndex); //oppure players?
-        pcs.firePropertyChange("modifiedPlayer", null , player);
-        //FIXME ASK fire from Player??
+        pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(island, islandIndex)); //oppure players?
+        pcs.firePropertyChange("modifiedPlayer", null , PlayerData.createPlayerData(player));
     }
 
     /**
@@ -428,8 +427,8 @@ public class Game implements GameInterface {
         if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
         turn.chooseCloud(cloud);
-        pcs.firePropertyChange("chosenCloud", null, cloudIndex); //TODO Non sono sicura sia giusto scritto così
-        pcs.firePropertyChange("modifiedPlayer", null, player);
+        pcs.firePropertyChange("chosenCloud", null, CloudData.createCloudData(cloud, cloudIndex)); //TODO Non sono sicura sia giusto scritto così
+        pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player));
     }
 
     /**
@@ -535,7 +534,8 @@ public class Game implements GameInterface {
         characterCard.updateCost();
 
         turn.setActivatedCharacterCard(characterCard);
-        pcs.firePropertyChange("activatedCharacter", null, characterCard);
+        pcs.firePropertyChange("modifiedCharacter", null, CharacterCardData.createCharacterCardData(characterCard));
+        pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player));
         characterCard.applyInitialEffect(turn, players);
     }
 
@@ -567,8 +567,8 @@ public class Game implements GameInterface {
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
         if (turn.getActivatedCharacterCard() instanceof ProhibitionCharacterCard){ //if card is GRANDMA
-            pcs.firePropertyChange("modifiedCharacter", null, turn.getActivatedCharacterCard());
-            pcs.firePropertyChange("modifiedIsland", null, islandIndex);
+            pcs.firePropertyChange("modifiedCharacter", null, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));
+            pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(island, islandIndex));
         }
 
         if (!ok) throw new NotValidMoveException("This move is not valid");
@@ -632,7 +632,19 @@ public class Game implements GameInterface {
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
         if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
 
+        PlayerData oldPlayerData = PlayerData.createPlayerData(player);
+        IslandData oldIslandData = IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex);
+        CharacterCardData oldCharacterCard = CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard());
+
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, islandManager.getIsland(islandIndex), students1, students2);
+
+        pcs.firePropertyChange("modifiedPlayer", oldPlayerData, PlayerData.createPlayerData(player));
+        pcs.firePropertyChange("modifiedIsland", oldIslandData, IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex));
+        pcs.firePropertyChange("modifiedCharacter", oldCharacterCard, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));
+        for (Player value : players) {
+            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(value));
+        }
+
 
         if (!ok) throw new NotValidMoveException("This move is not valid");
 
@@ -651,7 +663,7 @@ public class Game implements GameInterface {
             if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
                 ProhibitionCharacterCard c = (ProhibitionCharacterCard) card;
                 c.addProhibitionCard();
-                pcs.firePropertyChange("modifiedCharacter", null, c);
+                pcs.firePropertyChange("modifiedCharacter", null, CharacterCardData.createCharacterCardData(c));
                 break;
             }
         }

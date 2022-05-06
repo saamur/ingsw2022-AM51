@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.charactercards;
 
+import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.model.player.Player;
@@ -64,7 +65,7 @@ public class ProfessorsCharacterCard extends CharacterCard {
     public boolean applyInitialEffect(Turn turn, Player[] players) {
         turn.updateProfessors(players);
         for(Player p: players){
-            pcs.firePropertyChange("modifiedPlayer", null, p); //FIXME alternative: "modifiedPlayers"
+            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(p)); //FIXME alternative: "modifiedPlayers"
         }
         //FIXME fires change even if there is not change
         return true;

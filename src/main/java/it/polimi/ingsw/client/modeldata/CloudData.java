@@ -7,10 +7,18 @@ import java.io.Serializable;
 import java.util.Map;
 
 public record CloudData(Map<Clan, Integer> students,
-                        boolean picked) implements Serializable {
+                        boolean picked, int cloudIndex) implements Serializable {
+    public static CloudData createCloudData(Cloud cloud, int cloudIndex){
+        return new CloudData(cloud.getStudents(), cloud.isPicked(), cloudIndex);
+    }
 
-    public static CloudData createCloudData(Cloud cloud){
-        return new CloudData(cloud.getStudents(), cloud.isPicked());
+    @Override
+    public String toString() {
+        return "CloudData{" +
+                "students=" + students +
+                ", picked=" + picked +
+                ", cloudIndex=" + cloudIndex +
+                '}';
     }
 
 }

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.modeldata.CloudManagerData;
-import it.polimi.ingsw.client.modeldata.GamePhaseData;
-import it.polimi.ingsw.client.modeldata.IslandManagerData;
-import it.polimi.ingsw.client.modeldata.PlayerData;
+import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.updatemessages.*;
@@ -222,40 +219,35 @@ public abstract class Controller implements PropertyChangeListener {
         switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
             case "MotherNature" -> {
                 int islandIndex = (Integer) evt.getNewValue();
-                update = new UpdateMotherNaturePosition(islandIndex);
+                update = new UpdateMotherNaturePosition(islandIndex); //FIXME questo lo cambio?
             }
             case "merge" -> {
-                IslandManager islandManager = (IslandManager) evt.getNewValue();
-                update = new UpdateIslandManager(IslandManagerData.createIslandManagerData(islandManager));
+                IslandManagerData islandManager = (IslandManagerData) evt.getNewValue();
+                update = new UpdateIslandManager(islandManager);
             }
             case "chosenCloud" -> {
-                int cloudIndex = (Integer) evt.getNewValue();
-                update = new UpdateCloud(cloudIndex);
-            }
-            case "activatedCharacter" -> {
-                CharacterCard characterCard = (CharacterCard) evt.getNewValue();
-                update = new UpdateActivatedCard(characterCard.getCharacterID());
-                //FIXME i'm not sure this is the right message, the playernickname is currPlayer
+                CloudData cloud = (CloudData) evt.getNewValue();
+                update = new UpdateCloud(cloud);
             }
             case "modifiedPlayer" -> {
-                Player modifiedPlayer = (Player) evt.getNewValue();
-                update = new UpdatePlayer(PlayerData.createPlayerData(modifiedPlayer));
+                PlayerData modifiedPlayer = (PlayerData) evt.getNewValue();
+                update = new UpdatePlayer(modifiedPlayer);
             }
             case "filledClouds" -> {
-                CloudManager cloudManager = (CloudManager) evt.getNewValue();
-                update = new UpdateCloudManager(CloudManagerData.createCloudManagerData(cloudManager));
+                CloudManagerData cloudManager = (CloudManagerData) evt.getNewValue();
+                update = new UpdateCloudManager(cloudManager);
             }
             case "modifiedIsland" -> {
-                int modifiedIsland = (Integer) evt.getNewValue();
+                IslandData modifiedIsland = (IslandData) evt.getNewValue();
                 update = new UpdateIsland(modifiedIsland); //TODO Control all modifiedIsland fire are created with islandIndex and not island object
             }
             case "modifiedCharacter" -> {
-                CharacterCard characterCard = (CharacterCard) evt.getNewValue();
-                update = new UpdateCharacterCard(characterCard.getCharacterID());
+                CharacterCardData characterCard = (CharacterCardData) evt.getNewValue();
+                update = new UpdateCharacterCard(characterCard);
             }
             case "chosenCard" -> {
-                Player player = (Player) evt.getNewValue();
-                update = new UpdateChosenCard(player.getCurrCard(), player.getNickname());
+                PlayerData player = (PlayerData) evt.getNewValue();
+                update = new UpdateChosenCard(player.currCard(), player.nickname());
              }
         }
         pcs.firePropertyChange("message", null, update);

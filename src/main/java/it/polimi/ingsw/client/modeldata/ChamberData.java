@@ -16,6 +16,16 @@ public record ChamberData(Map<Clan, Integer> students,
     }
 
     @Override
+    public String toString() {
+        return "ChamberData{" +
+                "students=" + students +
+                ", professors=" + professors +
+                ", coins=" + coins +
+                ", coinsGiven=" + coinsGiven +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

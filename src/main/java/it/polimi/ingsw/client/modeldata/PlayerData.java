@@ -1,15 +1,10 @@
 package it.polimi.ingsw.client.modeldata;
 
-import it.polimi.ingsw.controller.SavedGameData;
 import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public record PlayerData(String nickname,
                          HallData hallData,

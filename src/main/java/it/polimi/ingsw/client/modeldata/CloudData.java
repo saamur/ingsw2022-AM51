@@ -8,7 +8,9 @@ import java.util.Map;
 
 public record CloudData(Map<Clan, Integer> students,
                         boolean picked) implements Serializable {
+
     public static CloudData createCloudData(Cloud cloud){
         return new CloudData(cloud.getStudents(), cloud.isPicked());
     }
+
 }

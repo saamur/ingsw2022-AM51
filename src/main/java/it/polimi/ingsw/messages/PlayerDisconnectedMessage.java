@@ -18,4 +18,5 @@ public record PlayerDisconnectedMessage(String disconnectedPlayerNickname) imple
                 "disconnectedPlayerNickname='" + disconnectedPlayerNickname + '\'' +
                 '}';
     }
+
 }

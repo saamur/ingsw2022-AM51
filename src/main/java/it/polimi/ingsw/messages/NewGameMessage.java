@@ -20,4 +20,5 @@ public record NewGameMessage(int numOfPlayers, boolean expertMode) implements Me
                 ", expertMode=" + expertMode +
                 '}';
     }
+
 }

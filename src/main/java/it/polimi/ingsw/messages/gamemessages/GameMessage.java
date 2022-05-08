@@ -5,6 +5,6 @@ import it.polimi.ingsw.model.GameInterface;
 
 public interface GameMessage extends Message {
 
-    Message performMove (GameInterface game);
+    Message performMove (String nickname, GameInterface game);
 
 }

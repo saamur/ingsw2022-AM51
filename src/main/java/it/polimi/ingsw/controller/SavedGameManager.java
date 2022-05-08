@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * SavedGameManager class contains all static methods needed to save and restore games
+ *
+ */
 public class SavedGameManager {
 
     private static final String SAVED_GAMES_DIRECTORY = "SavedGames";
@@ -29,6 +33,10 @@ public class SavedGameManager {
         }
     }
 
+    /**
+     * method getSavedGameList creates a list with all SavedGameData that represent the games currently saved
+     * @return  a list with a SavedGameData for every saved game that describes it
+     */
     public synchronized static List<SavedGameData> getSavedGameList () {
 
         List<SavedGameData> savedGameDataList = new ArrayList<>();
@@ -49,6 +57,11 @@ public class SavedGameManager {
 
     }
 
+    /**
+     * method saveGame saves the given game on file
+     * @param game  the game to be saved
+     * @throws IOException  if an error occurs during the saving process
+     */
     public synchronized static void saveGame (GameInterface game) throws IOException {
 
         List<String> alreadySavedGamesFileNames = getSavedGameList().stream().map(SavedGameData::fileName).toList();
@@ -62,8 +75,6 @@ public class SavedGameManager {
 
             out.writeObject(game);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -79,6 +90,12 @@ public class SavedGameManager {
 
     }
 
+    /**
+     * method restoreGame restores a game saved on file
+     * @param fileName  the name of the file where the needed game is saved
+     * @return          the needed game after it was restored
+     * @throws IOException  if an error occurs during the saving process
+     */
     public synchronized static GameInterface restoreGame (String fileName) throws IOException {
 
         ObjectInputStream in = null;

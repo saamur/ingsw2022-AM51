@@ -15,4 +15,5 @@ public record GameStartedMessage() implements Message {
     public String toString() {
         return "GameStartedMessage{}";
     }
+
 }

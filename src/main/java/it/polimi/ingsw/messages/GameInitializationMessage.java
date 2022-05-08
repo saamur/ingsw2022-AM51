@@ -20,4 +20,5 @@ public record GameInitializationMessage(int numOfPlayers, boolean expertMode) im
                 ", expertMode=" + expertMode +
                 '}';
     }
+
 }

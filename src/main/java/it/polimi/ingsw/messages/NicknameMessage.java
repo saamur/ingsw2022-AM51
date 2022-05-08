@@ -18,4 +18,5 @@ public record NicknameMessage(String nickname) implements Message {
                 "nickname='" + nickname + '\'' +
                 '}';
     }
+
 }

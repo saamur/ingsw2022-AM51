@@ -6,12 +6,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * SavedGameData class is a record that contains all the data that represent a saved game
+ *
+ */
 public record SavedGameData(String fileName,
                             int numOfPlayers,
                             boolean expertMode,
                             LocalDateTime localDateTime,
                             List<String> nicknames) implements Serializable {
 
+    /**
+     * savedGameDataParser static method creates a SavedGameData object given a standardized String
+     * containing the necessary data.
+     * The String returned by toString() of the returned objects will be equals to the given parameter
+     * @param line  the String with the needed data
+     * @return      a SavedGameData object with the data in line
+     */
     public static SavedGameData savedGameDataParser (String line) {
 
         String[] words = line.split(" ");

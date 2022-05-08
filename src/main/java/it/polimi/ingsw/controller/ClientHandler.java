@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.gamemessages.GameMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -60,11 +61,8 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 if(!(o instanceof String))
                     System.out.println("Object received: " + o);
 
-                if (o instanceof String) {
-                    if (!o.equals("pong"))
-                        System.err.println("this shouldn't happen");
+                if ("pong".equals(o)) {
                 }
-
                 else if (o instanceof NicknameMessage) {
                     if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
                         try {
@@ -126,12 +124,11 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 else if (initialization) {
                     sendObject(new ErrorMessage("This is not the correct game phase"));
                 }
-                else if (o instanceof Message) {
-                    Message answer = controller.messageOnGame(Lobby.getInstance().getNicknameFromClientHandler(this), (Message) o);
-                    sendObject(answer);
+                else if (o instanceof GameMessage) {
+                    sendObject(controller.messageOnGame(Lobby.getInstance().getNicknameFromClientHandler(this), (GameMessage) o));
                 }
                 else
-                    System.err.println("this shouldn't happen");
+                    System.err.println("This shouldn't happen");
 
             } catch (IOException e) {           //non tutte le IOException in realtà
                 System.out.println(Lobby.getInstance().getNicknameFromClientHandler(this) + " has disconnected");

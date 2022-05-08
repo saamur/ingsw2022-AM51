@@ -20,4 +20,5 @@ public record RestoreGameMessage(SavedGameData savedGameData) implements Message
                 "savedGameData=" + savedGameData +
                 '}';
     }
+
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.modeldata;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;

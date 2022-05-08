@@ -454,8 +454,10 @@ public class Game implements GameInterface {
         if (gameState == GameState.GAME_OVER)
             return;
 
-        if (indexCurrPlayer == players.length)
+        if (indexCurrPlayer == players.length) {
+            turn = null;
             initRound();
+        }
         else
             turn = new Turn(playersOrderActionPhase[indexCurrPlayer], players.length);
         //TODO fire?

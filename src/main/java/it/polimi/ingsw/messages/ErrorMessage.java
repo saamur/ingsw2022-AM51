@@ -5,6 +5,7 @@ package it.polimi.ingsw.messages;
  * @param error specifies the error
  */
 public record ErrorMessage(String error) implements Message {
+
     @Override
     public String getMessage() {
         return error;
@@ -16,4 +17,5 @@ public record ErrorMessage(String error) implements Message {
                 "error='" + error + '\'' +
                 '}';
     }
+
 }

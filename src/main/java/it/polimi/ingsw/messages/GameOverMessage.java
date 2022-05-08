@@ -7,7 +7,7 @@ import java.util.List;
  * @param nicknameWinners nicknames of the winners
  */
 
-public record GameOverMessage(List<String> nicknameWinners) implements Message{
+public record GameOverMessage(List<String> nicknameWinners) implements Message {
 
     @Override
     public String getMessage(){
@@ -26,4 +26,5 @@ public record GameOverMessage(List<String> nicknameWinners) implements Message{
                 "nicknameWinners=" + nicknameWinners +
                 '}';
     }
+
 }

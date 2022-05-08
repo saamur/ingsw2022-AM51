@@ -73,7 +73,7 @@ public class Client implements Runnable {
                     if (message != null)
                         sendObject(message);
                     else
-                        ;//todo avvisa
+                        System.out.println("this command is not correct");
                 } catch (IOException e) {
                     //e.printStackTrace();
                 }

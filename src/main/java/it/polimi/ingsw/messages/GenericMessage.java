@@ -18,4 +18,5 @@ public record GenericMessage(String message) implements Message {
                 "message='" + message + '\'' +
                 '}';
     }
+
 }

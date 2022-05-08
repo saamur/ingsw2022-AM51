@@ -3,13 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.gamemessages.*;
 import it.polimi.ingsw.messages.updatemessages.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
-import it.polimi.ingsw.model.charactercards.CharacterCard;
-import it.polimi.ingsw.model.clouds.CloudManager;
-import it.polimi.ingsw.model.islands.IslandManager;
-import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

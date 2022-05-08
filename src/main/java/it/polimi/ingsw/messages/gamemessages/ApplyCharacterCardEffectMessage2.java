@@ -1,5 +1,6 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.gamemessages;
 
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.Clan;
 
 import java.util.Map;

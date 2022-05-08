@@ -1,4 +1,6 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.gamemessages;
+
+import it.polimi.ingsw.messages.Message;
 
 /**
  * ChosenCloudMessage gets a message to choose a cloud

@@ -2,15 +2,14 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.gamemessages.*;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.Card;
 
-import javax.print.attribute.standard.Finishings;
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.EnumMap;
 import java.util.Map;
 

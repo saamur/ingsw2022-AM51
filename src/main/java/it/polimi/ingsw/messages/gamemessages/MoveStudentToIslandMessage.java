@@ -1,5 +1,6 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.gamemessages;
 
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.Clan;
 
 /**
@@ -8,7 +9,7 @@ import it.polimi.ingsw.model.Clan;
  * @param islandIndex the index of the island on which to place the student
  */
 
-public record MoveStudentToIslandMessage(Clan clan, int islandIndex) implements Message{
+public record MoveStudentToIslandMessage(Clan clan, int islandIndex) implements Message {
     @Override
     public String getMessage() {
         return toString();

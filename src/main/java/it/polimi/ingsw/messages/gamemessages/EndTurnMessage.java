@@ -1,4 +1,6 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.gamemessages;
+
+import it.polimi.ingsw.messages.Message;
 
 /**
  * EndTurnMessage gets the message that notify the end of a player's turn

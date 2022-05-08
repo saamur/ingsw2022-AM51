@@ -1,4 +1,6 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.gamemessages;
+
+import it.polimi.ingsw.messages.Message;
 
 /**
  * ApplyCharacterCardEffectMessage gets the message to activate the effect of an active card on a chosen island

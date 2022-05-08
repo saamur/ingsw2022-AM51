@@ -1,4 +1,6 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.gamemessages;
+
+import it.polimi.ingsw.messages.Message;
 
 /**
  * MoveMotherNatureMessage receive a message to move mother nature in a chosen island

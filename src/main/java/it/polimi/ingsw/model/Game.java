@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Game class contains the main logic of the game Eriantys with the necessary methods for the handling of its phases,
@@ -309,7 +310,7 @@ public class Game implements GameInterface {
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
 
         turn.moveStudentToChamber(clan, players);
-        pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player)); //TODO oppure "moveStudentsChamber"
+        pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player));
 
     }
 
@@ -397,10 +398,12 @@ public class Game implements GameInterface {
             gameState = GameState.GAME_OVER;
             winners = new ArrayList<>();
             winners.add(players[indexCurrPlayer]);
+
+            List<String> nicknameWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
+            pcs.firePropertyChange("gameOver", null, nicknameWinners);
         }
         else if (islandManager.getNumberOfIslands() <= GameConstants.MIN_NUM_ISLANDS)
             calculateWin();
-        //TODO FIRE
 
     }
 
@@ -500,6 +503,10 @@ public class Game implements GameInterface {
         }
 
         winners = potentialWinners;
+
+        List<String> nicknameWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
+
+        pcs.firePropertyChange("gameOver", null, nicknameWinners);
 
     }
 

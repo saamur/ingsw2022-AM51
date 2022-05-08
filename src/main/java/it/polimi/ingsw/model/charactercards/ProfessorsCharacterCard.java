@@ -63,11 +63,14 @@ public class ProfessorsCharacterCard extends CharacterCard {
 
     @Override
     public boolean applyInitialEffect(Turn turn, Player[] players) {
-        turn.updateProfessors(players);
-        for(Player p: players){
-            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(p)); //FIXME alternative: "modifiedPlayers"
+        PlayerData[] oldPlayers = new PlayerData[players.length];
+        for(int i=0; i<players.length; i++){
+            oldPlayers[i] = PlayerData.createPlayerData(players[i]);
         }
-        //FIXME fires change even if there is not change
+        turn.updateProfessors(players);
+        for(int i=0; i<players.length; i++){
+            pcs.firePropertyChange("modifiedPlayer", oldPlayers[i], PlayerData.createPlayerData(players[i]));
+        }
         return true;
     }
 

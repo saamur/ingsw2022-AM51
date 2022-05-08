@@ -89,7 +89,7 @@ public class IslandManager implements Serializable {
         int newMNPosition = islands.indexOf(motherNaturePosition);
         if(islands.contains(motherNaturePosition))
             this.motherNaturePosition = motherNaturePosition;
-        pcs.firePropertyChange("MotherNature", oldMNPosition, newMNPosition); //FIXME index or Island?
+        pcs.firePropertyChange("MotherNature", oldMNPosition, newMNPosition);
     }
 
     /**

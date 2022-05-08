@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.messages.gamemessages.*;
+import it.polimi.ingsw.messages.gamemessages.GameMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
@@ -98,11 +98,11 @@ public abstract class Controller implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        UpdateMessage update = null;
+        Message update = null;
         switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
             case "MotherNature" -> {
                 int islandIndex = (Integer) evt.getNewValue();
-                update = new UpdateMotherNaturePosition(islandIndex); //FIXME questo lo cambio?
+                update = new UpdateMotherNaturePosition(islandIndex);
             }
             case "merge" -> {
                 IslandManagerData islandManager = (IslandManagerData) evt.getNewValue();
@@ -131,6 +131,10 @@ public abstract class Controller implements PropertyChangeListener {
             case "chosenCard" -> {
                 PlayerData player = (PlayerData) evt.getNewValue();
                 update = new UpdateChosenCard(player.currCard(), player.nickname());
+             }
+             case "gameOver" -> {
+                List<String> nicknameWinners = (List<String>) evt.getNewValue();
+                update = new GameOverMessage(nicknameWinners);
              }
         }
         pcs.firePropertyChange("message", null, update);

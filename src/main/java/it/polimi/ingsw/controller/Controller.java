@@ -64,6 +64,9 @@ public abstract class Controller implements PropertyChangeListener {
         Message answer = message.performMove(nickname, game);
 
         pcs.firePropertyChange("updateGamePhase", null, new UpdateGamePhase(GamePhaseData.createGamePhaseData(game)));
+
+        if (answer == null)
+            answer = new ErrorMessage("An error has occurred");
         return answer;
 
     }

@@ -157,18 +157,10 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        Message message = (Message) evt.getNewValue();
         try {
-            switch (evt.getPropertyName()) {
-                case "message" -> sendObject(message);//TODO send update to view;
-                case "updateGamePhase" -> sendObject(message);
-                case "gameInfo" -> sendObject(message);
-                case "gameStarted" -> sendObject(message);
-                case "disconnectedPlayer" -> sendObject(message);
-                default -> System.out.println("There will be more properties in the future...");
-            }
+            sendObject(evt.getNewValue());
         } catch(Exception e){
-           return;
+            return;
         }
     }
 }

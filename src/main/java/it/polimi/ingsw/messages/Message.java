@@ -9,6 +9,7 @@ import java.io.Serializable;
 public interface Message extends Serializable {
 
     /**
+     * The method returns a text description of the message
      * @return a text description of the message
      */
     String getMessage();

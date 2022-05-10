@@ -14,8 +14,11 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static java.lang.Thread.sleep;
 
+/**
+ * class ClientHandler handles the connection with the client
+ *
+ */
 public class ClientHandler implements Runnable, PropertyChangeListener {
 
     private final Socket socket;
@@ -40,11 +43,6 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    sleep(ConnectionConstants.PING_TIME);
-                } catch (InterruptedException e) {
-                    //e.printStackTrace();
-                }
                 try {
                     sendObject("ping");
                 } catch (IOException e) {
@@ -146,6 +144,11 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
     }
 
+    /**
+     * method sendObject sends the given object through the socket
+     * @param o the object that will be sent through the net
+     * @throws IOException  if any error occurs with the socket
+     */
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
         if(!(o instanceof String))

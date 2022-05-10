@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static java.lang.Thread.sleep;
 
@@ -22,14 +24,11 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
     private boolean initialization;
     private Controller controller;
 
-    private volatile boolean ping;
-
     public ClientHandler (Socket socket) throws IOException {
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
         initialization = true;
-        ping = true;
     }
 
     @Override
@@ -37,21 +36,22 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
         boolean connected = true;
 
-        Thread t = new Thread(() -> {
-            while (ping){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
                 try {
                     sleep(ConnectionConstants.PING_TIME);
                 } catch (InterruptedException e) {
                     //e.printStackTrace();
                 }
                 try {
-                    out.writeObject("ping");
+                    sendObject("ping");
                 } catch (IOException e) {
                     //e.printStackTrace();
                 }
             }
-        });
-        t.start();
+        }, 0, ConnectionConstants.PING_TIME);
 
         while (connected) {
             try {
@@ -132,8 +132,6 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
             } catch (IOException e) {           //non tutte le IOException in realtà
                 System.out.println(Lobby.getInstance().getNicknameFromClientHandler(this) + " has disconnected");
-                System.out.println(e.getMessage());
-                e.printStackTrace();
                 if (controller != null)
                     controller.clientDisconnected(Lobby.getInstance().getNicknameFromClientHandler(this));
                 connected = false;
@@ -143,7 +141,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
         }
 
-        ping = false;
+        timer.cancel();
         Lobby.getInstance().unregisterNickname(this);
 
     }
@@ -151,7 +149,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
         if(!(o instanceof String))
-            System.out.println("Sent Message : "+ o);
+            System.out.println("Sent Message : " + o);
     }
 
     @Override

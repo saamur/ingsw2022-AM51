@@ -33,4 +33,6 @@ public abstract class View implements Runnable {
         pcs.addPropertyChangeListener(propertyChangeListener);
     }
 
+    public abstract void displayModel();
+
 }

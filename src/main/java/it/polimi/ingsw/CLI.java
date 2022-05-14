@@ -16,7 +16,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-//modificare tutto con gameData --> esiste metodo statico
 
 public class CLI extends View {
 
@@ -30,6 +29,7 @@ public class CLI extends View {
                 new BufferedReader(
                         new InputStreamReader(System.in));
         while (true) {
+            displayModel();
             //todo print di tutto il model
             Message message;
             try {
@@ -188,15 +188,15 @@ public class CLI extends View {
 
         }
 
-    public void updateHall() {
+    public void updateHall(int playerIndex) {
         int i;
-        for(int j = 0; j < gameData.getPlayerData().length; j++) {
+
             System.out.println("HALL");
-            if (gameData.getPlayerData()[j].getNickname().equals(nickname)) {
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].getNickname()+ "(you) : " + CliConstants.ANSI_RESET);
+            if (gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)) {
+                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname()+ "(you) : " + CliConstants.ANSI_RESET);
             }
             else
-                System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[j].getNickname() + " : ");
+                System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[playerIndex].getNickname() + " : ");
             System.out.print("| ");
             for (Clan c : Clan.values()) {
                 System.out.print(CliConstants.getColorStudent(c) + c);
@@ -208,44 +208,43 @@ public class CLI extends View {
                 for (i = 0; i < clan.toString().length() / 2; i++) {
                     System.out.print(" ");
                 }
-                if (gameData.getPlayerData()[j].getHallData().students().get(clan) != null)
-                    System.out.print(gameData.getPlayerData()[j].getHallData().students().get(clan));
+                if (gameData.getPlayerData()[playerIndex].getHallData().students().get(clan) != null)
+                    System.out.print(gameData.getPlayerData()[playerIndex].getHallData().students().get(clan));
                 else
                     System.out.print("0");
                 for (int k = i; k < clan.toString().length(); k++)
-
                     System.out.print(" ");
-            }
-            System.out.println("|");
-            System.out.println("\n" + CliConstants.ANSI_RESET);
+
         }
 
+        System.out.println("|");
+        System.out.println("\n" + CliConstants.ANSI_RESET);
     }
 
-    public void createChamber(){
+    public void createChamber(int playerIndex){
         System.out.println("CHAMBER");
-        for(int j = 0; j < gameData.getPlayerData().length; j++) {
-            if (gameData.getPlayerData()[j].getNickname().equals(nickname)) {
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].getNickname() + " (you)" + " : " + CliConstants.ANSI_RESET);
+
+            if (gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)) {
+                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname() + " (you)" + " : " + CliConstants.ANSI_RESET);
             }
             else
-                System.out.println(gameData.getPlayerData()[j].getNickname() +" : ");
+                System.out.println(gameData.getPlayerData()[playerIndex].getNickname() +" : ");
             for (Clan c : Clan.values()) {
                 System.out.print(CliConstants.getColorStudent(c) + c);
                 for (int l = 0; l < CliConstants.MAX_LENGHT_STUDENTS - c.toString().length(); l++) {
                     System.out.print(" ");
                 }
                 System.out.print("  ");
-                for (int i = 0; i < gameData.getPlayerData()[j].getChamberData().students().get(c); i++) {
+                for (int i = 0; i < gameData.getPlayerData()[playerIndex].getChamberData().students().get(c); i++) {
                     System.out.print(CliConstants.getColorStudent(c) + "■ ");
                 }
-                for (int k = 0; k < 10 - gameData.getPlayerData()[j].getChamberData().students().get(c); k++) {
+                for (int k = 0; k < 10 - gameData.getPlayerData()[playerIndex].getChamberData().students().get(c); k++) {
                     System.out.print(CliConstants.getColorStudent(c) + "○ ");
                 }
                 System.out.println();
             }
             System.out.println("\n" + CliConstants.ANSI_RESET);
-        }
+
     }
 
 
@@ -452,31 +451,31 @@ public class CLI extends View {
         }
     }
 
-    public void updateTower(){
+    public void updateTower(int playerIndex){
         System.out.println("\n");
-        for(int j = 0; j < gameData.getPlayerData().length; j++){
-            if(gameData.getPlayerData()[j].getNickname().equals(nickname)){
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].getNickname()+ CliConstants.ANSI_RESET + "'s "+ "TOWERS (you)" );
+
+            if(gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)){
+                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname()+ CliConstants.ANSI_RESET + "'s "+ "TOWERS (you)" );
             }
             else
-                System.out.println(gameData.getPlayerData()[j].getNickname()+"'s "+ "TOWERS");
-            if(gameData.getPlayerData()[j].getColorOfTowers().equals(TowerColor.WHITE)) {
-                for (int i = 0; i < gameData.getPlayerData()[j].getNumberOfTowers(); i++) {
+                System.out.println(gameData.getPlayerData()[playerIndex].getNickname()+"'s "+ "TOWERS");
+            if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.WHITE)) {
+                for (int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++) {
                     System.out.print(" ◙");
                 }
             }
-            else if(gameData.getPlayerData()[j].getColorOfTowers().equals(TowerColor.BLACK)){
-                for(int i = 0; i < gameData.getPlayerData()[j].getNumberOfTowers(); i++){
+            else if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.BLACK)){
+                for(int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++){
                     System.out.print(" ○");
                 }
             }
-            else if(gameData.getPlayerData()[j].getColorOfTowers().equals(TowerColor.GRAY)){
-                for(int i = 0; i < gameData.getPlayerData()[j].getNumberOfTowers(); i++){
+            else if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.GRAY)){
+                for(int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++){
                     System.out.print(CliConstants.ANSI_GRAY + " ◙");
                 }
             }
             System.out.println("\n");
-        }
+
     }
 
 
@@ -519,7 +518,28 @@ public class CLI extends View {
         }
     }
 
+    @Override
+    public void displayModel() {
+        int numberOfPlayers = gameData.getPlayerData().length;
+        System.out.flush();
+        for(int i = 0; i < numberOfPlayers; i++){
+            System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School" );
+            updateHall(i);
+            createChamber(i);
+            updateTower(i);
+        }
+        System.out.println("\n\n\n");
 
+        createIslands();
+
+        System.out.println("\n\n\n");
+
+        createCloud();
+
+        System.out.println("\n\n\n");
+        if(gameData.isExpertModeEnabled())
+            activeCharacter();
+    }
 }
 
 

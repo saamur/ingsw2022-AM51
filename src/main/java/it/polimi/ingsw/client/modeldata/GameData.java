@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.modeldata;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -24,6 +25,8 @@ public class GameData implements Serializable {
 
     private boolean lastRound;
     private List<String> winnersNicknames;
+
+    private CharacterID activeCharacterCard;
 
     public GameData(IslandManagerData islandManager, CloudManagerData cloudManager, PlayerData[] playerData, GameState gameState, TurnState turnState, String currPlayer, boolean expertModeEnabled, CharacterCardData[] characterCardData, boolean lastRound) {
         this.islandManager = islandManager;
@@ -113,6 +116,11 @@ public class GameData implements Serializable {
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
     }
+
+    public CharacterID getActiveCharacterCard(){ return activeCharacterCard;}
+
+    public void setActiveCharacterCard(CharacterID activeCharacterCard){this.activeCharacterCard = activeCharacterCard; }
+
 
     @Override
     public String toString() {

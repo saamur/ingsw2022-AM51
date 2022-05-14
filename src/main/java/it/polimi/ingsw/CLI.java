@@ -1,20 +1,194 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.CliConstants;
+import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.gamemessages.*;
 import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 //modificare tutto con gameData --> esiste metodo statico
 
-public class CLI {
-    private static String nickname;
-    private static GameData gameData;
+public class CLI extends View {
 
+    public CLI() {
+    }
 
-    public static void updateHall() {
+    @Override
+    public void run() {
+
+        BufferedReader stdIn =
+                new BufferedReader(
+                        new InputStreamReader(System.in));
+        while (true) {
+            //todo print di tutto il model
+            Message message;
+            try {
+                message = commandParser(stdIn.readLine());
+                if (message != null)
+                    pcs.firePropertyChange("message", null, message);
+                else
+                    System.out.println("this command is not correct");
+            } catch (IOException e) {
+                //e.printStackTrace();
+            }
+        }
+
+    }
+
+        public synchronized Message commandParser (String line) {
+
+            Message message = null;
+
+            String[] words = line.split(" ");
+            if (words.length == 0)
+                return null;
+
+            switch (words[0].toLowerCase()) {
+                case "nickname":
+                    if (words.length != 2)
+                        return null;
+                    message = new NicknameMessage(words[1]);
+                    break;
+                case "joingame":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new AddPlayerMessage(Integer.parseInt(words[1]));
+                    } catch (IllegalArgumentException e) {
+                        return null;
+                    }
+                    break;
+                case "restoregame":
+                    if (availableGamesMessage == null || words.length != 2)
+                        return null;
+                    int index;
+                    try {
+                        index = Integer.parseInt(words[1]);
+                    }
+                    catch (NumberFormatException e) {
+                        return null;
+                    }
+                    if (index >= availableGamesMessage.savedGameData().size())
+                        return null;
+                    message = new RestoreGameMessage(availableGamesMessage.savedGameData().get(index));
+                    break;
+                case "createnewgame":
+                    if (words.length != 3)
+                        return null;
+                    try {
+                        message = new NewGameMessage(Integer.parseInt(words[1]), Boolean.parseBoolean(words[2]));
+                    } catch (IllegalArgumentException e) {
+                        return null;
+                    }
+                    break;
+                case "chosencard":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new ChosenCardMessage(Card.valueOf(words[1].toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        return null;
+                    }
+                    break;
+                case "movestudenttochamber":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new MoveStudentToChamberMessage(Clan.valueOf(words[1].toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        return null;
+                    }
+                    break;
+                case "movestudenttoisland":
+                    if (words.length != 3)
+                        return null;
+                    try {
+                        message = new MoveStudentToIslandMessage(Clan.valueOf(words[1].toUpperCase()), Integer.parseInt(words[2]));
+                    } catch (Exception e) {
+                        return null;
+                    }
+                    break;
+                case "movemothernature":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new MoveMotherNatureMessage(Integer.parseInt(words[1]));
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                    break;
+                case "chosencloud":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new ChosenCloudMessage(Integer.parseInt(words[1]));
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                    break;
+                case "endturn":
+                    if (words.length != 1)
+                        return null;
+                    message = new EndTurnMessage();
+                    break;
+                case "activatecharactercard":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        return  null;
+                    }
+                    break;
+                case "applycharactercardeffect":
+                    if (words.length == 2) {
+                        try {
+                            message = new ApplyCharacterCardEffectMessage1(Integer.parseInt(words[1]));
+                        } catch (NumberFormatException e) {
+                            return null;
+                        }
+                    }
+                    else if (words.length == 12) {
+                        try {
+                            Map<Clan, Integer> students1 = new EnumMap<>(Clan.class);
+                            Map<Clan, Integer> students2 = new EnumMap<>(Clan.class);
+                            for (int i = 0; i < Clan.values().length; i++)
+                                students1.put(Clan.values()[i], Integer.parseInt(words[2 + i]));
+                            for (int i = 0; i < Clan.values().length; i++)
+                                students2.put(Clan.values()[i], Integer.parseInt(words[7 + i]));
+                            message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), students1, students2);
+                        } catch (NumberFormatException e) {
+                            return null;
+                        }
+                    }
+                    break;
+                case "setclancharactercard":
+                    if (words.length != 2)
+                        return null;
+                    try {
+                        message = new SetClanCharacterMessage(Clan.valueOf(words[1].toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        return  null;
+                    }
+                    break;
+
+            }
+
+            return message;
+
+        }
+
+    public void updateHall() {
         int i;
         for(int j = 0; j < gameData.getPlayerData().length; j++) {
             System.out.println("HALL");
@@ -48,7 +222,7 @@ public class CLI {
 
     }
 
-    public static void createChamber(){
+    public void createChamber(){
         System.out.println("CHAMBER");
         for(int j = 0; j < gameData.getPlayerData().length; j++) {
             if (gameData.getPlayerData()[j].getNickname().equals(nickname)) {
@@ -75,7 +249,7 @@ public class CLI {
     }
 
 
-    public static void createIslands() {
+    public void createIslands() {
         List<IslandData> islandsData = gameData.getIslandManager().getIslands();
         System.out.println(CliConstants.ANSI_RESET + "ISLANDS");
         for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++) {
@@ -99,12 +273,12 @@ public class CLI {
                 }
 
                 System.out.print("| ");
-                for (int i = 0; i < islandsData.size(); i++) {
+                for (IslandData islandsDatum : islandsData) {
                     for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2; j++) {
                         System.out.println(" ");
                     }
 
-                    System.out.print(islandsData.get(i).students().get(clan));
+                    System.out.print(islandsDatum.students().get(clan));
                     for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2 - 1; j++) { //todo aggiustare spazi nel caso gli studenti di un clan in un isola siano più di 10 (problemi di allineamento)
                         System.out.print(" ");
                     }
@@ -121,9 +295,9 @@ public class CLI {
             }
             System.out.println("\n");
             System.out.print("n° isl   |");
-            for(int i = 0; i < islandsData.size(); i++){
+            for (IslandData islandsDatum : islandsData) {
                 System.out.print("    ");
-                System.out.print(islandsData.get(i).numberOfIslands());
+                System.out.print(islandsDatum.numberOfIslands());
                 System.out.print("     | ");
             }
 
@@ -220,7 +394,7 @@ public class CLI {
             }
 
 
-    private static void createTower2(int i) {
+    private void createTower2(int i) {
         if(gameData.getIslandManager().getIslands().get(i).towerColor()==null){
             System.out.print("     ");
         }
@@ -232,7 +406,7 @@ public class CLI {
         }
     }
 
-    private static void numStudentsForIsland(Clan clan, int k) {
+    private void numStudentsForIsland(Clan clan, int k) {
         for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2; j++) {
             System.out.print(" ");
         }
@@ -245,13 +419,13 @@ public class CLI {
     }
 
 
-    private static void createTower(int i) {
+    private void createTower(int i) {
         System.out.print("    ");
         createTower2(i);
         System.out.print("  |");
     }
 
-    public static void createCloud(){
+    public void createCloud(){
         for(int j = 0; j < gameData.getCloudManager().clouds().length; j++) {
             int i;
             System.out.println("CLOUD " + j); //todo differenziare le cloud available e quelle already chosen

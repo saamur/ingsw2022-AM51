@@ -2,19 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.CliConstants;
-import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
-import it.polimi.ingsw.exceptions.WrongGamePhaseException;
-import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.model.Clan;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.clouds.CloudManager;
-import it.polimi.ingsw.model.islands.Island;
-import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //modificare tutto con gameData --> esiste metodo statico
 
@@ -27,11 +18,11 @@ public class CLI {
         int i;
         for(int j = 0; j < gameData.getPlayerData().length; j++) {
             System.out.println("HALL");
-            if (gameData.getPlayerData()[j].nickname().equals(nickname)) {
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].nickname()+ "(you) : " + CliConstants.ANSI_RESET);
+            if (gameData.getPlayerData()[j].getNickname().equals(nickname)) {
+                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].getNickname()+ "(you) : " + CliConstants.ANSI_RESET);
             }
             else
-                System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[j].nickname() + " : ");
+                System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[j].getNickname() + " : ");
             System.out.print("| ");
             for (Clan c : Clan.values()) {
                 System.out.print(CliConstants.getColorStudent(c) + c);
@@ -43,8 +34,8 @@ public class CLI {
                 for (i = 0; i < clan.toString().length() / 2; i++) {
                     System.out.print(" ");
                 }
-                if (gameData.getPlayerData()[j].hallData().students().get(clan) != null)
-                    System.out.print(gameData.getPlayerData()[j].hallData().students().get(clan));
+                if (gameData.getPlayerData()[j].getHallData().students().get(clan) != null)
+                    System.out.print(gameData.getPlayerData()[j].getHallData().students().get(clan));
                 else
                     System.out.print("0");
                 for (int k = i; k < clan.toString().length(); k++)
@@ -60,21 +51,21 @@ public class CLI {
     public static void createChamber(){
         System.out.println("CHAMBER");
         for(int j = 0; j < gameData.getPlayerData().length; j++) {
-            if (gameData.getPlayerData()[j].nickname().equals(nickname)) {
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].nickname() + " (you)" + " : " + CliConstants.ANSI_RESET);
+            if (gameData.getPlayerData()[j].getNickname().equals(nickname)) {
+                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].getNickname() + " (you)" + " : " + CliConstants.ANSI_RESET);
             }
             else
-                System.out.println(gameData.getPlayerData()[j].nickname() +" : ");
+                System.out.println(gameData.getPlayerData()[j].getNickname() +" : ");
             for (Clan c : Clan.values()) {
                 System.out.print(CliConstants.getColorStudent(c) + c);
                 for (int l = 0; l < CliConstants.MAX_LENGHT_STUDENTS - c.toString().length(); l++) {
                     System.out.print(" ");
                 }
                 System.out.print("  ");
-                for (int i = 0; i < gameData.getPlayerData()[j].chamberData().students().get(c); i++) {
+                for (int i = 0; i < gameData.getPlayerData()[j].getChamberData().students().get(c); i++) {
                     System.out.print(CliConstants.getColorStudent(c) + "■ ");
                 }
-                for (int k = 0; k < 10 - gameData.getPlayerData()[j].chamberData().students().get(c); k++) {
+                for (int k = 0; k < 10 - gameData.getPlayerData()[j].getChamberData().students().get(c); k++) {
                     System.out.print(CliConstants.getColorStudent(c) + "○ ");
                 }
                 System.out.println();
@@ -85,7 +76,7 @@ public class CLI {
 
 
     public static void createIslands() {
-        List<IslandData> islandsData = gameData.getIslandManager().islands();
+        List<IslandData> islandsData = gameData.getIslandManager().getIslands();
         System.out.println(CliConstants.ANSI_RESET + "ISLANDS");
         for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++) {
             System.out.print(" ");
@@ -93,7 +84,7 @@ public class CLI {
         System.out.print("| ");
         if (islandsData.size() <= 6) {
             for (int i = 0; i < islandsData.size(); i++) {
-                if (gameData.getIslandManager().motherNaturePosition() != i)
+                if (gameData.getIslandManager().getMotherNaturePosition() != i)
                     System.out.print("island " + (i + 1));
                 else
                     System.out.print(CliConstants.ANSI_PURPLE + "island " + (i+1));
@@ -139,7 +130,7 @@ public class CLI {
         }
         else {
             for (int i = 0; i < CliConstants.MAX_VISUAL; i++) {
-                if (gameData.getIslandManager().motherNaturePosition() != i)
+                if (gameData.getIslandManager().getMotherNaturePosition() != i)
                     System.out.print("island " + (i + 1));
                 else
                     System.out.print(CliConstants.ANSI_PURPLE + "island " + (i+1));
@@ -182,7 +173,7 @@ public class CLI {
 
             for (int i = 6; i < islandsData.size(); i++) {
 
-                if (gameData.getIslandManager().motherNaturePosition() != i)
+                if (gameData.getIslandManager().getMotherNaturePosition() != i)
                     System.out.print("island " + (i + 1));
                 else
                     System.out.print(CliConstants.ANSI_PURPLE + "island " + (i+1));
@@ -230,12 +221,12 @@ public class CLI {
 
 
     private static void createTower2(int i) {
-        if(gameData.getIslandManager().islands().get(i).towerColor()==null){
+        if(gameData.getIslandManager().getIslands().get(i).towerColor()==null){
             System.out.print("     ");
         }
         else{
-            System.out.print(gameData.getIslandManager().islands().get(i).towerColor().toString());
-            if(gameData.getIslandManager().islands().get(i).towerColor().equals(TowerColor.GRAY)){
+            System.out.print(gameData.getIslandManager().getIslands().get(i).towerColor().toString());
+            if(gameData.getIslandManager().getIslands().get(i).towerColor().equals(TowerColor.GRAY)){
                 System.out.print(" ");
             }
         }
@@ -246,7 +237,7 @@ public class CLI {
             System.out.print(" ");
         }
 
-        System.out.print(gameData.getIslandManager().islands().get(k).students().get(clan));
+        System.out.print(gameData.getIslandManager().getIslands().get(k).students().get(clan));
         for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2 - 1; j++) {
             System.out.print(" ");
         }
@@ -290,23 +281,23 @@ public class CLI {
     public void updateTower(){
         System.out.println("\n");
         for(int j = 0; j < gameData.getPlayerData().length; j++){
-            if(gameData.getPlayerData()[j].nickname().equals(nickname)){
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].nickname()+ CliConstants.ANSI_RESET + "'s "+ "TOWERS (you)" );
+            if(gameData.getPlayerData()[j].getNickname().equals(nickname)){
+                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[j].getNickname()+ CliConstants.ANSI_RESET + "'s "+ "TOWERS (you)" );
             }
             else
-                System.out.println(gameData.getPlayerData()[j].nickname()+"'s "+ "TOWERS");
-            if(gameData.getPlayerData()[j].colorOfTowers().equals(TowerColor.WHITE)) {
-                for (int i = 0; i < gameData.getPlayerData()[j].numberOfTowers(); i++) {
+                System.out.println(gameData.getPlayerData()[j].getNickname()+"'s "+ "TOWERS");
+            if(gameData.getPlayerData()[j].getColorOfTowers().equals(TowerColor.WHITE)) {
+                for (int i = 0; i < gameData.getPlayerData()[j].getNumberOfTowers(); i++) {
                     System.out.print(" ◙");
                 }
             }
-            else if(gameData.getPlayerData()[j].colorOfTowers().equals(TowerColor.BLACK)){
-                for(int i = 0; i < gameData.getPlayerData()[j].numberOfTowers(); i++){
+            else if(gameData.getPlayerData()[j].getColorOfTowers().equals(TowerColor.BLACK)){
+                for(int i = 0; i < gameData.getPlayerData()[j].getNumberOfTowers(); i++){
                     System.out.print(" ○");
                 }
             }
-            else if(gameData.getPlayerData()[j].colorOfTowers().equals(TowerColor.GRAY)){
-                for(int i = 0; i < gameData.getPlayerData()[j].numberOfTowers(); i++){
+            else if(gameData.getPlayerData()[j].getColorOfTowers().equals(TowerColor.GRAY)){
+                for(int i = 0; i < gameData.getPlayerData()[j].getNumberOfTowers(); i++){
                     System.out.print(CliConstants.ANSI_GRAY + " ◙");
                 }
             }

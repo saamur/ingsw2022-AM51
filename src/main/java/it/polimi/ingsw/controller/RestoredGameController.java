@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.messages.GameStartedMessage;
-import it.polimi.ingsw.messages.updatemessages.UpdateGameInfo;
 import it.polimi.ingsw.model.GameInterface;
 
 import java.time.LocalDateTime;
@@ -26,8 +24,7 @@ public class RestoredGameController extends Controller {
         if (missingPlayers.isEmpty()) {
             started = true;
             Lobby.getInstance().startController(this);
-            pcs.firePropertyChange("gameInfo", null, new UpdateGameInfo(game.getGameData()));
-            pcs.firePropertyChange("gameStarted", null, new GameStartedMessage());
+            pcs.firePropertyChange("gameStarted", null, new GameStartedMessage(game.getGameData()));
         }
     }
 

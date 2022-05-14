@@ -3,11 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.messages.GameStartedMessage;
-import it.polimi.ingsw.messages.updatemessages.UpdateGameInfo;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
-
-import java.beans.PropertyChangeEvent;
 
 public class NewGameController extends Controller {
 
@@ -27,8 +24,7 @@ public class NewGameController extends Controller {
         if (game.getGameState() == GameState.PLANNING) {
             started = true;
             Lobby.getInstance().startController(this);
-            pcs.firePropertyChange("gameInfo", null, new UpdateGameInfo(game.getGameData()));
-            pcs.firePropertyChange("gameStarted", null, new GameStartedMessage());
+            pcs.firePropertyChange("gameStarted", null, new GameStartedMessage(game.getGameData()));
         }
 
     }

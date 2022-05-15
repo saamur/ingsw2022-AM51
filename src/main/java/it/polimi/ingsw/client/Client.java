@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.CLI;
+import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.modeldata.ServerHandler;
 
 import java.io.*;
@@ -32,7 +33,10 @@ public class Client {
             view = cli;
         }
         else if ("GUI".equals(choice)) {
-            //todo
+            //todo non so come assegnargli la GUI
+            GUI gui = new GUI();
+            GUI.main(args);
+
         }
         else {
             System.out.println("This choice is not valid");

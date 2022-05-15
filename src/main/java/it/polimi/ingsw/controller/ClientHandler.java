@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                     if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
                         try {
                             Lobby.getInstance().registerNickname(this, ((NicknameMessage) o).nickname());
-                            sendObject(new GenericMessage("Welcome " + ((NicknameMessage) o).nickname()));
+                            sendObject(new NicknameAcceptedMessage(((NicknameMessage) o).nickname()));
                             sendObject(Lobby.getInstance().createAvailableGamesMessage(((NicknameMessage) o).nickname()));
                         } catch (NicknameNotAvailableException e) {
                             sendObject(new ErrorMessage("Nickname \"" + ((NicknameMessage) o).nickname() + "\" is already taken"));

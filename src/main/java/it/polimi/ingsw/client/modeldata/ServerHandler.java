@@ -38,34 +38,48 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
             try {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 o = in.readObject();
-                if (!(o instanceof String))
-                    System.out.println("Message received: " + o);
-                if (o instanceof String) {
-                    if (o.equals("ping")) {
-                        //System.out.println("ping ricevuto");
-                        sendObject("pong");
-                    } else {
-                        System.out.println("This shouldn't happen");
-                        break;
-                    }
-                } else if (o instanceof AvailableGamesMessage) {
+//                if (!(o instanceof String))
+//                    System.out.println("Message received: " + o);
+
+                if ("ping".equals(o)) {
+                    sendObject("pong");
+                }
+                else if (o instanceof NicknameAcceptedMessage) {
+                    view.setNickname(((NicknameAcceptedMessage) o).nickname());
+                }
+                else if (o instanceof AvailableGamesMessage) {
                     view.setAvailableGamesMessage ((AvailableGamesMessage) o);
                     //todo print things
-                } else if (o instanceof GameStartedMessage) {
+                }
+                else if (o instanceof GameStartedMessage) {
                     view.setGameData(((GameStartedMessage) o).gameData());
                     //todo make game start
-                } else if (o instanceof GameOverMessage) {
-                    //todo print things
+                }
+                else if (o instanceof GameOverMessage) {
+                    view.handleGameOver(((GameOverMessage) o).winnersNickname());
                     break;
-                } else if (o instanceof PlayerDisconnectedMessage) {
+                }
+                else if (o instanceof PlayerDisconnectedMessage) {
+                    view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
                     System.out.println(((Message) o).getMessage());
                     break;
-                } else if (o instanceof UpdateMessage) {
+                }
+                else if (o instanceof UpdateMessage) {
                     System.out.println("UpdateMessage: " + ((Message) o).getMessage());
                     view.updateGameData((UpdateMessage) o);
-                } else if (o instanceof Message) {
-                    System.out.println(((Message) o).getMessage());
                 }
+                else if (o instanceof GenericMessage) {
+                    view.handleGenericMessage(((GenericMessage) o).message());
+                }
+                else if (o instanceof ErrorMessage) {
+                    view.handleErrorMessage(((ErrorMessage) o).error());
+                }
+                else if (o instanceof Message) {
+                    System.out.println(((Message) o).getMessage());
+                    System.out.println("I don't think you will ever get here");
+                }
+                else
+                    System.out.println("This shouldn't happen");
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

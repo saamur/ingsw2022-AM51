@@ -6,33 +6,26 @@ import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
-public abstract class View implements Runnable {
+public interface View extends Runnable {
 
-    protected String nickname;
-    protected AvailableGamesMessage availableGamesMessage;
+    void setNickname(String nickname);
 
-    protected GameData gameData;
+    void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage);
 
-    protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    void setGameData (GameData gameData) ;
 
-    public void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
-        this.availableGamesMessage = availableGamesMessage;
-    }
+    void updateGameData (UpdateMessage updateMessage);
 
-    public void setGameData (GameData gameData) {
-        this.gameData = gameData;
-    }
+    void addPropertyChangeListener (PropertyChangeListener propertyChangeListener);
 
-    public void updateGameData (UpdateMessage updateMessage) {
-        if (gameData != null)
-            updateMessage.updateGameData(gameData);
-    }
+    void displayModel();
 
-    public void addPropertyChangeListener (PropertyChangeListener propertyChangeListener) {
-        pcs.addPropertyChangeListener(propertyChangeListener);
-    }
+    void handleGenericMessage(String message);
+    void handleErrorMessage(String message);
 
-    public abstract void displayModel();
+    void handleGameOver(List<String> winnersNickname);
+    void handlePlayerDisconnected(String playerDisconnectedNickname);
 
 }

@@ -5,10 +5,13 @@ import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.CliConstants;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.gamemessages.*;
+import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.*;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,25 +20,33 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CLI extends View {
+public class CLI implements View {
+
+    private String nickname;
+    private AvailableGamesMessage availableGamesMessage;
+
+    private GameData gameData;
+
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public CLI() {
+        System.out.println("Welcome to the cli!");
+        System.out.println("First thing, choose a nickname: ");
     }
 
     @Override
     public void run() {
 
-        BufferedReader stdIn =
-                new BufferedReader(
-                        new InputStreamReader(System.in));
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-            displayModel();
+            //displayModel();
             //todo print di tutto il model
             Message message;
             try {
                 message = commandParser(stdIn.readLine());
-                if (message != null)
+                if (message != null) {
                     pcs.firePropertyChange("message", null, message);
+                }
                 else
                     System.out.println("this command is not correct");
             } catch (IOException e) {
@@ -45,175 +56,229 @@ public class CLI extends View {
 
     }
 
-        public synchronized Message commandParser (String line) {
+    @Override
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+        System.out.println("Welcome " + nickname + "!");
+    }
 
-            Message message = null;
+    @Override
+    public void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
+        this.availableGamesMessage = availableGamesMessage;
+        System.out.println(availableGamesMessage);
+    }
 
-            String[] words = line.split(" ");
-            if (words.length == 0)
-                return null;
+    @Override
+    public void setGameData (GameData gameData) {
+        this.gameData = gameData;
+        displayModel();
+    }
 
-            switch (words[0].toLowerCase()) {
-                case "nickname":
-                    if (words.length != 2)
-                        return null;
-                    message = new NicknameMessage(words[1]);
-                    break;
-                case "joingame":
-                    if (words.length != 2)
-                        return null;
+    @Override
+    public void updateGameData (UpdateMessage updateMessage) {
+        if (gameData != null)
+            updateMessage.updateGameData(gameData);
+        displayModel();
+    }
+
+    @Override
+    public void addPropertyChangeListener (PropertyChangeListener propertyChangeListener) {
+        pcs.addPropertyChangeListener(propertyChangeListener);
+    }
+
+    @Override
+    public void handleGenericMessage(String message) {
+        System.out.println("handleGenericMessage: " + message);
+        //todo
+    }
+
+    @Override
+    public void handleErrorMessage(String message) {
+        System.out.println("handleErrorMessage: " + message);
+        //todo
+    }
+
+    @Override
+    public void handleGameOver(List<String> winnersNickname) {
+        System.out.println("Game over");
+        System.out.println("Winners: " + winnersNickname);
+    }
+
+    @Override
+    public void handlePlayerDisconnected(String playerDisconnectedNickname) {
+        System.out.println(playerDisconnectedNickname + " has disconnected");
+        System.out.println("The game will close");
+    }
+
+    public synchronized Message commandParser (String line) {
+
+        Message message = null;
+
+        String[] words = line.split(" ");
+        if (words.length == 0)
+            return null;
+
+        switch (words[0].toLowerCase()) {
+            case "nickname":
+                if (words.length != 2)
+                    return null;
+                message = new NicknameMessage(words[1]);
+                break;
+            case "joingame":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new AddPlayerMessage(Integer.parseInt(words[1]));
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+                break;
+            case "restoregame":
+                if (availableGamesMessage == null || words.length != 2)
+                    return null;
+                int index;
+                try {
+                    index = Integer.parseInt(words[1]);
+                }
+                catch (NumberFormatException e) {
+                    return null;
+                }
+                if (index >= availableGamesMessage.savedGameData().size())
+                    return null;
+                message = new RestoreGameMessage(availableGamesMessage.savedGameData().get(index));
+                break;
+            case "createnewgame":
+                if (words.length != 3)
+                    return null;
+                try {
+                    message = new NewGameMessage(Integer.parseInt(words[1]), Boolean.parseBoolean(words[2]));
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+                break;
+            case "chosencard":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new ChosenCardMessage(Card.valueOf(words[1].toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+                break;
+            case "movestudenttochamber":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new MoveStudentToChamberMessage(Clan.valueOf(words[1].toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+                break;
+            case "movestudenttoisland":
+                if (words.length != 3)
+                    return null;
+                try {
+                    message = new MoveStudentToIslandMessage(Clan.valueOf(words[1].toUpperCase()), Integer.parseInt(words[2]));
+                } catch (Exception e) {
+                    return null;
+                }
+                break;
+            case "movemothernature":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new MoveMotherNatureMessage(Integer.parseInt(words[1]));
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+                break;
+            case "chosencloud":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new ChosenCloudMessage(Integer.parseInt(words[1]));
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+                break;
+            case "endturn":
+                if (words.length != 1)
+                    return null;
+                message = new EndTurnMessage();
+                break;
+            case "activatecharactercard":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    return  null;
+                }
+                break;
+            case "applycharactercardeffect":
+                if (words.length == 2) {
                     try {
-                        message = new AddPlayerMessage(Integer.parseInt(words[1]));
-                    } catch (IllegalArgumentException e) {
-                        return null;
-                    }
-                    break;
-                case "restoregame":
-                    if (availableGamesMessage == null || words.length != 2)
-                        return null;
-                    int index;
-                    try {
-                        index = Integer.parseInt(words[1]);
-                    }
-                    catch (NumberFormatException e) {
-                        return null;
-                    }
-                    if (index >= availableGamesMessage.savedGameData().size())
-                        return null;
-                    message = new RestoreGameMessage(availableGamesMessage.savedGameData().get(index));
-                    break;
-                case "createnewgame":
-                    if (words.length != 3)
-                        return null;
-                    try {
-                        message = new NewGameMessage(Integer.parseInt(words[1]), Boolean.parseBoolean(words[2]));
-                    } catch (IllegalArgumentException e) {
-                        return null;
-                    }
-                    break;
-                case "chosencard":
-                    if (words.length != 2)
-                        return null;
-                    try {
-                        message = new ChosenCardMessage(Card.valueOf(words[1].toUpperCase()));
-                    } catch (IllegalArgumentException e) {
-                        return null;
-                    }
-                    break;
-                case "movestudenttochamber":
-                    if (words.length != 2)
-                        return null;
-                    try {
-                        message = new MoveStudentToChamberMessage(Clan.valueOf(words[1].toUpperCase()));
-                    } catch (IllegalArgumentException e) {
-                        return null;
-                    }
-                    break;
-                case "movestudenttoisland":
-                    if (words.length != 3)
-                        return null;
-                    try {
-                        message = new MoveStudentToIslandMessage(Clan.valueOf(words[1].toUpperCase()), Integer.parseInt(words[2]));
-                    } catch (Exception e) {
-                        return null;
-                    }
-                    break;
-                case "movemothernature":
-                    if (words.length != 2)
-                        return null;
-                    try {
-                        message = new MoveMotherNatureMessage(Integer.parseInt(words[1]));
+                        message = new ApplyCharacterCardEffectMessage1(Integer.parseInt(words[1]));
                     } catch (NumberFormatException e) {
                         return null;
                     }
-                    break;
-                case "chosencloud":
-                    if (words.length != 2)
-                        return null;
+                }
+                else if (words.length == 12) {
                     try {
-                        message = new ChosenCloudMessage(Integer.parseInt(words[1]));
+                        Map<Clan, Integer> students1 = new EnumMap<>(Clan.class);
+                        Map<Clan, Integer> students2 = new EnumMap<>(Clan.class);
+                        for (int i = 0; i < Clan.values().length; i++)
+                            students1.put(Clan.values()[i], Integer.parseInt(words[2 + i]));
+                        for (int i = 0; i < Clan.values().length; i++)
+                            students2.put(Clan.values()[i], Integer.parseInt(words[7 + i]));
+                        message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), students1, students2);
                     } catch (NumberFormatException e) {
                         return null;
                     }
-                    break;
-                case "endturn":
-                    if (words.length != 1)
-                        return null;
-                    message = new EndTurnMessage();
-                    break;
-                case "activatecharactercard":
-                    if (words.length != 2)
-                        return null;
-                    try {
-                        message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
-                    } catch (IllegalArgumentException e) {
-                        return  null;
-                    }
-                    break;
-                case "applycharactercardeffect":
-                    if (words.length == 2) {
-                        try {
-                            message = new ApplyCharacterCardEffectMessage1(Integer.parseInt(words[1]));
-                        } catch (NumberFormatException e) {
-                            return null;
-                        }
-                    }
-                    else if (words.length == 12) {
-                        try {
-                            Map<Clan, Integer> students1 = new EnumMap<>(Clan.class);
-                            Map<Clan, Integer> students2 = new EnumMap<>(Clan.class);
-                            for (int i = 0; i < Clan.values().length; i++)
-                                students1.put(Clan.values()[i], Integer.parseInt(words[2 + i]));
-                            for (int i = 0; i < Clan.values().length; i++)
-                                students2.put(Clan.values()[i], Integer.parseInt(words[7 + i]));
-                            message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), students1, students2);
-                        } catch (NumberFormatException e) {
-                            return null;
-                        }
-                    }
-                    break;
-                case "setclancharactercard":
-                    if (words.length != 2)
-                        return null;
-                    try {
-                        message = new SetClanCharacterMessage(Clan.valueOf(words[1].toUpperCase()));
-                    } catch (IllegalArgumentException e) {
-                        return  null;
-                    }
-                    break;
-
-            }
-
-            return message;
+                }
+                break;
+            case "setclancharactercard":
+                if (words.length != 2)
+                    return null;
+                try {
+                    message = new SetClanCharacterMessage(Clan.valueOf(words[1].toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    return  null;
+                }
+                break;
 
         }
+
+        return message;
+
+    }
 
     public void updateHall(int playerIndex) {
         int i;
 
-            System.out.println("HALL");
-            if (gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)) {
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname()+ "(you) : " + CliConstants.ANSI_RESET);
-            }
-            else
-                System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[playerIndex].getNickname() + " : ");
+        System.out.println("HALL");
+        if (gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)) {
+            System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname()+ "(you) : " + CliConstants.ANSI_RESET);
+        }
+        else
+            System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[playerIndex].getNickname() + " : ");
+        System.out.print("| ");
+        for (Clan c : Clan.values()) {
+            System.out.print(CliConstants.getColorStudent(c) + c);
+            System.out.print(CliConstants.ANSI_RESET + " | ");
+        }
+        System.out.println();
+        for (Clan clan : Clan.values()) {
             System.out.print("| ");
-            for (Clan c : Clan.values()) {
-                System.out.print(CliConstants.getColorStudent(c) + c);
-                System.out.print(CliConstants.ANSI_RESET + " | ");
+            for (i = 0; i < clan.toString().length() / 2; i++) {
+                System.out.print(" ");
             }
-            System.out.println();
-            for (Clan clan : Clan.values()) {
-                System.out.print("| ");
-                for (i = 0; i < clan.toString().length() / 2; i++) {
-                    System.out.print(" ");
-                }
-                if (gameData.getPlayerData()[playerIndex].getHallData().students().get(clan) != null)
-                    System.out.print(gameData.getPlayerData()[playerIndex].getHallData().students().get(clan));
-                else
-                    System.out.print("0");
-                for (int k = i; k < clan.toString().length(); k++)
-                    System.out.print(" ");
+            if (gameData.getPlayerData()[playerIndex].getHallData().students().get(clan) != null)
+                System.out.print(gameData.getPlayerData()[playerIndex].getHallData().students().get(clan));
+            else
+                System.out.print("0");
+            for (int k = i; k < clan.toString().length(); k++)
+                System.out.print(" ");
 
         }
 
@@ -520,6 +585,10 @@ public class CLI extends View {
 
     @Override
     public void displayModel() {
+
+        if (gameData == null)
+            return;
+
         int numberOfPlayers = gameData.getPlayerData().length;
         System.out.flush();
         for(int i = 0; i < numberOfPlayers; i++){
@@ -540,6 +609,7 @@ public class CLI extends View {
         if(gameData.isExpertModeEnabled())
             activeCharacter();
     }
+
 }
 
 

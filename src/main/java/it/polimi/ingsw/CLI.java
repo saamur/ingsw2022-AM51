@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.gamemessages.*;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.*;
 
@@ -30,7 +31,7 @@ public class CLI implements View {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public CLI() {
-        System.out.println("Welcome to the cli!");
+        System.out.println("Welcome to the CLI!");
         System.out.println("First thing, choose a nickname: ");
     }
 
@@ -608,6 +609,16 @@ public class CLI implements View {
         System.out.println("\n\n\n");
         if(gameData.isExpertModeEnabled())
             activeCharacter();
+
+        System.out.println("Game phase: " + gameData.getGameState().name().toLowerCase());
+        if (gameData.getGameState() == GameState.ACTION)
+            System.out.println("Turn state: " + gameData.getTurnState().name().toLowerCase());
+
+        if (nickname.equals(gameData.getCurrPlayer()))
+            System.out.println("It's your turn");
+        else
+            System.out.println(gameData.getCurrPlayer() + " is playing");
+
     }
 
 }

@@ -20,6 +20,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import org.fusesource.jansi.AnsiConsole;
+
 
 public class CLI implements View {
 
@@ -586,6 +588,8 @@ public class CLI implements View {
 
     @Override
     public void displayModel() {
+        AnsiConsole.systemInstall();
+
 
         if (gameData == null)
             return;

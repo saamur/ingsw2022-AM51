@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Clan;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.fusesource.jansi.AnsiConsole;
+
 public class CliConstants {
 
     public static final String ANSI_RED = "\033[31m";

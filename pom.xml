@@ -33,6 +33,40 @@
       <version>2.4.0</version>
     </dependency>
 
+
+    <!-- JavaFX dependencies-->
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx</artifactId>
+      <version>19-ea+6</version>
+      <type>pom</type>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-base</artifactId>
+      <version>19-ea+6</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>19-ea+6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>17-ea+11</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>19-ea+6</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
@@ -77,7 +111,7 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        <!-- Added 04/04/2022 -->
+
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
@@ -91,12 +125,33 @@
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
               <configuration>
-                  <source>17</source> <!--changed from 14 (04/04/22) -->
+                  <source>17</source>
                   <target>17</target>
               </configuration>
           </plugin>
 
-        <!-- added 04/04/22 -->
+        <!-- Plugin for JavaFX-->
+        <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.6</version>
+          <executions>
+            <execution>
+              <!-- Default configuration for running with: mvn clean javafx:run -->
+              <id>default-cli</id>
+              <configuration>
+                <mainClass>it.polimi.ingsw.AM51/it.polimi.ingsw.AM51.client.GUI.GUIMain</mainClass> <!-- not sure this works-->
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- plugin for handling resources?-->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>

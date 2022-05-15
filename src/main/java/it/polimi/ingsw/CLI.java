@@ -304,12 +304,12 @@ public class CLI implements View {
                 }
                 System.out.print("  ");
                 for (int i = 0; i < gameData.getPlayerData()[playerIndex].getChamberData().students().get(c); i++) {
-                    System.out.print(CliConstants.getColorStudent(c) + "■ ");
+                    System.out.print(CliConstants.getColorStudent(c) + CliConstants.STUDENTS_PRESENT + " ");
                 }
                 for (int k = 0; k < 10 - gameData.getPlayerData()[playerIndex].getChamberData().students().get(c); k++) {
-                    System.out.print(CliConstants.getColorStudent(c) + "○ ");
+                    System.out.print(CliConstants.getColorStudent(c) + CliConstants.STUDENTS_NOT_PRESENT + " ");
                 }
-                System.out.println();
+                System.out.println("\n");
             }
             System.out.println("\n" + CliConstants.ANSI_RESET);
 
@@ -529,20 +529,20 @@ public class CLI implements View {
                 System.out.println(gameData.getPlayerData()[playerIndex].getNickname()+"'s "+ "TOWERS");
             if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.WHITE)) {
                 for (int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++) {
-                    System.out.print(" ◙");
+                    System.out.print(" " + CliConstants.TOWER_SYMBOL);
                 }
             }
             else if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.BLACK)){
                 for(int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++){
-                    System.out.print(" ○");
+                    System.out.print(" " + CliConstants.TOWER_SYMBOL);//todo trovare un modo per rappresentare le torri nere differenziandole dalle bianche
                 }
             }
             else if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.GRAY)){
                 for(int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++){
-                    System.out.print(CliConstants.ANSI_GRAY + " ◙");
+                    System.out.print(CliConstants.ANSI_GRAY + " " + CliConstants.TOWER_SYMBOL);
                 }
             }
-            System.out.println("\n");
+            System.out.println(CliConstants.ANSI_RESET + "\n");
 
     }
 
@@ -611,8 +611,10 @@ public class CLI implements View {
         createCloud();
 
         System.out.println("\n\n\n");
-        if(gameData.isExpertModeEnabled())
+        if(gameData.isExpertModeEnabled()) {
             activeCharacter();
+            System.out.println("\n\n\n");
+        }
 
         System.out.println("Game phase: " + gameData.getGameState().name().toLowerCase());
         if (gameData.getGameState() == GameState.ACTION)

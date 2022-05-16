@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.CliConstants;
+import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.gamemessages.*;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
@@ -23,7 +24,7 @@ import java.util.Map;
 import org.fusesource.jansi.AnsiConsole;
 
 
-public class CLI implements View {
+public class CLI implements View, Runnable {
 
     private String nickname;
     private AvailableGamesMessage availableGamesMessage;
@@ -256,16 +257,13 @@ public class CLI implements View {
 
     }
 
-    public void updateHall(int playerIndex) {
+    public void displayHall(HallData hallData) {
         int i;
 
         System.out.println("HALL");
-        if (gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)) {
-            System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname()+ "(you) : " + CliConstants.ANSI_RESET);
-        }
-        else
-            System.out.println(CliConstants.ANSI_RESET + gameData.getPlayerData()[playerIndex].getNickname() + " : ");
+
         System.out.print("| ");
+
         for (Clan c : Clan.values()) {
             System.out.print(CliConstants.getColorStudent(c) + c);
             System.out.print(CliConstants.ANSI_RESET + " | ");
@@ -276,8 +274,8 @@ public class CLI implements View {
             for (i = 0; i < clan.toString().length() / 2; i++) {
                 System.out.print(" ");
             }
-            if (gameData.getPlayerData()[playerIndex].getHallData().students().get(clan) != null)
-                System.out.print(gameData.getPlayerData()[playerIndex].getHallData().students().get(clan));
+            if (hallData.students().get(clan) != null)
+                System.out.print(hallData.students().get(clan));
             else
                 System.out.print("0");
             for (int k = i; k < clan.toString().length(); k++)
@@ -289,26 +287,26 @@ public class CLI implements View {
         System.out.println("\n" + CliConstants.ANSI_RESET);
     }
 
-    public void createChamber(int playerIndex){
+    public void displayChamber(ChamberData chamberData){
         System.out.println("CHAMBER");
 
-            if (gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)) {
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname() + " (you)" + " : " + CliConstants.ANSI_RESET);
-            }
-            else
-                System.out.println(gameData.getPlayerData()[playerIndex].getNickname() +" : ");
+
             for (Clan c : Clan.values()) {
                 System.out.print(CliConstants.getColorStudent(c) + c);
                 for (int l = 0; l < CliConstants.MAX_LENGHT_STUDENTS - c.toString().length(); l++) {
                     System.out.print(" ");
                 }
                 System.out.print("  ");
-                for (int i = 0; i < gameData.getPlayerData()[playerIndex].getChamberData().students().get(c); i++) {
+                for (int i = 0; i < chamberData.students().get(c); i++) {
                     System.out.print(CliConstants.getColorStudent(c) + CliConstants.STUDENTS_PRESENT + " ");
                 }
-                for (int k = 0; k < 10 - gameData.getPlayerData()[playerIndex].getChamberData().students().get(c); k++) {
+                for (int k = 0; k < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER - chamberData.students().get(c); k++) {
                     System.out.print(CliConstants.getColorStudent(c) + CliConstants.STUDENTS_NOT_PRESENT + " ");
                 }
+                if(chamberData.professors().get(c))
+                    System.out.print(CliConstants.getColorStudent(c) + CliConstants.PROFESSOR_SYMBOL + CliConstants.ANSI_RESET);
+                else
+                    System.out.print(CliConstants.getColorStudent(c) + CliConstants.NO_PROFESSOR_SYMBOL + CliConstants.ANSI_RESET);
                 System.out.println("\n");
             }
             System.out.println("\n" + CliConstants.ANSI_RESET);
@@ -316,7 +314,7 @@ public class CLI implements View {
     }
 
 
-    public void createIslands() {
+    public void displayIslands() {
         List<IslandData> islandsData = gameData.getIslandManager().getIslands();
         System.out.println(CliConstants.ANSI_RESET + "ISLANDS");
         for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++) {
@@ -492,10 +490,13 @@ public class CLI implements View {
         System.out.print("  |");
     }
 
-    public void createCloud(){
+    public void displayClouds(){
         for(int j = 0; j < gameData.getCloudManager().clouds().length; j++) {
             int i;
-            System.out.println("CLOUD " + j); //todo differenziare le cloud available e quelle already chosen
+            if(gameData.getCloudManager().clouds()[j].picked())
+                System.out.println(CliConstants.ANSI_RED + "CLOUD " + j + " (already chosen)" + CliConstants.ANSI_RESET);
+            else
+                System.out.println("CLOUD "+ j);
             System.out.print("| ");
             for (Clan c : Clan.values()) {
                 System.out.print(CliConstants.getColorStudent(c) + c);
@@ -519,26 +520,22 @@ public class CLI implements View {
         }
     }
 
-    public void updateTower(int playerIndex){
-        System.out.println("\n");
+    public void displayTower(PlayerData playerData){
+        System.out.println("\n TOWERS");
 
-            if(gameData.getPlayerData()[playerIndex].getNickname().equals(nickname)){
-                System.out.println(CliConstants.ANSI_RED + gameData.getPlayerData()[playerIndex].getNickname()+ CliConstants.ANSI_RESET + "'s "+ "TOWERS (you)" );
-            }
-            else
-                System.out.println(gameData.getPlayerData()[playerIndex].getNickname()+"'s "+ "TOWERS");
-            if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.WHITE)) {
-                for (int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++) {
+
+            if(playerData.getColorOfTowers().equals(TowerColor.WHITE)) {
+                for (int i = 0; i < playerData.getNumberOfTowers(); i++) {
                     System.out.print(" " + CliConstants.TOWER_SYMBOL);
                 }
             }
-            else if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.BLACK)){
-                for(int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++){
+            else if(playerData.getColorOfTowers().equals(TowerColor.BLACK)){
+                for(int i = 0; i < playerData.getNumberOfTowers(); i++){
                     System.out.print(" " + CliConstants.TOWER_SYMBOL);//todo trovare un modo per rappresentare le torri nere differenziandole dalle bianche
                 }
             }
-            else if(gameData.getPlayerData()[playerIndex].getColorOfTowers().equals(TowerColor.GRAY)){
-                for(int i = 0; i < gameData.getPlayerData()[playerIndex].getNumberOfTowers(); i++){
+            else if(playerData.getColorOfTowers().equals(TowerColor.GRAY)){
+                for(int i = 0; i < playerData.getNumberOfTowers(); i++){
                     System.out.print(CliConstants.ANSI_GRAY + " " + CliConstants.TOWER_SYMBOL);
                 }
             }
@@ -547,7 +544,7 @@ public class CLI implements View {
     }
 
 
-    public void activeCharacter(){
+    public void displayActiveCharacter(){
 
         System.out.println("\n");
         System.out.println("ACTIVE CHARACTER CARDS");
@@ -590,29 +587,32 @@ public class CLI implements View {
     public void displayModel() {
         AnsiConsole.systemInstall();
 
-
         if (gameData == null)
             return;
 
         int numberOfPlayers = gameData.getPlayerData().length;
         System.out.flush();
         for(int i = 0; i < numberOfPlayers; i++){
-            System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School" );
-            updateHall(i);
-            createChamber(i);
-            updateTower(i);
+            if(gameData.getPlayerData()[i].getNickname().equals(nickname)) {
+                System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School" + " (you) ");
+            }
+            else
+                System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School");
+            displayHall(gameData.getPlayerData()[i].getHallData());
+            displayChamber(gameData.getPlayerData()[i].getChamberData());
+            displayTower(gameData.getPlayerData()[i]);
         }
         System.out.println("\n\n\n");
 
-        createIslands();
+        displayIslands();
 
         System.out.println("\n\n\n");
 
-        createCloud();
+        displayClouds();
 
         System.out.println("\n\n\n");
         if(gameData.isExpertModeEnabled()) {
-            activeCharacter();
+            displayActiveCharacter();
             System.out.println("\n\n\n");
         }
 

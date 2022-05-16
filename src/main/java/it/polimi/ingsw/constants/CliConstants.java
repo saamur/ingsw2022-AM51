@@ -19,6 +19,8 @@ public class CliConstants {
     public static final String BACKGROUND_WHITE = "\033[47m";
     public static final String ANSI_CYAN = "\033[36m";
     public static final char TOWER_SYMBOL = '■' ;
+    public static final char PROFESSOR_SYMBOL = '■';
+    public static final char NO_PROFESSOR_SYMBOL = 'O';
     public static final char STUDENTS_PRESENT = '▓';
     public static final char STUDENTS_NOT_PRESENT = '░';
 //"◙"

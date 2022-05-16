@@ -2,10 +2,8 @@ package it.polimi.ingsw.constants;
 
 import it.polimi.ingsw.model.Clan;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
-
-import org.fusesource.jansi.AnsiConsole;
 
 public class CliConstants {
 
@@ -31,7 +29,7 @@ public class CliConstants {
 
     private static final Map<Clan, String> clanMapColor;
     static {
-        clanMapColor = new HashMap<>();
+        clanMapColor = new EnumMap<>(Clan.class);
         clanMapColor.put(Clan.PIXIES, CliConstants.ANSI_YELLOW);
         clanMapColor.put(Clan.UNICORNS, CliConstants.ANSI_BLUE);
         clanMapColor.put(Clan.TOADS, CliConstants.ANSI_GREEN);
@@ -46,7 +44,5 @@ public class CliConstants {
     public static String getColorStudent(Clan clan){
         return clanMapColor.get(clan);
     }
-
-
 
 }

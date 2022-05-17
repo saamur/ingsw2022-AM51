@@ -394,7 +394,7 @@ public class Game implements GameInterface {
 
         turn.updateInfluence(islandManager, island, players);
 
-        if (players[indexCurrPlayer].getNumberOfTowers() <= 0) {
+        if (getCurrPlayer().getNumberOfTowers() <= 0) {
             gameState = GameState.GAME_OVER;
             winners = new ArrayList<>();
             winners.add(players[indexCurrPlayer]);

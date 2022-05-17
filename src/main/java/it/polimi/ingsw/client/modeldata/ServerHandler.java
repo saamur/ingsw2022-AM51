@@ -65,7 +65,7 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                     break;
                 }
                 else if (o instanceof UpdateMessage) {
-                    System.out.println("UpdateMessage: " + ((Message) o).getMessage());
+                    System.out.println("UpdateMessage: " + ((Message) o).getMessage());         //FIXME debug
                     view.updateGameData((UpdateMessage) o);
                 }
                 else if (o instanceof GenericMessage) {

@@ -309,9 +309,18 @@ public class Game implements GameInterface {
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
 
+
+        Player previouslyOwnedProfessor = null;
+        for(Player p : players){
+            if(p.getChamber().hasProfessor(clan)){
+                previouslyOwnedProfessor = p;
+            }
+        }
         turn.moveStudentToChamber(clan, players);
         pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player));
-
+        if(previouslyOwnedProfessor != null && previouslyOwnedProfessor != player && !previouslyOwnedProfessor.getChamber().hasProfessor(clan)){
+            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(previouslyOwnedProfessor));
+        }
     }
 
     /**

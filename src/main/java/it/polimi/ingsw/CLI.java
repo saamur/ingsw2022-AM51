@@ -331,7 +331,7 @@ public class CLI implements View, Runnable {
             }
             System.out.println("\n");
             for(Clan clan : Clan.values()) {
-                System.out.print(CliConstants.getColorStudent(clan) + clan);
+                System.out.print(CliConstants.getColorStudent(clan) + clan + CliConstants.ANSI_RESET);
                 System.out.print(" ");
                 for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS - clan.toString().length() + 1; j++) {
                     System.out.print(" ");
@@ -340,14 +340,14 @@ public class CLI implements View, Runnable {
                 System.out.print("| ");
                 for (IslandData islandsDatum : islandsData) {
                     for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2; j++) {
-                        System.out.println(" ");
+                        System.out.print(" ");
                     }
 
                     System.out.print(islandsDatum.students().get(clan));
                     for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2 - 1; j++) { //todo aggiustare spazi nel caso gli studenti di un clan in un isola siano più di 10 (problemi di allineamento)
                         System.out.print(" ");
                     }
-                    System.out.println(" | ");
+                    System.out.print(" | ");
                 }
                 System.out.print("\n");
             }

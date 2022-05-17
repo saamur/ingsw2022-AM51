@@ -321,12 +321,12 @@ public class CLI implements View, Runnable {
             System.out.print(" ");
         }
         System.out.print("| ");
-        if (islandsData.size() <= 6) {
+        if (islandsData.size() <= CliConstants.MAX_VISUAL) {
             for (int i = 0; i < islandsData.size(); i++) {
                 if (gameData.getIslandManager().getMotherNaturePosition() != i)
-                    System.out.print("island " + (i + 1));
+                    System.out.print("island " + (i));
                 else
-                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i+1));
+                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i));
                 System.out.print(CliConstants.ANSI_RESET + " | ");
             }
             System.out.println("\n");
@@ -370,9 +370,9 @@ public class CLI implements View, Runnable {
         else {
             for (int i = 0; i < CliConstants.MAX_VISUAL; i++) {
                 if (gameData.getIslandManager().getMotherNaturePosition() != i)
-                    System.out.print("island " + (i + 1));
+                    System.out.print("island " + (i));
                 else
-                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i+1));
+                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i));
                 System.out.print(CliConstants.ANSI_RESET + "  | ");
             }
 
@@ -413,9 +413,9 @@ public class CLI implements View, Runnable {
             for (int i = 6; i < islandsData.size(); i++) {
 
                 if (gameData.getIslandManager().getMotherNaturePosition() != i)
-                    System.out.print("island " + (i + 1));
+                    System.out.print("island " + (i));
                 else
-                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i+1));
+                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i));
 
                 if(i < 9) {
                     System.out.print(CliConstants.ANSI_RESET + "  | ");

@@ -213,6 +213,8 @@ public class Turn implements Serializable {
 
         int posMax = indexUniqueMax(influences);
 
+        System.out.println("INDICE: " + posMax);            //fixme DEBUG
+
         if(posMax != -1)
             islandManager.conquerIsland(players[posMax], island);
 

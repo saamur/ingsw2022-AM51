@@ -410,7 +410,7 @@ public class CLI implements View, Runnable {
             }
             System.out.print(CliConstants.ANSI_RESET + "| ");
 
-            for (int i = 6; i < islandsData.size(); i++) {
+            for (int i = CliConstants.MAX_VISUAL; i < islandsData.size(); i++) {
 
                 if (gameData.getIslandManager().getMotherNaturePosition() != i)
                     System.out.print("island " + (i));
@@ -432,7 +432,7 @@ public class CLI implements View, Runnable {
                     }
 
                     System.out.print(CliConstants.ANSI_RESET + "| ");
-                    for (int k = 0; k < 6; k++) {
+                    for (int k = CliConstants.MAX_VISUAL; k < islandsData.size(); k++) {
                         numStudentsForIsland(clan, k);
                     }
                     System.out.println("\n");
@@ -586,6 +586,17 @@ public class CLI implements View, Runnable {
         }
     }
 
+    public void updateDeck(PlayerData playerData){
+
+        for(int i = 0; i < playerData.getAvailableCards().size(); i++){
+            System.out.println(playerData.getAvailableCards().get(i));
+            System.out.println("Priority: " + playerData.getAvailableCards().get(i).getPriority());
+            System.out.println("Max Steps: " + playerData.getAvailableCards().get(i).getMaxStepsMotherNature());
+            System.out.println("\n\n");
+        }
+
+    }
+
     @Override
     public void displayModel() {
         AnsiConsole.systemInstall();
@@ -593,8 +604,12 @@ public class CLI implements View, Runnable {
         if (gameData == null)
             return;
 
+        System.out.println("############################");
+        System.out.println(gameData);
+        System.out.println("############################");
+
         int numberOfPlayers = gameData.getPlayerData().length;
-        System.out.flush();
+        //System.out.flush();
         for(int i = 0; i < numberOfPlayers; i++){
             if(gameData.getPlayerData()[i].getNickname().equals(nickname)) {
                 System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School" + " (you) ");
@@ -604,6 +619,10 @@ public class CLI implements View, Runnable {
             displayHall(gameData.getPlayerData()[i].getHallData());
             displayChamber(gameData.getPlayerData()[i].getChamberData());
             displayTower(gameData.getPlayerData()[i]);
+            if(gameData.getGameState() == GameState.PLANNING)
+                if(gameData.getPlayerData()[i].getNickname().equals(nickname)){
+                    updateDeck(gameData.getPlayerData()[i]);
+                }
         }
         System.out.println("\n\n\n");
 
@@ -613,11 +632,14 @@ public class CLI implements View, Runnable {
 
         displayClouds();
 
+
         System.out.println("\n\n\n");
         if(gameData.isExpertModeEnabled()) {
             displayActiveCharacter();
             System.out.println("\n\n\n");
         }
+
+
 
         System.out.println("Game phase: " + gameData.getGameState().name().toLowerCase());
         if (gameData.getGameState() == GameState.ACTION)

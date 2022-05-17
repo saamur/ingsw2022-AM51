@@ -521,20 +521,23 @@ public class CLI implements View, Runnable {
     }
 
     public void displayTower(PlayerData playerData){
-        System.out.println("\n TOWERS");
+        System.out.print("\n TOWERS: ");
 
 
             if(playerData.getColorOfTowers().equals(TowerColor.WHITE)) {
+                System.out.println(TowerColor.WHITE.name());
                 for (int i = 0; i < playerData.getNumberOfTowers(); i++) {
                     System.out.print(" " + CliConstants.TOWER_SYMBOL);
                 }
             }
             else if(playerData.getColorOfTowers().equals(TowerColor.BLACK)){
+                System.out.println(TowerColor.BLACK.name());
                 for(int i = 0; i < playerData.getNumberOfTowers(); i++){
                     System.out.print(" " + CliConstants.TOWER_SYMBOL);//todo trovare un modo per rappresentare le torri nere differenziandole dalle bianche
                 }
             }
             else if(playerData.getColorOfTowers().equals(TowerColor.GRAY)){
+                System.out.println(TowerColor.GRAY.name());
                 for(int i = 0; i < playerData.getNumberOfTowers(); i++){
                     System.out.print(CliConstants.ANSI_GRAY + " " + CliConstants.TOWER_SYMBOL);
                 }

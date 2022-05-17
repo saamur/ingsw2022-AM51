@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * Turn class contains the main logic for the managing of the turns and their phases,
@@ -213,10 +212,6 @@ public class Turn implements Serializable {
         }
 
         int posMax = indexUniqueMax(influences);
-
-        System.out.println("INDICE DELL'ISOLA: " + islandManager.getIslands().indexOf(island));
-        System.out.println("VETTORE INFLUENCES: " + Arrays.toString(influences));
-        System.out.println("INDICE INFLUENCES: " + posMax);            //fixme DEBUG
 
         if(posMax != -1)
             islandManager.conquerIsland(players[posMax], island);

@@ -14,9 +14,6 @@ public record UpdateIsland(IslandData islandData) implements UpdateMessage {
     @Override
     public void updateGameData(GameData gameData) {
         gameData.getIslandManager().getIslands().set(islandData.islandIndex(), islandData);
-        for (IslandData i : gameData.getIslandManager().getIslands())           //FIXME debug
-            System.out.print(i.islandIndex());
-        System.out.println();
     }
 
     @Override

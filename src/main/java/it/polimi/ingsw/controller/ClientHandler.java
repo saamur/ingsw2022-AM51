@@ -57,7 +57,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 Object o = in.readObject();
                 if(!(o instanceof String))
-                    System.out.println("Object received: " + o);
+                    System.out.println("Object received from " + Lobby.getInstance().getNicknameFromClientHandler(this) + ": " + o);
 
                 if ("pong".equals(o)) {
                 }

@@ -593,8 +593,12 @@ public class CLI implements View, Runnable {
         if (gameData == null)
             return;
 
+        System.out.println("############################");
+        System.out.println(gameData);
+        System.out.println("############################");
+
         int numberOfPlayers = gameData.getPlayerData().length;
-        System.out.flush();
+        //System.out.flush();
         for(int i = 0; i < numberOfPlayers; i++){
             if(gameData.getPlayerData()[i].getNickname().equals(nickname)) {
                 System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School" + " (you) ");

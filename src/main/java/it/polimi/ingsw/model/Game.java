@@ -286,7 +286,7 @@ public class Game implements GameInterface {
 
         gameState = GameState.ACTION;
         indexCurrPlayer = 0;
-        turn = new Turn(playersOrderActionPhase[0], players.length);
+        turn = new Turn(getCurrPlayer(), players.length);
 
     }
 
@@ -310,17 +310,16 @@ public class Game implements GameInterface {
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
 
 
-        Player previouslyOwnedProfessor = null;
-        for(Player p : players){
-            if(p.getChamber().hasProfessor(clan)){
-                previouslyOwnedProfessor = p;
-            }
-        }
+        Player previousOwnerProfessor = null;
+        for(Player p : players)
+            if(p.getChamber().hasProfessor(clan))
+                previousOwnerProfessor = p;
+
         turn.moveStudentToChamber(clan, players);
         pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player));
-        if(previouslyOwnedProfessor != null && previouslyOwnedProfessor != player && !previouslyOwnedProfessor.getChamber().hasProfessor(clan)){
-            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(previouslyOwnedProfessor));
-        }
+        if(previousOwnerProfessor != null && previousOwnerProfessor != player && !previousOwnerProfessor.getChamber().hasProfessor(clan))
+            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(previousOwnerProfessor));
+
     }
 
     /**
@@ -406,9 +405,9 @@ public class Game implements GameInterface {
         if (getCurrPlayer().getNumberOfTowers() <= 0) {
             gameState = GameState.GAME_OVER;
             winners = new ArrayList<>();
-            winners.add(players[indexCurrPlayer]);
+            winners.add(getCurrPlayer());
 
-            List<String> nicknameWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
+            List<String> nicknameWinners = new ArrayList<>(winners.stream().map(Player::getNickname).toList());
             pcs.firePropertyChange("gameOver", null, nicknameWinners);
         }
         else if (islandManager.getNumberOfIslands() <= GameConstants.MIN_NUM_ISLANDS)
@@ -471,7 +470,7 @@ public class Game implements GameInterface {
             initRound();
         }
         else
-            turn = new Turn(playersOrderActionPhase[indexCurrPlayer], players.length);
+            turn = new Turn(getCurrPlayer(), players.length);
         //TODO fire?
     }
 
@@ -513,7 +512,7 @@ public class Game implements GameInterface {
 
         winners = potentialWinners;
 
-        List<String> nicknameWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
+        List<String> nicknameWinners = new ArrayList<>(winners.stream().map(Player::getNickname).toList());
 
         pcs.firePropertyChange("gameOver", null, nicknameWinners);
 

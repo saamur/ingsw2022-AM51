@@ -5,7 +5,6 @@ import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 public interface View {
@@ -14,13 +13,15 @@ public interface View {
 
     void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage);
 
+    void playerAddedToGame(String message);
+
     void setGameData (GameData gameData) ;
 
     void updateGameData (UpdateMessage updateMessage);
 
     void addPropertyChangeListener (PropertyChangeListener propertyChangeListener);
 
-    void displayModel();
+    void displayEverything();
 
     void handleGenericMessage(String message);
     void handleErrorMessage(String message);

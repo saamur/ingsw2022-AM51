@@ -11,10 +11,11 @@ public record GamePhaseData(GameState gameState,
                             TurnState turnState,
                             String currPlayerNickname,
                             boolean lastRound,
-                            CharacterID activatedCharacter) implements Serializable {
+                            CharacterID activatedCharacter,
+                            boolean activatedCharacterEffectApplied) implements Serializable {
 
     public static GamePhaseData createGamePhaseData(GameInterface game){
-        return new GamePhaseData(game.getGameState(), game.getTurnState(), game.getNicknameCurrPlayer(), game.isLastRound(), game.getActivatedCharacterCard());
+        return new GamePhaseData(game.getGameState(), game.getTurnState(), game.getNicknameCurrPlayer(), game.isLastRound(), game.getActivatedCharacterCard(), game.isActivatedCharacterCardEffectApplied());
     }
 
     @Override
@@ -25,6 +26,7 @@ public record GamePhaseData(GameState gameState,
                 ", currPlayerNickname='" + currPlayerNickname + '\'' +
                 ", lastRound=" + lastRound +
                 ", activatedCharacter=" + activatedCharacter +
+                ", activatedCharacterEffectApplied=" + activatedCharacterEffectApplied +
                 '}';
     }
 

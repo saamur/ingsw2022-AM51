@@ -403,9 +403,9 @@ public class Game implements GameInterface {
         turn.updateInfluence(islandManager, island, players);
 
         if (getCurrPlayer().getNumberOfTowers() <= 0) {
-            gameState = GameState.GAME_OVER;
             winners = new ArrayList<>();
             winners.add(getCurrPlayer());
+            gameState = GameState.GAME_OVER;
 
             List<String> nicknameWinners = new ArrayList<>(winners.stream().map(Player::getNickname).toList());
             pcs.firePropertyChange("gameOver", null, nicknameWinners);
@@ -621,6 +621,7 @@ public class Game implements GameInterface {
 
         if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF) {
             applyCharacterCardEffect(playerNickname, -1, null, null);
+            turn.characterEffectApplied();
         }
 
     }
@@ -817,4 +818,12 @@ public class Game implements GameInterface {
             return null;
         return turn.getActivatedCharacterCard().getCharacterID();
     }
+
+    @Override
+    public boolean isActivatedCharacterCardEffectApplied() {
+        if (turn == null)
+            return false;
+        return turn.isCharacterEffectApplied();
+    }
+
 }

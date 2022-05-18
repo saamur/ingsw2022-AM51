@@ -53,6 +53,11 @@ public class GUI extends Application implements View{
     }
 
     @Override
+    public void playerAddedToGame(String message) {
+
+    }
+
+    @Override
     public void setGameData(GameData gameData) {
 
     }
@@ -68,7 +73,7 @@ public class GUI extends Application implements View{
     }
 
     @Override
-    public void displayModel() {
+    public void displayEverything() {
 
     }
 

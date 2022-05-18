@@ -17,6 +17,7 @@ public record UpdateGamePhase(GamePhaseData gamePhaseData) implements UpdateMess
         gameData.setCurrPlayer(gamePhaseData.currPlayerNickname());
         gameData.setLastRound(gamePhaseData.lastRound());
         gameData.setActiveCharacterCard(gamePhaseData.activatedCharacter());
+        gameData.setActiveCharacterEffectApplied(gameData.isActiveCharacterEffectApplied());
     }
 
     @Override

@@ -14,6 +14,8 @@ import java.net.Socket;
 
 public class ServerHandler implements Runnable, PropertyChangeListener {
 
+    private static final boolean DEBUGGING = false;
+
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
@@ -45,34 +47,47 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                     sendObject("pong");
                 }
                 else if (o instanceof NicknameAcceptedMessage) {
-                    view.setNickname(((NicknameAcceptedMessage) o).nickname());
+                    new Thread(() -> view.setNickname(((NicknameAcceptedMessage) o).nickname())).start();
+                    //view.setNickname(((NicknameAcceptedMessage) o).nickname());
                 }
                 else if (o instanceof AvailableGamesMessage) {
-                    view.setAvailableGamesMessage ((AvailableGamesMessage) o);
+                    new Thread(() -> view.setAvailableGamesMessage ((AvailableGamesMessage) o)).start();
+                    //view.setAvailableGamesMessage ((AvailableGamesMessage) o);
                     //todo print things
                 }
+                else if (o instanceof PlayerAddedToGameMessage) {
+                    new Thread(() -> view.playerAddedToGame(((PlayerAddedToGameMessage) o).message())).start();
+                    //view.playerAddedToGame(((PlayerAddedToGameMessage) o).message());
+                }
                 else if (o instanceof GameStartedMessage) {
-                    view.setGameData(((GameStartedMessage) o).gameData());
+                    new Thread(() -> view.setGameData(((GameStartedMessage) o).gameData())).start();
+                    //view.setGameData(((GameStartedMessage) o).gameData());
                     //todo make game start
                 }
                 else if (o instanceof GameOverMessage) {
-                    view.handleGameOver(((GameOverMessage) o).winnersNickname());
+                    new Thread(() -> view.handleGameOver(((GameOverMessage) o).winnersNickname())).start();
+                    //view.handleGameOver(((GameOverMessage) o).winnersNickname());
                     break;
                 }
                 else if (o instanceof PlayerDisconnectedMessage) {
-                    view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
+                    new Thread(() -> view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname())).start();
+                    //view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
                     System.out.println(((Message) o).getMessage());
                     break;
                 }
                 else if (o instanceof UpdateMessage) {
-                    System.out.println("UpdateMessage: " + ((Message) o).getMessage());         //FIXME debug
-                    view.updateGameData((UpdateMessage) o);
+                    if (DEBUGGING)
+                        System.out.println("UpdateMessage: " + ((Message) o).getMessage());         //FIXME debug
+                    new Thread(() -> view.updateGameData((UpdateMessage) o)).start();
+                    //view.updateGameData((UpdateMessage) o);
                 }
                 else if (o instanceof GenericMessage) {
-                    view.handleGenericMessage(((GenericMessage) o).message());
+                    new Thread(() -> view.handleGenericMessage(((GenericMessage) o).message())).start();
+                    //view.handleGenericMessage(((GenericMessage) o).message());
                 }
                 else if (o instanceof ErrorMessage) {
-                    view.handleErrorMessage(((ErrorMessage) o).error());
+                    new Thread(() -> view.handleErrorMessage(((ErrorMessage) o).error())).start();
+                    //view.handleErrorMessage(((ErrorMessage) o).error());
                 }
                 else if (o instanceof Message) {
                     System.out.println(((Message) o).getMessage());
@@ -93,7 +108,7 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
 
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
-        if(!(o instanceof String))
+        if(DEBUGGING && !(o instanceof String))
             System.out.println("Sent Message : "+ o);
     }
 

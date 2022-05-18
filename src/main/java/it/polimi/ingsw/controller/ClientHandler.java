@@ -72,18 +72,18 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                         }
                     }
                     else {
-                        sendObject(new ErrorMessage("You cannot change your nickname in this phase"));
+                        sendObject(new ErrorMessage("You cannot change your message in this phase"));
                     }
                 }
                 else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
-                    sendObject(new ErrorMessage("You have to choose a nickname first"));
+                    sendObject(new ErrorMessage("You have to choose a message first"));
                 }
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {
                         controller = Lobby.getInstance().createNewGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
                         controller.setPropertyChangeListener(this);
                         initialization = false;
-                        sendObject(new GenericMessage("You have created a new game"));
+                        sendObject(new PlayerAddedToGameMessage("You have created a new game"));
                     }
                     else
                         sendObject(new ErrorMessage("This is not the right game phase"));
@@ -95,7 +95,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                             controller.setPropertyChangeListener(this);
                             controller.addPlayer(Lobby.getInstance().getNicknameFromClientHandler(this));
                             initialization = false;
-                            sendObject(new GenericMessage("You have been added to the game"));
+                            sendObject(new PlayerAddedToGameMessage("You have been added to the game"));
                         }
                         else {
                             sendObject(new ErrorMessage("Something went wrong, choose another game"));
@@ -111,7 +111,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                         if (controller != null) {
                             controller.setPropertyChangeListener(this);
                             initialization = false;
-                            sendObject(new GenericMessage("You have reloaded the game"));
+                            sendObject(new PlayerAddedToGameMessage("You have reloaded the game"));
                         }
                         else {
                             sendObject(new ErrorMessage("Something went wrong, choose another game"));

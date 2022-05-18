@@ -7,6 +7,14 @@ import java.util.Map;
 
 public class CliConstants {
 
+    public static final String JOINGAME_COMMAND = "joingame";
+    public static final String RESTOREGAME_COMMAND = "restoregame";
+    public static final String CREATENEWGAME_COMMAND = "createnewgame";
+    public static final String CHAMBER_COMMAND = "chamber";
+    public static final String ISLAND_COMMAND = "island";
+    public static final String ENDTURN_COMMAND = "end turn";
+    public static final String ACTIVATECHARACTER_COMMAND = "activatecharacter";
+
     public static final String ANSI_RED = "\033[31m";
     public static final String ANSI_GREEN = "\033[32m";
     public static final String ANSI_YELLOW = "\033[33m";

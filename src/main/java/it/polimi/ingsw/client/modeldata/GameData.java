@@ -27,6 +27,7 @@ public class GameData implements Serializable {
     private List<String> winnersNicknames;
 
     private CharacterID activeCharacterCard;
+    private boolean activeCharacterEffectApplied;
 
     public GameData(IslandManagerData islandManager, CloudManagerData cloudManager, PlayerData[] playerData, GameState gameState, TurnState turnState, String currPlayer, boolean expertModeEnabled, CharacterCardData[] characterCardData, boolean lastRound) {
         this.islandManager = islandManager;
@@ -121,6 +122,21 @@ public class GameData implements Serializable {
 
     public void setActiveCharacterCard(CharacterID activeCharacterCard){this.activeCharacterCard = activeCharacterCard; }
 
+    public boolean isActiveCharacterEffectApplied() {
+        return activeCharacterEffectApplied;
+    }
+
+    public void setActiveCharacterEffectApplied(boolean activeCharacterEffectApplied) {
+        this.activeCharacterEffectApplied = activeCharacterEffectApplied;
+    }
+
+    public List<String> getWinnersNicknames() {
+        return winnersNicknames;
+    }
+
+    public void setWinnersNicknames(List<String> winnersNicknames) {
+        this.winnersNicknames = winnersNicknames;
+    }
 
     @Override
     public String toString() {
@@ -135,6 +151,9 @@ public class GameData implements Serializable {
                 ", characterCardData=" + Arrays.toString(characterCardData) +
                 ", lastRound=" + lastRound +
                 ", winnersNicknames=" + winnersNicknames +
+                ", activeCharacterCard=" + activeCharacterCard +
+                ", activeCharacterEffectApplied=" + activeCharacterEffectApplied +
                 '}';
     }
+
 }

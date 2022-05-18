@@ -6,20 +6,17 @@ import it.polimi.ingsw.constants.CliConstants;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.gamemessages.*;
+import it.polimi.ingsw.messages.updatemessages.UpdateGamePhase;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.TurnState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.fusesource.jansi.AnsiConsole;
 
@@ -28,6 +25,9 @@ public class CLI implements View, Runnable {
 
     private String nickname;
     private AvailableGamesMessage availableGamesMessage;
+    private boolean waitingForServer;
+    private boolean gameChosen;
+    private boolean gameOver;
 
     private GameData gameData;
 
@@ -35,54 +35,183 @@ public class CLI implements View, Runnable {
 
     public CLI() {
         System.out.println("Welcome to the CLI!");
-        System.out.println("First thing, choose a nickname: ");
+        displayEverything();
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
 
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-            //displayModel();
-            //todo print di tutto il model
-            Message message;
+        Scanner stdIn = new Scanner(System.in);
+
+        while (!gameOver) {
             try {
-                message = commandParser(stdIn.readLine());
+                while (waitingForServer)
+                    wait();
+                if (gameOver)
+                    break;
+
+                Message message = null;
+
+                if (nickname == null) {
+                    String name = stdIn.nextLine();
+                    if ("".equals(name))
+                        System.out.println("I don't really know how to pronunce it. Try with another one: ");
+                    else if (name.contains(" "))
+                        System.out.println("This nickname is not valid, you can't use spaces. Try with another one: ");
+                    else
+                        message = new NicknameMessage(name);
+                }
+                else if (!gameChosen) {
+                    String[] words;
+                    do { words = stdIn.nextLine().split(" "); } while (words.length == 0);
+                    if (CliConstants.JOINGAME_COMMAND.equalsIgnoreCase(words[0]) && words.length == 2) {
+                        try {
+                            message = new AddPlayerMessage(Integer.parseInt(words[1]));
+                        } catch (IllegalArgumentException e) {}
+                    }
+                    else if (CliConstants.RESTOREGAME_COMMAND.equalsIgnoreCase(words[0]) && words.length == 2) {
+                        int index;
+                        try {
+                            index = Integer.parseInt(words[1]);
+                            if (index < availableGamesMessage.savedGameData().size())
+                                message = new RestoreGameMessage(availableGamesMessage.savedGameData().get(index));
+                        } catch (NumberFormatException e) {}
+                    }
+                    else if (CliConstants.CREATENEWGAME_COMMAND.equalsIgnoreCase(words[0]) && words.length == 3) {
+                        try {
+                            message = new NewGameMessage(Integer.parseInt(words[1]), Boolean.parseBoolean(words[2]));
+                        } catch (IllegalArgumentException e) {}
+                    }
+
+                    if (message == null)
+                        System.out.println("This command is not correct");
+
+                }
+                else if (gameData != null && gameData.getCurrPlayer().equals(nickname)) {
+                    if (gameData.getGameState() == GameState.PLANNING) {
+                        String card = stdIn.nextLine();
+                        try {
+                            message = new ChosenCardMessage(Card.valueOf(card.toUpperCase()));
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("This is not a valid card. Retry: ");
+                        }
+                    }
+                    else if (gameData.getGameState() == GameState.ACTION) {
+                        String line = stdIn.nextLine();
+                        String[] words = line.split(" ");
+                        if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterEffectApplied()) {
+                            //todo tutta la cosa dei personaggi
+                        }
+                        else if (words.length == 2 && CliConstants.ACTIVATECHARACTER_COMMAND.equalsIgnoreCase(words[0])) {
+                            try {
+                                message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
+                            } catch (IllegalArgumentException e) {
+                                System.out.println("This character does not exist");
+                            }
+                        }
+                        else if (gameData.getTurnState() == TurnState.STUDENT_MOVING) {
+                            if (words.length == 2 && CliConstants.CHAMBER_COMMAND.equalsIgnoreCase(words[0])) {
+                                try {
+                                    message = new MoveStudentToChamberMessage(Clan.valueOf(words[1].toUpperCase()));
+                                } catch (IllegalArgumentException e) {
+                                    System.out.println("This is not a valid clan");
+                                }
+                            }
+                            else if (words.length == 3 && CliConstants.ISLAND_COMMAND.equalsIgnoreCase(words[0])) {
+                                try {
+                                    message = new MoveStudentToIslandMessage(Clan.valueOf(words[2].toUpperCase()), Integer.parseInt(words[1]));
+                                } catch (Exception e) {
+                                    System.out.println("The parameters are not correct");
+                                }
+                            }
+                            else {
+                                System.out.println("This command is not correct");
+                            }
+                        }
+                        else if (gameData.getTurnState() == TurnState.MOTHER_MOVING) {
+                            try {
+                                message = new MoveMotherNatureMessage(Integer.parseInt(line));
+                            } catch (NumberFormatException e) {
+                                System.out.println("This is not a valid number");
+                            }
+                        }
+                        else if (gameData.getTurnState() == TurnState.CLOUD_CHOOSING) {
+                            try {
+                                message = new ChosenCloudMessage(Integer.parseInt(line));
+                            } catch (NumberFormatException e) {
+                                System.out.println("This is not a valid number");
+                            }
+                        }
+                        else {
+                            if (CliConstants.ENDTURN_COMMAND.equalsIgnoreCase(line))
+                                message = new EndTurnMessage();
+                            else
+                                System.out.println("This command is not correct");
+                        }
+                    }
+                }
+                else {
+                    waitingForServer = true;
+                }
+
                 if (message != null) {
                     pcs.firePropertyChange("message", null, message);
+                    waitingForServer = true;
                 }
-                else
-                    System.out.println("this command is not correct");
-            } catch (IOException e) {
-                //e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
     }
 
     @Override
-    public void setNickname(String nickname) {
+    public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
         System.out.println("Welcome " + nickname + "!");
+        if (availableGamesMessage != null) {
+            displayEverything();
+            waitingForServer = false;
+            notifyAll();
+        }
     }
 
     @Override
-    public void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
+    public synchronized void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
         this.availableGamesMessage = availableGamesMessage;
-        System.out.println(availableGamesMessage);
+        if (nickname != null) {
+            displayEverything();
+            waitingForServer = false;
+            notifyAll();
+        }
     }
 
     @Override
-    public void setGameData (GameData gameData) {
+    public synchronized void playerAddedToGame(String message) {
+        System.out.println(message);
+        gameChosen = true;
+        displayEverything();
+    }
+
+    @Override
+    public synchronized void setGameData (GameData gameData) {
         this.gameData = gameData;
-        displayModel();
+        gameChosen = true;
+        displayEverything();
+        waitingForServer = false;
+        notifyAll();
     }
 
     @Override
-    public void updateGameData (UpdateMessage updateMessage) {
-        if (gameData != null)
+    public synchronized void updateGameData (UpdateMessage updateMessage) {
+        if (gameData != null) {
             updateMessage.updateGameData(gameData);
-        displayModel();
+            displayEverything();
+            if (updateMessage instanceof UpdateGamePhase) {
+                waitingForServer = false;
+                notifyAll();
+            }
+        }
     }
 
     @Override
@@ -91,27 +220,31 @@ public class CLI implements View, Runnable {
     }
 
     @Override
-    public void handleGenericMessage(String message) {
+    public synchronized void handleGenericMessage(String message) {
         System.out.println("handleGenericMessage: " + message);
         //todo
     }
 
     @Override
-    public void handleErrorMessage(String message) {
+    public synchronized void handleErrorMessage(String message) {
         System.out.println("handleErrorMessage: " + message);
         //todo
     }
 
     @Override
     public void handleGameOver(List<String> winnersNickname) {
-        System.out.println("Game over");
-        System.out.println("Winners: " + winnersNickname);
+        gameData.setWinnersNicknames(winnersNickname);
+        displayEverything();
+        gameOver = true;
+        notifyAll();
     }
 
     @Override
-    public void handlePlayerDisconnected(String playerDisconnectedNickname) {
+    public synchronized void handlePlayerDisconnected(String playerDisconnectedNickname) {
         System.out.println(playerDisconnectedNickname + " has disconnected");
         System.out.println("The game will close");
+        gameOver = true;
+        notifyAll();
     }
 
     public synchronized Message commandParser (String line) {
@@ -123,7 +256,7 @@ public class CLI implements View, Runnable {
             return null;
 
         switch (words[0].toLowerCase()) {
-            case "nickname":
+            case "message":
                 if (words.length != 2)
                     return null;
                 message = new NicknameMessage(words[1]);
@@ -598,31 +731,86 @@ public class CLI implements View, Runnable {
     }
 
     @Override
+    public void displayEverything() {
+
+        if (nickname == null) {
+            System.out.println("Choose a nickname: ");
+        }
+        else if (!gameChosen) {
+            System.out.println(availableGamesMessage);
+            System.out.println("Possible commands:");
+            System.out.println("\t" + CliConstants.CREATENEWGAME_COMMAND + " <number of players> <true for expert mode, false otherwise>");
+            System.out.println("\t" + CliConstants.JOINGAME_COMMAND + " <game id>");
+            System.out.println("\t" + CliConstants.RESTOREGAME_COMMAND + " <game id>");
+            System.out.println();
+        }
+        else if (gameData == null) {
+            System.out.println("wait for the game to start...");
+        }
+        else if (gameData.getGameState() == GameState.GAME_OVER) {
+            System.out.println("THE GAME IS OVER");
+            System.out.print("Winners: ");
+            for (String s : gameData.getWinnersNicknames())
+                System.out.println(s + " ");
+            System.out.println();
+        }
+        else {
+
+            displayModel();
+
+            if (nickname.equals(gameData.getCurrPlayer())) {
+                if (gameData.getGameState() == GameState.PLANNING) {
+                    System.out.println("Your available cards are: ");
+                    for (PlayerData p : gameData.getPlayerData())
+                        if (p.getNickname().equals(nickname))
+                            updateDeck(p);
+                    System.out.println("Chose one: ");
+                }
+                else if (gameData.getGameState() == GameState.ACTION) {
+                    if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterEffectApplied()) {
+                        //todo tutta la cosa dei personaggi
+                    }
+                    else {
+                        if (gameData.getTurnState() == TurnState.STUDENT_MOVING) {
+                            System.out.println("Possible commands:");
+                            System.out.println("\t" + CliConstants.CHAMBER_COMMAND + " <clan>");
+                            System.out.println("\t" + CliConstants.ISLAND_COMMAND + " <island index> <clan>");
+                        }
+                        else if (gameData.getTurnState() == TurnState.MOTHER_MOVING) {
+                            System.out.println("Possible commands:");
+                            System.out.println("\t" + "<island index>");
+                        }
+                        else if (gameData.getTurnState() == TurnState.CLOUD_CHOOSING) {
+                            System.out.println("Possible commands:");
+                            System.out.println("\t" + "<cloud index>");
+                        }
+                        else {
+                            System.out.println("Possible commands:");
+                            System.out.println("\t" + CliConstants.ENDTURN_COMMAND);
+                        }
+                        if (gameData.isExpertModeEnabled() && gameData.getActiveCharacterCard() == null)
+                            System.out.println("\t" + CliConstants.ACTIVATECHARACTER_COMMAND + " <character name>");
+                    }
+                }
+            }
+
+        }
+
+    }
+
     public void displayModel() {
         AnsiConsole.systemInstall();
 
-        if (gameData == null)
-            return;
-
-        System.out.println("############################");
-        System.out.println(gameData);
-        System.out.println("############################");
-
-        int numberOfPlayers = gameData.getPlayerData().length;
         //System.out.flush();
-        for(int i = 0; i < numberOfPlayers; i++){
-            if(gameData.getPlayerData()[i].getNickname().equals(nickname)) {
-                System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School" + " (you) ");
+        for(PlayerData p : gameData.getPlayerData()){
+            if(p.getNickname().equals(nickname)) {
+                System.out.println(p.getNickname() + "'s School" + " (you) ");
             }
             else
-                System.out.println(gameData.getPlayerData()[i].getNickname() + "'s School");
-            displayHall(gameData.getPlayerData()[i].getHallData());
-            displayChamber(gameData.getPlayerData()[i].getChamberData());
-            displayTower(gameData.getPlayerData()[i]);
-            if(gameData.getGameState() == GameState.PLANNING)
-                if(gameData.getPlayerData()[i].getNickname().equals(nickname)){
-                    updateDeck(gameData.getPlayerData()[i]);
-                }
+                System.out.println(p.getNickname() + "'s School");
+            displayHall(p.getHallData());
+            displayChamber(p.getChamberData());
+            displayTower(p);
         }
         System.out.println("\n\n\n");
 
@@ -638,8 +826,6 @@ public class CLI implements View, Runnable {
             displayActiveCharacter();
             System.out.println("\n\n\n");
         }
-
-
 
         System.out.println("Game phase: " + gameData.getGameState().name().toLowerCase());
         if (gameData.getGameState() == GameState.ACTION)

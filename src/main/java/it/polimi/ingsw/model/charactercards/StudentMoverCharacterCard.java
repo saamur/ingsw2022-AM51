@@ -112,7 +112,6 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         return new EnumMap<>(stud);
     }
 
-    //FIXME sarebbe meglio mettere i fire nelle lambda functions ma non sono static!
 
     @Override
     public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {

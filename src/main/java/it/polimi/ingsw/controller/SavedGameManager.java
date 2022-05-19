@@ -42,10 +42,10 @@ public class SavedGameManager {
 
         for (File f : savedRunningGames) {
 
-            ObjectInputStream in;
+            ObjectInputStream in = null;
             GameInterface restoredGame = null;
 
-            try {
+            try {                               //todo fare con try catch parametrico
                 in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
                 restoredGame = (GameInterface) in.readObject();
             } catch (ClassNotFoundException e) {
@@ -54,6 +54,13 @@ public class SavedGameManager {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                    try {
+                        if (in != null)
+                            in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
             }
 
             System.out.println(f.getAbsolutePath());

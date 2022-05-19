@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
+import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -31,6 +32,8 @@ public class ModelDisplay {
             displayHall(p.getHallData());
             displayChamber(p.getChamberData());
             displayTowersPlayer(p);
+            if(gameData.isExpertModeEnabled())
+                displayCoins(p);
         }
         System.out.println("\n\n\n");
 
@@ -58,7 +61,7 @@ public class ModelDisplay {
 
     }
 
-    public static void displayHall (HallData hallData) {
+    private static void displayHall (HallData hallData) {
         int i;
 
         System.out.println("HALL");
@@ -88,7 +91,7 @@ public class ModelDisplay {
         System.out.println("\n" + CliConstants.ANSI_RESET);
     }
 
-    public static void displayChamber (ChamberData chamberData){
+    private static void displayChamber (ChamberData chamberData){
         System.out.println("CHAMBER");
 
 
@@ -114,7 +117,7 @@ public class ModelDisplay {
 
     }
 
-    public static void displayIslands (IslandManagerData islandManagerData) {
+    private static void displayIslands (IslandManagerData islandManagerData) {
         List<IslandData> islandsData = islandManagerData.getIslands();
         System.out.println(CliConstants.ANSI_RESET + "ISLANDS");
         for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++) {
@@ -276,7 +279,7 @@ public class ModelDisplay {
         }
     }
 
-    public static void displayTowersPlayer (PlayerData playerData){
+    private static void displayTowersPlayer (PlayerData playerData){
         System.out.print("\n TOWERS: ");
 
 
@@ -314,7 +317,7 @@ public class ModelDisplay {
         System.out.print("  | ");
     }
 
-    public static void displayClouds (CloudManagerData cloudManagerData){
+    private static void displayClouds (CloudManagerData cloudManagerData){
         for(int j = 0; j < cloudManagerData.clouds().length; j++) {
             int i;
             if(cloudManagerData.clouds()[j].picked())
@@ -344,7 +347,7 @@ public class ModelDisplay {
         }
     }
 
-    public static void displayAvailableCharacters (CharacterCardData[] characterCardData, CharacterID activeCharacter){
+    private static void displayAvailableCharacters (CharacterCardData[] characterCardData, CharacterID activeCharacter){
 
         System.out.println("\n");
         System.out.println("ACTIVE CHARACTER CARDS");
@@ -383,14 +386,77 @@ public class ModelDisplay {
         }
     }
 
-    public static void displayDeck (PlayerData playerData){
+    public static void displayDeck (PlayerData playerData){ //todo introdurre metodo per ridurre duplicazione codice
 
-        for(int i = 0; i < playerData.getAvailableCards().size(); i++){
-            System.out.println(playerData.getAvailableCards().get(i));
-            System.out.println("Priority: " + playerData.getAvailableCards().get(i).getPriority());
-            System.out.println("Max Steps: " + playerData.getAvailableCards().get(i).getMaxStepsMotherNature());
-            System.out.println("\n\n");
+
+        System.out.print("          | ");
+        for(int i = 0; i < Math.min(playerData.getAvailableCards().size(), 5); i++) {
+            Card c = playerData.getAvailableCards().get(i);
+            System.out.print(c.toString());
+            for (int j = 0; j < CliConstants.MAX_NAME_CARD_LENGTH - c.toString().length(); j++) {
+                System.out.print(" ");
+            }
+            System.out.print(" | ");
         }
+        System.out.print("\nPriority  |");
+        for(int i = 0; i < Math.min(playerData.getAvailableCards().size(), 5); i++) {
+            Card c = playerData.getAvailableCards().get(i);
+           System.out.print("    ");
+            System.out.print(c.getPriority());
+            if (c.getPriority() == 10)
+                System.out.print("    |");
+            else
+                System.out.print("     |");
+        }
+
+        System.out.print("\nMax Steps |");
+        for(int i = 0; i < Math.min(playerData.getAvailableCards().size(), 5); i++) {
+            Card c = playerData.getAvailableCards().get(i);
+            System.out.print("    ");
+            System.out.print(c.getMaxStepsMotherNature());
+            System.out.print("     |");
+        }
+        System.out.println("\n\n");
+
+        if(playerData.getAvailableCards().size() > 5){
+            System.out.print("          | ");
+            for(int i = 5; i < playerData.getAvailableCards().size(); i++) {
+                Card c = playerData.getAvailableCards().get(i);
+                System.out.print(c.toString());
+                for (int j = 0; j < (CliConstants.MAX_NAME_CARD_LENGTH - c.toString().length()); j++) {
+                    System.out.print(" ");
+                }
+                System.out.print(" | ");
+            }
+            System.out.print("\nPriority  |");
+            for(int i = 5; i < playerData.getAvailableCards().size(); i++) {
+                Card c = playerData.getAvailableCards().get(i);
+                System.out.print("    ");
+                System.out.print(c.getPriority());
+                if (c.getPriority() == 10)
+                    System.out.print("    |");
+                else
+                    System.out.print("     |");
+            }
+            System.out.print("\nMax Steps |");
+            for(int i = 5; i < playerData.getAvailableCards().size(); i++) {
+                Card c = playerData.getAvailableCards().get(i);
+                System.out.print("    ");
+                System.out.print(c.getMaxStepsMotherNature());
+                System.out.print("     |");
+            }
+        }
+
+        System.out.println("\n\n");
+
+    }
+
+
+    private static void displayCoins(PlayerData playerData){
+        if(playerData.getChamberData().coins()==0){
+            System.out.println(playerData.getNickname() + " doesn't have any coins");
+        }
+        System.out.println("Number of Coins: " + playerData.getChamberData().coins());
 
     }
 

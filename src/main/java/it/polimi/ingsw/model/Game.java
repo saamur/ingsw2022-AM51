@@ -784,13 +784,16 @@ public class Game implements GameInterface {
     }
 
     @Override
-    public void removeListeners(PropertyChangeListener listener){
-        islandManager.removePropertyChangeListener(listener);
-        pcs.removePropertyChangeListener(listener);
+    public void removeListeners(){
+
+        PropertyChangeListener[] propertyChangeListeners = pcs.getPropertyChangeListeners();
+        for (PropertyChangeListener l : propertyChangeListeners)
+            pcs.removePropertyChangeListener(l);
+
+        islandManager.removePropertyChangeListener();
         if(expertModeEnabled)
             for (CharacterCard c : availableCharacterCards)
-                c.removePropertyChangeListener(listener);
-
+                c.removePropertyChangeListener();
 
     }
 

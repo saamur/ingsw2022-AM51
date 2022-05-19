@@ -25,6 +25,7 @@ public class NewGameController extends Controller {
             started = true;
             Lobby.getInstance().startController(this);
             pcs.firePropertyChange("gameStarted", null, new GameStartedMessage(game.getGameData()));
+            SavedGameManager.saveRunningGame(game, getId());
         }
 
     }

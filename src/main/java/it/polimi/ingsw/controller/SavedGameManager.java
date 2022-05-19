@@ -18,19 +18,57 @@ import java.util.stream.Collectors;
 public class SavedGameManager {
 
     private static final String SAVED_GAMES_DIRECTORY = "SavedGames";
+    private static final String SAVED_RUNNING_GAMES_DIRECTORY = "SavedRunningGames";
     private static final String SAVED_GAMES_INDEX = "index.txt";
     private static final String SAVED_GAME_BASE_NAME = "savedGame";
+    private static final String SAVED_RUNNING_GAME_BASE_NAME = "savedRunningGame";
     private static final String SAVED_GAME_EXTENSION = ".game";
 
     static {
-        File directory = new File(SAVED_GAMES_DIRECTORY);
-        directory.mkdir();
+
+        File savedGameDirectory = new File(SAVED_GAMES_DIRECTORY);
+        savedGameDirectory.mkdir();
         File index = new File(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX);
         try {
             index.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        File savedRunningGamesDirectory = new File(SAVED_RUNNING_GAMES_DIRECTORY);
+        savedRunningGamesDirectory.mkdir();
+
+        File[] savedRunningGames = savedRunningGamesDirectory.listFiles();
+
+        for (File f : savedRunningGames) {
+
+            ObjectInputStream in;
+            GameInterface restoredGame = null;
+
+            try {
+                in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+                restoredGame = (GameInterface) in.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(f.getAbsolutePath());
+            System.out.println(f.getName());
+            boolean ok = f.delete();
+            System.out.println(ok);
+            restoredGame.removeListeners();
+
+            try {
+                saveGame(restoredGame);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
@@ -120,14 +158,32 @@ public class SavedGameManager {
 
         fileGame.delete();
 
-        File file = new File(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX);
-        List<String> out = Files.lines(file.toPath())
+        File index = new File(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX);
+        List<String> out = Files.lines(index.toPath())
                 .filter(line -> !SavedGameData.savedGameDataParser(line).fileName().equals(fileName))
                 .collect(Collectors.toList());
-        Files.write(file.toPath(), out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(index.toPath(), out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 
         return restoredGame;
 
+    }
+
+    public static void saveRunningGame (GameInterface game, int controllerID) {
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new
+                BufferedOutputStream(new FileOutputStream(SAVED_RUNNING_GAMES_DIRECTORY + "/" + SAVED_RUNNING_GAME_BASE_NAME + controllerID + SAVED_GAME_EXTENSION)))) {
+
+            out.writeObject(game);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void removeSavedRunningGame (int controllerID) {
+        File file = new File (SAVED_RUNNING_GAMES_DIRECTORY + "/" + SAVED_RUNNING_GAME_BASE_NAME + controllerID + SAVED_GAME_EXTENSION);
+        if (file.exists())
+            file.delete();
     }
 
 }

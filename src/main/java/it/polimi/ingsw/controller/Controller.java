@@ -64,6 +64,10 @@ public abstract class Controller implements PropertyChangeListener {
         Message answer = message.performMove(nickname, game);
 
         pcs.firePropertyChange("updateGamePhase", null, new UpdateGamePhase(GamePhaseData.createGamePhaseData(game)));
+        if (game.getGameState() != GameState.GAME_OVER)
+            SavedGameManager.saveRunningGame(game, getId());
+        else
+            SavedGameManager.removeSavedRunningGame(getId());
 
         if (answer == null)
             answer = new ErrorMessage("An error has occurred");
@@ -80,8 +84,9 @@ public abstract class Controller implements PropertyChangeListener {
 
             pcs.firePropertyChange("disconnectedPlayer", null, message);
 
-            if (game.getGameState() != GameState.INITIALIZATION) {
-                game.removeListeners(this);
+            if (game.getGameState() != GameState.INITIALIZATION && game.getGameState() != GameState.GAME_OVER) {
+                game.removeListeners();
+                SavedGameManager.removeSavedRunningGame(getId());
                 try {
                     SavedGameManager.saveGame(game);
                 } catch (IOException e) {

@@ -28,7 +28,7 @@ public interface GameInterface extends Serializable {
     List<String> getPlayersNicknames();
     boolean isExpertModeEnabled();
     void setListeners(PropertyChangeListener listener);
-    void removeListeners(PropertyChangeListener listener);
+    void removeListeners();
     GameData getGameData(); //controller chiama funzione e lo manda tramite fire (Messaggio GameUpdate) e lo invia ai ClientHandler
     TurnState getTurnState();
     String getNicknameCurrPlayer();

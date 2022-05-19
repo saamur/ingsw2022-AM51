@@ -35,7 +35,7 @@ public class CliConstants {
 //"○"
 // ○
 
-    public static final int NUM_ACTIVE_CHARACTER_CARDS = 3;
+
 
     private static final Map<Clan, String> clanMapColor;
     static {

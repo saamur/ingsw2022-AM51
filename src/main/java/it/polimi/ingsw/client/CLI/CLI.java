@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.*;
@@ -685,7 +685,7 @@ public class CLI implements View, Runnable {
         System.out.println("\n");
         System.out.println("ACTIVE CHARACTER CARDS");
         System.out.print("        |");
-        for(int i = 0; i < CliConstants.NUM_ACTIVE_CHARACTER_CARDS; i++){
+        for(int i = 0; i < GameConstants.NUM_ACTIVE_CHARACTER_CARDS; i++){
             System.out.print("  ");
             if(gameData.getCharacterCardData()[i].characterID() == gameData.getActiveCharacterCard())
                 System.out.print(CliConstants.ANSI_RED + gameData.getCharacterCardData()[i].characterID().toString() + CliConstants.ANSI_RESET);
@@ -696,7 +696,7 @@ public class CLI implements View, Runnable {
 
         System.out.println("\n");
         System.out.print("Cost:   |");
-        for(int i = 0; i < CliConstants.NUM_ACTIVE_CHARACTER_CARDS; i++){
+        for(int i = 0; i < GameConstants.NUM_ACTIVE_CHARACTER_CARDS; i++){
             System.out.print("  ");
             if(gameData.getCharacterCardData()[i].characterID().toString().length()%2!= 0) {
                 createAvailableCard(i);

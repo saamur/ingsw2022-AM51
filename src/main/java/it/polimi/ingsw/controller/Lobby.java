@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Game;
@@ -66,9 +67,13 @@ public class Lobby {
     }
 
     public synchronized NewGameController createNewGameController(String nickname, int numOfPlayers, boolean expertMode) {
-        GameInterface game = new Game(numOfPlayers, nickname, expertMode);
-        NewGameController controller = new NewGameController(game);
-        openingNewGameControllers.add(controller);
+        NewGameController controller = null;
+        if (GameConstants.supportsNumberOfPlayers(numOfPlayers)) {
+            GameInterface game = new Game(numOfPlayers, nickname, expertMode);
+            controller = new NewGameController(game);
+            openingNewGameControllers.add(controller);
+        }
+
         return controller;
     }
 

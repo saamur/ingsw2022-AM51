@@ -245,6 +245,10 @@ public class CLI implements View, Runnable {
     @Override
     public synchronized void handleErrorMessage(String message) {
         System.out.println("handleErrorMessage: " + message);
+        if (!gameChosen) {        //fixme o availableGameMessage = null?
+            waitingForServer = false;
+            notifyAll();
+        }
         //todo
     }
 

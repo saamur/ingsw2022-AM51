@@ -42,10 +42,12 @@ public class SavedGameManager {
 
         for (File f : savedRunningGames) {
 
-            ObjectInputStream in = null;
-            GameInterface restoredGame = null;
+            //todo fare con try catch parametrico
 
-            try {                               //todo fare con try catch parametrico
+            GameInterface restoredGame = null;
+           /*
+            ObjectInputStream in = null;
+            try {
                 in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
                 restoredGame = (GameInterface) in.readObject();
             } catch (ClassNotFoundException e) {
@@ -61,12 +63,18 @@ public class SavedGameManager {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+            }*/
+
+            try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)))) {
+                restoredGame = (GameInterface) in.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
-            System.out.println(f.getAbsolutePath());
-            System.out.println(f.getName());
-            boolean ok = f.delete();
-            System.out.println(ok);
+            f.delete();
+
             restoredGame.removeListeners();
 
             try {
@@ -118,6 +126,7 @@ public class SavedGameManager {
         try (ObjectOutputStream out = new ObjectOutputStream(new
                 BufferedOutputStream(new FileOutputStream(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION)))) {
 
+            game.save();
             out.writeObject(game);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -180,6 +189,7 @@ public class SavedGameManager {
         try (ObjectOutputStream out = new ObjectOutputStream(new
                 BufferedOutputStream(new FileOutputStream(SAVED_RUNNING_GAMES_DIRECTORY + "/" + SAVED_RUNNING_GAME_BASE_NAME + controllerID + SAVED_GAME_EXTENSION)))) {
 
+            game.save();
             out.writeObject(game);
         } catch (IOException e) {
             e.printStackTrace();

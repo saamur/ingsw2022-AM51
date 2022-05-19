@@ -40,6 +40,8 @@ public class Game implements GameInterface {
         };
     }
 
+    private int timesSaved;
+
     private GameState gameState;
 
     private final IslandManager islandManager;
@@ -799,7 +801,26 @@ public class Game implements GameInterface {
 
     @Override
     public GameData getGameData() {
-        return GameData.createGameData(this);
+
+        PlayerData[] playerData = new PlayerData[players.length];
+        for (int i = 0; i < players.length; i++)
+            playerData[i] = PlayerData.createPlayerData(players[i]);
+
+        CharacterCardData[] characterData = new CharacterCardData[3];
+
+        if(expertModeEnabled)
+            for(int i=0; i< availableCharacterCards.length; i++)
+                characterData[i] = CharacterCardData.createCharacterCardData(availableCharacterCards[i]);
+
+        return new GameData(IslandManagerData.createIslandManagerData(islandManager),
+                CloudManagerData.createCloudManagerData(cloudManager),
+                playerData,
+                gameState,
+                getTurnState(),
+                getCurrPlayer().getNickname(),
+                expertModeEnabled,
+                characterData,
+                lastRound);
     }
 
     @Override
@@ -826,6 +847,16 @@ public class Game implements GameInterface {
         if (turn == null)
             return false;
         return turn.isCharacterEffectApplied();
+    }
+
+    @Override
+    public void save () {
+        timesSaved++;
+    }
+
+    @Override
+    public int getTimesSaved() {
+        return timesSaved;
     }
 
 }

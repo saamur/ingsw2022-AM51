@@ -2,9 +2,8 @@ package it.polimi.ingsw.constants;
 
 import it.polimi.ingsw.model.charactercards.CharacterID;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.plaf.synth.SynthTextAreaUI;
+import java.util.*;
 
 /**
  * GameConstants class contains the main constants used in the Erianys game
@@ -17,6 +16,14 @@ public class GameConstants {
     public static final int MIN_NUM_ISLANDS = 3;
     public static final int MAX_NUM_STUDENTS_PER_CLAN_CHAMBER = 10;
     public static final int NUM_AVAILABLE_CHARACTER_CARDS = 3;
+
+    private static final Set<Integer> NUM_OF_SUPPORTED_PLAYERS;
+
+    static {
+        NUM_OF_SUPPORTED_PLAYERS = new HashSet<>();
+        NUM_OF_SUPPORTED_PLAYERS.add(2);
+        NUM_OF_SUPPORTED_PLAYERS.add(3);
+    }
 
     private static final Map<Integer, Integer> NUM_STUDENTS_PER_CLOUD;
 
@@ -65,6 +72,10 @@ public class GameConstants {
         NUM_INITIAL_STUDENTS_STUDENT_MOVER_CHARACTER_CARD.put(CharacterID.MINSTREL, 0);
         NUM_INITIAL_STUDENTS_STUDENT_MOVER_CHARACTER_CARD.put(CharacterID.PRINCESS, 4);
         NUM_INITIAL_STUDENTS_STUDENT_MOVER_CHARACTER_CARD.put(CharacterID.THIEF, 0);
+    }
+
+    public static boolean supportsNumberOfPlayers (int numberOfPlayers) {
+        return NUM_OF_SUPPORTED_PLAYERS.contains(numberOfPlayers);
     }
 
     public static int getNumStudentsPerCloud (int numPlayers) {

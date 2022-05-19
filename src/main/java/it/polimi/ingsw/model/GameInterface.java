@@ -36,4 +36,7 @@ public interface GameInterface extends Serializable {
     CharacterID getActivatedCharacterCard();
     boolean isActivatedCharacterCardEffectApplied();
 
+    void save();
+    int getTimesSaved();
+
 }

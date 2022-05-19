@@ -81,9 +81,15 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {
                         controller = Lobby.getInstance().createNewGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((NewGameMessage) o).numOfPlayers(), ((NewGameMessage) o).expertMode());
-                        controller.setPropertyChangeListener(this);
-                        initialization = false;
-                        sendObject(new PlayerAddedToGameMessage("You have created a new game"));
+                        if (controller != null) {
+                            controller.setPropertyChangeListener(this);
+                            initialization = false;
+                            sendObject(new PlayerAddedToGameMessage("You have created a new game"));
+                        }
+                        else {
+                            int n = ((NewGameMessage) o).numOfPlayers();
+                            sendObject(new ErrorMessage("You cannot create a game with " + n + (n != 1 ? " players" : " player")));
+                        }
                     }
                     else
                         sendObject(new ErrorMessage("This is not the right game phase"));

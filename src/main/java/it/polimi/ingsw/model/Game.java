@@ -19,7 +19,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Game class contains the main logic of the game Eriantys with the necessary methods for the handling of its phases,
@@ -84,7 +83,7 @@ public class Game implements GameInterface {
             Random random = new Random();
             availableCharacterCards = new CharacterCard[3];
             int i = 0;
-            while (i < 3) {
+            while (i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS) {
                 CharacterID c = CharacterID.values()[random.nextInt(CharacterID.values().length)];
                 boolean ok = true;
                 for (int j = 0; j < i; j++)

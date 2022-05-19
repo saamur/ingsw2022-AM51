@@ -36,6 +36,7 @@ public class CliConstants {
 // ○
 
 
+    public static final int MAX_NAME_CARD_LENGTH = 8;
 
     private static final Map<Clan, String> clanMapColor;
     static {

@@ -102,7 +102,7 @@ public class Player implements Serializable {
      * method removeTowers decreases the variable numberOfTowers
      * @param n the amount of towers to remove
      */
-    public void removeTowers (int n) { //potrei mettere qui pcs.fire ma riceve fire per ogni singolo cambiamento che avviene
+    public void removeTowers (int n) {
         numberOfTowers -= n;
     }
 

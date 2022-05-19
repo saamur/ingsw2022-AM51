@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.player.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -30,8 +31,27 @@ public class CLI implements View, Runnable {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    public CLI() {
+    public CLI(){
         System.out.println("Welcome to the CLI!");
+        Scanner stdIn = new Scanner(System.in);
+        ServerHandler serverHandler = null;
+
+        do{
+            System.out.println("Insert IP:");
+            String address = stdIn.nextLine();
+            System.out.println("Insert port:");
+            int port = stdIn.nextInt();
+            try {
+                serverHandler = new ServerHandler(address, port, this);
+            }catch (IOException e){
+                System.out.println("The server could not be reached.\nCheck if the parameters are correct or if the server is running\n");
+            }
+        }while(serverHandler == null);
+
+        Thread serverHandlerThread = new Thread(serverHandler);
+        this.addPropertyChangeListener(serverHandler);
+        serverHandlerThread.start();
+
         displayEverything();
     }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="844.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="it.polimi.ingsw.client.GUI.BoardController">
+  <tabs>
+    <Tab fx:id="playerTab1" style="-fx-background-color: LIGHTBLUE;" text="Player 1">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="833.0" style="-fx-background-color: LIGHTBLUE;">
+               <children>
+                  <ImageView fitHeight="344.0" fitWidth="800.0" layoutX="14.0" layoutY="63.0">
+                     <image>
+                        <Image url="@../png/Plancia_DEF.png" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="playerTab2" style="-fx-background-color: LIGHTBLUE;" text="Player 2">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: LIGHTBLUE;" />
+      </content>
+    </Tab>
+      <Tab fx:id="playerTab3" style="-fx-background-color: LIGHTBLUE;" text="Player 3">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: LIGHTBLUE;" />
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

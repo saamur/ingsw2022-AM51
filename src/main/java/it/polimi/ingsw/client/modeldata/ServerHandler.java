@@ -22,8 +22,8 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
 
     private final View view;
 
-    public ServerHandler (Socket socket, View view) throws IOException {
-        this.socket = socket;
+    public ServerHandler (String address, int port, View view) throws IOException {
+        this.socket = new Socket(address, port);
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
         this.view = view;

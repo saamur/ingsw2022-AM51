@@ -24,6 +24,7 @@ public class CLI implements View, Runnable {
     private String nickname;
     private AvailableGamesMessage availableGamesMessage;
     private boolean waitingForServer;
+    private boolean errChoiceGame;
     private boolean gameChosen;
     private boolean gameOver;
 
@@ -102,6 +103,8 @@ public class CLI implements View, Runnable {
 
                     if (message == null)
                         System.out.println("This command is not correct");
+                    else
+                        errChoiceGame = false;
 
                 }
                 else if (gameData != null && gameData.getCurrPlayer().equals(nickname)) {
@@ -195,11 +198,16 @@ public class CLI implements View, Runnable {
 
     @Override
     public synchronized void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
+        AvailableGamesMessage previous = this.availableGamesMessage;
         this.availableGamesMessage = availableGamesMessage;
         if (nickname != null) {
-            displayEverything();
-            waitingForServer = false;
-            notifyAll();
+            if (previous == null || errChoiceGame) {
+                displayEverything();
+                waitingForServer = false;
+                notifyAll();
+            }
+            else
+                errChoiceGame = true;
         }
     }
 
@@ -245,8 +253,12 @@ public class CLI implements View, Runnable {
     @Override
     public synchronized void handleErrorMessage(String message) {
         System.out.println("handleErrorMessage: " + message);
-        waitingForServer = false;
-        notifyAll();
+        if (!(availableGamesMessage != null && !gameChosen)) {
+            waitingForServer = false;
+            notifyAll();
+        }
+        else
+            errChoiceGame = true;
         //todo
     }
 

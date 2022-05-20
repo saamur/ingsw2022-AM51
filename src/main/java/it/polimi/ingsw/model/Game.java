@@ -580,7 +580,7 @@ public class Game implements GameInterface {
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
-        if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
+        if (turn.isCharacterPunctualEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
@@ -591,7 +591,7 @@ public class Game implements GameInterface {
 
         if (!ok) throw new NotValidMoveException("This move is not valid");
 
-        turn.characterEffectApplied();
+        turn.characterPunctualEffectApplied();
 
     }
 
@@ -622,7 +622,7 @@ public class Game implements GameInterface {
 
         if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF) {
             applyCharacterCardEffect(playerNickname, -1, null, null);
-            turn.characterEffectApplied();
+            turn.characterPunctualEffectApplied();
         }
 
     }
@@ -649,7 +649,7 @@ public class Game implements GameInterface {
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
-        if (turn.isCharacterEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
+        if (turn.isCharacterPunctualEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
 
         PlayerData oldPlayerData = PlayerData.createPlayerData(player);
         IslandData oldIslandData = IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex);
@@ -667,7 +667,7 @@ public class Game implements GameInterface {
 
         if (!ok) throw new NotValidMoveException("This move is not valid");
 
-        turn.characterEffectApplied();
+        turn.characterPunctualEffectApplied();
 
         if (bag.isEmpty())
             lastRound = true;
@@ -843,10 +843,10 @@ public class Game implements GameInterface {
     }
 
     @Override
-    public boolean isActivatedCharacterCardEffectApplied() {
+    public boolean isActivatedCharacterCardPunctualEffectApplied() {
         if (turn == null)
             return false;
-        return turn.isCharacterEffectApplied();
+        return turn.isCharacterPunctualEffectApplied();
     }
 
     @Override

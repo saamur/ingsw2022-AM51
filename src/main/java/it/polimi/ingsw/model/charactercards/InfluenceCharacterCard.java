@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.charactercards;
 
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.player.Player;
 
@@ -23,8 +24,22 @@ public class InfluenceCharacterCard extends CharacterCard {
         boolean applyEffect(Game game, Island island);
     }
 
+    private interface InitialEffect {
+        boolean applyInitialEffect(Turn turn, Player[] players);
+    }
+
+    private static final Map<CharacterID, InitialEffect> INITIAL_EFFECTS;
     private static final Map<CharacterID, DeltaInfluence> DELTA_INFLUENCES;
     private static final Map<CharacterID, Effect> EFFECTS;
+
+    static  {
+        INITIAL_EFFECTS = new EnumMap<>(CharacterID.class);
+        INITIAL_EFFECTS.put(CharacterID.HERALD, (turn, players) -> true);
+        INITIAL_EFFECTS.put(CharacterID.CENTAUR, (turn, players) -> {turn.characterPunctualEffectApplied(); return true;});
+        INITIAL_EFFECTS.put(CharacterID.KNIGHT, (turn, players) -> {turn.characterPunctualEffectApplied(); return true;});
+        INITIAL_EFFECTS.put(CharacterID.MUSHROOMPICKER, (turn, players) -> true);
+
+    }
 
     static {
 
@@ -74,6 +89,11 @@ public class InfluenceCharacterCard extends CharacterCard {
 
     public InfluenceCharacterCard(CharacterID characterID) {
         super(characterID);
+    }
+
+    @Override
+    public boolean applyInitialEffect (Turn turn, Player[] players) {
+        return INITIAL_EFFECTS.get(getCharacterID()).applyInitialEffect(turn, players);
     }
 
     @Override

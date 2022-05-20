@@ -27,7 +27,7 @@ public class GameData implements Serializable {
     private List<String> winnersNicknames;
 
     private CharacterID activeCharacterCard;
-    private boolean activeCharacterEffectApplied;
+    private boolean activeCharacterPunctualEffectApplied;
 
     public GameData(IslandManagerData islandManager, CloudManagerData cloudManager, PlayerData[] playerData, GameState gameState, TurnState turnState, String currPlayer, boolean expertModeEnabled, CharacterCardData[] characterCardData, boolean lastRound) {
         this.islandManager = islandManager;
@@ -122,12 +122,12 @@ public class GameData implements Serializable {
 
     public void setActiveCharacterCard(CharacterID activeCharacterCard){this.activeCharacterCard = activeCharacterCard; }
 
-    public boolean isActiveCharacterEffectApplied() {
-        return activeCharacterEffectApplied;
+    public boolean isActiveCharacterPunctualEffectApplied() {
+        return activeCharacterPunctualEffectApplied;
     }
 
-    public void setActiveCharacterEffectApplied(boolean activeCharacterEffectApplied) {
-        this.activeCharacterEffectApplied = activeCharacterEffectApplied;
+    public void setActiveCharacterPunctualEffectApplied(boolean activeCharacterPunctualEffectApplied) {
+        this.activeCharacterPunctualEffectApplied = activeCharacterPunctualEffectApplied;
     }
 
     public List<String> getWinnersNicknames() {
@@ -152,7 +152,7 @@ public class GameData implements Serializable {
                 ", lastRound=" + lastRound +
                 ", winnersNicknames=" + winnersNicknames +
                 ", activeCharacterCard=" + activeCharacterCard +
-                ", activeCharacterEffectApplied=" + activeCharacterEffectApplied +
+                ", activeCharacterPunctualEffectApplied=" + activeCharacterPunctualEffectApplied +
                 '}';
     }
 

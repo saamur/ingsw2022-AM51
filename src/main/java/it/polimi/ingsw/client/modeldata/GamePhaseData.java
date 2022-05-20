@@ -15,7 +15,7 @@ public record GamePhaseData(GameState gameState,
                             boolean activatedCharacterEffectApplied) implements Serializable {
 
     public static GamePhaseData createGamePhaseData(GameInterface game){
-        return new GamePhaseData(game.getGameState(), game.getTurnState(), game.getNicknameCurrPlayer(), game.isLastRound(), game.getActivatedCharacterCard(), game.isActivatedCharacterCardEffectApplied());
+        return new GamePhaseData(game.getGameState(), game.getTurnState(), game.getNicknameCurrPlayer(), game.isLastRound(), game.getActivatedCharacterCard(), game.isActivatedCharacterCardPunctualEffectApplied());
     }
 
     @Override

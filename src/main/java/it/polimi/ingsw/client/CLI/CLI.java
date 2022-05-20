@@ -119,7 +119,7 @@ public class CLI implements View, Runnable {
                     else if (gameData.getGameState() == GameState.ACTION) {
                         String line = stdIn.nextLine();
                         String[] words = line.split(" ");
-                        if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterEffectApplied()) {
+                        if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                             //todo tutta la cosa dei personaggi
                         }
                         else if (words.length == 2 && CliConstants.ACTIVATECHARACTER_COMMAND.equalsIgnoreCase(words[0])) {
@@ -460,7 +460,7 @@ public class CLI implements View, Runnable {
                     System.out.println("Chose one: ");
                 }
                 else if (gameData.getGameState() == GameState.ACTION) {
-                    if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterEffectApplied()) {
+                    if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                         //todo tutta la cosa dei personaggi
                     }
                     else {

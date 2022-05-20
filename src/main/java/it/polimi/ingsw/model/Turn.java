@@ -25,7 +25,7 @@ public class Turn implements Serializable {
     private int studentMoved;
 
     private CharacterCard activatedCharacterCard;
-    private boolean characterEffectApplied;
+    private boolean characterPunctualEffectApplied;
     private Clan characterClan;
 
     public Turn (Player currPlayer, int numPlayers) {
@@ -35,7 +35,7 @@ public class Turn implements Serializable {
         studentMoved = 0;
 
         activatedCharacterCard = null;
-        characterEffectApplied = false;
+        characterPunctualEffectApplied = false;
         characterClan = null;
     }
 
@@ -253,8 +253,8 @@ public class Turn implements Serializable {
         this.activatedCharacterCard = activatedCharacterCard;
     }
 
-    public boolean isCharacterEffectApplied() {
-        return characterEffectApplied;
+    public boolean isCharacterPunctualEffectApplied() {
+        return characterPunctualEffectApplied;
     }
 
     public void setCharacterClan(Clan characterClan) {
@@ -266,11 +266,11 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method characterEffectApplied saves in the variable characterEffectApplied that the effect of the Character
+     * method characterPunctualEffectApplied saves in the variable characterPunctualEffectApplied that the effect of the Character
      * has been applied
      */
-    public void characterEffectApplied() {
-        characterEffectApplied = true;
+    public void characterPunctualEffectApplied() {
+        characterPunctualEffectApplied = true;
     }
 
 }

@@ -34,7 +34,7 @@ public interface GameInterface extends Serializable {
     String getNicknameCurrPlayer();
     boolean isLastRound();
     CharacterID getActivatedCharacterCard();
-    boolean isActivatedCharacterCardEffectApplied();
+    boolean isActivatedCharacterCardPunctualEffectApplied();
 
     void save();
     int getTimesSaved();

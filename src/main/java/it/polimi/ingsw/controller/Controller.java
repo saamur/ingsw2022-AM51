@@ -93,9 +93,9 @@ public abstract class Controller implements PropertyChangeListener {
 
             pcs.firePropertyChange("disconnectedPlayer", null, message);
 
+            SavedGameManager.removeSavedRunningGame(getId());
             if (game.getGameState() != GameState.INITIALIZATION && game.getGameState() != GameState.GAME_OVER) {
                 game.removeListeners();
-                SavedGameManager.removeSavedRunningGame(getId());
                 try {
                     SavedGameManager.saveGame(game);
                 } catch (IOException e) {

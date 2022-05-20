@@ -68,6 +68,7 @@ public class ProfessorsCharacterCard extends CharacterCard {
             oldPlayers[i] = PlayerData.createPlayerData(players[i]);
         }
         turn.updateProfessors(players);
+        turn.characterPunctualEffectApplied();
         for(int i=0; i<players.length; i++){
             pcs.firePropertyChange("modifiedPlayer", oldPlayers[i], PlayerData.createPlayerData(players[i]));
         }

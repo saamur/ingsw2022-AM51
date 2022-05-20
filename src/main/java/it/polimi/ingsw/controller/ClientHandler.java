@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                     }
                 }
                 else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {
-                    sendObject(new ErrorMessage("You have to choose a message first"));
+                    sendObject(new ErrorMessage("You have to choose a nickname first"));
                 }
                 else if (o instanceof NewGameMessage) {
                     if (initialization) {

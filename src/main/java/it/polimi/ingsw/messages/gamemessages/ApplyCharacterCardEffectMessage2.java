@@ -26,20 +26,10 @@ public record ApplyCharacterCardEffectMessage2(int islandIndex, Map<Clan, Intege
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws WrongGamePhaseException, ExpertModeNotEnabledException, WrongPlayerException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.applyCharacterCardEffect(nickname, islandIndex, students1, students2);
-            answer = new GenericMessage("the effect has been applied");
-        } catch (WrongGamePhaseException | ExpertModeNotEnabledException | WrongPlayerException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.applyCharacterCardEffect(nickname, islandIndex, students1, students2);
+        return new GenericMessage("the effect has been applied");
 
     }
 

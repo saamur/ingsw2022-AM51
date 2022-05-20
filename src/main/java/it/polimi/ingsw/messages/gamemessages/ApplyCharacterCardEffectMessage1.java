@@ -19,20 +19,10 @@ public record ApplyCharacterCardEffectMessage1(int islandIndex) implements GameM
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws NotValidIndexException, WrongGamePhaseException, ExpertModeNotEnabledException, WrongPlayerException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.applyCharacterCardEffect(nickname, islandIndex);
-            answer = new GenericMessage("the effect has been applied");
-        } catch (NotValidIndexException | WrongGamePhaseException | ExpertModeNotEnabledException | WrongPlayerException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.applyCharacterCardEffect(nickname, islandIndex);
+        return new GenericMessage("the effect has been applied");
 
     }
 

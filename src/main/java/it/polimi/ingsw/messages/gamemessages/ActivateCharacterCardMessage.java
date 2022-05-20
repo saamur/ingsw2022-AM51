@@ -19,20 +19,10 @@ public record ActivateCharacterCardMessage(CharacterID characterCardID) implemen
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws WrongGamePhaseException, ExpertModeNotEnabledException, WrongPlayerException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.activateCharacterCard(nickname, characterCardID);
-            answer = new GenericMessage("You have activated " + characterCardID.name().toLowerCase());
-        } catch (WrongGamePhaseException | ExpertModeNotEnabledException | WrongPlayerException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.activateCharacterCard(nickname, characterCardID);
+        return new GenericMessage("You have activated " + characterCardID.name().toLowerCase());
 
     }
 

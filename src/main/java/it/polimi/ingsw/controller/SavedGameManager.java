@@ -42,28 +42,7 @@ public class SavedGameManager {
 
         for (File f : savedRunningGames) {
 
-            //todo fare con try catch parametrico
-
             GameInterface restoredGame = null;
-           /*
-            ObjectInputStream in = null;
-            try {
-                in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-                restoredGame = (GameInterface) in.readObject();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                    try {
-                        if (in != null)
-                            in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            }*/
 
             try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)))) {
                 restoredGame = (GameInterface) in.readObject();
@@ -94,14 +73,11 @@ public class SavedGameManager {
 
         List<SavedGameData> savedGameDataList = new ArrayList<>();
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX));
+        try (BufferedReader br = new BufferedReader(new FileReader(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX))) {
             String line;
             while ((line = br.readLine()) != null)
-                if (!line.equals(""))
+                if (!"".equals(line))
                     savedGameDataList.add(SavedGameData.savedGameDataParser(line));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,24 +128,18 @@ public class SavedGameManager {
      */
     public synchronized static GameInterface restoreGame (String fileName) throws IOException {
 
-        ObjectInputStream in = null;
         GameInterface restoredGame = null;
 
         File fileGame = new File(SAVED_GAMES_DIRECTORY + "/" + fileName);
         if(!fileGame.exists())
             throw new FileNotFoundException("There is no saved game with this file name");
 
-        try {
-            in = new ObjectInputStream(new
-                    BufferedInputStream(new FileInputStream(fileGame)));
-
+        try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileGame)))) {
             restoredGame = (GameInterface) in.readObject();
-
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            if (in != null)
-                in.close();
         }
 
         fileGame.delete();

@@ -19,20 +19,10 @@ public record MoveMotherNatureMessage(int islandIndex) implements GameMessage {
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws NotValidIndexException, WrongGamePhaseException, WrongPlayerException, WrongTurnPhaseException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.moveMotherNature(nickname, islandIndex);
-            answer = new GenericMessage("Mother nature moved");
-        } catch (NotValidIndexException | WrongGamePhaseException | WrongPlayerException | WrongTurnPhaseException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.moveMotherNature(nickname, islandIndex);
+        return new GenericMessage("Mother nature moved");
 
     }
 

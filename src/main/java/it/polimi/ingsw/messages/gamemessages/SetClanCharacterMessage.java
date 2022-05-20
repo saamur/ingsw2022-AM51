@@ -20,20 +20,10 @@ public record SetClanCharacterMessage(Clan clan) implements GameMessage {
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws WrongGamePhaseException, ExpertModeNotEnabledException, WrongPlayerException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.setClanCharacter(nickname, clan);
-            answer = new GenericMessage("the clan has been set");
-        } catch (WrongGamePhaseException | ExpertModeNotEnabledException | WrongPlayerException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.setClanCharacter(nickname, clan);
+        return new GenericMessage("the clan has been set");
 
     }
 

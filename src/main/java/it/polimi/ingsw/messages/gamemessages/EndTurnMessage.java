@@ -20,20 +20,10 @@ public record EndTurnMessage() implements GameMessage {
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws WrongGamePhaseException, WrongPlayerException, WrongTurnPhaseException, NonExistingPlayerException {
 
-        Message answer = null;
-
-        try {
-            game.endTurn(nickname);
-            answer = new GenericMessage("You have ended your turn");
-        } catch (WrongGamePhaseException | WrongPlayerException | WrongTurnPhaseException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.endTurn(nickname);
+        return new GenericMessage("You have ended your turn");
 
     }
 

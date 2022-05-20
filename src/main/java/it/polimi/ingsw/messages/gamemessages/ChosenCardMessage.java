@@ -22,20 +22,10 @@ public record ChosenCardMessage(Card card) implements GameMessage {
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws WrongGamePhaseException, WrongPlayerException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.chosenCard(nickname, card);
-            answer = new GenericMessage("Card chosen");
-        } catch (WrongGamePhaseException | WrongPlayerException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.chosenCard(nickname, card);
+        return new GenericMessage("Card chosen");
 
     }
 

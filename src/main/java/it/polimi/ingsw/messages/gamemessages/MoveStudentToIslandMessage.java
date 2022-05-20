@@ -21,20 +21,10 @@ public record MoveStudentToIslandMessage(Clan clan, int islandIndex) implements 
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws NotValidIndexException, WrongGamePhaseException, WrongPlayerException, WrongTurnPhaseException, NotValidMoveException, NonExistingPlayerException {
 
-        Message answer = null;
-
-        try {
-            game.moveStudentToIsland(nickname, clan, islandIndex);
-            answer = new GenericMessage("Student moved");
-        } catch (NotValidIndexException | WrongGamePhaseException | WrongPlayerException | WrongTurnPhaseException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.moveStudentToIsland(nickname, clan, islandIndex);
+        return new GenericMessage("Student moved");
 
     }
 

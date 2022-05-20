@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.modeldata.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.gamemessages.GameMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
@@ -61,16 +62,24 @@ public abstract class Controller implements PropertyChangeListener {
         if (!started)
             return new ErrorMessage("You cannot make this move now");
 
-        Message answer = message.performMove(nickname, game);
+        Message answer = null;
+        try {
+            answer = message.performMove(nickname, game);
+            pcs.firePropertyChange("updateGamePhase", null, new UpdateGamePhase(GamePhaseData.createGamePhaseData(game)));
+        } catch (WrongGamePhaseException | ExpertModeNotEnabledException | WrongPlayerException | NotValidMoveException | NotValidIndexException | WrongTurnPhaseException e) {
+            answer = new ErrorMessage(e.getMessage());
+        } catch (NonExistingPlayerException e) {
+            e.printStackTrace();
+        }
 
-        pcs.firePropertyChange("updateGamePhase", null, new UpdateGamePhase(GamePhaseData.createGamePhaseData(game)));
+        if (answer == null)
+            answer = new ErrorMessage("An error has occurred");
+
         if (game.getGameState() != GameState.GAME_OVER)
             SavedGameManager.saveRunningGame(game, getId());
         else
             SavedGameManager.removeSavedRunningGame(getId());
 
-        if (answer == null)
-            answer = new ErrorMessage("An error has occurred");
         return answer;
 
     }

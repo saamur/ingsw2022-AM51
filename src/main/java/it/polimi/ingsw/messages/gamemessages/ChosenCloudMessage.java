@@ -18,20 +18,10 @@ public record ChosenCloudMessage(int cloudIndex) implements GameMessage {
     }
 
     @Override
-    public Message performMove(String nickname, GameInterface game) {
+    public Message performMove(String nickname, GameInterface game) throws NotValidIndexException, WrongGamePhaseException, WrongPlayerException, WrongTurnPhaseException, NonExistingPlayerException, NotValidMoveException {
 
-        Message answer = null;
-
-        try {
-            game.chosenCloud(nickname, cloudIndex);
-            answer = new GenericMessage("Cloud chosen");
-        } catch (NotValidIndexException | WrongGamePhaseException | WrongPlayerException | WrongTurnPhaseException | NotValidMoveException e) {
-            answer = new ErrorMessage(e.getMessage());
-        } catch (NonExistingPlayerException e) {
-            e.printStackTrace();
-        }
-
-        return answer;
+        game.chosenCloud(nickname, cloudIndex);
+        return new GenericMessage("Cloud chosen");
 
     }
 

@@ -424,7 +424,7 @@ public class CLI implements View, Runnable {
     @Override
     public void displayEverything() {
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
 
         if (nickname == null) {
             System.out.println("Choose a nickname: ");

@@ -3,8 +3,12 @@ package it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.CliConstants;
 import it.polimi.ingsw.constants.GameConstants;
+import it.polimi.ingsw.controller.Lobby;
+import it.polimi.ingsw.controller.NewGameController;
+import it.polimi.ingsw.controller.OpeningNewGameData;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.Card;
@@ -16,11 +20,80 @@ import java.util.List;
 public class ModelDisplay {
 
     public static void displayAvailableGames (AvailableGamesMessage availableGamesMessage) {
-        System.out.println(availableGamesMessage);
+        System.out.println("NEW AVAILABLE GAMES:");
+        if(availableGamesMessage.openingNewGameDataList().size() > 0)
+            System.out.println("   ID   | num of Players |  expert mode |");
+        else
+            System.out.println("no game has been created ");
+        for(int i = 0; i < availableGamesMessage.openingNewGameDataList().size(); i++) {
+            System.out.print("   ");
+            System.out.print(availableGamesMessage.openingNewGameDataList().get(i).id());
+            if(availableGamesMessage.openingNewGameDataList().get(i).id() < 10){
+                System.out.print(" ");
+            }
+            System.out.print("   |");
+            System.out.print("       " + availableGamesMessage.openingNewGameDataList().get(i).numOfPlayers() + "        |");
+            System.out.print("     " + availableGamesMessage.openingNewGameDataList().get(i).expertMode());
+            if(availableGamesMessage.openingNewGameDataList().get(i).expertMode())
+                System.out.print(" ");
+            System.out.println("    |");
+        }
+        System.out.println("\n\n");
+
+        System.out.println("RESTORED GAMES:");
+        if(availableGamesMessage.openingRestoredGameDataList().size() > 0){
+            System.out.println("   ID   | num of Players |  expert mode |");
+        }
+        else
+            System.out.println("no opening restored games");
+        for(int i = 0; i < availableGamesMessage.openingRestoredGameDataList().size(); i++){
+            System.out.print("   ");
+            System.out.print(availableGamesMessage.openingRestoredGameDataList().get(i).id());
+            if(availableGamesMessage.openingRestoredGameDataList().get(i).id() < 10){
+                System.out.print(" ");
+            }
+            System.out.print("   |");
+            System.out.print("       " + availableGamesMessage.openingRestoredGameDataList().get(i).numOfPlayers() + "        |");
+            System.out.print("     " + availableGamesMessage.openingRestoredGameDataList().get(i).expertMode());
+            if(availableGamesMessage.openingRestoredGameDataList().get(i).expertMode())
+                System.out.print(" ");
+            System.out.println("    |");
+        }
+        System.out.println("\n\n");
+
+        System.out.println("SAVED GAMES: ");
+        if(availableGamesMessage.savedGameData().size() > 0){
+            System.out.println("   ID   | num of Players |  expert mode |");
+        }
+        else
+            System.out.println("no saved games");
+
+        for(int i = 0; i < availableGamesMessage.savedGameData().size(); i++){
+            System.out.print("   ");
+            System.out.print(i);
+            if(i < 10){
+                System.out.print(" ");
+            }
+            System.out.print("   |");
+            System.out.print("       " + availableGamesMessage.savedGameData().get(i).numOfPlayers() + "        |");
+            System.out.print("     " + availableGamesMessage.savedGameData().get(i).expertMode());
+            if(availableGamesMessage.savedGameData().get(i).expertMode())
+                System.out.print(" ");
+            System.out.println("    |");
+        }
+
+        System.out.println("\n\n");
+
+
+
+
+
     }
 
     public static void displayModel (GameData gameData, String nickname) {
         AnsiConsole.systemInstall();
+
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
         //System.out.flush();
         for(PlayerData p : gameData.getPlayerData()){
@@ -118,166 +191,84 @@ public class ModelDisplay {
     }
 
     private static void displayIslands (IslandManagerData islandManagerData) {
-        List<IslandData> islandsData = islandManagerData.getIslands();
         System.out.println(CliConstants.ANSI_RESET + "ISLANDS");
-        for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++) {
-            System.out.print(" ");
+        System.out.println("\n");
+        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliConstants.MAX_VISUAL));
+
+        System.out.println("\n");
+        if(islandManagerData.getIslands().size() > 6) {
+            updateIsland(islandManagerData, 6, islandManagerData.getIslands().size());
         }
-        System.out.print("| ");
-        if (islandsData.size() <= CliConstants.MAX_VISUAL) {
-            for (int i = 0; i < islandsData.size(); i++) {
-                if (islandManagerData.getMotherNaturePosition() != i)
-                    System.out.print("island " + (i));
-                else
-                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i));
-                System.out.print(CliConstants.ANSI_RESET + " | ");
-            }
-            System.out.println("\n");
-            for(Clan clan : Clan.values()) {
-                System.out.print(CliConstants.getColorStudent(clan) + clan + CliConstants.ANSI_RESET);
-                System.out.print(" ");
-                for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS - clan.toString().length() + 1; j++) {
-                    System.out.print(" ");
-                }
 
-                System.out.print("| ");
-                for (IslandData islandsDatum : islandsData) {
-                    for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2; j++) {
-                        System.out.print(" ");
-                    }
-
-                    System.out.print(islandsDatum.students().get(clan));
-                    for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2 - 1; j++) { //todo aggiustare spazi nel caso gli studenti di un clan in un isola siano più di 10 (problemi di allineamento)
-                        System.out.print(" ");
-                    }
-                    System.out.print(" | ");
-                }
-                System.out.print("\n");
-            }
-            System.out.print("TOWER    |");
-            for(int i = 0; i<islandsData.size(); i++){
-                System.out.print("   ");
-                displayTowerIsland2(islandManagerData.getIslands().get(i));
-                System.out.print("   ");
-
-            }
-            System.out.println("\n");
-            System.out.print("n° isl   |");
-            for (IslandData islandsDatum : islandsData) {
-                System.out.print("    ");
-                System.out.print(islandsDatum.numberOfIslands());
-                System.out.print("     | ");
-            }
-
-        }
-        else {
-            for (int i = 0; i < CliConstants.MAX_VISUAL; i++) {
-                if (islandManagerData.getMotherNaturePosition() != i)
-                    System.out.print("island " + (i));
-                else
-                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i));
-                System.out.print(CliConstants.ANSI_RESET + "  | ");
-            }
-
-            System.out.println("\n");
-
-            for(Clan clan : Clan.values()) {
-                System.out.print(CliConstants.getColorStudent(clan) + clan);
-                for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS - clan.toString().length() + 1; j++) {
-                    System.out.print(" ");
-                }
-
-                System.out.print(CliConstants.ANSI_RESET + "| ");
-                for (int i = 0; i < CliConstants.MAX_VISUAL; i++) {
-                    numStudentsForIsland(clan, islandManagerData.getIslands().get(i));
-                }
-                System.out.println("\n");
-            }
-
-            System.out.print("TOWER    |");
-            for(int i = 0; i<CliConstants.MAX_VISUAL; i++){
-                displayTowerIsland(islandManagerData.getIslands().get(i));
-
-            }
-            System.out.println("\n");
-            System.out.print("n° isl   | ");
-            for(int i = 0; i<CliConstants.MAX_VISUAL; i++){
-                System.out.print("    ");
-                System.out.print(islandsData.get(i).numberOfIslands());
-                System.out.print("     | ");
-            }
-
-            System.out.println("\n");
-            for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(CliConstants.ANSI_RESET + "| ");
-
-            for (int i = CliConstants.MAX_VISUAL; i < islandsData.size(); i++) {
-
-                if (islandManagerData.getMotherNaturePosition() != i)
-                    System.out.print("island " + (i));
-                else
-                    System.out.print(CliConstants.ANSI_PURPLE + "island " + (i));
-
-                if(i < 9) {
-                    System.out.print(CliConstants.ANSI_RESET + "  | ");
-                }
-                else
-                    System.out.print(CliConstants.ANSI_RESET + " | ");
-            }
-            System.out.print("\n");
-
-            for(Clan clan : Clan.values()) {
-                System.out.print(CliConstants.getColorStudent(clan) + clan);
-                for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS - clan.toString().length() + 1; j++) {
-                    System.out.print(" ");
-                }
-
-                System.out.print(CliConstants.ANSI_RESET + "| ");
-                for (int k = CliConstants.MAX_VISUAL; k < islandsData.size(); k++) {
-                    numStudentsForIsland(clan, islandManagerData.getIslands().get(k));
-                }
-                System.out.println("\n");
-            }
-
-            System.out.print("TOWER    |");
-            for(int i = CliConstants.MAX_VISUAL; i<islandsData.size(); i++){
-                displayTowerIsland(islandManagerData.getIslands().get(i));
-
-            }
-
-            System.out.println("\n");
-            System.out.print("n° isl   | ");
-            for(int i = 6; i<islandsData.size(); i++){
-                System.out.print("    ");
-                System.out.print(islandsData.get(i).numberOfIslands());
-                if(i<10)
-                    System.out.print("     | ");
-                else System.out.print("     | ");
-            }
-
-        }
         System.out.println("\n");
     }
 
-    private static void displayTowerIsland (IslandData islandData) {
-        System.out.print("    ");
-        displayTowerIsland2(islandData);
-        System.out.print("  |");
-    }
 
-    private static void displayTowerIsland2(IslandData islandData) {
-        if(islandData.towerColor()==null){
-            System.out.print("     ");
-        }
-        else{
-            System.out.print(islandData.towerColor());
-            if(islandData.towerColor().equals(TowerColor.GRAY)){
+
+    private static void updateIsland(IslandManagerData islandManagerData, int init, int end) {
+        for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++)
+            System.out.print(" ");
+        System.out.print("|");
+        for(int i = init; i < end; i++){
+            if(islandManagerData.getMotherNaturePosition() == i){
+                System.out.print(CliConstants.ANSI_PURPLE + " island " + i + " " + CliConstants.ANSI_RESET);
+            }
+            else
+                System.out.print(" island " + i + " ");
+            if(i < 10){
                 System.out.print(" ");
             }
+            System.out.print("|");
         }
+        System.out.println("\n");
+        for(Clan c : Clan.values()){
+            System.out.print(c.toString());
+            for(int k = 0; k < (CliConstants.MAX_LENGHT_STUDENTS + 1) - c.toString().length(); k++){
+                System.out.print(" ");
+            }
+            for(int i = init; i < end; i++) {
+                System.out.print("|     ");
+                System.out.print(islandManagerData.getIslands().get(i).students().get(c));
+                System.out.print("     ");
+            }
+            System.out.println("|\n");
+        }
+
+
+        System.out.print("TOWER    |");
+        for(int i = init; i < end; i++) {
+            System.out.print("   ");
+            if (islandManagerData.getIslands().get(i).towerColor() != null) {
+                System.out.print(islandManagerData.getIslands().get(i).towerColor().toString());
+                if (islandManagerData.getIslands().get(i).towerColor() == TowerColor.GRAY) {
+                    System.out.print(" ");
+                }
+            }
+            else
+                    System.out.print("     ");
+
+
+            System.out.print("   |");
+
+        }
+
+
+        System.out.println("\n");
+        System.out.print("n° isl   |");
+        for(int i = init; i < end; i++){
+            System.out.print("     ");
+            System.out.print(islandManagerData.getIslands().get(i).numberOfIslands());
+            System.out.print("     |");
+        }
+        System.out.println("\n");
+
+
+
     }
+
+
+
+
 
     private static void displayTowersPlayer (PlayerData playerData){
         System.out.print("\n TOWERS: ");
@@ -305,17 +296,7 @@ public class ModelDisplay {
 
     }
 
-    private static void numStudentsForIsland (Clan clan, IslandData islandData) {
-        for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2; j++) {
-            System.out.print(" ");
-        }
 
-        System.out.print(islandData.students().get(clan));
-        for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS / 2 - 1; j++) {
-            System.out.print(" ");
-        }
-        System.out.print("  | ");
-    }
 
     private static void displayClouds (CloudManagerData cloudManagerData){
         for(int j = 0; j < cloudManagerData.clouds().length; j++) {
@@ -386,67 +367,41 @@ public class ModelDisplay {
         }
     }
 
-    public static void displayDeck (PlayerData playerData){ //todo introdurre metodo per ridurre duplicazione codice
+    public static void displayDeck (PlayerData playerData) {
+
+        updateDeck(0, playerData, Math.min(playerData.getAvailableCards().size(), CliConstants.MAX_VISUAL_DECK));
 
 
+        if (playerData.getAvailableCards().size() > 5) {
+            updateDeck(CliConstants.MAX_VISUAL_DECK, playerData, playerData.getAvailableCards().size());
+        }
+    }
+
+    private static void updateDeck(int init, PlayerData playerData, int d){
         System.out.print("          | ");
-        for(int i = 0; i < Math.min(playerData.getAvailableCards().size(), 5); i++) {
-            Card c = playerData.getAvailableCards().get(i);
-            System.out.print(c.toString());
-            for (int j = 0; j < CliConstants.MAX_NAME_CARD_LENGTH - c.toString().length(); j++) {
+        for(int i = init; i < d; i++) {
+            System.out.print(playerData.getAvailableCards().get(i).toString());
+            for (int j = 0; j < CliConstants.MAX_NAME_CARD_LENGTH - playerData.getAvailableCards().get(i).toString().length(); j++) {
                 System.out.print(" ");
             }
             System.out.print(" | ");
         }
         System.out.print("\nPriority  |");
-        for(int i = 0; i < Math.min(playerData.getAvailableCards().size(), 5); i++) {
-            Card c = playerData.getAvailableCards().get(i);
-           System.out.print("    ");
-            System.out.print(c.getPriority());
-            if (c.getPriority() == 10)
+        for(int i = init; i < d; i++) {
+            System.out.print("    ");
+            System.out.print(playerData.getAvailableCards().get(i).getPriority());
+            if (playerData.getAvailableCards().get(i).getPriority() == CliConstants.DOUBLE_DIGITS)
                 System.out.print("    |");
             else
                 System.out.print("     |");
         }
 
         System.out.print("\nMax Steps |");
-        for(int i = 0; i < Math.min(playerData.getAvailableCards().size(), 5); i++) {
-            Card c = playerData.getAvailableCards().get(i);
+        for(int i = init; i < d; i++) {
             System.out.print("    ");
-            System.out.print(c.getMaxStepsMotherNature());
+            System.out.print(playerData.getAvailableCards().get(i).getMaxStepsMotherNature());
             System.out.print("     |");
         }
-        System.out.println("\n\n");
-
-        if(playerData.getAvailableCards().size() > 5){
-            System.out.print("          | ");
-            for(int i = 5; i < playerData.getAvailableCards().size(); i++) {
-                Card c = playerData.getAvailableCards().get(i);
-                System.out.print(c.toString());
-                for (int j = 0; j < (CliConstants.MAX_NAME_CARD_LENGTH - c.toString().length()); j++) {
-                    System.out.print(" ");
-                }
-                System.out.print(" | ");
-            }
-            System.out.print("\nPriority  |");
-            for(int i = 5; i < playerData.getAvailableCards().size(); i++) {
-                Card c = playerData.getAvailableCards().get(i);
-                System.out.print("    ");
-                System.out.print(c.getPriority());
-                if (c.getPriority() == 10)
-                    System.out.print("    |");
-                else
-                    System.out.print("     |");
-            }
-            System.out.print("\nMax Steps |");
-            for(int i = 5; i < playerData.getAvailableCards().size(); i++) {
-                Card c = playerData.getAvailableCards().get(i);
-                System.out.print("    ");
-                System.out.print(c.getMaxStepsMotherNature());
-                System.out.print("     |");
-            }
-        }
-
         System.out.println("\n\n");
 
     }
@@ -458,6 +413,9 @@ public class ModelDisplay {
         }
         System.out.println("Number of Coins: " + playerData.getChamberData().coins());
 
+        System.out.println("\n\n");
     }
+
+
 
 }

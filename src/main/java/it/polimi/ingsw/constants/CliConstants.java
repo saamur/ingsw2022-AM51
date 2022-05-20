@@ -52,6 +52,10 @@ public class CliConstants {
 
     public static final int MAX_VISUAL = 6;
 
+    public static final int MAX_VISUAL_DECK = 5;
+
+    public static final int DOUBLE_DIGITS = 10;
+
     public static String getColorStudent(Clan clan){
         return clanMapColor.get(clan);
     }

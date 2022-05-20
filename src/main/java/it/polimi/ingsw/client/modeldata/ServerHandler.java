@@ -47,47 +47,47 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                     sendObject("pong");
                 }
                 else if (o instanceof NicknameAcceptedMessage) {
-                    new Thread(() -> view.setNickname(((NicknameAcceptedMessage) o).nickname())).start();
-                    //view.setNickname(((NicknameAcceptedMessage) o).nickname());
+                    //new Thread(() -> view.setNickname(((NicknameAcceptedMessage) o).nickname())).start();
+                    view.setNickname(((NicknameAcceptedMessage) o).nickname());
                 }
                 else if (o instanceof AvailableGamesMessage) {
-                    new Thread(() -> view.setAvailableGamesMessage ((AvailableGamesMessage) o)).start();
-                    //view.setAvailableGamesMessage ((AvailableGamesMessage) o);
+                    //new Thread(() -> view.setAvailableGamesMessage ((AvailableGamesMessage) o)).start();
+                    view.setAvailableGamesMessage ((AvailableGamesMessage) o);
                     //todo print things
                 }
                 else if (o instanceof PlayerAddedToGameMessage) {
-                    new Thread(() -> view.playerAddedToGame(((PlayerAddedToGameMessage) o).message())).start();
-                    //view.playerAddedToGame(((PlayerAddedToGameMessage) o).message());
+                    //new Thread(() -> view.playerAddedToGame(((PlayerAddedToGameMessage) o).message())).start();
+                    view.playerAddedToGame(((PlayerAddedToGameMessage) o).message());
                 }
                 else if (o instanceof GameStartedMessage) {
-                    new Thread(() -> view.setGameData(((GameStartedMessage) o).gameData())).start();
-                    //view.setGameData(((GameStartedMessage) o).gameData());
+                    //new Thread(() -> view.setGameData(((GameStartedMessage) o).gameData())).start();
+                    view.setGameData(((GameStartedMessage) o).gameData());
                     //todo make game start
                 }
                 else if (o instanceof GameOverMessage) {
-                    new Thread(() -> view.handleGameOver(((GameOverMessage) o).winnersNickname())).start();
-                    //view.handleGameOver(((GameOverMessage) o).winnersNickname());
+                    //new Thread(() -> view.handleGameOver(((GameOverMessage) o).winnersNickname())).start();
+                    view.handleGameOver(((GameOverMessage) o).winnersNickname());
                     break;
                 }
                 else if (o instanceof PlayerDisconnectedMessage) {
-                    new Thread(() -> view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname())).start();
-                    //view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
+                    //new Thread(() -> view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname())).start();
+                    view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
                     System.out.println(((Message) o).getMessage());
                     break;
                 }
                 else if (o instanceof UpdateMessage) {
                     if (DEBUGGING)
                         System.out.println("UpdateMessage: " + ((Message) o).getMessage());         //FIXME debug
-                    new Thread(() -> view.updateGameData((UpdateMessage) o)).start();
-                    //view.updateGameData((UpdateMessage) o);
+                    //new Thread(() -> view.updateGameData((UpdateMessage) o)).start();
+                    view.updateGameData((UpdateMessage) o);
                 }
                 else if (o instanceof GenericMessage) {
-                    new Thread(() -> view.handleGenericMessage(((GenericMessage) o).message())).start();
-                    //view.handleGenericMessage(((GenericMessage) o).message());
+                    //new Thread(() -> view.handleGenericMessage(((GenericMessage) o).message())).start();
+                    view.handleGenericMessage(((GenericMessage) o).message());
                 }
                 else if (o instanceof ErrorMessage) {
-                    new Thread(() -> view.handleErrorMessage(((ErrorMessage) o).error())).start();
-                    //view.handleErrorMessage(((ErrorMessage) o).error());
+                    //new Thread(() -> view.handleErrorMessage(((ErrorMessage) o).error())).start();
+                    view.handleErrorMessage(((ErrorMessage) o).error());
                 }
                 else if (o instanceof Message) {
                     System.out.println(((Message) o).getMessage());

@@ -1,21 +1,14 @@
 package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.modeldata.*;
-import it.polimi.ingsw.constants.CliConstants;
+import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.constants.GameConstants;
-import it.polimi.ingsw.controller.Lobby;
-import it.polimi.ingsw.controller.NewGameController;
-import it.polimi.ingsw.controller.OpeningNewGameData;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Clan;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
-import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.fusesource.jansi.AnsiConsole;
-
-import java.util.List;
 
 public class ModelDisplay {
 
@@ -142,8 +135,8 @@ public class ModelDisplay {
         System.out.print("| ");
 
         for (Clan c : Clan.values()) {
-            System.out.print(CliConstants.getColorStudent(c) + c);
-            System.out.print(CliConstants.ANSI_RESET + " | ");
+            System.out.print(CliGraphicConstants.getColorStudent(c) + c);
+            System.out.print(CliGraphicConstants.ANSI_RESET + " | ");
         }
         System.out.println();
         for (Clan clan : Clan.values()) {
@@ -161,7 +154,7 @@ public class ModelDisplay {
         }
 
         System.out.println("|");
-        System.out.println("\n" + CliConstants.ANSI_RESET);
+        System.out.println("\n" + CliGraphicConstants.ANSI_RESET);
     }
 
     private static void displayChamber (ChamberData chamberData){
@@ -169,31 +162,31 @@ public class ModelDisplay {
 
 
         for (Clan c : Clan.values()) {
-            System.out.print(CliConstants.getColorStudent(c) + c);
-            for (int l = 0; l < CliConstants.MAX_LENGHT_STUDENTS - c.toString().length(); l++) {
+            System.out.print(CliGraphicConstants.getColorStudent(c) + c);
+            for (int l = 0; l < CliGraphicConstants.MAX_LENGHT_STUDENTS - c.toString().length(); l++) {
                 System.out.print(" ");
             }
             System.out.print("  ");
             for (int i = 0; i < chamberData.students().get(c); i++) {
-                System.out.print(CliConstants.getColorStudent(c) + CliConstants.STUDENTS_PRESENT + " ");
+                System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENTS_PRESENT + " ");
             }
             for (int k = 0; k < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER - chamberData.students().get(c); k++) {
-                System.out.print(CliConstants.getColorStudent(c) + CliConstants.STUDENTS_NOT_PRESENT + " ");
+                System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENTS_NOT_PRESENT + " ");
             }
             if(chamberData.professors().get(c))
-                System.out.print(CliConstants.getColorStudent(c) + CliConstants.PROFESSOR_SYMBOL + CliConstants.ANSI_RESET);
+                System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.PROFESSOR_SYMBOL + CliGraphicConstants.ANSI_RESET);
             else
-                System.out.print(CliConstants.getColorStudent(c) + CliConstants.NO_PROFESSOR_SYMBOL + CliConstants.ANSI_RESET);
+                System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.NO_PROFESSOR_SYMBOL + CliGraphicConstants.ANSI_RESET);
             System.out.println("\n");
         }
-        System.out.println("\n" + CliConstants.ANSI_RESET);
+        System.out.println("\n" + CliGraphicConstants.ANSI_RESET);
 
     }
 
     private static void displayIslands (IslandManagerData islandManagerData) {
-        System.out.println(CliConstants.ANSI_RESET + "ISLANDS");
+        System.out.println(CliGraphicConstants.ANSI_RESET + "ISLANDS");
         System.out.println("\n");
-        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliConstants.MAX_VISUAL));
+        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliGraphicConstants.MAX_VISUAL));
 
         System.out.println("\n");
         if(islandManagerData.getIslands().size() > 6) {
@@ -206,12 +199,12 @@ public class ModelDisplay {
 
 
     private static void updateIsland(IslandManagerData islandManagerData, int init, int end) {
-        for (int j = 0; j < CliConstants.MAX_LENGHT_STUDENTS + 1; j++)
+        for (int j = 0; j < CliGraphicConstants.MAX_LENGHT_STUDENTS + 1; j++)
             System.out.print(" ");
         System.out.print("|");
         for(int i = init; i < end; i++){
             if(islandManagerData.getMotherNaturePosition() == i){
-                System.out.print(CliConstants.ANSI_PURPLE + " island " + i + " " + CliConstants.ANSI_RESET);
+                System.out.print(CliGraphicConstants.ANSI_PURPLE + " island " + i + " " + CliGraphicConstants.ANSI_RESET);
             }
             else
                 System.out.print(" island " + i + " ");
@@ -223,7 +216,7 @@ public class ModelDisplay {
         System.out.println("\n");
         for(Clan c : Clan.values()){
             System.out.print(c.toString());
-            for(int k = 0; k < (CliConstants.MAX_LENGHT_STUDENTS + 1) - c.toString().length(); k++){
+            for(int k = 0; k < (CliGraphicConstants.MAX_LENGHT_STUDENTS + 1) - c.toString().length(); k++){
                 System.out.print(" ");
             }
             for(int i = init; i < end; i++) {
@@ -277,22 +270,22 @@ public class ModelDisplay {
         if(playerData.getColorOfTowers().equals(TowerColor.WHITE)) {
             System.out.println(TowerColor.WHITE.name());
             for (int i = 0; i < playerData.getNumberOfTowers(); i++) {
-                System.out.print(" " + CliConstants.TOWER_SYMBOL);
+                System.out.print(" " + CliGraphicConstants.TOWER_SYMBOL);
             }
         }
         else if(playerData.getColorOfTowers().equals(TowerColor.BLACK)){
             System.out.println(TowerColor.BLACK.name());
             for(int i = 0; i < playerData.getNumberOfTowers(); i++){
-                System.out.print(" " + CliConstants.TOWER_SYMBOL);//todo trovare un modo per rappresentare le torri nere differenziandole dalle bianche
+                System.out.print(" " + CliGraphicConstants.TOWER_SYMBOL);//todo trovare un modo per rappresentare le torri nere differenziandole dalle bianche
             }
         }
         else if(playerData.getColorOfTowers().equals(TowerColor.GRAY)){
             System.out.println(TowerColor.GRAY.name());
             for(int i = 0; i < playerData.getNumberOfTowers(); i++){
-                System.out.print(CliConstants.ANSI_GRAY + " " + CliConstants.TOWER_SYMBOL);
+                System.out.print(CliGraphicConstants.ANSI_GRAY + " " + CliGraphicConstants.TOWER_SYMBOL);
             }
         }
-        System.out.println(CliConstants.ANSI_RESET + "\n");
+        System.out.println(CliGraphicConstants.ANSI_RESET + "\n");
 
     }
 
@@ -302,13 +295,13 @@ public class ModelDisplay {
         for(int j = 0; j < cloudManagerData.clouds().length; j++) {
             int i;
             if(cloudManagerData.clouds()[j].picked())
-                System.out.println(CliConstants.ANSI_RED + "CLOUD " + j + " (already chosen)" + CliConstants.ANSI_RESET);
+                System.out.println(CliGraphicConstants.ANSI_RED + "CLOUD " + j + " (already chosen)" + CliGraphicConstants.ANSI_RESET);
             else
                 System.out.println("CLOUD "+ j);
             System.out.print("| ");
             for (Clan c : Clan.values()) {
-                System.out.print(CliConstants.getColorStudent(c) + c);
-                System.out.print(CliConstants.ANSI_RESET + " | ");
+                System.out.print(CliGraphicConstants.getColorStudent(c) + c);
+                System.out.print(CliGraphicConstants.ANSI_RESET + " | ");
             }
             System.out.println("\n");
             for (Clan clan : Clan.values()) {
@@ -324,7 +317,7 @@ public class ModelDisplay {
                     System.out.print(" ");
             }
             System.out.println("|");
-            System.out.println("\n" + CliConstants.ANSI_RESET);
+            System.out.println("\n" + CliGraphicConstants.ANSI_RESET);
         }
     }
 
@@ -336,7 +329,7 @@ public class ModelDisplay {
         for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
             System.out.print("  ");
             if(characterCardData[i].characterID() == activeCharacter)
-                System.out.print(CliConstants.ANSI_RED + characterCardData[i].characterID().toString() + CliConstants.ANSI_RESET);
+                System.out.print(CliGraphicConstants.ANSI_RED + characterCardData[i].characterID().toString() + CliGraphicConstants.ANSI_RESET);
             else
                 System.out.print(characterCardData[i].characterID().toString());
             System.out.print("  |");
@@ -369,11 +362,11 @@ public class ModelDisplay {
 
     public static void displayDeck (PlayerData playerData) {
 
-        updateDeck(0, playerData, Math.min(playerData.getAvailableCards().size(), CliConstants.MAX_VISUAL_DECK));
+        updateDeck(0, playerData, Math.min(playerData.getAvailableCards().size(), CliGraphicConstants.MAX_VISUAL_DECK));
 
 
         if (playerData.getAvailableCards().size() > 5) {
-            updateDeck(CliConstants.MAX_VISUAL_DECK, playerData, playerData.getAvailableCards().size());
+            updateDeck(CliGraphicConstants.MAX_VISUAL_DECK, playerData, playerData.getAvailableCards().size());
         }
     }
 
@@ -381,7 +374,7 @@ public class ModelDisplay {
         System.out.print("          | ");
         for(int i = init; i < d; i++) {
             System.out.print(playerData.getAvailableCards().get(i).toString());
-            for (int j = 0; j < CliConstants.MAX_NAME_CARD_LENGTH - playerData.getAvailableCards().get(i).toString().length(); j++) {
+            for (int j = 0; j < CliGraphicConstants.MAX_NAME_CARD_LENGTH - playerData.getAvailableCards().get(i).toString().length(); j++) {
                 System.out.print(" ");
             }
             System.out.print(" | ");
@@ -390,7 +383,7 @@ public class ModelDisplay {
         for(int i = init; i < d; i++) {
             System.out.print("    ");
             System.out.print(playerData.getAvailableCards().get(i).getPriority());
-            if (playerData.getAvailableCards().get(i).getPriority() == CliConstants.DOUBLE_DIGITS)
+            if (playerData.getAvailableCards().get(i).getPriority() == CliGraphicConstants.DOUBLE_DIGITS)
                 System.out.print("    |");
             else
                 System.out.print("     |");

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.charactercards.ProhibitionCharacterCard;
 import it.polimi.ingsw.model.charactercards.StudentMoverCharacterCard;
 
 import java.io.Serializable;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,8 +20,15 @@ public record CharacterCardData(CharacterID characterID,
         if(characterCard instanceof ProhibitionCharacterCard){
             numProhibitionCards = ((ProhibitionCharacterCard) characterCard).getNumProhibitionCards();
         }
-        boolean studentMover = characterCard instanceof StudentMoverCharacterCard;
-        return new CharacterCardData(characterCard.getCharacterID(), characterCard.getCost(), numProhibitionCards, studentMover ? ((StudentMoverCharacterCard) characterCard).getStudents(): null);
+        Map<Clan, Integer> students;
+        if (characterCard instanceof StudentMoverCharacterCard)
+            students = ((StudentMoverCharacterCard) characterCard).getStudents();
+        else {
+            students = new EnumMap<>(Clan.class);
+            for (Clan c : Clan.values())
+                students.put(c, 0);
+        }
+        return new CharacterCardData(characterCard.getCharacterID(), characterCard.getCost(), numProhibitionCards, students);
     }
 
     @Override

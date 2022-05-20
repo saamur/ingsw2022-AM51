@@ -1,19 +1,11 @@
-package it.polimi.ingsw.constants;
+package it.polimi.ingsw.constants.cliconstants;
 
 import it.polimi.ingsw.model.Clan;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-public class CliConstants {
-
-    public static final String JOINGAME_COMMAND = "joingame";
-    public static final String RESTOREGAME_COMMAND = "restoregame";
-    public static final String CREATENEWGAME_COMMAND = "createnewgame";
-    public static final String CHAMBER_COMMAND = "chamber";
-    public static final String ISLAND_COMMAND = "island";
-    public static final String ENDTURN_COMMAND = "end turn";
-    public static final String ACTIVATECHARACTER_COMMAND = "activatecharacter";
+public class CliGraphicConstants {
 
     public static final String ANSI_RED = "\033[31m";
     public static final String ANSI_GREEN = "\033[32m";
@@ -35,17 +27,16 @@ public class CliConstants {
 //"○"
 // ○
 
-
     public static final int MAX_NAME_CARD_LENGTH = 8;
 
-    private static final Map<Clan, String> clanMapColor;
+    private static final Map<Clan, String> CLAN_MAP_COLOR;
     static {
-        clanMapColor = new EnumMap<>(Clan.class);
-        clanMapColor.put(Clan.PIXIES, CliConstants.ANSI_YELLOW);
-        clanMapColor.put(Clan.UNICORNS, CliConstants.ANSI_BLUE);
-        clanMapColor.put(Clan.TOADS, CliConstants.ANSI_GREEN);
-        clanMapColor.put(Clan.DRAGONS, CliConstants.ANSI_RED);
-        clanMapColor.put(Clan.FAIRIES, CliConstants.ANSI_PINK);
+        CLAN_MAP_COLOR = new EnumMap<>(Clan.class);
+        CLAN_MAP_COLOR.put(Clan.PIXIES, CliGraphicConstants.ANSI_YELLOW);
+        CLAN_MAP_COLOR.put(Clan.UNICORNS, CliGraphicConstants.ANSI_BLUE);
+        CLAN_MAP_COLOR.put(Clan.TOADS, CliGraphicConstants.ANSI_GREEN);
+        CLAN_MAP_COLOR.put(Clan.DRAGONS, CliGraphicConstants.ANSI_RED);
+        CLAN_MAP_COLOR.put(Clan.FAIRIES, CliGraphicConstants.ANSI_PINK);
     }
 
     public static final int MAX_LENGHT_STUDENTS = 8;
@@ -57,7 +48,7 @@ public class CliConstants {
     public static final int DOUBLE_DIGITS = 10;
 
     public static String getColorStudent(Clan clan){
-        return clanMapColor.get(clan);
+        return CLAN_MAP_COLOR.get(clan);
     }
 
 }

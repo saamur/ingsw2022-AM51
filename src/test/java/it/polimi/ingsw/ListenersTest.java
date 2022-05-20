@@ -27,7 +27,12 @@ public class ListenersTest {
     @Test
     public void moveStudentToIslandListenerTest(){
 
-        Game game = new Game(2, "Fede", false);
+        Game game = null;
+        try {
+            game = new Game(2, "Fede", false);
+        } catch (NumberOfPlayerNotSupportedException e) {
+            e.printStackTrace();
+        }
         Controller controller = new NewGameController(game);
         IslandManager islM = game.getIslandManager();
 

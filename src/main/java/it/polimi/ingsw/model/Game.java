@@ -65,7 +65,10 @@ public class Game implements GameInterface {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
-    public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) {
+    public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) throws NumberOfPlayerNotSupportedException {
+
+        if (!GameConstants.supportsNumberOfPlayers(numPlayers))
+            throw new NumberOfPlayerNotSupportedException("Games with " + numPlayers + (numPlayers != 1 ? " players" : " player") + " are not supported");
 
         gameState = GameState.INITIALIZATION;
 

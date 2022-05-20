@@ -1,6 +1,7 @@
 package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.*;
+import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
@@ -213,23 +214,28 @@ public class InfluenceCharacterCardTest{
      */
     @Test
     public void applyTest1(){
-        Game game = new Game(2, "Fede", true);
-        assertDoesNotThrow(() -> game.addPlayer("Samu"));
-        Island island =game.getIslandManager().getIsland(1);
-        if (game.getIndexCurrPlayer() == 0) {
-            assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CHEETAH));
-            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
-        }
-        else {
-            assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
-            assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CHEETAH));
+        try {
+            Game game = new Game(2, "Fede", true);
+            assertDoesNotThrow(() -> game.addPlayer("Samu"));
+            Island island =game.getIslandManager().getIsland(1);
+            if (game.getIndexCurrPlayer() == 0) {
+                assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CHEETAH));
+                assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
+            }
+            else {
+                assertDoesNotThrow(() -> game.chosenCard("Samu", Card.TURTLE));
+                assertDoesNotThrow(() -> game.chosenCard("Fede", Card.CHEETAH));
+            }
+
+            for(CharacterCard cc: influenceCards)
+                if (cc.getCharacterID() == CharacterID.HERALD)
+                    assertTrue(cc.applyEffect(game, island));
+                else
+                    assertFalse(cc.applyEffect(game, island));
+        } catch (NumberOfPlayerNotSupportedException e) {
+            e.printStackTrace();
         }
 
-        for(CharacterCard cc: influenceCards)
-            if (cc.getCharacterID() == CharacterID.HERALD)
-                assertTrue(cc.applyEffect(game, island));
-            else
-                assertFalse(cc.applyEffect(game, island));
     }
 
     /**
@@ -242,7 +248,12 @@ public class InfluenceCharacterCardTest{
     @ParameterizedTest
     @MethodSource("applyTest2Arguments")
     public void applyTest2(Map<Clan, Integer> students1, Map<Clan, Integer> students2){
-        Game game = new Game(2, "Fede", true);
+        Game game = null;
+        try {
+            game = new Game(2, "Fede", true);
+        } catch (NumberOfPlayerNotSupportedException e) {
+            e.printStackTrace();
+        }
         StudentContainer island = game.getIslandManager().getIsland(1);
 
         for(CharacterCard cc: influenceCards) {

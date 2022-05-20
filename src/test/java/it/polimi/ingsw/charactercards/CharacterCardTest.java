@@ -1,5 +1,6 @@
 package it.polimi.ingsw.charactercards;
 
+import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
@@ -96,7 +97,12 @@ public abstract class CharacterCardTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3})
     public void applyTest1(int numOfPlayers){
-        Game game = new Game(numOfPlayers, "Fede", true);
+        Game game = null;
+        try {
+            game = new Game(numOfPlayers, "Fede", true);
+        } catch (NumberOfPlayerNotSupportedException e) {
+            e.printStackTrace();
+        }
         Island island = new Island();
         assertFalse(characterCard.applyEffect(game, island));
     }
@@ -111,7 +117,12 @@ public abstract class CharacterCardTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3})
     public void applyTest2(int numOfPlayers){
-        Game game = new Game(numOfPlayers, "Giu", true);
+        Game game = null;
+        try {
+            game = new Game(numOfPlayers, "Giu", true);
+        } catch (NumberOfPlayerNotSupportedException e) {
+            e.printStackTrace();
+        }
         StudentContainer destination = new Island();
         Map<Clan, Integer> students1 = new EnumMap<>(Clan.class);
         assertFalse(characterCard.applyEffect(game, destination, students1, students1)); //game, destination and students1 can be null

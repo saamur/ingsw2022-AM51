@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
+import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -67,11 +68,13 @@ public class Lobby {
     }
 
     public synchronized NewGameController createNewGameController(String nickname, int numOfPlayers, boolean expertMode) {
-        NewGameController controller = null;
-        if (GameConstants.supportsNumberOfPlayers(numOfPlayers)) {
+        NewGameController controller;
+        try {
             GameInterface game = new Game(numOfPlayers, nickname, expertMode);
             controller = new NewGameController(game);
             openingNewGameControllers.add(controller);
+        } catch (NumberOfPlayerNotSupportedException e) {
+            controller = null;
         }
 
         return controller;

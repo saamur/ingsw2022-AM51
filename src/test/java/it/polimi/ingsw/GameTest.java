@@ -21,12 +21,12 @@ class GameTest {
 Game game;
 
     public void setNotExpertGame() {
-        game = new Game(2, "Giulia", false);
+        assertDoesNotThrow(() -> game = new Game(2, "Giulia", false));
 
 }
 
     public void setNotExpertGameTwoPlayers(){
-        game = new Game(2, "Giulia", false);
+        assertDoesNotThrow(() -> game = new Game(2, "Giulia", false));
         try {
             game.addPlayer("Samu");
         } catch (WrongGamePhaseException | NicknameNotAvailableException e) {
@@ -36,7 +36,7 @@ Game game;
     }
 
     public void setNotExpertGameThreePlayers(){
-        game = new Game(3, "Giulia", false);
+        assertDoesNotThrow(() -> game = new Game(3, "Giulia", false));
         try {
             game.addPlayer("Samu");
         } catch (WrongGamePhaseException | NicknameNotAvailableException e) {

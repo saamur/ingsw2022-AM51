@@ -167,7 +167,7 @@ class StudentMoverCharacterCardTest {
      */
     @Test
     public void applyTest1(){
-        game = new Game(2, "Giulia", true);
+        assertDoesNotThrow(() -> game = new Game(2, "Giulia", true));
         assertDoesNotThrow(() -> game.addPlayer("Samu"));
         Island island =game.getIslandManager().getIsland(1);
         if (game.getIndexCurrPlayer() == 0) {
@@ -193,7 +193,7 @@ class StudentMoverCharacterCardTest {
     @ParameterizedTest
     @EnumSource(Clan.class)
     public void applyTest2Monk(Clan clan){
-        game = new Game(2, "Giulia", true);
+        assertDoesNotThrow(() -> game = new Game(2, "Giulia", true));
         assertDoesNotThrow(() -> game.addPlayer("Samu"));
         StudentContainer island = game.getIslandManager().getIsland(1);
         Map<Clan, Integer> initialStudents = game.getIslandManager().getIsland(1).getStudents();
@@ -219,7 +219,7 @@ class StudentMoverCharacterCardTest {
     @ParameterizedTest
     @EnumSource(Clan.class)
     public void applyTest2MonkStudentNotOnTheCard(Clan clan){
-        game = new Game(2, "Giulia", true);
+        assertDoesNotThrow(() -> game = new Game(2, "Giulia", true));
         StudentContainer island = game.getIslandManager().getIsland(1);
 
         if(((StudentMoverCharacterCard) studentMoverCards.get(0)).getStudents().get(clan)==0){
@@ -356,7 +356,7 @@ class StudentMoverCharacterCardTest {
      * This method set the game. It is a shortcut for some tests
      */
     public void setGame(){
-        game = new Game(2, "Giulia", true);
+        assertDoesNotThrow(() -> game = new Game(2, "Giulia", true));
         assertDoesNotThrow(() -> game.addPlayer("Samu"));
 
         if (game.getIndexCurrPlayer() == 0) {

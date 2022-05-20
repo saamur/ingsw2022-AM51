@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
@@ -38,17 +39,18 @@ public class CLI implements View, Runnable {
             System.out.println("Insert IP:");
             String address = stdIn.nextLine();
             System.out.println("Insert port:");
-            int port = stdIn.nextInt();
             try {
+                int port = Integer.parseInt(stdIn.nextLine());
                 serverHandler = new ServerHandler(address, port, this);
-            }catch (IOException e){
+            } catch (IllegalArgumentException e) {
+                System.out.println("This is not a number");
+            } catch (IOException e){
                 System.out.println("The server could not be reached.\nCheck if the parameters are correct or if the server is running\n");
             }
-        }while(serverHandler == null);
+        } while (serverHandler == null);
 
-        Thread serverHandlerThread = new Thread(serverHandler);
         this.addPropertyChangeListener(serverHandler);
-        serverHandlerThread.start();
+        new Thread(serverHandler).start();
 
         displayEverything();
 
@@ -61,7 +63,13 @@ public class CLI implements View, Runnable {
 
         while (!gameOver) {
             Message message;
-            if ((message = CommandParser.parseCommand(stdIn.nextLine(), gameData, nickname, gameChosen, availableGamesMessage)) != null) {
+            String line;
+            try {
+                line = stdIn.nextLine();
+            } catch (NoSuchElementException e) {
+                break;
+            }
+            if ((message = CommandParser.parseCommand(line, gameData, nickname, gameChosen, availableGamesMessage)) != null) {
                 pcs.firePropertyChange("message", null, message);
             }
         }

@@ -80,8 +80,6 @@ public class IslandManager implements Serializable {
      * @return      the number of steps needed by Mother Nature to reach the island isl
      */
     public int distanceFromMotherNature(Island isl) {
-        if (isl == motherNaturePosition)
-            return islands.size();
         return (islands.indexOf(isl) + islands.size() - islands.indexOf(motherNaturePosition)) % islands.size();
     }
 

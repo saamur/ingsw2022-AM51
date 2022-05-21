@@ -58,77 +58,73 @@ public class CommandParser {
                 System.out.println("The game is not started yet");
             }
         }
-        else {
-            synchronized (gameData) {
-                if (gameData.getCurrPlayer().equals(nickname)) {
-                    if (gameData.getGameState() == GameState.PLANNING) {
-                        try {
-                            message = new ChosenCardMessage(Card.valueOf(line.toUpperCase()));
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("This is not a valid card. Retry: ");
-                        }
-                    }
-                    else if (gameData.getGameState() == GameState.ACTION) {
-                        String[] words = line.split(" ");
-                        if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
-                            message = parseCharacterCommand(line, gameData.getActiveCharacterCard());
-                            if (message == null)
-                                System.out.println("This command is not correct");
-                        }
-                        else if (gameData.getActiveCharacterCard() == null && words.length == 2 && CliCommandConstants.ACTIVATECHARACTER_COMMAND.equalsIgnoreCase(words[0])) {
-                            try {
-                                message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
-                            } catch (IllegalArgumentException e) {
-                                System.out.println("This character does not exist");
-                            }
-                        }
-                        else {
-                            switch (gameData.getTurnState()) {
-                                case STUDENT_MOVING -> {
-                                    if (words.length == 2 && CliCommandConstants.CHAMBER_COMMAND.equalsIgnoreCase(words[0])) {
-                                        try {
-                                            message = new MoveStudentToChamberMessage(Clan.valueOf(words[1].toUpperCase()));
-                                        } catch (IllegalArgumentException e) {
-                                            System.out.println("This is not a valid clan");
-                                        }
-                                    } else if (words.length == 3 && CliCommandConstants.ISLAND_COMMAND.equalsIgnoreCase(words[0])) {
-                                        try {
-                                            message = new MoveStudentToIslandMessage(Clan.valueOf(words[2].toUpperCase()), Integer.parseInt(words[1]));
-                                        } catch (Exception e) {
-                                            System.out.println("The parameters are not correct");
-                                        }
-                                    } else {
-                                        System.out.println("This command is not correct");
-                                    }
-                                }
-                                case MOTHER_MOVING -> {
-                                    try {
-                                        message = new MoveMotherNatureMessage(Integer.parseInt(line));
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("This is not a valid number");
-                                    }
-                                }
-                                case CLOUD_CHOOSING -> {
-                                    try {
-                                        message = new ChosenCloudMessage(Integer.parseInt(line));
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("This is not a valid number");
-                                    }
-                                }
-                                case END_TURN -> {
-                                    if (CliCommandConstants.ENDTURN_COMMAND.equalsIgnoreCase(line))
-                                        message = new EndTurnMessage();
-                                    else
-                                        System.out.println("This command is not correct");
-                                }
-                            }
-                        }
+        else if (gameData.getCurrPlayer().equals(nickname)) {
+            if (gameData.getGameState() == GameState.PLANNING) {
+                try {
+                    message = new ChosenCardMessage(Card.valueOf(line.toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    System.out.println("This is not a valid card. Retry: ");
+                }
+            }
+            else if (gameData.getGameState() == GameState.ACTION) {
+                String[] words = line.split(" ");
+                if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
+                    message = parseCharacterCommand(line, gameData.getActiveCharacterCard());
+                    if (message == null)
+                        System.out.println("This command is not correct");
+                }
+                else if (gameData.getActiveCharacterCard() == null && words.length == 2 && CliCommandConstants.ACTIVATECHARACTER_COMMAND.equalsIgnoreCase(words[0])) {
+                    try {
+                        message = new ActivateCharacterCardMessage(CharacterID.valueOf(words[1].toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("This character does not exist");
                     }
                 }
                 else {
-                    System.out.println("It is not your turn");
+                    switch (gameData.getTurnState()) {
+                        case STUDENT_MOVING -> {
+                            if (words.length == 2 && CliCommandConstants.CHAMBER_COMMAND.equalsIgnoreCase(words[0])) {
+                                try {
+                                    message = new MoveStudentToChamberMessage(Clan.valueOf(words[1].toUpperCase()));
+                                } catch (IllegalArgumentException e) {
+                                    System.out.println("This is not a valid clan");
+                                }
+                            } else if (words.length == 3 && CliCommandConstants.ISLAND_COMMAND.equalsIgnoreCase(words[0])) {
+                                try {
+                                    message = new MoveStudentToIslandMessage(Clan.valueOf(words[2].toUpperCase()), Integer.parseInt(words[1]));
+                                } catch (Exception e) {
+                                    System.out.println("The parameters are not correct");
+                                }
+                            } else {
+                                System.out.println("This command is not correct");
+                            }
+                        }
+                        case MOTHER_MOVING -> {
+                            try {
+                                message = new MoveMotherNatureMessage(Integer.parseInt(line));
+                            } catch (NumberFormatException e) {
+                                System.out.println("This is not a valid number");
+                            }
+                        }
+                        case CLOUD_CHOOSING -> {
+                            try {
+                                message = new ChosenCloudMessage(Integer.parseInt(line));
+                            } catch (NumberFormatException e) {
+                                System.out.println("This is not a valid number");
+                            }
+                        }
+                        case END_TURN -> {
+                            if (CliCommandConstants.ENDTURN_COMMAND.equalsIgnoreCase(line))
+                                message = new EndTurnMessage();
+                            else
+                                System.out.println("This command is not correct");
+                        }
+                    }
                 }
             }
+        }
+        else {
+            System.out.println("It is not your turn");
         }
 
         return message;

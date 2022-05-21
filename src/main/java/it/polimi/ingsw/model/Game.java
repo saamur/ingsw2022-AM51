@@ -313,7 +313,6 @@ public class Game implements GameInterface {
         if (player == null) throw new NonExistingPlayerException("There is no player with the given nickname");
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
 
-
         Player previousOwnerProfessor = null;
         for(Player p : players)
             if(p.getChamber().hasProfessor(clan))
@@ -377,6 +376,7 @@ public class Game implements GameInterface {
         if (player != getCurrPlayer()) throw new WrongPlayerException("Not the turn of this player");
         if (turn.getTurnState() != TurnState.MOTHER_MOVING) throw new WrongTurnPhaseException("The turn is not in the mother moving phase");
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
+        if (islandManager.distanceFromMotherNature(island) == 0) throw new NotValidMoveException("Mother Nature must move at least one step");
         if (islandManager.distanceFromMotherNature(island) > turn.getMaxStepsMotherNature()) throw new NotValidMoveException("The selected island is too far from Mother Nature");
 
         islandManager.setMotherNaturePosition(island);
@@ -661,6 +661,7 @@ public class Game implements GameInterface {
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, islandManager.getIsland(islandIndex), students1, students2);
 
         if (ok) {
+            turn.updateProfessors(players);
             if (islandManager.getIsland(islandIndex) != null)
                 pcs.firePropertyChange("modifiedIsland", oldIslandData, IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex));
             pcs.firePropertyChange("modifiedCharacter", oldCharacterCard, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));

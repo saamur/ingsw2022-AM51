@@ -69,15 +69,17 @@ public class CLI implements View, Runnable {
             } catch (NoSuchElementException e) {
                 break;
             }
-            if ((message = CommandParser.parseCommand(line, gameData, nickname, gameChosen, availableGamesMessage)) != null) {
-                pcs.firePropertyChange("message", null, message);
+            synchronized (this) {
+                message = CommandParser.parseCommand(line, gameData, nickname, gameChosen, availableGamesMessage);
             }
+            if (message != null)
+                pcs.firePropertyChange("message", null, message);
         }
 
     }
 
     @Override
-    public void setNickname(String nickname) {
+    public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
         System.out.println("Welcome " + nickname + "!");
         if (availableGamesMessage != null)
@@ -85,32 +87,30 @@ public class CLI implements View, Runnable {
     }
 
     @Override
-    public void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
+    public synchronized void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
         this.availableGamesMessage = availableGamesMessage;
         if (nickname != null)
             displayEverything();
     }
 
     @Override
-    public void playerAddedToGame(String message) {
+    public synchronized void playerAddedToGame(String message) {
         System.out.println(message);
         gameChosen = true;
         displayEverything();
     }
 
     @Override
-    public void setGameData (GameData gameData) {
+    public synchronized void setGameData (GameData gameData) {
         this.gameData = gameData;
         gameChosen = true;
         displayEverything();
     }
 
     @Override
-    public void updateGameData (UpdateMessage updateMessage) {
+    public synchronized void updateGameData (UpdateMessage updateMessage) {
         if (gameData != null) {
-            synchronized (gameData) {
-                updateMessage.updateGameData(gameData);
-            }
+            updateMessage.updateGameData(gameData);
             displayEverything();
         }
     }
@@ -128,79 +128,75 @@ public class CLI implements View, Runnable {
     }
 
     @Override
-    public void handleGameOver(List<String> winnersNickname) {
+    public synchronized void handleGameOver(List<String> winnersNickname) {
         gameData.setWinnersNicknames(winnersNickname);
         gameOver = true;
         displayEverything();
     }
 
     @Override
-    public void handlePlayerDisconnected(String playerDisconnectedNickname) {
+    public synchronized void handlePlayerDisconnected(String playerDisconnectedNickname) {
         System.out.println(playerDisconnectedNickname + " has disconnected");
         System.out.println("The game will close");
         gameOver = true;
     }
 
     @Override
-    public void displayEverything() {
+    public synchronized void displayEverything() {
+
+        System.out.println("\n");
 
         if (nickname == null) {
             System.out.println("Choose a nickname: ");
-        }
-        else if (!gameChosen) {
+        } else if (!gameChosen) {
             ModelDisplay.displayAvailableGames(availableGamesMessage);
             System.out.println("Possible commands:");
             System.out.println("\t" + CliCommandConstants.CREATENEWGAME_COMMAND + " <number of players> <true for expert mode, false otherwise>");
             System.out.println("\t" + CliCommandConstants.JOINGAME_COMMAND + " <game id>");
             System.out.println("\t" + CliCommandConstants.RESTOREGAME_COMMAND + " <game id>");
             System.out.println();
-        }
-        else if (gameData == null) {
+        } else if (gameData == null) {
             System.out.println("wait for the game to start...");
-        }
-        else {
-            synchronized (gameData) {
-                if (gameData.getGameState() == GameState.GAME_OVER) {
-                    System.out.println("THE GAME IS OVER");
-                    System.out.print("Winners: ");
-                    for (String s : gameData.getWinnersNicknames())
-                        System.out.println(s + " ");
-                    System.out.println();
-                } else {
+        } else if (gameData.getGameState() == GameState.GAME_OVER) {
+            System.out.println("THE GAME IS OVER");
+            System.out.print("Winners: ");
+            for (String s : gameData.getWinnersNicknames())
+                System.out.println(s + " ");
+            System.out.println();
+        } else {
 
-                    ModelDisplay.displayModel(gameData, nickname);
+            ModelDisplay.displayModel(gameData, nickname);
 
-                    if (nickname.equals(gameData.getCurrPlayer())) {
-                        if (gameData.getGameState() == GameState.PLANNING) {
-                            System.out.println("Your available cards are: ");
-                            for (PlayerData p : gameData.getPlayerData())
-                                if (p.getNickname().equals(nickname))
-                                    ModelDisplay.displayDeck(p);
-                            System.out.println("Chose one: ");
-                        } else if (gameData.getGameState() == GameState.ACTION) {
-                            System.out.println("Possible commands:");
-                            if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
-                                System.out.println("\t" + CliCommandConstants.getCharacterEffectCommand(gameData.getActiveCharacterCard()));
+            if (nickname.equals(gameData.getCurrPlayer())) {
+                if (gameData.getGameState() == GameState.PLANNING) {
+                    System.out.println("Your available cards are: ");
+                    for (PlayerData p : gameData.getPlayerData())
+                        if (p.getNickname().equals(nickname))
+                            ModelDisplay.displayDeck(p);
+                    System.out.println("Chose one: ");
+                } else if (gameData.getGameState() == GameState.ACTION) {
+                    System.out.println("Possible commands:");
+                    if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
+                        System.out.println("\t" + CliCommandConstants.getCharacterEffectCommand(gameData.getActiveCharacterCard()));
+                    } else {
+                        switch (gameData.getTurnState()) {
+                            case STUDENT_MOVING -> {
+                                System.out.println("\t" + CliCommandConstants.CHAMBER_COMMAND + " <clan>");
+                                System.out.println("\t" + CliCommandConstants.ISLAND_COMMAND + " <island index> <clan>");
                             }
-                            else {
-                                switch (gameData.getTurnState()) {
-                                    case STUDENT_MOVING -> {
-                                        System.out.println("\t" + CliCommandConstants.CHAMBER_COMMAND + " <clan>");
-                                        System.out.println("\t" + CliCommandConstants.ISLAND_COMMAND + " <island index> <clan>");
-                                    }
-                                    case MOTHER_MOVING -> System.out.println("\t" + "<island index>");
-                                    case CLOUD_CHOOSING -> System.out.println("\t" + "<cloud index>");
-                                    case END_TURN -> System.out.println("\t" + CliCommandConstants.ENDTURN_COMMAND);
-                                }
-                                if (gameData.isExpertModeEnabled() && gameData.getActiveCharacterCard() == null)
-                                    System.out.println("\t" + CliCommandConstants.ACTIVATECHARACTER_COMMAND + " <character name>");
-                            }
+                            case MOTHER_MOVING -> System.out.println("\t" + "<island index>");
+                            case CLOUD_CHOOSING -> System.out.println("\t" + "<cloud index>");
+                            case END_TURN -> System.out.println("\t" + CliCommandConstants.ENDTURN_COMMAND);
                         }
+                        if (gameData.isExpertModeEnabled() && gameData.getActiveCharacterCard() == null)
+                            System.out.println("\t" + CliCommandConstants.ACTIVATECHARACTER_COMMAND + " <character name>");
                     }
-
                 }
             }
+
         }
+
+        System.out.println();
 
     }
 

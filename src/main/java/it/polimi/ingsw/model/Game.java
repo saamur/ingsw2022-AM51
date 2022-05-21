@@ -836,6 +836,8 @@ public class Game implements GameInterface {
 
     @Override
     public String getNicknameCurrPlayer() {
+        if (getCurrPlayer() == null)
+            return null;
         return getCurrPlayer().getNickname();
     }
 

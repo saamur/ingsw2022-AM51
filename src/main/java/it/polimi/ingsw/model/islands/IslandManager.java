@@ -84,8 +84,7 @@ public class IslandManager implements Serializable {
     }
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
-        List<Island> islands = getIslands();
-        int oldMNPosition = islands.indexOf(getMotherNaturePosition());
+        int oldMNPosition = islands.indexOf(this.motherNaturePosition);
         int newMNPosition = islands.indexOf(motherNaturePosition);
         if(islands.contains(motherNaturePosition))
             this.motherNaturePosition = motherNaturePosition;

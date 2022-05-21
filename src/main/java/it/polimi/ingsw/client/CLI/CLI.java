@@ -69,6 +69,8 @@ public class CLI implements View, Runnable {
             } catch (NoSuchElementException e) {
                 break;
             }
+            if(gameOver)
+                break;
             synchronized (this) {
                 message = CommandParser.parseCommand(line, gameData, nickname, gameChosen, availableGamesMessage);
             }

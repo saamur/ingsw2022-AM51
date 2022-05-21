@@ -58,7 +58,7 @@ public class CommandParser {
                 System.out.println("The game is not started yet");
             }
         }
-        else if (gameData.getCurrPlayer().equals(nickname)) {
+        else if (nickname.equals(gameData.getCurrPlayer())) {
             if (gameData.getGameState() == GameState.PLANNING) {
                 try {
                     message = new ChosenCardMessage(Card.valueOf(line.toUpperCase()));
@@ -122,6 +122,9 @@ public class CommandParser {
                     }
                 }
             }
+        }
+        else if (gameData.getGameState() == GameState.GAME_OVER) {
+            System.out.println("The game is over");
         }
         else {
             System.out.println("It is not your turn");

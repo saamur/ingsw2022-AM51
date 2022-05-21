@@ -15,7 +15,7 @@ public class ModelDisplay {
     public static void displayAvailableGames (AvailableGamesMessage availableGamesMessage) {
         System.out.println("NEW AVAILABLE GAMES:");
         if(availableGamesMessage.openingNewGameDataList().size() > 0)
-            System.out.println("   ID   | num of Players |  expert mode |");
+            System.out.println("   ID   | num of Players |  expert mode | nicknames ");
         else
             System.out.println("no game has been created ");
         for(int i = 0; i < availableGamesMessage.openingNewGameDataList().size(); i++) {
@@ -29,13 +29,18 @@ public class ModelDisplay {
             System.out.print("     " + availableGamesMessage.openingNewGameDataList().get(i).expertMode());
             if(availableGamesMessage.openingNewGameDataList().get(i).expertMode())
                 System.out.print(" ");
-            System.out.println("    |");
+            System.out.print("    | ");
+            for(int j = 0; j < availableGamesMessage.openingNewGameDataList().get(i).nicknames().size(); j++){
+                System.out.print(availableGamesMessage.openingNewGameDataList().get(i).nicknames().get(j) + " ");
+            }
+
+
         }
         System.out.println("\n\n");
 
         System.out.println("RESTORED GAMES:");
         if(availableGamesMessage.openingRestoredGameDataList().size() > 0){
-            System.out.println("   ID   | num of Players |  expert mode |");
+            System.out.println("   ID   | num of Players |  expert mode | missing nicknames");
         }
         else
             System.out.println("no opening restored games");
@@ -50,13 +55,16 @@ public class ModelDisplay {
             System.out.print("     " + availableGamesMessage.openingRestoredGameDataList().get(i).expertMode());
             if(availableGamesMessage.openingRestoredGameDataList().get(i).expertMode())
                 System.out.print(" ");
-            System.out.println("    |");
+            System.out.print("    |");
+            for(int j = 0; j < availableGamesMessage.openingRestoredGameDataList().get(i).missingNicknames().size(); j++){
+                System.out.print(availableGamesMessage.openingRestoredGameDataList().get(i).missingNicknames().get(j) + " ");
+            }
         }
         System.out.println("\n\n");
 
         System.out.println("SAVED GAMES: ");
         if(availableGamesMessage.savedGameData().size() > 0){
-            System.out.println("   ID   | num of Players |  expert mode |");
+            System.out.println("   ID   | num of Players |  expert mode | nicknames");
         }
         else
             System.out.println("no saved games");
@@ -72,7 +80,11 @@ public class ModelDisplay {
             System.out.print("     " + availableGamesMessage.savedGameData().get(i).expertMode());
             if(availableGamesMessage.savedGameData().get(i).expertMode())
                 System.out.print(" ");
-            System.out.println("    |");
+            System.out.print("    |");
+            for(int j = 0; j < availableGamesMessage.savedGameData().get(i).nicknames().size(); j++){
+                System.out.print(availableGamesMessage.savedGameData().get(i).nicknames().get(j) + " ");
+            }
+            System.out.println();
         }
 
         System.out.println("\n\n");
@@ -297,7 +309,7 @@ public class ModelDisplay {
         for(int j = 0; j < cloudManagerData.clouds().length; j++) {
             int i;
             if(cloudManagerData.clouds()[j].picked())
-                System.out.println(CliGraphicConstants.ANSI_RED + "CLOUD " + j + " (already chosen)" + CliGraphicConstants.ANSI_RESET);
+                System.out.println(CliGraphicConstants.ANSI_RED + "CLOUD " + j + " (already picked)" + CliGraphicConstants.ANSI_RESET);
             else
                 System.out.println("CLOUD "+ j);
             System.out.print("| ");

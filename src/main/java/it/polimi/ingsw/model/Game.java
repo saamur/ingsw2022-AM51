@@ -587,12 +587,11 @@ public class Game implements GameInterface {
         if (island == null) throw new NotValidIndexException("There is no island with the given index");
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
-        if (turn.getActivatedCharacterCard() instanceof ProhibitionCharacterCard){ //if card is GRANDMA
+        if (ok) {
             pcs.firePropertyChange("modifiedCharacter", null, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));
             pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(island, islandIndex));
         }
-
-        if (!ok) throw new NotValidMoveException("This move is not valid");
+        else throw new NotValidMoveException("This move is not valid");
 
         turn.characterPunctualEffectApplied();
 
@@ -654,21 +653,22 @@ public class Game implements GameInterface {
         if (turn.getActivatedCharacterCard() == null) throw new NotValidMoveException("There is no activated character card");
         if (turn.isCharacterPunctualEffectApplied()) throw new NotValidMoveException("The effect of this character card has already been applied");
 
-        PlayerData oldPlayerData = PlayerData.createPlayerData(player);
-        IslandData oldIslandData = IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex);
+        IslandData oldIslandData = null;
+        if (islandManager.getIsland(islandIndex) != null)
+            oldIslandData = IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex);
         CharacterCardData oldCharacterCard = CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard());
 
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, islandManager.getIsland(islandIndex), students1, students2);
 
-        pcs.firePropertyChange("modifiedPlayer", oldPlayerData, PlayerData.createPlayerData(player));
-        pcs.firePropertyChange("modifiedIsland", oldIslandData, IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex));
-        pcs.firePropertyChange("modifiedCharacter", oldCharacterCard, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));
-        for (Player value : players) {
-            pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(value));
+        if (ok) {
+            if (islandManager.getIsland(islandIndex) != null)
+                pcs.firePropertyChange("modifiedIsland", oldIslandData, IslandData.createIslandData(islandManager.getIsland(islandIndex), islandIndex));
+            pcs.firePropertyChange("modifiedCharacter", oldCharacterCard, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));
+            for (Player value : players) {
+                pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(value));
+            }
         }
-
-
-        if (!ok) throw new NotValidMoveException("This move is not valid");
+        else throw new NotValidMoveException("This move is not valid");
 
         turn.characterPunctualEffectApplied();
 

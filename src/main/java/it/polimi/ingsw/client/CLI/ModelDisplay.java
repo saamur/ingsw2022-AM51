@@ -88,6 +88,8 @@ public class ModelDisplay {
 
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
+        System.out.println(gameData);
+
         //System.out.flush();
         for(PlayerData p : gameData.getPlayerData()){
             if(p.getNickname().equals(nickname)) {

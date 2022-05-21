@@ -17,18 +17,13 @@ public record UpdateGamePhase(GamePhaseData gamePhaseData) implements UpdateMess
         gameData.setCurrPlayer(gamePhaseData.currPlayerNickname());
         gameData.setLastRound(gamePhaseData.lastRound());
         gameData.setActiveCharacterCard(gamePhaseData.activatedCharacter());
-        gameData.setActiveCharacterPunctualEffectApplied(gameData.isActiveCharacterPunctualEffectApplied());
+        gameData.setActiveCharacterPunctualEffectApplied(gamePhaseData.activatedCharacterPunctualEffectApplied());
     }
 
     @Override
     public String toString() {
         return "UpdateGamePhase{" +
-                "gameState=" + gamePhaseData.gameState() +
-                ", turnState=" + gamePhaseData.turnState() +
-                ", currPlayerNickname='" + gamePhaseData.currPlayerNickname() + '\'' +
-                ", lastRound=" + gamePhaseData.lastRound() +
-                ", activatedCharacter=" + gamePhaseData.activatedCharacter() +
+                "gamePhaseData=" + gamePhaseData +
                 '}';
     }
-
 }

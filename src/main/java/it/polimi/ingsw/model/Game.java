@@ -821,7 +821,7 @@ public class Game implements GameInterface {
                 playerData,
                 gameState,
                 getTurnState(),
-                getCurrPlayer().getNickname(),
+                getNicknameCurrPlayer(),
                 expertModeEnabled,
                 characterData,
                 lastRound);

@@ -130,7 +130,7 @@ public class IslandManager implements Serializable {
      * @param isl   the island that could be merged with its neighbouring islands
      */
     private void checkMerge(Island isl) {
-        boolean merge = false;
+        boolean merged = false;
 
         if (!islands.contains(isl) || islands.size() < 2)
             return;
@@ -139,21 +139,25 @@ public class IslandManager implements Serializable {
         Island next = islands.get((islands.indexOf(isl)+1)%islands.size());
 
         if (isl.getControllingPlayer() == prev.getControllingPlayer()) {
+            if (motherNaturePosition == prev)
+                motherNaturePosition = isl;
             isl.merge(prev);
             islands.remove(prev);
-            merge = true;
+            merged = true;
         }
 
         if (prev == next)
             return;
 
         if (isl.getControllingPlayer() == next.getControllingPlayer()) {
+            if (motherNaturePosition == next)
+                motherNaturePosition = isl;
             isl.merge(next);
             islands.remove(next);
-            merge = true;
+            merged = true;
         }
         //I used the boolean variable merge so that if a double merge happens only one fire will be sent
-        if(merge)
+        if(merged)
             pcs.firePropertyChange("merge", null, IslandManagerData.createIslandManagerData(this)); //Come new value gli metto tutto islandManager
     }
 

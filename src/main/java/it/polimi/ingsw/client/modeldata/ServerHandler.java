@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerHandler implements Runnable, PropertyChangeListener {
 
@@ -32,9 +35,9 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
     @Override
     public void run() {
 
-        boolean connected = true;
+        AtomicBoolean connected = new AtomicBoolean(true);
 
-        while (connected) {
+        while (connected.get()) {
 
             Object o;
             try {
@@ -67,7 +70,13 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                 else if (o instanceof GameOverMessage) {
                     //new Thread(() -> view.handleGameOver(((GameOverMessage) o).winnersNickname())).start();
                     view.handleGameOver(((GameOverMessage) o).winnersNickname());
-                    break;
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            connected.set(false);
+                        }
+                    }, ConnectionConstants.DISCONNECTION_AFTER_GAME_OVER);
                 }
                 else if (o instanceof PlayerDisconnectedMessage) {
                     //new Thread(() -> view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname())).start();
@@ -100,7 +109,7 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                 e.printStackTrace();
             } catch (IOException e) {
                 System.out.println("The server has disconnected");
-                connected = false;
+                connected.set(false);
             }
         }
 

@@ -162,7 +162,7 @@ public class CommandParser {
             }
             case MUSHROOMPICKER, THIEF -> {
                 try {
-                    message = new SetClanCharacterMessage(Clan.valueOf(line));
+                    message = new SetClanCharacterMessage(Clan.valueOf(line.toUpperCase()));
                 } catch (IllegalArgumentException e) {}
             }
             case PRINCESS -> {

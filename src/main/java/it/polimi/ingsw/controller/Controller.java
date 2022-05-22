@@ -77,8 +77,11 @@ public abstract class Controller implements PropertyChangeListener {
 
         if (game.getGameState() != GameState.GAME_OVER)
             SavedGameManager.saveRunningGame(game, getId());
-        else
+        else {
+            closing = true;
             SavedGameManager.removeSavedRunningGame(getId());
+            Lobby.getInstance().removeController(this);
+        }
 
         return answer;
 

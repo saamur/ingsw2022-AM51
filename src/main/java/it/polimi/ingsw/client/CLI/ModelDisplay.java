@@ -30,10 +30,8 @@ public class ModelDisplay {
             if(availableGamesMessage.openingNewGameDataList().get(i).expertMode())
                 System.out.print(" ");
             System.out.print("    | ");
-            for(int j = 0; j < availableGamesMessage.openingNewGameDataList().get(i).nicknames().size(); j++){
-                System.out.print(availableGamesMessage.openingNewGameDataList().get(i).nicknames().get(j) + " ");
-            }
-
+            for (String nickname : availableGamesMessage.openingNewGameDataList().get(i).nicknames())
+                System.out.print(nickname + " ");
 
         }
         System.out.println("\n\n");
@@ -415,10 +413,10 @@ public class ModelDisplay {
 
 
     private static void displayCoins(PlayerData playerData){
-        if(playerData.getChamberData().coins()==0){
+        if(playerData.getChamberData().coins()==0)
             System.out.println(playerData.getNickname() + " doesn't have any coins");
-        }
-        System.out.println("Number of Coins: " + playerData.getChamberData().coins());
+        else
+            System.out.println("Number of Coins: " + playerData.getChamberData().coins());
 
         System.out.println("\n\n");
     }

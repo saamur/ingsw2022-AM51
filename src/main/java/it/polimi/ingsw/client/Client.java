@@ -29,7 +29,7 @@ public class Client {
         else if ("GUI".equals(choice)) {
             GUI gui = new GUI();
             gui.launchGUI();
-            //System.exit(0);
+            System.exit(0);
         }
         else {
             System.out.println("This choice is not valid");

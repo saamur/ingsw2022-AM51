@@ -7,19 +7,24 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class LoginController extends PageController {
+
+import static it.polimi.ingsw.constants.ConstantsGUI.GAMESELECTION;
+
+public class ConnectionController extends PageController {
 
     @FXML TextField port;
     @FXML TextField address;
 
     public void connect(ActionEvent event){
+        ServerHandler serverHandler = null;
         try {
             int portNumber = Integer.parseInt(port.getText());
-            ServerHandler serverHandler = new ServerHandler(address.getText(), portNumber, gui);
+            serverHandler = new ServerHandler(address.getText(), portNumber, gui);
             gui.setServerHandler(serverHandler);
             Thread serverHandlerThread = new Thread(serverHandler);
             gui.addPropertyChangeListener(serverHandler);
@@ -41,10 +46,12 @@ public class LoginController extends PageController {
                 alert.showAndWait();
             }
         }
-        try{
-            gui.setCurrScene("login.fxml");
-        } catch (Exception e){
-            e.printStackTrace();
+        if(serverHandler != null) {
+            try {
+                gui.setCurrScene(GAMESELECTION);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

@@ -6,15 +6,16 @@ import it.polimi.ingsw.client.modeldata.ServerHandler;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.net.Socket;
 import java.util.*;
+
+import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
 public class GUI extends Application implements View{
 
@@ -22,16 +23,13 @@ public class GUI extends Application implements View{
     PropertyChangeListener propertyChangeListener;
     Map<String, PageController> controllers = new HashMap<>();
     Map<String, Scene> scenes = new HashMap<>();
-    private final String login = "login.fxml";
-    private final String start = "start.fxml";
-    private final String schoolBoards = "schoolboards.fxml";
-    private final String gameBoard = "gameBoard.fxml";
-    private final String islands = "islands.fxml";
-    private final String deck = "deck.fxml";
-    private final String characters = "characterCards.fxml";
     private ServerHandler serverHandler;
     private String currScene;
     private Stage stage;
+
+    private GameData gameData;
+
+    private boolean gameChosen;
 
     public void launchGUI() {
         launch();
@@ -51,25 +49,27 @@ public class GUI extends Application implements View{
 
     @Override
     public void setNickname(String nickname) {
-        ((WaitingRoomController) controllers.get(login)).setNickname(nickname);
+        ((GameSelectionController) controllers.get(GAMESELECTION)).setNickname(nickname);
     }
 
     @Override
     public void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
-        if(!currScene.equals(login)){
+        if(!currScene.equals(GAMESELECTION)){
             //FIXME non dovrebbe succedere
         } else {
-            ((WaitingRoomController) controllers.get(login)).setAvailableGameMessage(availableGamesMessage); //qui non ho aggiunto login alla mappa
+            ((GameSelectionController) controllers.get(GAMESELECTION)).setAvailableGameMessage(availableGamesMessage); //qui non ho aggiunto login alla mappa
         }
     }
 
     @Override
     public void playerAddedToGame(String message) {
-
+        if(!gameChosen) {
+            Platform.runLater(() -> setCurrScene(WAITINGROOM));
+        }
     }
 
     public void setStages() throws Exception{
-        List<String> fileNames = new ArrayList<>(Arrays.asList(login, start, schoolBoards/*, gameBoard, islands, deck, characters*/));
+        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS /*, CLOUDS, DECK, CHARACTERS*/));
         for (String file : fileNames){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file)); //FIXME aggiungere bottone per create username?
             scenes.put(file, new Scene(loader.load()));
@@ -77,18 +77,26 @@ public class GUI extends Application implements View{
             controllers.get(file).setGui(this);
         }
 
-        setCurrScene(start);
+        setCurrScene(CONNECTION);
 
     }
 
     @Override
     public void setGameData(GameData gameData) {
+        this.gameData = gameData;
 
+        ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
+        ((IslandsPageController) controllers.get(ISLANDS)).setIslands(gameData.getIslandManager());
+        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
+
+        gameChosen = true;
+        Platform.runLater(() -> setCurrScene(GAMEBOARD));
     }
 
     @Override
     public void updateGameData(UpdateMessage updateMessage) {
-
+        //potrei fare updateMessage.updateGameData()...
+        //ma poi dovrei fare l'update
     }
 
     @Override
@@ -119,7 +127,9 @@ public class GUI extends Application implements View{
 
     @Override
     public void handlePlayerDisconnected(String playerDisconnectedNickname) {
-
+        Platform.runLater(() -> {
+            setCurrScene(DISCONNECTION); //TODO create
+        });
     }
 
     public void setServerHandler(ServerHandler serverHandler){

@@ -18,6 +18,7 @@ public class CliGraphicConstants {
     public static final String ANSI_BLACK = "\033[30m";
     public static final String BACKGROUND_WHITE = "\033[47m";
     public static final String ANSI_CYAN = "\033[36m";
+    public static final char STUDENT_SYMBOL ='■';
     public static final char TOWER_SYMBOL = '■' ;
     public static final char PROFESSOR_SYMBOL = '■';
     public static final char NO_PROFESSOR_SYMBOL = 'O';

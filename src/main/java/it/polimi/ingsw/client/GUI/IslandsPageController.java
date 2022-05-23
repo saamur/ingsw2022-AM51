@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
+import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.player.TowerColor;
 import javafx.event.ActionEvent;
@@ -210,7 +211,7 @@ public class IslandsPageController extends PageController implements Initializab
         }
         TowerColor towerColor = modelIsland.towerColor();
         if(towerColor != null){
-            towers.get(anchorIndex).setImage(new Image(getClass().getResource(TOWERS_IMAGES.get(towerColor)).toExternalForm()));
+            towers.get(anchorIndex).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(towerColor)).toExternalForm()));
             towers.get(anchorIndex).setVisible(true);
         }
     }

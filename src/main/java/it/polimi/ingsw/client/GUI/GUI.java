@@ -50,6 +50,7 @@ public class GUI extends Application implements View{
     @Override
     public void setNickname(String nickname) {
         ((GameSelectionController) controllers.get(GAMESELECTION)).setNickname(nickname);
+        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setNickname(nickname);
     }
 
     @Override

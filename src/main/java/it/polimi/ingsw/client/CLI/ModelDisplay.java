@@ -337,29 +337,65 @@ public class ModelDisplay {
 
         System.out.println("\n");
         System.out.println("ACTIVE CHARACTER CARDS");
-        System.out.print("        |");
+        System.out.print("          |");
         for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
-            System.out.print("  ");
+            System.out.print("    ");
             if(characterCardData[i].characterID() == activeCharacter)
                 System.out.print(CliGraphicConstants.ANSI_RED + characterCardData[i].characterID().toString() + CliGraphicConstants.ANSI_RESET);
             else
                 System.out.print(characterCardData[i].characterID().toString());
-            System.out.print("  |");
+            System.out.print("    |");
         }
 
         System.out.println("\n");
-        System.out.print("Cost:   |");
+        System.out.print("Cost:     |");
         for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
-            System.out.print("  ");
+            System.out.print("    ");
             if(characterCardData[i].characterID().toString().length()%2!= 0) {
                 displayCharacterCard(characterCardData[i]);
-                System.out.print("  |");
+                System.out.print("    |");
             }
             else{
                 displayCharacterCard(characterCardData[i]);
-                System.out.print(" |");
+                System.out.print("   |");
             }
         }
+        System.out.println("\n");
+        System.out.print("Students: |");
+        for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
+            if(characterCardData[i].characterID() == CharacterID.MONK ){
+                System.out.print(" ");
+                printCharacterStudents(characterCardData, i);
+                System.out.print(" |");
+            }
+            else if(characterCardData[i].characterID() == CharacterID.JESTER){
+                printCharacterStudents(characterCardData, i);
+                System.out.print("|");
+            }
+
+            else if(characterCardData[i].characterID() == CharacterID.PRINCESS){
+                System.out.print("   ");
+                printCharacterStudents(characterCardData, i);
+                System.out.print("    |");
+            }
+            else{
+                for(int j = 0; j < characterCardData[i].characterID().toString().length() + 8; j++){
+                    System.out.print(" ");
+                }
+                System.out.print("|");
+            }
+        }
+        System.out.println("\n");
+    }
+
+    private static void printCharacterStudents(CharacterCardData[] characterCardData, int i) {
+        System.out.print(" ");
+        for(Clan c : Clan.values()){
+            for(int j = 0; j < characterCardData[i].students().get(c); j++){
+                System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENT_SYMBOL + CliGraphicConstants.ANSI_RESET + " ");
+            }
+        }
+        System.out.print(" ");
     }
 
     private static void displayCharacterCard (CharacterCardData characterCardData) {

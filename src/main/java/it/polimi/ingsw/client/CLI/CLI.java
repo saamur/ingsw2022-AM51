@@ -186,12 +186,20 @@ public class CLI implements View, Runnable {
                                 System.out.println("\t" + CliCommandConstants.CHAMBER_COMMAND + " <clan>");
                                 System.out.println("\t" + CliCommandConstants.ISLAND_COMMAND + " <island index> <clan>");
                             }
-                            case MOTHER_MOVING -> System.out.println("\t" + "<island index>");
+                            case MOTHER_MOVING -> {
+                                System.out.println("\t" + "<island index>");
+                                for(PlayerData p : gameData.getPlayerData()){
+                                    if(p.getNickname().equals(nickname))
+                                        System.out.println(("\t" + "[max steps: " + p.getCurrCard().getMaxStepsMotherNature() + "]"));
+                                }
+                            }
+
                             case CLOUD_CHOOSING -> System.out.println("\t" + "<cloud index>");
                             case END_TURN -> System.out.println("\t" + CliCommandConstants.ENDTURN_COMMAND);
                         }
-                        if (gameData.isExpertModeEnabled() && gameData.getActiveCharacterCard() == null)
+                        if (gameData.isExpertModeEnabled() && gameData.getActiveCharacterCard() == null) {
                             System.out.println("\t" + CliCommandConstants.ACTIVATECHARACTER_COMMAND + " <character name>");
+                        }
                     }
                 }
             }

@@ -32,7 +32,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //FIXME mettere giocatori opzionali
+
 
     }
 

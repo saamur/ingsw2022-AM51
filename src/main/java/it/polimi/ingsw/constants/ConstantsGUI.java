@@ -1,6 +1,5 @@
 package it.polimi.ingsw.constants;
 
-import it.polimi.ingsw.messages.gamemessages.SetClanCharacterMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;

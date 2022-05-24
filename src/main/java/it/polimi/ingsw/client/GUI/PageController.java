@@ -18,7 +18,7 @@ public abstract class PageController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Something is wrong");
-        alert.setContentText("string");
+        alert.setContentText(string);
         alert.showAndWait();
     }
 }

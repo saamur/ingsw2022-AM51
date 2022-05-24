@@ -188,6 +188,7 @@ public class IslandsPageController extends PageController implements Initializab
     }
 
 
+    //FIXME se clicco su un altro Anchor / altra immagine ? non prende il click
     public void selectIsland(MouseEvent mouseEvent) {
         System.out.println("selected island" + mouseEvent.getSource());
     }

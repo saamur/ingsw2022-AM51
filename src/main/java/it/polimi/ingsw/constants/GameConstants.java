@@ -34,11 +34,13 @@ public class GameConstants {
     }
 
     private static final Map<Integer, Integer> NUM_INITIAL_STUDENTS_HALL;
+    public static final int MAX_STUDENTS_HALL;
 
     static {
         NUM_INITIAL_STUDENTS_HALL = new HashMap<>();
         NUM_INITIAL_STUDENTS_HALL.put(2, 7);
         NUM_INITIAL_STUDENTS_HALL.put(3, 9);
+        MAX_STUDENTS_HALL = Collections.max(NUM_INITIAL_STUDENTS_HALL.values());
     }
 
     private static final Map<Integer, Integer> NUM_INITIAL_TOWERS;

@@ -16,9 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
@@ -40,19 +38,14 @@ public class SchoolBoardController extends PageController implements Initializab
         this.nickname = nickname;
     }
 
-    //mettere nomi giocatori sulle tab
-    //mettere giocatori nelle plance?
-    public void back(ActionEvent event){
-        gui.setCurrScene(GAMEBOARD);
-    }
-
-    public void setSchoolBoards(PlayerData[] playersData) {
+    public void initialSetUp (PlayerData[] playersData) {
 
         schoolBoards = new SchoolBoard[playersData.length];
 
         for (int i = 0; i < playersData.length; i++) {
 
             schoolBoards[i] = new SchoolBoard(playersData.length);
+            schoolBoards[i].nickname = playersData[i].getNickname();
 
             ImageView school = new ImageView(new Image(getClass().getResource("/png/Plancia_DEF.png").toExternalForm()));
             school.setX(SCHOOL_COORDINATE_X);
@@ -86,32 +79,49 @@ public class SchoolBoardController extends PageController implements Initializab
                 //todo aggiungere il rettangolo sul tavolo
             }
 
-            //todo hall e torri
+            for (int j = 0; j < GameConstants.getNumInitialStudentsHall(playersData.length); j++) {
+                ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
+                student.setFitWidth(ConstantsGUI.getStudentSize());
+                student.setFitHeight(ConstantsGUI.getStudentSize());
+                student.setX(ConstantsGUI.getHallFirstStudentX() - (j%2)*ConstantsGUI.getHallStudentHorizontalDistance());
+                student.setY(ConstantsGUI.getHallFirstStudentY() - (j/2)*ConstantsGUI.getHallStudentVerticalDistance());
+                schoolBoards[i].studentsHall[j] = student;
+            }
 
-            //Tab tab = new Tab(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname(), anchorPane);
+            anchorPane.getChildren().addAll(schoolBoards[i].studentsHall);
+
+            for (int j = 0; j < GameConstants.getNumInitialTowers(playersData.length); j++) {
+                ImageView tower = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(playersData[i].getColorOfTowers())).toExternalForm()));
+                tower.setFitWidth(ConstantsGUI.getTowerWidth());
+                tower.setFitHeight(ConstantsGUI.getTowerHeight());
+                tower.setX(ConstantsGUI.getFirstTowerX() + (j%2)*ConstantsGUI.getTowerHorizontalDistance());
+                tower.setY(ConstantsGUI.getFirstTowerY() + (j/2)*ConstantsGUI.getTowerVerticalDistance());
+                schoolBoards[i].towers[j] = tower;
+            }
+
+            anchorPane.getChildren().addAll(schoolBoards[i].towers);
+
             Tab tab = new Tab(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname(), anchorPane);
             tabPane.getTabs().add(tab);
 
+            //todo monete
 
         }
 
+    }
 
+    //mettere nomi giocatori sulle tab
+    //mettere giocatori nelle plance?
+    public void back(ActionEvent event){
+        gui.setCurrScene(GAMEBOARD);
+    }
 
+    public void setSchoolBoards(PlayerData[] playersData) {
 
+        initialSetUp(playersData);
 
-
-//        schoolBoards[0] = new SchoolBoard(playersData.length);
-//        schoolBoards[1] = new SchoolBoard(playersData.length);
-//        schoolBoards[2] = new SchoolBoard(playersData.length);
-//
-//
-//        for (int i = 0; i < playersData.length; i++) {
-//            schoolBoards[i].nickname = playersData[i].getNickname();
-//            schoolBoards[i].tab.setText(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname());
-//        }
-//
-//        for (PlayerData p : playersData)
-//            setSchoolBoard(p);
+        for (PlayerData p : playersData)
+            setSchoolBoard(p);
 
     }
 
@@ -124,7 +134,19 @@ public class SchoolBoardController extends PageController implements Initializab
                     for (int i = 0; i < 10; i++)
                         schoolBoard.studentsChamber.get(c)[i].setVisible(playerData.getChamberData().students().get(c) > i);
                 }
-                for (int i = 0; i < 8; i++)
+
+                int hallStudentIndex = 0;
+                for (Clan clan : Clan.values()) {
+                    for (int numStudentsClan = playerData.getHallData().students().get(clan); numStudentsClan > 0; numStudentsClan--) {
+                        schoolBoard.studentsHall[hallStudentIndex].setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                        schoolBoard.studentsHall[hallStudentIndex].setVisible(true);
+                        hallStudentIndex++;
+                    }
+                }
+                for (; hallStudentIndex < schoolBoard.studentsHall.length; hallStudentIndex++)
+                    schoolBoard.studentsHall[hallStudentIndex].setVisible(false);
+
+                for (int i = 0; i < schoolBoard.towers.length; i++)
                     schoolBoard.towers[i].setVisible(playerData.getNumberOfTowers() > i);
                 break;
             }

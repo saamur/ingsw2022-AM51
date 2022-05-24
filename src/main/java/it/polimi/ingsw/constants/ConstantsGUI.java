@@ -4,8 +4,11 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static it.polimi.ingsw.model.Clan.*;
 import static it.polimi.ingsw.model.charactercards.CharacterID.*;
@@ -144,6 +147,58 @@ public class ConstantsGUI {
     }
     public static double getProfessorY (Clan clan) {
         return PROFESSOR_Y.get(clan);
+    }
+
+    private static final double HALL_FIRST_STUDENT_X_SCHOOL_HEIGHT_RATIO = (double) 39/181;
+    private static final double HALL_FIRST_STUDENT_Y_SCHOOL_HEIGHT_RATIO = (double) 327/362;
+    private static final double HALL_STUDENTS_HORIZONTAL_DISTANCE_SCHOOL_HEIGHT_RATIO = (double) 25/181;
+    private static final double HALL_STUDENTS_VERTICAL_DISTANCE_SCHOOL_HEIGHT_RATIO = (double) 59/362;
+
+    public static double getHallFirstStudentX () {
+        return SCHOOL_COORDINATE_X + HALL_FIRST_STUDENT_X_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getHallFirstStudentY () {
+        return SCHOOL_COORDINATE_X + HALL_FIRST_STUDENT_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getHallStudentHorizontalDistance () {
+        return HALL_STUDENTS_HORIZONTAL_DISTANCE_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getHallStudentVerticalDistance () {
+        return HALL_STUDENTS_VERTICAL_DISTANCE_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    private static final double TOWER_HEIGHT_SCHOOL_HEIGHT_RATIO = (double) 41/181;
+    private static final double TOWER_WIDTH_SCHOOL_HEIGHT_RATIO = (double) 21/181;
+    private static final double FIRST_TOWER_X_SCHOOL_HEIGHT_RATIO = (double) 687/362;
+    private static final double FIRST_TOWER_Y_SCHOOL_HEIGHT_RATIO = (double) 10/181;
+    private static final double TOWER_VERTICAL_DISTANCE_SCHOOL_HEIGHT_RATIO = (double) 30/181;
+    private static final double TOWER_HORIZONTAL_DISTANCE_SCHOOL_HEIGHT_RATIO = (double) 32/181;
+
+    public static double getTowerHeight () {
+        return TOWER_HEIGHT_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getTowerWidth () {
+        return TOWER_WIDTH_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getFirstTowerX () {
+        return SCHOOL_COORDINATE_X + FIRST_TOWER_X_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getFirstTowerY () {
+        return SCHOOL_COORDINATE_Y + FIRST_TOWER_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getTowerVerticalDistance () {
+        return TOWER_VERTICAL_DISTANCE_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getTowerHorizontalDistance () {
+        return TOWER_HORIZONTAL_DISTANCE_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
     }
 
 }

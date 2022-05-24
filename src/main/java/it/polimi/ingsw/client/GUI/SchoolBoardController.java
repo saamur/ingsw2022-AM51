@@ -89,7 +89,7 @@ public class SchoolBoardController extends PageController implements Initializab
             //todo hall e torri
 
             //Tab tab = new Tab(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname(), anchorPane);
-            Tab tab = new Tab("gg", anchorPane);
+            Tab tab = new Tab(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname(), anchorPane);
             tabPane.getTabs().add(tab);
 
 

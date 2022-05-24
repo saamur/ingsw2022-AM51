@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.GameBoardController">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="967.0" style="-fx-background-color: LightBlue;">
+         <children>
+            <AnchorPane fx:id="islands" layoutX="14.0" layoutY="152.0" onMouseClicked="#selectIslands">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutY="97.0">
+                     <image>
+                        <Image url="@../png/islands/island1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="47.0" layoutY="65.0">
+                     <image>
+                        <Image url="@../png/islands/island2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="191.0" layoutY="28.0">
+                     <image>
+                        <Image url="@../png/islands/island2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="95.0" layoutY="28.0">
+                     <image>
+                        <Image url="@../png/islands/island3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="143.0">
+                     <image>
+                        <Image url="@../png/islands/island1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="89.0" layoutY="176.0">
+                     <image>
+                        <Image url="@../png/islands/island3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="47.0" layoutY="137.0">
+                     <image>
+                        <Image url="@../png/islands/island1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="238.0" layoutY="65.0">
+                     <image>
+                        <Image url="@../png/islands/island3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="143.0" layoutY="202.0">
+                     <image>
+                        <Image url="@../png/islands/island1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="190.0" layoutY="170.0">
+                     <image>
+                        <Image url="@../png/islands/island2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="238.0" layoutY="133.0">
+                     <image>
+                        <Image url="@../png/islands/island3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="286.0" layoutY="105.0">
+                     <image>
+                        <Image url="@../png/islands/island1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="schoolBoard" layoutX="14.0" layoutY="439.0" onMouseClicked="#selectSchoolBoards" prefHeight="200.0" prefWidth="254.0">
+               <children>
+                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutY="9.0">
+                     <image>
+                        <Image url="@../png/Plancia_DEF.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="14.0" layoutY="52.0">
+                     <image>
+                        <Image url="@../png/Plancia_DEF.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="31.0" layoutY="95.0">
+                     <image>
+                        <Image url="@../png/Plancia_DEF.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="deck" layoutX="605.0" layoutY="152.0" onMouseClicked="#selectDeck" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="21.0" layoutY="5.0">
+                     <image>
+                        <Image url="@../png/deck/Tartaruga.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="57.0">
+                     <image>
+                        <Image url="@../png/deck/Aquila.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="5.0">
+                     <image>
+                        <Image url="@../png/deck/Elefante.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="5.0">
+                     <image>
+                        <Image url="@../png/deck/Cane.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="144.0" layoutY="5.0">
+                     <image>
+                        <Image url="@../png/deck/Polipo.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="21.0" layoutY="57.0">
+                     <image>
+                        <Image url="@../png/deck/Lucertola.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="57.0">
+                     <image>
+                        <Image url="@../png/deck/Volpe.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="141.0" layoutY="56.0">
+                     <image>
+                        <Image url="@../png/deck/Gatto.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="109.0">
+                     <image>
+                        <Image url="@../png/deck/Struzzo.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="109.0">
+                     <image>
+                        <Image url="@../png/deck/Ghepardo.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="clouds" layoutX="421.0" layoutY="179.0" onMouseClicked="#viewClouds">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0">
+                     <image>
+                        <Image url="@../png/clouds/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="80.0">
+                     <image>
+                        <Image url="@../png/clouds/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="40.0" layoutY="53.0">
+                     <image>
+                        <Image url="@../png/clouds/cloud_card.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="characterCards" layoutX="421.0" layoutY="432.0">
+               <children>
+                  <ImageView fx:id="character1" fitHeight="200.0" fitWidth="55.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../png/characters/CarteTOT_front.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="character2" fitHeight="200.0" fitWidth="55.0" layoutX="85.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../png/characters/CarteTOT_front2.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="character3" fitHeight="200.0" fitWidth="55.0" layoutX="41.0" layoutY="98.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../png/characters/CarteTOT_front3.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <Label layoutX="284.0" layoutY="41.0" text="Here you can see all of the Game Board, select something to see it better">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label />
+   </children>
+</AnchorPane>

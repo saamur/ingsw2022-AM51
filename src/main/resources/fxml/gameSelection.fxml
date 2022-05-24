@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.GameSelectionController">
+   <children>
+
+            <TextField fx:id="nicknameTextField" layoutX="150.0" layoutY="37.0" promptText="Nickname" />
+            <Label layoutX="42.0" layoutY="41.0" text="Insert Nickname:" />
+            <AnchorPane layoutX="8.0" layoutY="82.0" prefHeight="270.0" prefWidth="313.0">
+               <children>
+                  <Label layoutX="21.0" layoutY="5.0" text="You can choose a Game" />
+                  <TableView fx:id="newGames" layoutX="7.0" layoutY="36.0" prefHeight="155.0" prefWidth="265.0">
+                    <columns>
+                      <TableColumn fx:id="idNewGame" prefWidth="64.00000190734863" text="ID" />
+                        <TableColumn fx:id="numPlayersNewGame" prefWidth="127.99999237060547" text="Numero Giocatori" />
+                      <TableColumn fx:id="modeNewGame" prefWidth="71.33333333333331" text="Modalità" />
+                    </columns>
+                  </TableView>
+            <Label fx:id="labelNewGames" layoutX="24.0" layoutY="203.0" />
+                  <Button fx:id="chooseNewGame" layoutX="193.0" layoutY="230.0" mnemonicParsing="false" onAction="#enterGame" text="Choose Game" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="418.0" layoutY="93.0" prefHeight="261.0" prefWidth="323.0">
+               <children>
+                  <Label layoutX="21.0" layoutY="5.0" text="You can open a saved Game" />
+                  <TableView fx:id="savedGames" layoutX="14.0" layoutY="30.0" prefHeight="155.0" prefWidth="294.0">
+                     <columns>
+                        <TableColumn fx:id="fileName" prefWidth="104.0" text="File Name" />
+                        <TableColumn fx:id="modeSavedGame" prefWidth="75.3333740234375" text="Modalità" />
+                        <TableColumn fx:id="numPlayersSavedGame" prefWidth="112.66668701171875" text="Numero Giocatori" />
+                     </columns>
+                  </TableView>
+            <Label fx:id="labelSavedGames" layoutX="48.0" layoutY="190.0" />
+                  <Button fx:id="openSavedGame" layoutX="183.0" layoutY="236.0" mnemonicParsing="false" onAction="#enterGame" text="Reopen Game" />
+               </children>
+            </AnchorPane>
+            <Separator layoutX="409.0" layoutY="134.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="1.0" />
+            <AnchorPane layoutX="35.0" layoutY="424.0" prefHeight="112.0" prefWidth="233.0">
+               <children>
+                  <Label layoutY="5.0" text="You can create a Game:" />
+                  <Label layoutX="185.0" layoutY="5.0" text="How many players?" />
+                  <CheckBox fx:id="expertMode" layoutX="185.0" layoutY="38.0" mnemonicParsing="false" text="ExpertMode" />
+                  <Spinner fx:id="numPlayers" editable="true" layoutX="318.0" layoutY="1.0" prefHeight="25.0" prefWidth="73.0" />
+                  <Button fx:id="createNewGame" layoutX="375.0" layoutY="72.0" mnemonicParsing="false" onAction="#createNewGame" text="Create New Game" />
+               </children>
+            </AnchorPane>
+            <Separator layoutX="127.0" layoutY="410.0" prefHeight="2.0" prefWidth="551.0" />
+            <Button fx:id="createNickname" layoutX="363.0" layoutY="37.0" mnemonicParsing="false" onAction="#createNickname" text="Create nickname" />
+            <Label fx:id="chosenNicknameLabel" layoutX="506.0" layoutY="41.0"/>
+            <Separator layoutX="755.0" layoutY="98.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="1.0" />
+       
+      <AnchorPane layoutX="758.0" layoutY="80.0" prefHeight="323.0" prefWidth="349.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="You can choose a Saved Game that has already been opened" />
+            <TableView fx:id="restoredGames" layoutX="14.0" layoutY="45.0" prefHeight="155.0" prefWidth="265.0">
+               <columns>
+                  <TableColumn fx:id="idRestoredGame" prefWidth="52.0" text="ID" />
+                  <TableColumn fx:id="numPlayersRestoredGame" prefWidth="124.0" text="Numero Giocatori" />
+                  <TableColumn fx:id="modeRestoredGame" prefWidth="88.00002034505206" text="Modalità" />
+               </columns>
+            </TableView>
+            <Button fx:id="chooseRestoredGame" layoutX="200.0" layoutY="281.0" mnemonicParsing="false" onAction="#enterGame" text="Choose Game" />
+            <Label fx:id="labelRestoredGames" layoutX="14.0" layoutY="233.0" />
+         </children>
+      </AnchorPane>
+      <ScrollBar layoutY="647.0" prefHeight="15.0" prefWidth="1164.0" />
+   </children>
+</AnchorPane>

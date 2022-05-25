@@ -157,7 +157,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>it.polimi.ingsw.AM51.client.Client</mainClass> <!-- Client è il GUI launcher-->
+                <mainClass>it.polimi.ingsw.client.Client</mainClass> <!-- Client è il GUI launcher-->
               </manifest>
             </archive>
             <descriptorRefs>

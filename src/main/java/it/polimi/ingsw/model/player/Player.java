@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.constants.GameConstants;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Player class models the player of the game Eriantys with its nickname,

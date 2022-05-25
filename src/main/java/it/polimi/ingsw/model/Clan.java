@@ -6,6 +6,6 @@ package it.polimi.ingsw.model;
  */
 public enum Clan {
 
-    PIXIES, UNICORNS, TOADS, DRAGONS, FAIRIES
+    TOADS, DRAGONS, PIXIES, FAIRIES, UNICORNS
 
 }

@@ -189,6 +189,7 @@ public class SchoolBoardController extends PageController implements Initializab
             professors = new EnumMap<>(Clan.class);
             studentsHall = new ImageView[GameConstants.getNumInitialStudentsHall(numPlayers)];
             studentsChamber = new EnumMap<>(Clan.class);
+            tables = new EnumMap<>(Clan.class);
             for (Clan clan : Clan.values())
                 studentsChamber.put(clan, new ImageView[GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER]);
             towers = new ImageView[GameConstants.getNumInitialTowers(numPlayers)];

@@ -8,12 +8,14 @@ import it.polimi.ingsw.model.Clan;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.*;
@@ -57,8 +59,6 @@ public class SchoolBoardController extends PageController implements Initializab
             //qualcosa di strano
             anchorPane.getChildren().add(school);
 
-            System.out.println(getClass());
-
             for (Clan clan : Clan.values()) {
                 for (int j = 0; j < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; j++) {
                     ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
@@ -73,10 +73,17 @@ public class SchoolBoardController extends PageController implements Initializab
                 professor.setFitHeight(ConstantsGUI.getProfessorSize());
                 professor.setX(ConstantsGUI.getProfessorX());
                 professor.setY(ConstantsGUI.getProfessorY(clan));
+                professor.setRotate(270);
                 schoolBoards[i].professors.put(clan, professor);
                 anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
                 anchorPane.getChildren().add(professor);
-                //todo aggiungere il rettangolo sul tavolo
+
+                ImageView table = new ImageView();
+                table.setFitWidth(ConstantsGUI.getTableWidth());
+                table.setFitHeight(ConstantsGUI.getTableHeight());
+                table.setLayoutX(ConstantsGUI.getTableX());
+                table.setLayoutY(ConstantsGUI.getTableY(clan));
+                anchorPane.getChildren().add(table);
             }
 
             for (int j = 0; j < GameConstants.getNumInitialStudentsHall(playersData.length); j++) {
@@ -100,6 +107,18 @@ public class SchoolBoardController extends PageController implements Initializab
             }
 
             anchorPane.getChildren().addAll(schoolBoards[i].towers);
+
+            ImageView coin = new ImageView(new Image(getClass().getResource(COIN_IMAGE).toExternalForm()));
+            coin.setFitWidth(ConstantsGUI.getCoinWidth());
+            coin.setFitHeight(getCoinHeight());
+            coin.setX(ConstantsGUI.getCoinX());
+            coin.setY(ConstantsGUI.getCoinY());
+            anchorPane.getChildren().add(coin);
+            Label label = new Label();
+            label.setLayoutX(130);
+            label.setLayoutY(439);
+            schoolBoards[i].coins = label;
+            anchorPane.getChildren().add(label);
 
             Tab tab = new Tab(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname(), anchorPane);
             tabPane.getTabs().add(tab);
@@ -148,6 +167,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
                 for (int i = 0; i < schoolBoard.towers.length; i++)
                     schoolBoard.towers[i].setVisible(playerData.getNumberOfTowers() > i);
+                schoolBoard.coins.setText(playerData.getChamberData().coins() == 0 ? "No coins" : (playerData.getChamberData().coins() + " coin" + (playerData.getChamberData().coins()==1?"":"s")));
                 break;
             }
         }
@@ -162,6 +182,7 @@ public class SchoolBoardController extends PageController implements Initializab
         Map<Clan, ImageView[]> studentsChamber;
         Map<Clan, ImageView> professors;
         ImageView[] towers;
+        Label coins;
 
         SchoolBoard(int numPlayers) {
             professors = new EnumMap<>(Clan.class);

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;
 
+import java.lang.ref.PhantomReference;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -91,18 +92,12 @@ public class ConstantsGUI {
     public static final double SCHOOL_COORDINATE_Y = 45;
     public static final double SCHOOL_HEIGHT = 362;
     public static final double SCHOOL_WIDTH = 844;
-    private static final double STUDENT_SCHOOL_HEIGHT_RATIO = (double) 18/181;
+    private static final double STUDENT_SCHOOL_HEIGHT_RATIO = (double) 37/362;
     private static final double FIRST_STUDENT_X_SCHOOL_HEIGHT_RATIO = (double) 157/362;
-    private static final double FIRST_TOP_STUDENT_Y_SCHOOL_HEIGHT_RATIO = (double) 91/724;
+    private static final double FIRST_TOP_STUDENT_Y_SCHOOL_HEIGHT_RATIO = (double) 89/724;
     private static final double VERTICAL_DISTANCE_STUDENTS_SCHOOL_HEIGHT_RATIO = (double) 59/362;
     private static final Map<Clan, Double> FIRST_STUDENT_Y;
     private static final double HORIZONTAL_DISTANCE_STUDENTS_SCHOOL_HEIGHT_RATIO = (double) 1/9;
-
-    private static final double PROFESSOR_SCHOOL_HEIGHT_RATIO = (double) 21/181;
-    private static final double PROFESSOR_X_SCHOOL_HEIGHT_RATIO = (double) 595/362;
-    private static final double TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO = (double) 83/724;
-    private static final double VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO = (double) 59/362;
-    private static final Map<Clan, Double> PROFESSOR_Y;
 
     static {
         FIRST_STUDENT_Y = new EnumMap<>(Clan.class);
@@ -111,15 +106,6 @@ public class ConstantsGUI {
         FIRST_STUDENT_Y.put(PIXIES, SCHOOL_COORDINATE_Y + (FIRST_TOP_STUDENT_Y_SCHOOL_HEIGHT_RATIO + 2*VERTICAL_DISTANCE_STUDENTS_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
         FIRST_STUDENT_Y.put(FAIRIES, SCHOOL_COORDINATE_Y + (FIRST_TOP_STUDENT_Y_SCHOOL_HEIGHT_RATIO + 3*VERTICAL_DISTANCE_STUDENTS_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
         FIRST_STUDENT_Y.put(UNICORNS, SCHOOL_COORDINATE_Y + (FIRST_TOP_STUDENT_Y_SCHOOL_HEIGHT_RATIO + 4*VERTICAL_DISTANCE_STUDENTS_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
-    }
-
-    static {
-        PROFESSOR_Y = new EnumMap<>(Clan.class);
-        PROFESSOR_Y.put(TOADS, SCHOOL_COORDINATE_Y + TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT);
-        PROFESSOR_Y.put(DRAGONS, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
-        PROFESSOR_Y.put(PIXIES, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + 2*VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
-        PROFESSOR_Y.put(FAIRIES, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + 3*VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
-        PROFESSOR_Y.put(UNICORNS, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + 4*VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
     }
 
     public static double getStudentSize() {
@@ -136,6 +122,55 @@ public class ConstantsGUI {
 
     public static double getHorizontalDistanceStudents () {
         return HORIZONTAL_DISTANCE_STUDENTS_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    private static final double TABLE_WIDTH_SCHOOL_HEIGHT_RATIO = (double) 205/181;
+    private static final double TABLE_HEIGHT_SCHOOL_HEIGHT_RATIO = (double) 20/181;
+    private static final double TABLE_X_SCHOOL_HEIGHT_RATIO = (double) 75/181;
+    private static final double TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO = (double) 21/181;
+    private static final double VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO = (double) 24/181;
+    private static final Map<Clan, Double> TABLE_Y;
+
+    static {
+        TABLE_Y = new EnumMap<>(Clan.class);
+        TABLE_Y.put(TOADS, SCHOOL_COORDINATE_Y + TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT);
+        TABLE_Y.put(DRAGONS, SCHOOL_COORDINATE_Y + (TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO + VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+        TABLE_Y.put(PIXIES, SCHOOL_COORDINATE_Y + (TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO + 2*VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+        TABLE_Y.put(FAIRIES, SCHOOL_COORDINATE_Y + (TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO + 3*VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+        TABLE_Y.put(UNICORNS, SCHOOL_COORDINATE_Y + (TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO + 4*VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+    }
+
+    public static double getTableWidth() {
+        return TABLE_WIDTH_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getTableHeight() {
+        return TABLE_HEIGHT_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getTableX() {
+        return SCHOOL_COORDINATE_X + TABLE_X_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getTableY(Clan clan) {
+        return TABLE_Y.get(clan);
+    }
+
+
+
+    private static final double PROFESSOR_SCHOOL_HEIGHT_RATIO = (double) 21/181;
+    private static final double PROFESSOR_X_SCHOOL_HEIGHT_RATIO = (double) 595/362;
+    private static final double TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO = (double) 83/724;
+    private static final double VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO = (double) 59/362;
+    private static final Map<Clan, Double> PROFESSOR_Y;
+
+    static {
+        PROFESSOR_Y = new EnumMap<>(Clan.class);
+        PROFESSOR_Y.put(TOADS, SCHOOL_COORDINATE_Y + TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT);
+        PROFESSOR_Y.put(DRAGONS, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+        PROFESSOR_Y.put(PIXIES, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + 2*VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+        PROFESSOR_Y.put(FAIRIES, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + 3*VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
+        PROFESSOR_Y.put(UNICORNS, SCHOOL_COORDINATE_Y + (TOP_PROFESSOR_Y_SCHOOL_HEIGHT_RATIO + 4*VERTICAL_DISTANCE_PROFESSOR_SCHOOL_HEIGHT_RATIO) * SCHOOL_HEIGHT);
     }
 
     public static double getProfessorSize() {
@@ -199,6 +234,28 @@ public class ConstantsGUI {
 
     public static double getTowerHorizontalDistance () {
         return TOWER_HORIZONTAL_DISTANCE_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    private static final double COIN_WIDTH_SCHOOL_HEIGHT_RATIO = (double) 143/905;
+    private static final double COIN_HEIGHT_SCHOOL_HEIGHT_RATIO = (double) 131/724;
+    private static final double COIN_X_SCHOOL_HEIGHT_RATIO = (double) 45/362;
+    private static final double COIN_Y_SCHOOL_HEIGHT_RATIO = (double) 185/181;
+    public static final String COIN_IMAGE = "/png/Moneta_base.png";
+
+    public static double getCoinWidth () {
+        return COIN_WIDTH_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getCoinHeight () {
+        return COIN_HEIGHT_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getCoinX () {
+        return SCHOOL_COORDINATE_X + COIN_X_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
+    }
+
+    public static double getCoinY () {
+        return SCHOOL_COORDINATE_Y + COIN_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
     }
 
 }

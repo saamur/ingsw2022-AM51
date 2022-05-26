@@ -113,7 +113,7 @@ public class IslandTest {
         island.addStudent(Clan.DRAGONS);
 
         Map<Clan, Integer> students = island.getStudents();
-        assertEquals(expectedResult, students.get(Clan.values()[3]));
+        assertEquals(expectedResult, students.get(Clan.DRAGONS));
     }
 
     private static Stream<Arguments> addStudentArguments(){

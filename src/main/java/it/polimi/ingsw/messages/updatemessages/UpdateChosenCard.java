@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.model.player.Card;
 
-public record UpdateChosenCard(Card card, String playerNickname) implements UpdateMessage {
+public record UpdateChosenCard(String playerNickname, Card card) implements UpdateMessage {
 
     @Override
     public String getMessage(){
@@ -23,8 +23,9 @@ public record UpdateChosenCard(Card card, String playerNickname) implements Upda
 
     @Override
     public String toString() {
-        return "ChosenCardMessage{" +
-                "card=" + card +
+        return "UpdateChosenCard{" +
+                "playerNickname='" + playerNickname + '\'' +
+                ", card=" + card +
                 '}';
     }
 

@@ -150,7 +150,7 @@ public abstract class Controller implements PropertyChangeListener {
             }
             case "chosenCard" -> {
                 PlayerData player = (PlayerData) evt.getNewValue();
-                update = new UpdateChosenCard(player.getCurrCard(), player.getNickname());
+                update = new UpdateChosenCard(player.getNickname(), player.getCurrCard());
              }
              case "gameOver" -> {
                 List<String> nicknameWinners = (List<String>) evt.getNewValue();

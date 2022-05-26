@@ -128,9 +128,12 @@ public class ModelDisplay {
             System.out.println("\n\n\n");
         }
 
-        System.out.println("Game phase: " + gameData.getGameState().name().toLowerCase());
+        System.out.println("Game phase: " + gameData.getGameState().name().toLowerCase().replace('_', ' '));
+        if(gameData.isLastRound()){
+            System.out.println("THIS IS THE LAST ROUND");
+        }
         if (gameData.getGameState() == GameState.ACTION)
-            System.out.println("Turn state: " + gameData.getTurnState().name().toLowerCase());
+            System.out.println("Turn state: " + gameData.getTurnState().name().toLowerCase().replace('_', ' '));
 
         if (nickname.equals(gameData.getCurrPlayer()))
             System.out.println("It's your turn");
@@ -211,9 +214,7 @@ public class ModelDisplay {
 
 
     private static void updateIsland(IslandManagerData islandManagerData, int init, int end) {
-        for (int j = 0; j < CliGraphicConstants.MAX_LENGHT_STUDENTS + 1; j++)
-            System.out.print(" ");
-        System.out.print("|");
+        System.out.print("                      |");
         for(int i = init; i < end; i++){
             if(islandManagerData.getMotherNaturePosition() == i){
                 System.out.print(CliGraphicConstants.ANSI_PURPLE + " island " + i + " " + CliGraphicConstants.ANSI_RESET);
@@ -231,6 +232,7 @@ public class ModelDisplay {
             for(int k = 0; k < (CliGraphicConstants.MAX_LENGHT_STUDENTS + 1) - c.toString().length(); k++){
                 System.out.print(" ");
             }
+            System.out.print("             ");
             for(int i = init; i < end; i++) {
                 System.out.print("|     ");
                 System.out.print(islandManagerData.getIslands().get(i).students().get(c));
@@ -240,7 +242,7 @@ public class ModelDisplay {
         }
 
 
-        System.out.print("TOWER    |");
+        System.out.print("Tower                 |");
         for(int i = init; i < end; i++) {
             System.out.print("   ");
             if (islandManagerData.getIslands().get(i).towerColor() != null) {
@@ -259,12 +261,21 @@ public class ModelDisplay {
 
 
         System.out.println("\n");
-        System.out.print("n° isl   |");
+        System.out.print("n° isl                |");
         for(int i = init; i < end; i++){
             System.out.print("     ");
             System.out.print(islandManagerData.getIslands().get(i).numberOfIslands());
             System.out.print("     |");
         }
+        System.out.println("\n");
+
+        System.out.print("n° prohibition cards: |");
+        for(int i = init; i < end; i++){
+            System.out.print("     ");
+            System.out.print(islandManagerData.getIslands().get(i).numProhibitionCards());
+            System.out.print("     |");
+        }
+
         System.out.println("\n");
 
 
@@ -337,7 +348,7 @@ public class ModelDisplay {
 
         System.out.println("\n");
         System.out.println("ACTIVE CHARACTER CARDS");
-        System.out.print("          |");
+        System.out.print("                            |");
         for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
             System.out.print("    ");
             if(characterCardData[i].characterID() == activeCharacter)
@@ -348,7 +359,7 @@ public class ModelDisplay {
         }
 
         System.out.println("\n");
-        System.out.print("Cost:     |");
+        System.out.print("Cost:                       |");
         for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
             System.out.print("    ");
             if(characterCardData[i].characterID().toString().length()%2!= 0) {
@@ -361,9 +372,21 @@ public class ModelDisplay {
             }
         }
         System.out.println("\n");
-        System.out.print("Students: |");
-        for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
-            if(characterCardData[i].characterID() == CharacterID.MONK ){
+        System.out.print("Students/Prohibition Cards: |");
+        for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){ //todo parametrizzare
+            if(characterCardData[i].characterID() == CharacterID.GRANDMA){
+                System.out.print("    ");
+                for(int j = 0; j < characterCardData[i].numProhibitionCards(); j++){
+                    System.out.print(CliGraphicConstants.ANSI_RED + "O " + CliGraphicConstants.ANSI_RESET);
+                }
+                if(characterCardData[i].numProhibitionCards() < 4){
+                    for(int j = 0; j < 4 - characterCardData[i].numProhibitionCards(); j++){
+                        System.out.print("  ");
+                    }
+                }
+                System.out.print("   |");
+            }
+            else if(characterCardData[i].characterID() == CharacterID.MONK ){
                 System.out.print(" ");
                 printCharacterStudents(characterCardData, i);
                 System.out.print(" |");
@@ -376,7 +399,7 @@ public class ModelDisplay {
             else if(characterCardData[i].characterID() == CharacterID.PRINCESS){
                 System.out.print("   ");
                 printCharacterStudents(characterCardData, i);
-                System.out.print("    |");
+                System.out.print("   |");
             }
             else{
                 for(int j = 0; j < characterCardData[i].characterID().toString().length() + 8; j++){

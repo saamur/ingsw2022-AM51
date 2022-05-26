@@ -48,6 +48,30 @@ public class CliGraphicConstants {
 
     public static final int DOUBLE_DIGITS = 10;
 
+    public static final String LOSER = """
+            ▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓    ▓▓      ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓▓▓▓▓
+             ▓  ▓   ▓▓  ▓▓  ▓▓  ▓▓    ▓▓      ▓▓  ▓▓  ▓▓        ▓▓ \s
+              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓    ▓▓      ▓▓  ▓▓  ▓▓▓▓▓▓    ▓▓ \s
+              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓    ▓▓      ▓▓  ▓▓      ▓▓    ▓▓ \s
+              ▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓▓▓▓▓    ▓▓ \s
+            """;
+
+    public static final String WINNER = """
+            ▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓   ▓▓                 ▓▓  ▓▓  ▓▓▓     ▓▓
+             ▓  ▓   ▓▓  ▓▓  ▓▓  ▓▓    ▓▓     ▓▓▓       ▓▓   ▓▓  ▓▓ ▓▓   ▓▓
+              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓     ▓▓   ▓▓  ▓▓   ▓▓     ▓▓  ▓▓  ▓▓  ▓▓
+              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓      ▓▓ ▓▓    ▓▓ ▓▓      ▓▓  ▓▓   ▓▓ ▓▓
+              ▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓       ▓▓▓      ▓▓▓       ▓▓  ▓▓     ▓▓▓
+            """;
+
+    public static final String ERIANTYS = """
+            ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓▓    ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓  ▓▓▓▓▓▓
+            ▓▓      ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ▓   ▓▓    ▓▓     ▓  ▓   ▓▓   \s
+            ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓  ▓▓    ▓▓      ▓▓    ▓▓▓▓▓▓
+            ▓▓      ▓▓ ▓▓   ▓▓  ▓▓  ▓▓  ▓▓   ▓ ▓▓    ▓▓      ▓▓        ▓▓
+            ▓▓▓▓▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓    ▓▓▓    ▓▓      ▓▓    ▓▓▓▓▓▓
+            """;
+
     public static String getColorStudent(Clan clan){
         return CLAN_MAP_COLOR.get(clan);
     }

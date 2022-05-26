@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.client.modeldata.ServerHandler;
 import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
+import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
@@ -160,7 +161,14 @@ public class CLI implements View, Runnable {
         } else if (gameData == null) {
             System.out.println("wait for the game to start...");
         } else if (gameData.getGameState() == GameState.GAME_OVER) {
-            System.out.println("THE GAME IS OVER");
+            System.out.println("THE GAME IS OVER\n");
+            for(String winner : gameData.getWinnersNicknames()){
+                if(nickname.equals(winner)){
+                    System.out.println(CliGraphicConstants.WINNER);
+                    System.out.println("\n\n");
+                }
+            }
+
             System.out.print("Winners: ");
             for (String s : gameData.getWinnersNicknames())
                 System.out.println(s + " ");
@@ -171,10 +179,16 @@ public class CLI implements View, Runnable {
 
             if (nickname.equals(gameData.getCurrPlayer())) {
                 if (gameData.getGameState() == GameState.PLANNING) {
+                    for(PlayerData player : gameData.getPlayerData()){
+                        if(player.getCurrCard() != null){
+                            System.out.println(player.getNickname() + " chose " + player.getCurrCard().name());
+                        }
+                    }
                     System.out.println("Your available cards are: ");
                     for (PlayerData p : gameData.getPlayerData())
                         if (p.getNickname().equals(nickname))
                             ModelDisplay.displayDeck(p);
+
                     System.out.println("Chose one: ");
                 } else if (gameData.getGameState() == GameState.ACTION) {
                     System.out.println("Possible commands:");

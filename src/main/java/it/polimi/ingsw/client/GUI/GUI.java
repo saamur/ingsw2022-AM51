@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
-import it.polimi.ingsw.client.modeldata.ServerHandler;
+import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
 import javafx.application.Application;

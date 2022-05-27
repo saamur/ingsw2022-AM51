@@ -1,6 +1,5 @@
-package it.polimi.ingsw.client.modeldata;
+package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
@@ -111,6 +110,12 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                 System.out.println("The server has disconnected");
                 connected.set(false);
             }
+        }
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+
         }
 
     }

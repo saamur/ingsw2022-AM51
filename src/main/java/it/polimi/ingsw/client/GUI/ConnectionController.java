@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.GUI;
 
-import it.polimi.ingsw.client.modeldata.ServerHandler;
-import javafx.application.Platform;
+import it.polimi.ingsw.client.ServerHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,7 +8,6 @@ import javafx.scene.control.TextField;
 
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.SocketException;
 
 

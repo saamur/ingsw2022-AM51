@@ -2,14 +2,8 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.modeldata.ServerHandler;
-import javafx.application.Platform;
 
-import java.io.*;
-import java.net.Socket;
 import java.util.Scanner;
-
-import static java.lang.Thread.currentThread;
 
 public class Client {
 

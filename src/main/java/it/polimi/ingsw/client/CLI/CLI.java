@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.client.modeldata.ServerHandler;
+import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
 import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;

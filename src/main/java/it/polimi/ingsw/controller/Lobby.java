@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -96,16 +97,12 @@ public class Lobby {
 
     }
 
-    public synchronized RestoredGameController createNewRestoredGameController (String nickname, SavedGameData savedGameData) {
-        try {
-            GameInterface game = SavedGameManager.restoreGame(savedGameData.fileName());
-            RestoredGameController controller = new RestoredGameController(game, savedGameData.localDateTime());
-            openingRestoredGameControllers.add(controller);
-            controller.addPlayer(nickname);
-            return controller;
-        } catch (IOException e) {
-            return null;
-        }
+    public synchronized RestoredGameController createNewRestoredGameController (String nickname, SavedGameData savedGameData) throws FileNotFoundException {
+        GameInterface game = SavedGameManager.restoreGame(savedGameData.fileName());
+        RestoredGameController controller = new RestoredGameController(game, savedGameData.localDateTime());
+        openingRestoredGameControllers.add(controller);
+        controller.addPlayer(nickname);
+        return controller;
     }
 
     public synchronized void registerNickname(ClientHandler clientHandler, String nickname) throws NicknameNotAvailableException {

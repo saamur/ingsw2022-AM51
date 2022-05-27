@@ -46,9 +46,7 @@ public class SavedGameManager {
 
             try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)))) {
                 restoredGame = (GameInterface) in.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -56,11 +54,8 @@ public class SavedGameManager {
 
             restoredGame.removeListeners();
 
-            try {
-                saveGame(restoredGame);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            saveGame(restoredGame);
+
         }
 
     }
@@ -89,9 +84,8 @@ public class SavedGameManager {
     /**
      * method saveGame saves the given game on file
      * @param game  the game to be saved
-     * @throws IOException  if an error occurs during the saving process
      */
-    public synchronized static void saveGame (GameInterface game) throws IOException {
+    public synchronized static void saveGame (GameInterface game) {
 
         List<String> alreadySavedGamesFileNames = getSavedGameList().stream().map(SavedGameData::fileName).toList();
 
@@ -104,19 +98,22 @@ public class SavedGameManager {
 
             game.save();
             out.writeObject(game);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX, true));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX, true))) {
 
-        bw.write(new SavedGameData(
-                SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION,
-                game.getPlayersNicknames().size(),
-                game.isExpertModeEnabled(),
-                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
-                game.getPlayersNicknames()) + "\n");
-        bw.close();
+            bw.write(new SavedGameData(
+                    SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION,
+                    game.getPlayersNicknames().size(),
+                    game.isExpertModeEnabled(),
+                    LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+                    game.getPlayersNicknames()) + "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -124,31 +121,33 @@ public class SavedGameManager {
      * method restoreGame restores a game saved on file
      * @param fileName  the name of the file where the needed game is saved
      * @return          the needed game after it was restored
-     * @throws IOException  if an error occurs during the saving process
+     * @throws FileNotFoundException  if there is no file with the given name
      */
-    public synchronized static GameInterface restoreGame (String fileName) throws IOException {
+    public synchronized static GameInterface restoreGame (String fileName) throws FileNotFoundException {
 
         GameInterface restoredGame = null;
 
         File fileGame = new File(SAVED_GAMES_DIRECTORY + "/" + fileName);
         if(!fileGame.exists())
-            throw new FileNotFoundException("There is no saved game with this file name");
+            throw new FileNotFoundException("There is no saved game with this file name.");
 
         try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileGame)))) {
             restoredGame = (GameInterface) in.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         fileGame.delete();
 
         File index = new File(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAMES_INDEX);
-        List<String> out = Files.lines(index.toPath())
-                .filter(line -> !SavedGameData.savedGameDataParser(line).fileName().equals(fileName))
-                .collect(Collectors.toList());
-        Files.write(index.toPath(), out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+        try {
+            List<String> out = Files.lines(index.toPath())
+                    .filter(line -> !SavedGameData.savedGameDataParser(line).fileName().equals(fileName))
+                    .collect(Collectors.toList());
+            Files.write(index.toPath(), out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return restoredGame;
 

@@ -99,11 +99,7 @@ public abstract class Controller implements PropertyChangeListener {
             SavedGameManager.removeSavedRunningGame(getId());
             if (game.getGameState() != GameState.INITIALIZATION && game.getGameState() != GameState.GAME_OVER) {
                 game.removeListeners();
-                try {
-                    SavedGameManager.saveGame(game);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                SavedGameManager.saveGame(game);
             }
             Lobby.getInstance().removeController(this);
 

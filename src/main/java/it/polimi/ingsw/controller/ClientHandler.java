@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.gamemessages.GameMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -113,14 +114,13 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 }
                 else if (o instanceof RestoreGameMessage) {
                     if (initialization) {
-                        controller = Lobby.getInstance().createNewRestoredGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((RestoreGameMessage) o).savedGameData());
-                        if (controller != null) {
+                        try {
+                            controller = Lobby.getInstance().createNewRestoredGameController(Lobby.getInstance().getNicknameFromClientHandler(this), ((RestoreGameMessage) o).savedGameData());
                             controller.setPropertyChangeListener(this);
                             initialization = false;
                             sendObject(new PlayerAddedToGameMessage("You have reloaded the game"));
-                        }
-                        else {
-                            sendObject(new ErrorMessage("Something went wrong, choose another game"));
+                        } catch (FileNotFoundException e) {
+                            sendObject(new ErrorMessage(e.getMessage() + "\nProbably the game has already been restored"));
                             sendObject(Lobby.getInstance().createAvailableGamesMessage(Lobby.getInstance().getNicknameFromClientHandler(this)));
                         }
                     }
@@ -169,4 +169,5 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
             return;
         }
     }
+
 }

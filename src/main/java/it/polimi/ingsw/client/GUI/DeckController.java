@@ -85,7 +85,9 @@ public class DeckController extends PageController implements Initializable {
                 currCard = player.getCurrCard();
                 confirmCurrCard();
             } else {
-                setOtherPlayersCards(player.getCurrCard(), player.getNickname());
+                if(player.getCurrCard() != null) {
+                    setOtherPlayersCards(player.getCurrCard(), player.getNickname());
+                }
             }
         }
     }

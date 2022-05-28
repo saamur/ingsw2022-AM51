@@ -406,6 +406,7 @@ public class Game implements GameInterface {
 
         if (island.getNumProhibitionCards() > 0) {
             island.removeProhibitionCard();
+            pcs.firePropertyChange("modifiedIsland", null, island);
             reassignProhibitionCard();
             return;
         }

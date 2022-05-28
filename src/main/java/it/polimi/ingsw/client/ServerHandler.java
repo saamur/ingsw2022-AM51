@@ -23,18 +23,19 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
     private final ObjectInputStream in;
 
     private final View view;
+    private final AtomicBoolean connected;
 
     public ServerHandler (String address, int port, View view) throws IOException {
         this.socket = new Socket(address, port);
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
         this.view = view;
+        connected = new AtomicBoolean(true);
     }
 
     @Override
     public void run() {
 
-        AtomicBoolean connected = new AtomicBoolean(true);
 
         while (connected.get()) {
 
@@ -133,5 +134,9 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
         } catch(Exception e){
             return;
         }
+    }
+
+    public void disconnect(){
+        connected.set(false);
     }
 }

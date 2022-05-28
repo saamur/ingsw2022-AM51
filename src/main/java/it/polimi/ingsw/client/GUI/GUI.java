@@ -4,7 +4,11 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
+import it.polimi.ingsw.messages.updatemessages.UpdateChosenCard;
+import it.polimi.ingsw.messages.updatemessages.UpdateCloud;
+import it.polimi.ingsw.messages.updatemessages.UpdateGamePhase;
 import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
+import it.polimi.ingsw.model.GameState;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -13,23 +17,33 @@ import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
 public class GUI extends Application implements View{
 
-    PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    PropertyChangeListener propertyChangeListener;
-    Map<String, PageController> controllers = new HashMap<>();
-    Map<String, Scene> scenes = new HashMap<>();
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private PropertyChangeListener propertyChangeListener;
+    private final Map<String, PageController> controllers = new HashMap<>();
+    private Map<String, Scene> scenes = new HashMap<>();
     private ServerHandler serverHandler;
     private String currScene;
     private Stage stage;
+    private String nickname;
+
+    public Map<String, PageController> getControllers() {
+        return controllers;
+    }
 
     private GameData gameData;
 
     private boolean gameChosen;
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     public void launchGUI() {
         launch();
@@ -49,6 +63,7 @@ public class GUI extends Application implements View{
 
     @Override
     public void setNickname(String nickname) {
+        this.nickname = nickname;
         ((GameSelectionController) controllers.get(GAMESELECTION)).setNickname(nickname);
         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setNickname(nickname);
     }
@@ -69,8 +84,8 @@ public class GUI extends Application implements View{
         }
     }
 
-    public void setStages() throws Exception{
-        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS /*, CLOUDS, DECK, CHARACTERS*/));
+    public void setStages() throws IOException {
+        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, /*, CHARACTERS,*/DISCONNECTION));
         for (String file : fileNames){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file)); //FIXME aggiungere bottone per create username?
             scenes.put(file, new Scene(loader.load()));
@@ -89,15 +104,34 @@ public class GUI extends Application implements View{
         ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
         ((IslandsPageController) controllers.get(ISLANDS)).setIslands(gameData.getIslandManager());
         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
+        ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager());
+        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
 
         gameChosen = true;
-        Platform.runLater(() -> setCurrScene(GAMEBOARD));
+        Platform.runLater(() -> setCurrScene(DECK));
     }
 
     @Override
     public void updateGameData(UpdateMessage updateMessage) {
-        //potrei fare updateMessage.updateGameData()...
-        //ma poi dovrei fare l'update
+        if(gameData != null){
+            updateMessage.updateGameData(this.gameData);
+            if(updateMessage instanceof UpdateCloud){
+                ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
+            } else if(updateMessage instanceof UpdateGamePhase){
+                ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
+            } else if(updateMessage instanceof UpdateChosenCard){
+                if(!((UpdateChosenCard) updateMessage).playerNickname().equals(nickname)){
+                    UpdateChosenCard updateChosenCard = (UpdateChosenCard) updateMessage;
+                    ((DeckController) controllers.get(DECK)).setOtherPlayersCards(updateChosenCard.card(), nickname);
+                }
+            }
+            if(gameData.getGameState().equals(GameState.PLANNING)){
+                Platform.runLater(() -> {
+                    //((DeckController) controllers.get(DECK)).resetCards(); fixme it resets the card even before the player chooses
+                    setCurrScene(DECK); //FIXME da testare
+                });
+            }
+        }
     }
 
     @Override
@@ -113,7 +147,13 @@ public class GUI extends Application implements View{
 
     @Override
     public void handleGenericMessage(String message) {
-        //TODO display to GUI
+        if(message.contains("Card chosen")){
+            Platform.runLater(() -> {
+                ((DeckController) controllers.get(DECK)).confirmCurrCard();
+                setCurrScene(GAMEBOARD);
+            });
+
+        }
     }
 
     @Override
@@ -129,7 +169,15 @@ public class GUI extends Application implements View{
     @Override
     public void handlePlayerDisconnected(String playerDisconnectedNickname) {
         Platform.runLater(() -> {
-            setCurrScene(DISCONNECTION); //TODO create
+            ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
+            setCurrScene(DISCONNECTION);
+            try{
+                setStages();
+            } catch (IOException e){
+                //FIXME problem with loading images
+                e.printStackTrace();
+            }
+            gameChosen = false;
         });
     }
 
@@ -141,6 +189,11 @@ public class GUI extends Application implements View{
         this.currScene = currScene;//mappa delle Scene
         stage.setScene(scenes.get(currScene));
         stage.show();
+    }
+
+    public void disconnect() throws IOException{
+        serverHandler.disconnect();
+        setStages(); //In this case resets the stages
     }
 
 }

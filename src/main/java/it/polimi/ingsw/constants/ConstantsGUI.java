@@ -4,12 +4,8 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;
 
-import java.lang.ref.PhantomReference;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static it.polimi.ingsw.model.Clan.*;
 import static it.polimi.ingsw.model.charactercards.CharacterID.*;
@@ -24,6 +20,7 @@ public class ConstantsGUI {
     public static final String GAMEBOARD = "gameBoard.fxml";
     public static final String GAMESELECTION = "gameSelection.fxml";
     public static final String ISLANDS = "islands.fxml";
+    public static final String SINGLEISLAND = "singleIsland.fxml";
     public static final String SCHOOLBOARDS = "schoolBoards.fxml";
     public static final String WAITINGROOM = "waitingRoom.fxml";
 

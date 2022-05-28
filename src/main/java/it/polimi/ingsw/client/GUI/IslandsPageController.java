@@ -8,12 +8,12 @@ import it.polimi.ingsw.model.player.TowerColor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
@@ -21,7 +21,7 @@ import static it.polimi.ingsw.constants.ConstantsGUI.*;
 import static it.polimi.ingsw.model.Clan.*;
 
 public class IslandsPageController extends PageController implements Initializable {
-    List<AnchorPane> islands;
+    List<AnchorPane> anchorIslands;
     List<ImageView> prohibitionCards;
     Map<Clan, List<ImageView>> clanColors = new EnumMap<>(Clan.class);
 
@@ -150,6 +150,7 @@ public class IslandsPageController extends PageController implements Initializab
     List<ImageView> motherNature;
 
     int motherNaturePosition;
+    List<IslandData> modelIslands;
 
 
 
@@ -158,7 +159,8 @@ public class IslandsPageController extends PageController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        islands = new ArrayList<>(Arrays.asList(anchorIsland0, anchorIsland1, anchorIsland2, anchorIsland3, anchorIsland4, anchorIsland5, anchorIsland6, anchorIsland7, anchorIsland8, anchorIsland9, anchorIsland10, anchorIsland11));
+        //islands = new ArrayList<>(Arrays.asList(island0, island1, island2, island3, island4, island5, island6, island7, island8, island9, island10, island11));
+        anchorIslands = new ArrayList<>(Arrays.asList(anchorIsland0, anchorIsland1, anchorIsland2, anchorIsland3, anchorIsland4, anchorIsland5, anchorIsland6, anchorIsland7, anchorIsland8, anchorIsland9, anchorIsland10, anchorIsland11));
         prohibitionCards = new ArrayList<>(Arrays.asList(prohibitionCard0, prohibitionCard1, prohibitionCard2, prohibitionCard3, prohibitionCard4, prohibitionCard5, prohibitionCard6, prohibitionCard7, prohibitionCard8, prohibitionCard9, prohibitionCard10, prohibitionCard11));
         pink = new ArrayList<>(Arrays.asList(pink0, pink1, pink2, pink3, pink4, pink5, pink6, pink7, pink8, pink9, pink10, pink11));
         green = new ArrayList<>(Arrays.asList(green0, green1, green2, green3, green4, green5, green6, green7, green8, green9, green10, green11));
@@ -175,7 +177,7 @@ public class IslandsPageController extends PageController implements Initializab
         towers = new ArrayList<>(Arrays.asList(tower0, tower1, tower2, tower3, tower4, tower5, tower6, tower7, tower8, tower9, tower10, tower11));
         motherNature = new ArrayList<>(Arrays.asList(motherNature0, motherNature1, motherNature2, motherNature3, motherNature4, motherNature5, motherNature6, motherNature7, motherNature8, motherNature9, motherNature10, motherNature11));
 
-        for(int i=0; i<islands.size(); i++) {
+        for(int i = 0; i< anchorIslands.size(); i++) {
             motherNature.get(i).setVisible(false);
             towers.get(i).setVisible(false);
             prohibitionCards.get(i).setVisible(false);
@@ -191,18 +193,33 @@ public class IslandsPageController extends PageController implements Initializab
     //FIXME se clicco su un altro Anchor / altra immagine ? non prende il click
     public void selectIsland(MouseEvent mouseEvent) {
         System.out.println("selected island" + mouseEvent.getSource());
+        for(int i = 0; i< anchorIslands.size(); i++){
+            if(anchorIslands.get(i).getChildren().contains(mouseEvent.getSource())){ //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
+                System.out.println("è stata selezionata isola numero " + i); //TODO delete
+                String imagePath = null;
+                for(Node child : anchorIslands.get(i).getChildren()){
+                    if(child instanceof ImageView){
+                        if(child.getId().contains("island")){
+                            imagePath = ((ImageView) child).getImage().getUrl();
+                        }
+                    }
+                }
+                ((SingleIslandController) gui.getControllers().get(SINGLEISLAND)).setIsland(modelIslands.get(i), imagePath, i==motherNaturePosition);
+                gui.setCurrScene(SINGLEISLAND);
+            }
+        }
     }
 
     public void setIslands(IslandManagerData islandManager){
-        List<IslandData> modelIslands = islandManager.getIslands();
+        modelIslands = islandManager.getIslands();
         for(int i=0; i<modelIslands.size(); i++){ //FIXME GESTIRE I MERGE
-            prepareIsland(islands.get(i), modelIslands.get(i), i);
+            prepareIsland(i, modelIslands.get(i));
         }
         this.motherNaturePosition = islandManager.getMotherNaturePosition();
         motherNature.get(motherNaturePosition).setVisible(true);
     }
 
-    private void prepareIsland(AnchorPane guiIsland, IslandData modelIsland, int anchorIndex){
+    private void prepareIsland(int anchorIndex, IslandData modelIsland){
         if(modelIsland.numProhibitionCards() != 0){
             prohibitionCards.get(anchorIndex).setVisible(true); //should work
         }
@@ -216,4 +233,10 @@ public class IslandsPageController extends PageController implements Initializab
             towers.get(anchorIndex).setVisible(true);
         }
     }
+
+    //TODO fare update delle isole
+    /*motherNature.get(motherNaturePosition).setVisible(false);
+    this.motherNaturePosition = islandManager.getMotherNaturePosition();
+    motherNature.get(motherNaturePosition).setVisible(true);
+     */
 }

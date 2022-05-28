@@ -73,7 +73,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                         }
                     }
                     else {
-                        sendObject(new ErrorMessage("You cannot change your message in this phase"));
+                        sendObject(new ErrorMessage("You cannot change your nickname in this phase"));
                     }
                 }
                 else if (Lobby.getInstance().getNicknameFromClientHandler(this) == null) {

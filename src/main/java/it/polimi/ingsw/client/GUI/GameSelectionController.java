@@ -80,10 +80,12 @@ public class GameSelectionController extends PageController implements Initializ
 
         newGames.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-
-                    String playersInfo = "Players: " + newValue.nicknames().get(0);
-                    for(int i=1; i<newValue.nicknames().size(); i++){
-                        playersInfo = playersInfo.concat(", " + newValue.nicknames().get(i));
+                    String playersInfo = "";
+                    if(newValue != null) {
+                        playersInfo = "Players: " + newValue.nicknames().get(0);
+                        for (int i = 1; i < newValue.nicknames().size(); i++) {
+                            playersInfo = playersInfo.concat(", " + newValue.nicknames().get(i));
+                        }
                     }
 
                     labelNewGames.setText(playersInfo);
@@ -104,10 +106,12 @@ public class GameSelectionController extends PageController implements Initializ
         );
         savedGames.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-
-                    String playersInfo = "Players: " + newValue.nicknames().get(0);
-                    for(int i=1; i<newValue.nicknames().size(); i++){
-                        playersInfo = playersInfo.concat(", " + newValue.nicknames().get(i));
+                    String playersInfo = "";
+                    if(newValue != null) {
+                        playersInfo = "Players: " + newValue.nicknames().get(0);
+                        for (int i = 1; i < newValue.nicknames().size(); i++) {
+                            playersInfo = playersInfo.concat(", " + newValue.nicknames().get(i));
+                        }
                     }
 
                     labelSavedGames.setText(playersInfo);
@@ -129,18 +133,20 @@ public class GameSelectionController extends PageController implements Initializ
         );
         restoredGames.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-
-                    String playersInfo = "Players who have already joined: " + newValue.nicknamesAlreadyJoined().get(0);
-                    for(int i=1; i<newValue.nicknamesAlreadyJoined().size(); i++){
-                        playersInfo = playersInfo.concat(", " + newValue.nicknamesAlreadyJoined().get(i));
-                    }
-                    if(newValue.missingNicknames().size() > 0){
-                        playersInfo = playersInfo.concat("\nPlayers missing: " + newValue.missingNicknames().get(0));
-                        for(int i=1; i<newValue.missingNicknames().size(); i++){
-                            playersInfo = playersInfo.concat(", " + newValue.missingNicknames().get(i));
+                    String playersInfo = "";
+                    if(newValue != null) {
+                        playersInfo = "Players who have already joined: " + newValue.nicknamesAlreadyJoined().get(0);
+                        for (int i = 1; i < newValue.nicknamesAlreadyJoined().size(); i++) {
+                            playersInfo = playersInfo.concat(", " + newValue.nicknamesAlreadyJoined().get(i));
                         }
-                    } else {
-                        playersInfo = playersInfo.concat("\nThere are no missing players");
+                        if (newValue.missingNicknames().size() > 0) {
+                            playersInfo = playersInfo.concat("\nPlayers missing: " + newValue.missingNicknames().get(0));
+                            for (int i = 1; i < newValue.missingNicknames().size(); i++) {
+                                playersInfo = playersInfo.concat(", " + newValue.missingNicknames().get(i));
+                            }
+                        } else {
+                            playersInfo = playersInfo.concat("\nThere are no missing players");
+                        }
                     }
                     labelRestoredGames.setText(playersInfo);
                 });

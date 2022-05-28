@@ -46,7 +46,7 @@ public class ConnectionController extends PageController {
         }
         if(serverHandler != null) {
             try {
-                gui.setCurrScene(GAMESELECTION);
+                gui.setCurrScene(GAMESELECTION); //TODO test if disconnecting and reconnecting the data is erased
             } catch (Exception e) {
                 e.printStackTrace();
             }

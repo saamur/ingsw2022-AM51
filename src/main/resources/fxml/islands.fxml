@@ -10,60 +10,60 @@
    <children>
       <Pane layoutY="51.0" prefHeight="596.0" prefWidth="933.0" style="-fx-background-color: LightBlue;">
          <children>
-            <AnchorPane fx:id="anchorIsland10" layoutX="24.0" layoutY="306.0">
+            <AnchorPane fx:id="anchorIsland10" layoutX="24.0" layoutY="306.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island10" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students10" layoutX="49.0" layoutY="67.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students10" layoutX="35.0" layoutY="67.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green10" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green10" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink10" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink10" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red10" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red10" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow10" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow10" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue10" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue10" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="tower10" fitHeight="39.0" fitWidth="35.0" layoutX="50.0" layoutY="32.0" preserveRatio="true">
+                  <ImageView fx:id="tower10" fitHeight="39.0" fitWidth="35.0" layoutX="50.0" layoutY="32.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="prohibitionCard10" fitHeight="50.0" fitWidth="50.0" layoutX="74.0" layoutY="25.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="motherNature10" fitHeight="50.0" fitWidth="50.0" layoutX="69.0" layoutY="25.0">
+                  <ImageView fx:id="motherNature10" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="29.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard10" fitHeight="50.0" fitWidth="50.0" layoutX="62.0" layoutY="30.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland0" layoutX="24.0">
+            <AnchorPane fx:id="anchorIsland0" layoutX="24.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island0" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
@@ -72,576 +72,576 @@
                   </ImageView>
                   <AnchorPane fx:id="students0" layoutX="35.0" layoutY="72.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green0" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green0" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink0" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink0" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red0" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red0" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow0" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow0" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue0" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue0" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard0" fitHeight="50.0" fitWidth="50.0" layoutX="79.0" layoutY="26.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower0" fitHeight="39.0" fitWidth="35.0" layoutX="46.0" layoutY="37.0" preserveRatio="true">
+                  <ImageView fx:id="tower0" fitHeight="39.0" fitWidth="35.0" layoutX="46.0" layoutY="37.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature0" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="26.0">
+                  <ImageView fx:id="motherNature0" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="22.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard0" fitHeight="50.0" fitWidth="50.0" layoutX="74.0" layoutY="27.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland3" layoutX="713.0">
+            <AnchorPane fx:id="anchorIsland3" layoutX="713.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island3" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students3" layoutX="50.0" layoutY="70.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students3" layoutX="35.0" layoutY="69.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green3" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green3" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink3" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink3" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red3" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red3" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow3" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow3" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue3" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue3" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard3" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="30.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower3" fitHeight="39.0" fitWidth="35.0" layoutX="42.0" layoutY="34.0" preserveRatio="true">
+                  <ImageView fx:id="tower3" fitHeight="39.0" fitWidth="35.0" layoutX="42.0" layoutY="34.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature3" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="26.0">
+                  <ImageView fx:id="motherNature3" fitHeight="50.0" fitWidth="50.0" layoutX="71.0" layoutY="29.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard3" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="34.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland5" layoutX="713.0" layoutY="306.0">
+            <AnchorPane fx:id="anchorIsland5" layoutX="713.0" layoutY="306.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island5" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students5" layoutX="50.0" layoutY="69.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students5" layoutX="35.0" layoutY="68.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green5" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green5" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink5" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink5" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red5" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red5" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow5" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow5" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue5" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue5" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard5" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="25.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower5" fitHeight="39.0" fitWidth="35.0" layoutX="44.0" layoutY="33.0" preserveRatio="true">
+                  <ImageView fx:id="tower5" fitHeight="39.0" fitWidth="35.0" layoutX="44.0" layoutY="33.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature5" fitHeight="50.0" fitWidth="50.0" layoutX="78.0" layoutY="15.0">
+                  <ImageView fx:id="motherNature5" fitHeight="50.0" fitWidth="50.0" layoutX="69.0" layoutY="26.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard5" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="44.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland1" layoutX="273.0" layoutY="-3.0">
+            <AnchorPane fx:id="anchorIsland1" layoutX="273.0" layoutY="-3.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island1" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students1" layoutX="50.0" layoutY="73.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students1" layoutX="35.0" layoutY="75.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green1" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green1" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink1" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink1" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red1" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red1" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow1" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow1" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue1" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue1" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard1" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="28.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower1" fitHeight="39.0" fitWidth="35.0" layoutX="42.0" layoutY="33.0" preserveRatio="true">
+                  <ImageView fx:id="tower1" fitHeight="39.0" fitWidth="35.0" layoutX="42.0" layoutY="33.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature1" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="26.0">
+                  <ImageView fx:id="motherNature1" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="25.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard1" fitHeight="50.0" fitWidth="50.0" layoutX="64.0" layoutY="35.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland9" layoutX="24.0" layoutY="447.0">
+            <AnchorPane fx:id="anchorIsland9" layoutX="24.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island9" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students9" layoutX="50.0" layoutY="64.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students9" layoutX="35.0" layoutY="64.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green9" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green9" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink9" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink9" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red9" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red9" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow9" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow9" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue9" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue9" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="tower9" fitHeight="39.0" fitWidth="35.0" layoutX="54.0" layoutY="29.0" preserveRatio="true">
+                  <ImageView fx:id="tower9" fitHeight="39.0" fitWidth="35.0" layoutX="54.0" layoutY="29.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="prohibitionCard9" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="22.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="motherNature9" fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="27.0">
+                  <ImageView fx:id="motherNature9" fitHeight="50.0" fitWidth="50.0" layoutX="74.0" layoutY="26.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard9" fitHeight="50.0" fitWidth="50.0" layoutX="55.0" layoutY="26.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland8" layoutX="273.0" layoutY="447.0">
+            <AnchorPane fx:id="anchorIsland8" layoutX="273.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island8" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students8" layoutX="49.0" layoutY="75.0" onMouseClicked="#selectIsland" prefHeight="59.0" prefWidth="91.0">
+                  <AnchorPane fx:id="students8" layoutX="34.0" layoutY="75.0" onMouseClicked="#selectIsland" prefHeight="59.0" prefWidth="91.0">
                      <children>
-                        <ImageView fx:id="green8" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green8" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink8" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink8" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red8" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red8" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow8" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow8" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue8" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue8" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard8" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="25.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower8" fitHeight="39.0" fitWidth="35.0" layoutX="41.0" layoutY="33.0" preserveRatio="true">
+                  <ImageView fx:id="tower8" fitHeight="39.0" fitWidth="35.0" layoutX="41.0" layoutY="33.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature8" fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="25.0">
+                  <ImageView fx:id="motherNature8" fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="28.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard8" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="25.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland7" layoutX="493.0" layoutY="447.0">
+            <AnchorPane fx:id="anchorIsland7" layoutX="493.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island7" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students7" layoutX="50.0" layoutY="62.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students7" layoutX="35.0" layoutY="66.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green7" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green7" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink7" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink7" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red7" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red7" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow7" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow7" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue7" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue7" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="tower7" fitHeight="39.0" fitWidth="35.0" layoutX="53.0" layoutY="23.0" preserveRatio="true">
+                  <ImageView fx:id="tower7" fitHeight="39.0" fitWidth="35.0" layoutX="53.0" layoutY="23.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="prohibitionCard7" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="23.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="motherNature7" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="16.0">
+                  <ImageView fx:id="motherNature7" fitHeight="50.0" fitWidth="50.0" layoutX="68.0" layoutY="23.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard7" fitHeight="50.0" fitWidth="50.0" layoutX="56.0" layoutY="21.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland6" layoutX="713.0" layoutY="447.0">
+            <AnchorPane fx:id="anchorIsland6" layoutX="713.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island6" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students6" layoutX="44.0" layoutY="68.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students6" layoutX="34.0" layoutY="68.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green6" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green6" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink6" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink6" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red6" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red6" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow6" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow6" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue6" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue6" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard6" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="25.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower6" fitHeight="39.0" fitWidth="35.0" layoutX="44.0" layoutY="33.0" preserveRatio="true">
+                  <ImageView fx:id="tower6" fitHeight="39.0" fitWidth="35.0" layoutX="44.0" layoutY="33.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature6" fitHeight="50.0" fitWidth="50.0" layoutX="67.0" layoutY="24.0">
+                  <ImageView fx:id="motherNature6" fitHeight="50.0" fitWidth="50.0" layoutX="63.0" layoutY="25.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard6" fitHeight="50.0" fitWidth="50.0" layoutX="55.0" layoutY="27.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland4" layoutX="713.0" layoutY="146.0">
+            <AnchorPane fx:id="anchorIsland4" layoutX="713.0" layoutY="146.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island4" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students4" layoutX="50.0" layoutY="75.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students4" layoutX="35.0" layoutY="75.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green4" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green4" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink4" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink4" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red4" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red4" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow4" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow4" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue4" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue4" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard4" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="25.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower4" fitHeight="39.0" fitWidth="35.0" layoutX="42.0" layoutY="33.0" preserveRatio="true">
+                  <ImageView fx:id="tower4" fitHeight="39.0" fitWidth="35.0" layoutX="42.0" layoutY="33.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature4" fitHeight="50.0" fitWidth="50.0" layoutX="67.0" layoutY="27.0">
+                  <ImageView fx:id="motherNature4" fitHeight="50.0" fitWidth="50.0" layoutX="76.0" layoutY="25.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard4" fitHeight="50.0" fitWidth="50.0" layoutX="49.0" layoutY="24.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland11" layoutX="24.0" layoutY="157.0">
+            <AnchorPane fx:id="anchorIsland11" layoutX="24.0" layoutY="157.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island11" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students11" layoutX="53.0" layoutY="71.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students11" layoutX="38.0" layoutY="72.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green11" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green11" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink11" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink11" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red11" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red11" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow11" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow11" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue11" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue11" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard11" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="27.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower11" fitHeight="39.0" fitWidth="35.0" layoutX="48.0" layoutY="37.0" preserveRatio="true">
+                  <ImageView fx:id="tower11" fitHeight="39.0" fitWidth="35.0" layoutX="48.0" layoutY="37.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature11" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="27.0">
+                  <ImageView fx:id="motherNature11" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="27.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="prohibitionCard11" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="21.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland2" layoutX="493.0" layoutY="-3.0">
+            <AnchorPane fx:id="anchorIsland2" layoutX="493.0" layoutY="-3.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island2" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="students2" layoutX="50.0" layoutY="69.0" onMouseClicked="#selectIsland">
+                  <AnchorPane fx:id="students2" layoutX="35.0" layoutY="71.0" onMouseClicked="#selectIsland">
                      <children>
-                        <ImageView fx:id="green2" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0">
+                        <ImageView fx:id="green2" fitHeight="25.0" fitWidth="25.0" layoutX="35.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_green.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="pink2" fitHeight="25.0" fitWidth="25.0" layoutY="1.0">
+                        <ImageView fx:id="pink2" fitHeight="25.0" fitWidth="25.0" layoutY="1.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_pink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="red2" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0">
+                        <ImageView fx:id="red2" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_red.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="yellow2" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0">
+                        <ImageView fx:id="yellow2" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="34.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_yellow.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="blue2" fitHeight="25.0" fitWidth="25.0" layoutX="65.0">
+                        <ImageView fx:id="blue2" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" onMouseClicked="#selectIsland">
                            <image>
                               <Image url="@../png/clan/students/student_blue.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="prohibitionCard2" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="30.0">
-                     <image>
-                        <Image url="@../png/deny_island_icon.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tower2" fitHeight="39.0" fitWidth="35.0" layoutX="43.0" layoutY="36.0" preserveRatio="true">
+                  <ImageView fx:id="tower2" fitHeight="39.0" fitWidth="35.0" layoutX="43.0" layoutY="36.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/towers/old/black_tower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="motherNature2" fitHeight="50.0" fitWidth="50.0" layoutX="65.0" layoutY="22.0">
+                  <ImageView fx:id="motherNature2" fitHeight="50.0" fitWidth="50.0" layoutX="70.0" layoutY="21.0" onMouseClicked="#selectIsland">
                      <image>
                         <Image url="@../png/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="prohibitionCard2" fitHeight="50.0" fitWidth="50.0" layoutX="63.0" layoutY="31.0" onMouseClicked="#selectIsland">
+                     <image>
+                        <Image url="@../png/deny_island_icon.png" />
                      </image>
                   </ImageView>
                </children>

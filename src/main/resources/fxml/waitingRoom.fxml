@@ -14,6 +14,6 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <Button layoutX="97.0" layoutY="214.0" mnemonicParsing="false" onAction="#back" text="Give up and choose another game" />
+      <Button layoutX="102.0" layoutY="212.0" mnemonicParsing="false" onAction="#back" text="Give up and enter another game" />
    </children>
 </AnchorPane>

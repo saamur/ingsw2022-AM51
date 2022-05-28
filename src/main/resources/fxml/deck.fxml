@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="703.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.DeckController">
+   <children>
+      <ImageView fx:id="cheetah" fitHeight="200.0" fitWidth="136.0" layoutX="11.0" layoutY="59.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Cheetah.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="ostrich" fitHeight="200.0" fitWidth="136.0" layoutX="147.0" layoutY="59.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Ostrich.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cat" fitHeight="200.0" fitWidth="136.0" layoutX="283.0" layoutY="59.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Cat.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="eagle" fitHeight="200.0" fitWidth="136.0" layoutX="419.0" layoutY="59.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Eagle.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="fox" fitHeight="200.0" fitWidth="136.0" layoutX="555.0" layoutY="59.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Fox.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lizard" fitHeight="200.0" fitWidth="136.0" layoutX="11.0" layoutY="303.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Lizard.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="octopus" fitHeight="200.0" fitWidth="136.0" layoutX="147.0" layoutY="303.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Octopus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="dog" fitHeight="200.0" fitWidth="136.0" layoutX="283.0" layoutY="303.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Dog.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="elephant" fitHeight="200.0" fitWidth="136.0" layoutX="419.0" layoutY="303.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Elephant.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="turtle" fitHeight="200.0" fitWidth="136.0" layoutX="555.0" layoutY="303.0" onMouseClicked="#selectCard">
+         <image>
+            <Image url="@../png/deck/Turtle.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="561.0" layoutY="524.0" mnemonicParsing="false" onAction="#goToGameBoard" text="Open Game Board" />
+      <Label fx:id="chooseAssistantLabel" layoutX="250.0" layoutY="14.0" text="Choose an Assistant">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

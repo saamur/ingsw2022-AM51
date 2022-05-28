@@ -98,52 +98,52 @@
                <children>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="21.0" layoutY="5.0">
                      <image>
-                        <Image url="@../png/deck/Tartaruga.jpg" />
+                        <Image url="@../png/deck/Cheetah.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="57.0">
                      <image>
-                        <Image url="@../png/deck/Aquila.jpg" />
+                        <Image url="@../png/deck/Octopus.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="5.0">
                      <image>
-                        <Image url="@../png/deck/Elefante.jpg" />
+                        <Image url="@../png/deck/Ostrich.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="5.0">
                      <image>
-                        <Image url="@../png/deck/Cane.jpg" />
+                        <Image url="@../png/deck/Cat.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="144.0" layoutY="5.0">
                      <image>
-                        <Image url="@../png/deck/Polipo.jpg" />
+                        <Image url="@../png/deck/Eagle.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="21.0" layoutY="57.0">
                      <image>
-                        <Image url="@../png/deck/Lucertola.jpg" />
+                        <Image url="@../png/deck/Fox.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="57.0">
                      <image>
-                        <Image url="@../png/deck/Volpe.jpg" />
+                        <Image url="@../png/deck/Lizard.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="141.0" layoutY="56.0">
                      <image>
-                        <Image url="@../png/deck/Gatto.jpg" />
+                        <Image url="@../png/deck/Dog.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="109.0">
                      <image>
-                        <Image url="@../png/deck/Struzzo.jpg" />
+                        <Image url="@../png/deck/Elephant.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="109.0">
                      <image>
-                        <Image url="@../png/deck/Ghepardo.jpg" />
+                        <Image url="@../png/deck/Turtle.png" />
                      </image>
                   </ImageView>
                </children>

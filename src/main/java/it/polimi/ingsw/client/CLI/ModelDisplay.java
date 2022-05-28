@@ -10,6 +10,8 @@ import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.Arrays;
+
 public class ModelDisplay {
 
     public static void displayAvailableGames (AvailableGamesMessage availableGamesMessage) {
@@ -100,7 +102,6 @@ public class ModelDisplay {
 
         System.out.println(gameData);
 
-        //System.out.flush();
         for(PlayerData p : gameData.getPlayerData()){
             if(p.getNickname().equals(nickname)) {
                 System.out.println(p.getNickname() + "'s School" + " (you) ");
@@ -115,7 +116,7 @@ public class ModelDisplay {
         }
         System.out.println("\n\n\n");
 
-        displayIslands(gameData.getIslandManager());
+        displayIslands(gameData.getIslandManager(), gameData.isExpertModeEnabled(), gameData.getCharacterCardData());
 
         System.out.println("\n\n\n");
 
@@ -178,7 +179,7 @@ public class ModelDisplay {
 
         for (Clan c : Clan.values()) {
             System.out.print(CliGraphicConstants.getColorStudent(c) + c);
-            for (int l = 0; l < CliGraphicConstants.MAX_LENGHT_STUDENTS - c.toString().length(); l++) {
+            for (int l = 0; l < CliGraphicConstants.MAX_LENGTH_STUDENTS - c.toString().length(); l++) {
                 System.out.print(" ");
             }
             System.out.print("  ");
@@ -198,14 +199,14 @@ public class ModelDisplay {
 
     }
 
-    private static void displayIslands (IslandManagerData islandManagerData) {
+    private static void displayIslands (IslandManagerData islandManagerData, boolean isExpertMode, CharacterCardData[] characterCardData) {
         System.out.println(CliGraphicConstants.ANSI_RESET + "ISLANDS");
         System.out.println("\n");
-        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliGraphicConstants.MAX_VISUAL));
+        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliGraphicConstants.MAX_VISUAL), isExpertMode, characterCardData);
 
         System.out.println("\n");
         if(islandManagerData.getIslands().size() > 6) {
-            updateIsland(islandManagerData, 6, islandManagerData.getIslands().size());
+            updateIsland(islandManagerData, 6, islandManagerData.getIslands().size(), isExpertMode, characterCardData);
         }
 
         System.out.println("\n");
@@ -213,7 +214,7 @@ public class ModelDisplay {
 
 
 
-    private static void updateIsland(IslandManagerData islandManagerData, int init, int end) {
+    private static void updateIsland(IslandManagerData islandManagerData, int init, int end, boolean isExpertMode, CharacterCardData[] characterCardData) {
         System.out.print("                      |");
         for(int i = init; i < end; i++){
             if(islandManagerData.getMotherNaturePosition() == i){
@@ -229,7 +230,7 @@ public class ModelDisplay {
         System.out.println("\n");
         for(Clan c : Clan.values()){
             System.out.print(c.toString());
-            for(int k = 0; k < (CliGraphicConstants.MAX_LENGHT_STUDENTS + 1) - c.toString().length(); k++){
+            for(int k = 0; k < (CliGraphicConstants.MAX_LENGTH_STUDENTS + 1) - c.toString().length(); k++){
                 System.out.print(" ");
             }
             System.out.print("             ");
@@ -269,13 +270,14 @@ public class ModelDisplay {
         }
         System.out.println("\n");
 
-        System.out.print("n° prohibition cards: |");
-        for(int i = init; i < end; i++){
-            System.out.print("     ");
-            System.out.print(islandManagerData.getIslands().get(i).numProhibitionCards());
-            System.out.print("     |");
+        if(isExpertMode && (characterCardData[0].characterID() == CharacterID.GRANDMA || characterCardData[1].characterID() == CharacterID.GRANDMA || characterCardData[2].characterID() == CharacterID.GRANDMA)) {
+            System.out.print("n° prohibition cards: |");
+            for (int i = init; i < end; i++) {
+                System.out.print("     ");
+                System.out.print(islandManagerData.getIslands().get(i).numProhibitionCards());
+                System.out.print("     |");
+            }
         }
-
         System.out.println("\n");
 
 
@@ -373,53 +375,46 @@ public class ModelDisplay {
         }
         System.out.println("\n");
         System.out.print("Students/Prohibition Cards: |");
-        for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){ //todo parametrizzare
-            if(characterCardData[i].characterID() == CharacterID.GRANDMA){
-                System.out.print("    ");
-                for(int j = 0; j < characterCardData[i].numProhibitionCards(); j++){
-                    System.out.print(CliGraphicConstants.ANSI_RED + "O " + CliGraphicConstants.ANSI_RESET);
-                }
-                if(characterCardData[i].numProhibitionCards() < 4){
-                    for(int j = 0; j < 4 - characterCardData[i].numProhibitionCards(); j++){
-                        System.out.print("  ");
-                    }
-                }
-                System.out.print("   |");
-            }
-            else if(characterCardData[i].characterID() == CharacterID.MONK ){
-                System.out.print(" ");
-                printCharacterStudents(characterCardData, i);
-                System.out.print(" |");
-            }
-            else if(characterCardData[i].characterID() == CharacterID.JESTER){
-                printCharacterStudents(characterCardData, i);
-                System.out.print("|");
-            }
-
-            else if(characterCardData[i].characterID() == CharacterID.PRINCESS){
-                System.out.print("   ");
-                printCharacterStudents(characterCardData, i);
-                System.out.print("   |");
-            }
-            else{
-                for(int j = 0; j < characterCardData[i].characterID().toString().length() + 8; j++){
-                    System.out.print(" ");
-                }
-                System.out.print("|");
-            }
+        for(int i = 0; i < GameConstants.NUM_AVAILABLE_CHARACTER_CARDS; i++){
+            printCharacter(characterCardData[i]);
         }
+
         System.out.println("\n");
     }
 
-    private static void printCharacterStudents(CharacterCardData[] characterCardData, int i) {
+    private static void printCharacter(CharacterCardData characterCardData){
         System.out.print(" ");
-        for(Clan c : Clan.values()){
-            for(int j = 0; j < characterCardData[i].students().get(c); j++){
-                System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENT_SYMBOL + CliGraphicConstants.ANSI_RESET + " ");
+        if(characterCardData.numProhibitionCards() != 0){
+            for (int j = 0; j < characterCardData.numProhibitionCards(); j++){
+                System.out.print(CliGraphicConstants.ANSI_RED + CliGraphicConstants.PROHIBITION_CARD_SYMBOL + " " + CliGraphicConstants.ANSI_RESET);
             }
+            for(int j = 0; j < 4 - characterCardData.numProhibitionCards(); j++){
+                System.out.print("  ");
+            }
+            System.out.print("      |");
         }
-        System.out.print(" ");
+
+        else {
+            System.out.print(" ");
+            for (Clan c : Clan.values()) {
+                for(int a = 0; a < characterCardData.students().get(c); a++){
+                    System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENT_SYMBOL + CliGraphicConstants.ANSI_RESET + " ");
+                }
+            }
+            for (int k = 1; k < ((characterCardData.characterID().toString().length() + 8) - ((characterCardData.students().values().stream().mapToInt(i -> i).sum()) * 2)) - 1; k++) {
+                System.out.print(" ");
+            }
+            System.out.print("|");
+        }
+
+
     }
+
+
+
+
+
+
 
     private static void displayCharacterCard (CharacterCardData characterCardData) {
         for (int j = 0; j < characterCardData.characterID().toString().length() / 2; j++) {

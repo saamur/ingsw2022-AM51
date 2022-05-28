@@ -22,6 +22,7 @@ public class CliGraphicConstants {
     public static final char TOWER_SYMBOL = '■' ;
     public static final char PROFESSOR_SYMBOL = '■';
     public static final char NO_PROFESSOR_SYMBOL = 'O';
+    public static final char PROHIBITION_CARD_SYMBOL = 'X';
     public static final char STUDENTS_PRESENT = '▓';
     public static final char STUDENTS_NOT_PRESENT = '░';
 //"◙"
@@ -40,7 +41,7 @@ public class CliGraphicConstants {
         CLAN_MAP_COLOR.put(Clan.FAIRIES, CliGraphicConstants.ANSI_PINK);
     }
 
-    public static final int MAX_LENGHT_STUDENTS = 8;
+    public static final int MAX_LENGTH_STUDENTS = 8;
 
     public static final int MAX_VISUAL = 6;
 
@@ -57,11 +58,11 @@ public class CliGraphicConstants {
             """;
 
     public static final String WINNER = """
-            ▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓   ▓▓                 ▓▓  ▓▓  ▓▓▓     ▓▓
-             ▓  ▓   ▓▓  ▓▓  ▓▓  ▓▓    ▓▓     ▓▓▓       ▓▓   ▓▓  ▓▓ ▓▓   ▓▓
-              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓     ▓▓   ▓▓  ▓▓   ▓▓     ▓▓  ▓▓  ▓▓  ▓▓
-              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓      ▓▓ ▓▓    ▓▓ ▓▓      ▓▓  ▓▓   ▓▓ ▓▓
-              ▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓       ▓▓▓      ▓▓▓       ▓▓  ▓▓     ▓▓▓
+            ▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓   ▓▓                 ▓▓  ▓▓▓▓▓▓  ▓▓▓     ▓▓
+             ▓  ▓   ▓▓  ▓▓  ▓▓  ▓▓    ▓▓     ▓▓▓       ▓▓   ▓▓  ▓▓  ▓▓ ▓▓   ▓▓
+              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓     ▓▓   ▓▓  ▓▓   ▓▓     ▓▓  ▓▓  ▓▓  ▓▓  ▓▓
+              ▓▓    ▓▓  ▓▓  ▓▓  ▓▓      ▓▓ ▓▓    ▓▓ ▓▓      ▓▓  ▓▓  ▓▓   ▓▓ ▓▓
+              ▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓       ▓▓▓      ▓▓▓       ▓▓▓▓▓▓  ▓▓     ▓▓▓
             """;
 
     public static final String ERIANTYS = """

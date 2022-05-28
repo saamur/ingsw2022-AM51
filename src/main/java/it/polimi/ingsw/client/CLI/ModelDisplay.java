@@ -116,7 +116,8 @@ public class ModelDisplay {
         }
         System.out.println("\n\n\n");
 
-        displayIslands(gameData.getIslandManager(), gameData.isExpertModeEnabled(), gameData.getCharacterCardData());
+
+        displayIslands(gameData.getIslandManager(), (gameData.isExpertModeEnabled() &&  Arrays.stream(gameData.getCharacterCardData()).anyMatch(characterCardData -> characterCardData.characterID() == CharacterID.GRANDMA)));
 
         System.out.println("\n\n\n");
 
@@ -199,14 +200,14 @@ public class ModelDisplay {
 
     }
 
-    private static void displayIslands (IslandManagerData islandManagerData, boolean isExpertMode, CharacterCardData[] characterCardData) {
+    private static void displayIslands (IslandManagerData islandManagerData, boolean bool) {
         System.out.println(CliGraphicConstants.ANSI_RESET + "ISLANDS");
         System.out.println("\n");
-        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliGraphicConstants.MAX_VISUAL), isExpertMode, characterCardData);
+        updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliGraphicConstants.MAX_VISUAL), bool);
 
         System.out.println("\n");
         if(islandManagerData.getIslands().size() > 6) {
-            updateIsland(islandManagerData, 6, islandManagerData.getIslands().size(), isExpertMode, characterCardData);
+            updateIsland(islandManagerData, 6, islandManagerData.getIslands().size(), bool);
         }
 
         System.out.println("\n");
@@ -214,7 +215,7 @@ public class ModelDisplay {
 
 
 
-    private static void updateIsland(IslandManagerData islandManagerData, int init, int end, boolean isExpertMode, CharacterCardData[] characterCardData) {
+    private static void updateIsland(IslandManagerData islandManagerData, int init, int end, boolean bool) {
         System.out.print("                      |");
         for(int i = init; i < end; i++){
             if(islandManagerData.getMotherNaturePosition() == i){
@@ -270,7 +271,7 @@ public class ModelDisplay {
         }
         System.out.println("\n");
 
-        if(isExpertMode && (characterCardData[0].characterID() == CharacterID.GRANDMA || characterCardData[1].characterID() == CharacterID.GRANDMA || characterCardData[2].characterID() == CharacterID.GRANDMA)) {
+        if(bool) {
             System.out.print("n° prohibition cards: |");
             for (int i = init; i < end; i++) {
                 System.out.print("     ");

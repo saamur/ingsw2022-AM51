@@ -83,7 +83,9 @@ public class DeckController extends PageController implements Initializable {
                     chosenCards[card.getPriority()-1] = player.getAvailableCards().contains(card);
                 }
                 currCard = player.getCurrCard();
-                confirmCurrCard();
+                if(currCard != null) {
+                    confirmCurrCard();
+                }
             } else {
                 if(player.getCurrCard() != null) {
                     setOtherPlayersCards(player.getCurrCard(), player.getNickname());

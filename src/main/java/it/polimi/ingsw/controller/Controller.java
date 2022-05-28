@@ -156,6 +156,11 @@ public abstract class Controller implements PropertyChangeListener {
         pcs.firePropertyChange("message", null, update);
     }
 
+    /**
+     * This method is used to add a propertyChangeListener to this class
+     * @param listener the PropertyChangeListener
+     * @see PropertyChangeListener
+     */
     public void setPropertyChangeListener (PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);
     }

@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.GameSelectionController">
+<AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.GameSelectionController">
    <children>
 
             <TextField fx:id="nicknameTextField" layoutX="150.0" layoutY="37.0" promptText="Nickname" />
@@ -56,7 +55,7 @@
             </AnchorPane>
             <Separator layoutX="127.0" layoutY="410.0" prefHeight="2.0" prefWidth="551.0" />
             <Button fx:id="createNickname" layoutX="363.0" layoutY="37.0" mnemonicParsing="false" onAction="#createNickname" text="Create nickname" />
-            <Label fx:id="chosenNicknameLabel" layoutX="506.0" layoutY="41.0"/>
+            <Label fx:id="chosenNicknameLabel" layoutX="506.0" layoutY="41.0" />
             <Separator layoutX="755.0" layoutY="98.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="1.0" />
        
       <AnchorPane layoutX="758.0" layoutY="80.0" prefHeight="323.0" prefWidth="349.0">
@@ -73,6 +72,5 @@
             <Label fx:id="labelRestoredGames" layoutX="14.0" layoutY="233.0" />
          </children>
       </AnchorPane>
-      <ScrollBar layoutY="647.0" prefHeight="15.0" prefWidth="1164.0" />
    </children>
 </AnchorPane>

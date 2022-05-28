@@ -49,7 +49,7 @@ public class DeckController extends PageController implements Initializable {
     boolean [] chosenCards = {false, false, false, false, false, false, false, false, false, false};
 
     /**
-     * The method inizialize inizializes the attribute cards associating every ImageView to the corresponding Card enum value
+     * The method initialize initializes the attribute cards associating every ImageView to the corresponding Card enum value
      *
      * @param url
      * @param resourceBundle

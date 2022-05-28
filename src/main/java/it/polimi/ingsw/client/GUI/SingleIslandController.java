@@ -18,6 +18,9 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.constants.ConstantsGUI.ISLANDS;
 import static it.polimi.ingsw.model.Clan.*;
 
+/**
+ * Class SingleIslandController manages and populates the scene showing a single island, which corresponds to the file singleIsland.fxml.
+ */
 public class SingleIslandController extends PageController implements Initializable {
     @FXML
     ImageView island;
@@ -60,11 +63,21 @@ public class SingleIslandController extends PageController implements Initializa
         resetIsland();
     }
 
+    /**
+     * The method back is called when the Button "Go back" is clicked. After setting the GUI's currScene to ISLANDS, the island is reset so that next time the SINGLEISLAND scene is opened it will not have any data regarding other islands.
+     * @param event
+     */
     public void back(ActionEvent event){
         gui.setCurrScene(ISLANDS);
         resetIsland();
     }
 
+    /**
+     * The setIsland method populates the island with the corresponding students. If motherNature is on this island it shows the image of mother nature, if there are towers or prohibitionCards it shows the image and the number.
+     * @param modelIsland the IslandData that has all the information about the island that has been clicked
+     * @param imageURL the island's image so that it can be reproduced correctly
+     * @param hasMotherNature it's true if motherNature is on this island or false if not
+     */
     public void setIsland(IslandData modelIsland, String imageURL, boolean hasMotherNature){
         //TODO display towers/mothernature and students
         Map<Clan, Integer> students = modelIsland.students();
@@ -84,6 +97,9 @@ public class SingleIslandController extends PageController implements Initializa
         motherNature.setVisible(hasMotherNature);
     }
 
+    /**
+     * This method is called to set all the components to not visible.
+     */
     public void resetIsland(){
         for(Clan c: Clan.values()){
             clanColors.get(c).setVisible(false);

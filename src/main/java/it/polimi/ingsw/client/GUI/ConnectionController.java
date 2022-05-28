@@ -13,11 +13,19 @@ import java.net.SocketException;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.GAMESELECTION;
 
+/**
+ * The class ConnectionController handles the events from the scene connection.fxml
+ */
 public class ConnectionController extends PageController {
 
     @FXML TextField port;
     @FXML TextField address;
 
+    /**
+     * Method connect creates a socket and a ServerHandler class so that the GUI can communicate with the server.
+     * @param event
+     * @see ServerHandler
+     */
     public void connect(ActionEvent event){
         ServerHandler serverHandler = null;
         try {

@@ -12,7 +12,9 @@ import it.polimi.ingsw.model.GameState;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
@@ -52,7 +54,7 @@ public class GUI extends Application implements View{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        setStages();
+        setScenes();
         stage.setTitle("Eriantys");
 
     }
@@ -84,7 +86,7 @@ public class GUI extends Application implements View{
         }
     }
 
-    public void setStages() throws IOException {
+    public void setScenes() throws IOException {
         List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, /*, CHARACTERS,*/DISCONNECTION));
         for (String file : fileNames){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file)); //FIXME aggiungere bottone per create username?
@@ -172,7 +174,7 @@ public class GUI extends Application implements View{
             ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
             setCurrScene(DISCONNECTION);
             try{
-                setStages();
+                setScenes();
             } catch (IOException e){
                 //FIXME problem with loading images
                 e.printStackTrace();
@@ -187,13 +189,18 @@ public class GUI extends Application implements View{
 
     public void setCurrScene(String currScene){
         this.currScene = currScene;//mappa delle Scene
+
         stage.setScene(scenes.get(currScene));
+        stage.centerOnScreen();
+        /*Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);*/
         stage.show();
     }
 
     public void disconnect() throws IOException{
         serverHandler.disconnect();
-        setStages(); //In this case resets the stages
+        setScenes(); //In this case resets the stages
     }
 
 }

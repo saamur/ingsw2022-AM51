@@ -56,7 +56,7 @@ public class SchoolBoardController extends PageController implements Initializab
             school.setFitWidth(SCHOOL_WIDTH);
 
             AnchorPane anchorPane = new AnchorPane();
-            //qualcosa di strano
+
             anchorPane.getChildren().add(school);
 
             for (Clan clan : Clan.values()) {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="703.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.DeckController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="703.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.DeckController">
    <children>
       <ImageView fx:id="cheetah" fitHeight="200.0" fitWidth="136.0" layoutX="11.0" layoutY="59.0" onMouseClicked="#selectCard">
          <image>
@@ -34,36 +34,46 @@
             <Image url="@../png/deck/Fox.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="lizard" fitHeight="200.0" fitWidth="136.0" layoutX="11.0" layoutY="303.0" onMouseClicked="#selectCard">
+      <ImageView fx:id="lizard" fitHeight="200.0" fitWidth="136.0" layoutX="11.0" layoutY="310.0" onMouseClicked="#selectCard">
          <image>
             <Image url="@../png/deck/Lizard.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="octopus" fitHeight="200.0" fitWidth="136.0" layoutX="147.0" layoutY="303.0" onMouseClicked="#selectCard">
+      <ImageView fx:id="octopus" fitHeight="200.0" fitWidth="136.0" layoutX="147.0" layoutY="310.0" onMouseClicked="#selectCard">
          <image>
             <Image url="@../png/deck/Octopus.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="dog" fitHeight="200.0" fitWidth="136.0" layoutX="283.0" layoutY="303.0" onMouseClicked="#selectCard">
+      <ImageView fx:id="dog" fitHeight="200.0" fitWidth="136.0" layoutX="283.0" layoutY="310.0" onMouseClicked="#selectCard">
          <image>
             <Image url="@../png/deck/Dog.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="elephant" fitHeight="200.0" fitWidth="136.0" layoutX="419.0" layoutY="303.0" onMouseClicked="#selectCard">
+      <ImageView fx:id="elephant" fitHeight="200.0" fitWidth="136.0" layoutX="419.0" layoutY="310.0" onMouseClicked="#selectCard">
          <image>
             <Image url="@../png/deck/Elephant.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="turtle" fitHeight="200.0" fitWidth="136.0" layoutX="555.0" layoutY="303.0" onMouseClicked="#selectCard">
+      <ImageView fx:id="turtle" fitHeight="200.0" fitWidth="136.0" layoutX="555.0" layoutY="310.0" onMouseClicked="#selectCard">
          <image>
             <Image url="@../png/deck/Turtle.png" />
          </image>
       </ImageView>
-      <Button layoutX="561.0" layoutY="524.0" mnemonicParsing="false" onAction="#goToGameBoard" text="Open Game Board" />
+      <Button layoutX="561.0" layoutY="559.0" mnemonicParsing="false" onAction="#goToGameBoard" text="Open Game Board" />
       <Label fx:id="chooseAssistantLabel" layoutX="250.0" layoutY="14.0" text="Choose an Assistant">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
+      <Label fx:id="cheetahLabel" alignment="TOP_CENTER" layoutX="11.0" layoutY="259.0" prefHeight="40.0" prefWidth="136.0" text="cheetah" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="ostrichLabel" alignment="TOP_CENTER" layoutX="147.0" layoutY="259.0" prefHeight="40.0" prefWidth="136.0" text="ostrich" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="catLabel" alignment="TOP_CENTER" layoutX="284.0" layoutY="259.0" prefHeight="40.0" prefWidth="136.0" text="cat" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="eagleLabel" alignment="TOP_CENTER" layoutX="419.0" layoutY="259.0" prefHeight="40.0" prefWidth="136.0" text="eagle" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="foxLabel" alignment="TOP_CENTER" layoutX="555.0" layoutY="259.0" prefHeight="40.0" prefWidth="136.0" text="fox" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="lizardLabel" alignment="TOP_CENTER" layoutX="11.0" layoutY="510.0" prefHeight="40.0" prefWidth="136.0" text="lizard" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="octopusLabel" alignment="TOP_CENTER" layoutX="147.0" layoutY="510.0" prefHeight="40.0" prefWidth="136.0" text="octopus" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="dogLabel" alignment="TOP_CENTER" layoutX="283.0" layoutY="510.0" prefHeight="40.0" prefWidth="136.0" text="dog" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="elephantLabel" alignment="TOP_CENTER" layoutX="419.0" layoutY="510.0" prefHeight="40.0" prefWidth="136.0" text="elephant" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="turtleLabel" alignment="TOP_CENTER" layoutX="555.0" layoutY="510.0" prefHeight="40.0" prefWidth="136.0" text="turtle" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

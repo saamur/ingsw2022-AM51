@@ -39,7 +39,7 @@ public class GUI extends Application implements View{
         return controllers;
     }
 
-    private GameData gameData;
+    private volatile GameData gameData;
 
     private boolean gameChosen;
 
@@ -103,11 +103,15 @@ public class GUI extends Application implements View{
     public void setGameData(GameData gameData) {
         this.gameData = gameData;
 
-        ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
-        ((IslandsPageController) controllers.get(ISLANDS)).setIslands(gameData.getIslandManager());
-        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
-        ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager());
-        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
+        Platform.runLater(() -> {
+            synchronized (gameData) {
+                ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
+                ((IslandsPageController) controllers.get(ISLANDS)).setIslands(gameData.getIslandManager());
+                ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
+                ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager());
+                ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
+            }
+        });
 
         gameChosen = true;
         Platform.runLater(() -> setCurrScene(DECK));
@@ -116,20 +120,24 @@ public class GUI extends Application implements View{
     @Override
     public void updateGameData(UpdateMessage updateMessage) {
         if(gameData != null){
-            updateMessage.updateGameData(gameData);
-            if(updateMessage instanceof UpdateCloud){
-                ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
-            } else if(updateMessage instanceof UpdateGamePhase){
-                ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
-            } else if(updateMessage instanceof UpdateChosenCard){
-                ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
+            synchronized (gameData) {
+                updateMessage.updateGameData(gameData);
             }
-            if(gameData.getGameState().equals(GameState.PLANNING)){
-                Platform.runLater(() -> {
-                    //((DeckController) controllers.get(DECK)).resetCards(); fixme it resets the card even before the player chooses
-                    setCurrScene(DECK); //FIXME da testare
-                });
-            }
+            Platform.runLater(() -> {
+                synchronized (gameData) {
+                    if (updateMessage instanceof UpdateCloud) {
+                        ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
+                    } else if (updateMessage instanceof UpdateGamePhase) {
+                        ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
+                    } else if (updateMessage instanceof UpdateChosenCard) {
+                        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
+                    }
+                    if (gameData.getGameState().equals(GameState.PLANNING)) {
+                        //((DeckController) controllers.get(DECK)).resetCards(); fixme it resets the card even before the player chooses
+                        setCurrScene(DECK); //FIXME da testare
+                    }
+                }
+            });
         }
     }
 
@@ -140,19 +148,8 @@ public class GUI extends Application implements View{
     }
 
     @Override
-    public void displayEverything() {
-
-    }
-
-    @Override
     public void handleGenericMessage(String message) {
-        if(message.contains("Card chosen")){
-            Platform.runLater(() -> {
-                ((DeckController) controllers.get(DECK)).confirmCurrCard();
-                setCurrScene(GAMEBOARD);
-            });
 
-        }
     }
 
     @Override

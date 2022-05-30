@@ -21,8 +21,6 @@ public interface View {
 
     void addPropertyChangeListener (PropertyChangeListener propertyChangeListener);
 
-    void displayEverything();
-
     void handleGenericMessage(String message);
     void handleErrorMessage(String message);
 

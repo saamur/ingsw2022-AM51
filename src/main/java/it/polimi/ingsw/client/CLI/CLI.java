@@ -144,7 +144,6 @@ public class CLI implements View, Runnable {
         gameOver = true;
     }
 
-    @Override
     public synchronized void displayEverything() {
 
         System.out.println("\n");

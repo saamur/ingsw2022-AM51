@@ -95,6 +95,10 @@ public class SingleIslandController extends PageController implements Initializa
             prohibitionCardLabel.setText("x" + numProhibitionCards);
         }
         motherNature.setVisible(hasMotherNature);
+        if(modelIsland.numberOfTowers() != 0){
+            tower.setVisible(true);
+            towerLabel.setText("x" + modelIsland.numberOfTowers());
+        }
     }
 
     /**

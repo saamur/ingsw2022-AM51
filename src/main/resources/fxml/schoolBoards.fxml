@@ -7,6 +7,6 @@
 <AnchorPane prefHeight="544.0" prefWidth="844.0" style="-fx-background-color: mediumaquamarine;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.SchoolBoardController">
    <children>
       <TabPane fx:id="tabPane" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="844.0" style="-fx-background-color: mediumaquamarine;" tabClosingPolicy="UNAVAILABLE" />
-      <Button layoutX="687.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go Back to Game Board" />
+      <Button layoutX="715.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go to Game Board" />
    </children>
 </AnchorPane>

@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.TowerColor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import java.util.*;
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 import static it.polimi.ingsw.model.Clan.*;
 
+//TODO add droppedStudent to FXML
 public class IslandsPageController extends PageController implements Initializable {
     List<AnchorPane> anchorIslands;
     List<ImageView> prohibitionCards;
@@ -151,6 +153,7 @@ public class IslandsPageController extends PageController implements Initializab
 
     int motherNaturePosition;
     List<IslandData> modelIslands;
+    //TODO @FXML ImageView droppedStudent;
 
 
 
@@ -193,7 +196,7 @@ public class IslandsPageController extends PageController implements Initializab
     public void selectIsland(MouseEvent mouseEvent) {
         System.out.println("selected island" + mouseEvent.getSource());
         for(int i = 0; i< anchorIslands.size(); i++){
-            if(anchorIslands.get(i).getChildren().contains(mouseEvent.getSource())){ //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
+            if(anchorIslands.get(i).getChildren().contains((Node) mouseEvent.getSource())){ //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
                 System.out.println("è stata selezionata isola numero " + i); //TODO delete
                 String imagePath = null;
                 for(Node child : anchorIslands.get(i).getChildren()){
@@ -218,6 +221,20 @@ public class IslandsPageController extends PageController implements Initializab
         motherNature.get(motherNaturePosition).setVisible(true);
     }
 
+    public void updateIslands(IslandManagerData islandManager){
+        //TODO non ci sono merge -> si toglie solo un'isola?
+        modelIslands = islandManager.getIslands();
+        for(int i=0; i<modelIslands.size(); i++){ //FIXME GESTIRE I MERGE
+            //prepareIsland(i, modelIslands.get(i), modelIslands.get(i).numberOfIslands());
+        }
+        if(modelIslands.size() != 12){
+            //TODO remove some islands
+        }
+        motherNature.get(motherNaturePosition).setVisible(false);
+        this.motherNaturePosition = islandManager.getMotherNaturePosition();
+        motherNature.get(motherNaturePosition).setVisible(true);
+    }
+
     private void prepareIsland(int anchorIndex, IslandData modelIsland){
         if(modelIsland.numProhibitionCards() != 0){
             prohibitionCards.get(anchorIndex).setVisible(true); //should work
@@ -233,9 +250,4 @@ public class IslandsPageController extends PageController implements Initializab
         }
     }
 
-    //TODO fare update delle isole
-    /*motherNature.get(motherNaturePosition).setVisible(false);
-    this.motherNaturePosition = islandManager.getMotherNaturePosition();
-    motherNature.get(motherNaturePosition).setVisible(true);
-     */
 }

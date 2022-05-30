@@ -134,10 +134,11 @@ public class CloudController extends PageController implements Initializable {
     }
 
     public void selectCloud(MouseEvent event) {
+        //FIXME if CLOUD CHOOSING
         for (int i = 0; i < numOfClouds; i++) {
             if (clouds.get(i).getChildren().contains(event.getSource())) {
                 if (availableClouds[i]) { //this.availableClouds[i] is null
-                    new ChosenCloudMessage(i);
+                    sendMessage(new ChosenCloudMessage(i));
                     clouds.get(i).setOpacity(0.5);
                 } else {
                     errorLabel.setText("This cloud has already been chosen, choose another cloud");
@@ -155,6 +156,13 @@ public class CloudController extends PageController implements Initializable {
                 modifyCloud(i, newClouds[i]);
             }
             availableClouds[i] = true;
+        }
+    }
+
+    public void updateCloud(CloudData cloud){
+        if(cloud.picked()){
+            clouds.get(cloud.cloudIndex()).setOpacity(0.5);
+            availableClouds[cloud.cloudIndex()] = false;
         }
     }
 

@@ -4,12 +4,16 @@ package it.polimi.ingsw.client.GUI;
 import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.client.modeldata.GameData;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -55,6 +59,15 @@ public class GameBoardController extends PageController implements Initializable
         gui.setCurrScene(SCHOOLBOARDS);
     }
 
+    public void selectCharacterCards(MouseEvent mouseEvent) {
+        gui.setCurrScene(CHARACTERS);
+    }
+
+    public void viewClouds(MouseEvent mouseEvent) {
+        gui.setCurrScene(CLOUDS);
+    }
+
+
     public void setGameData(GameData gameData){
         Platform.runLater(new Runnable() {
             @Override
@@ -71,9 +84,14 @@ public class GameBoardController extends PageController implements Initializable
         });
     }
 
-    public void viewClouds(MouseEvent mouseEvent) {
-        gui.setCurrScene(CLOUDS);
+
+
+    public void enterNode(MouseEvent mouseEvent) {
+        //((AnchorPane) mouseEvent.getSource()).getStylesheets().add("style.css");
     }
 
+    public void exitNode(MouseEvent mouseEvent){
+        //((AnchorPane) mouseEvent.getSource()).getStyleClass().removeIf(style -> style.equals("image-view-selector"));
+    }
 
 }

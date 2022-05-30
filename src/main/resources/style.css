@@ -1,0 +1,15 @@
+.image-view-selection:hover{
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 5;
+}
+
+.tables:hover{
+    -fx-background-color: -my-background;
+    -fx-opacity: 0.5;
+}
+
+.activated-character-card{
+    -fx-border-color: red;
+    -fx-border-width: 5;
+}

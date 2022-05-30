@@ -126,7 +126,7 @@ public class ConstantsGUI {
     private static final double TABLE_HEIGHT_SCHOOL_HEIGHT_RATIO = (double) 20/181;
     private static final double TABLE_X_SCHOOL_HEIGHT_RATIO = (double) 75/181;
     private static final double TOP_TABLE_Y_SCHOOL_HEIGHT_RATIO = (double) 21/181;
-    private static final double VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO = (double) 24/181;
+    private static final double VERTICAL_DISTANCE_TABLE_SCHOOL_HEIGHT_RATIO = (double) 237/1448;
     private static final Map<Clan, Double> TABLE_Y;
 
     static {
@@ -256,18 +256,27 @@ public class ConstantsGUI {
         return SCHOOL_COORDINATE_Y + COIN_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
     }
 
-    private static final Map<Clan, Color> COLOR_CLAN;
+    private static final Map<Clan, String> COLOR_CLAN;
 
-    static  {
+    /*static  {
         COLOR_CLAN = new EnumMap<>(Clan.class);
-        COLOR_CLAN.put(TOADS, new Color(31, 181, 127));
+        COLOR_CLAN.put(TOADS, new Color(31, 181, 127)); //rgb(31, 181, 127)
         COLOR_CLAN.put(DRAGONS, new Color(238, 46, 46));
         COLOR_CLAN.put(PIXIES, new Color (255, 181, 15));
         COLOR_CLAN.put(FAIRIES, new Color(220, 96, 162));
         COLOR_CLAN.put(UNICORNS, new Color(39, 195, 243));
+    }*/
+
+    static  {
+        COLOR_CLAN = new EnumMap<>(Clan.class);
+        COLOR_CLAN.put(TOADS, "rgb(31, 181, 127)"); //rgb(31, 181, 127)
+        COLOR_CLAN.put(DRAGONS, "rgb(238, 46, 46)");
+        COLOR_CLAN.put(PIXIES, "rgb(255, 181, 15)");
+        COLOR_CLAN.put(FAIRIES, "rgb(220, 96, 162)");
+        COLOR_CLAN.put(UNICORNS, "rgb(39, 195, 243)");
     }
 
-    public static Color getColorClan (Clan clan) {
+    public static String getColorClan (Clan clan) {
         return COLOR_CLAN.get(clan);
     }
 

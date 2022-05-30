@@ -87,6 +87,9 @@ public class SchoolBoardController extends PageController implements Initializab
                     table.setMinHeight(ConstantsGUI.getTableHeight());
                     table.setLayoutX(ConstantsGUI.getTableX());
                     table.setLayoutY(ConstantsGUI.getTableY(clan));
+                    table.getStylesheets().add("/style.css");
+                    table.getStyleClass().add("tables");
+                    table.setStyle("-my-background: " + ConstantsGUI.getColorClan(clan));
                     schoolBoards[i].tables.put(clan, table);
                     anchorPane.getChildren().add(table);
                 }
@@ -156,7 +159,7 @@ public class SchoolBoardController extends PageController implements Initializab
         for (SchoolBoard schoolBoard : schoolBoards) {
             if (playerData.getNickname().equals(schoolBoard.nickname)) {
                 for (Clan c : Clan.values()) {
-                    schoolBoard.professors.get(c).setVisible(!playerData.getChamberData().professors().get(c));
+                    schoolBoard.professors.get(c).setVisible(playerData.getChamberData().professors().get(c));
                     for (int i = 0; i < 10; i++)
                         schoolBoard.studentsChamber.get(c)[i].setVisible(playerData.getChamberData().students().get(c) > i);
                 }

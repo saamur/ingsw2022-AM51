@@ -26,8 +26,7 @@ import static it.polimi.ingsw.model.player.Card.*;
  */
 public class DeckController extends PageController implements Initializable {
 
-    @FXML
-    Label chooseAssistantLabel;
+    @FXML Label chooseAssistantLabel;
     @FXML ImageView cheetah;
     @FXML ImageView ostrich;
     @FXML ImageView cat;
@@ -53,6 +52,7 @@ public class DeckController extends PageController implements Initializable {
 
     private Map<Card, ImageView> cards;
     private Map<Card, Label> labels;
+    private String nickname;
 
     /**
      * The method initialize initializes the attribute cards associating every ImageView to the corresponding Card enum value
@@ -90,9 +90,8 @@ public class DeckController extends PageController implements Initializable {
     /**
      * The setCards method is used when a game is reopened
      * @param players The data of the players, to extract from the currCard information
-     * @param nickname Nickname of the player using the GUI
      */
-    public void setCards(PlayerData[] players, String nickname){
+    public void setCards(PlayerData[] players, boolean lastRound){
 
         Card thisPlayerCard = null;
 
@@ -100,7 +99,7 @@ public class DeckController extends PageController implements Initializable {
         monochrome.setSaturation(-1);
 
         for(PlayerData player : players){
-            if(nickname.equals(player.getNickname())){
+            if(this.nickname.equals(player.getNickname())){
                 for(Card card : Card.values()){
                     if(player.getAvailableCards().contains(card))
                         cards.get(card).setEffect(null);
@@ -118,8 +117,8 @@ public class DeckController extends PageController implements Initializable {
         }
 
         for (PlayerData player : players)
-            if (!nickname.equals(player.getNickname()) && player.getCurrCard() != null)
-                setOtherPlayersCard(player.getCurrCard(), player.getNickname());
+            if (!this.nickname.equals(player.getNickname()) && player.getCurrCard() != null)
+                setOtherPlayersCard(player.getCurrCard(), player.getNickname(), lastRound);
 
         if(thisPlayerCard != null)
             setThisPlayerCard(thisPlayerCard);
@@ -151,19 +150,21 @@ public class DeckController extends PageController implements Initializable {
      * @param card card chosen
      * @param nickname nickname of the player that has chosen the card
      */
-    private void setOtherPlayersCard(Card card, String nickname){
-        ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setSaturation(-1);
-        Blend blend = new Blend(
-                BlendMode.MULTIPLY,
-                colorAdjust,
-                new ColorInput(cards.get(card).getX(),
-                        cards.get(card).getY(),
-                        136,
-                        200,
-                        Color.RED)
-        );
-        cards.get(card).setEffect(blend);
+    private void setOtherPlayersCard(Card card, String nickname, boolean lastRound){
+        if(!lastRound) {
+            ColorAdjust colorAdjust = new ColorAdjust();
+            colorAdjust.setSaturation(-1);
+            Blend blend = new Blend(
+                    BlendMode.MULTIPLY,
+                    colorAdjust,
+                    new ColorInput(cards.get(card).getX(),
+                            cards.get(card).getY(),
+                            136,
+                            200,
+                            Color.RED)
+            );
+            cards.get(card).setEffect(blend);
+        }
         labels.get(card).setText(("".equals(labels.get(card).getText()) ?
                 "chosen by " + nickname :
                 labels.get(card).getText() + " and " + nickname));
@@ -192,5 +193,17 @@ public class DeckController extends PageController implements Initializable {
         gui.setCurrScene(GAMEBOARD);
     }
 
-    //TODO add showSelection()??
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void setCurrPlayer(String currPlayer){
+        //TODO controllare centratura corretta Label
+        if (!this.nickname.equals(currPlayer)){
+            chooseAssistantLabel.setText(currPlayer + " is choosing");
+        } else {
+            chooseAssistantLabel.setText("Choose an Assistant");
+        }
+    }
 }
+

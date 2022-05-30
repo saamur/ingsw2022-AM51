@@ -648,6 +648,6 @@
             </AnchorPane>
          </children>
       </Pane>
-      <Button layoutX="776.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go Back to Game Board" />
+      <Button layoutX="804.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go to Game Board" />
    </children>
 </AnchorPane>

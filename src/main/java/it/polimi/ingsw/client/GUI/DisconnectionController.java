@@ -28,6 +28,6 @@ public class DisconnectionController extends PageController{
      * @see GUI
      */
     public void goToConnection(){
-        gui.setCurrScene(CONNECTION);
+        gui.setCurrScene(CONNECTION); //FIXME non dà il tempo di schiacciare, fa da solo
     }
 }

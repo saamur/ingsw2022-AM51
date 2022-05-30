@@ -9,184 +9,179 @@
 
 <AnchorPane style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.GameBoardController">
    <children>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0" prefWidth="967.0" style="-fx-background-color: LightBlue;">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0" prefWidth="874.0" style="-fx-background-color: LightBlue;">
          <children>
-            <AnchorPane fx:id="islands" layoutX="14.0" layoutY="105.0" onMouseClicked="#selectIslands" prefWidth="334.0">
+            <AnchorPane fx:id="islands" layoutX="14.0" layoutY="85.0" onMouseClicked="#selectIslands"  prefHeight="271.0" prefWidth="334.0" styleClass="image-view-selection" stylesheets="@../style.css">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutY="97.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutY="126.0">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="47.0" layoutY="65.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="47.0" layoutY="94.0">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="191.0" layoutY="28.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="191.0" layoutY="57.0">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="95.0" layoutY="28.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="95.0" layoutY="57.0">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="143.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="143.0" layoutY="29.0">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="89.0" layoutY="176.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="89.0" layoutY="205.0">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="47.0" layoutY="137.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="47.0" layoutY="166.0">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="238.0" layoutY="65.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="238.0" layoutY="94.0">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="143.0" layoutY="202.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="143.0" layoutY="231.0">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="190.0" layoutY="170.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="190.0" layoutY="199.0">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="238.0" layoutY="133.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="238.0" layoutY="162.0">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="286.0" layoutY="105.0">
+                  <ImageView fitHeight="40.0" fitWidth="47.5" layoutX="286.0" layoutY="134.0">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
                   </ImageView>
+                  <Label layoutX="149.0" layoutY="5.0" text="Islands" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="schoolBoard" layoutX="54.0" layoutY="394.0" onMouseClicked="#selectSchoolBoards" prefHeight="200.0" prefWidth="254.0">
+            <AnchorPane fx:id="schoolBoard" layoutX="54.0" layoutY="394.0" onMouseClicked="#selectSchoolBoards"  prefHeight="200.0" prefWidth="254.0" styleClass="image-view-selection" stylesheets="@../style.css">
                <children>
-                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutY="9.0">
+                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="10.0" layoutY="29.0">
                      <image>
                         <Image url="@../png/Plancia_DEF.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="14.0" layoutY="52.0">
+                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="24.0" layoutY="62.0">
                      <image>
                         <Image url="@../png/Plancia_DEF.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="31.0" layoutY="95.0">
+                  <ImageView fitHeight="86.0" fitWidth="200.0" layoutX="41.0" layoutY="95.0">
                      <image>
                         <Image url="@../png/Plancia_DEF.png" />
                      </image>
                   </ImageView>
+                  <Label layoutX="91.0" layoutY="5.0" text="Schoolboards" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="deck" layoutX="610.0" layoutY="106.0" onMouseClicked="#selectDeck" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="deck" layoutX="610.0" layoutY="106.0" onMouseClicked="#selectDeck"  prefHeight="213.0" prefWidth="200.0" styleClass="image-view-selection" stylesheets="@../style.css">
                <children>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="21.0" layoutY="5.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="18.0" layoutY="42.0">
                      <image>
                         <Image url="@../png/deck/Cheetah.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="57.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="100.0" layoutY="94.0">
                      <image>
                         <Image url="@../png/deck/Octopus.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="5.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="59.0" layoutY="42.0">
                      <image>
                         <Image url="@../png/deck/Ostrich.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="5.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="100.0" layoutY="42.0">
                      <image>
                         <Image url="@../png/deck/Cat.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="144.0" layoutY="5.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="141.0" layoutY="42.0">
                      <image>
                         <Image url="@../png/deck/Eagle.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="21.0" layoutY="57.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="18.0" layoutY="94.0">
                      <image>
                         <Image url="@../png/deck/Fox.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="57.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="59.0" layoutY="94.0">
                      <image>
                         <Image url="@../png/deck/Lizard.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="141.0" layoutY="56.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="138.0" layoutY="93.0">
                      <image>
                         <Image url="@../png/deck/Dog.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="62.0" layoutY="109.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="59.0" layoutY="146.0">
                      <image>
                         <Image url="@../png/deck/Elephant.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="103.0" layoutY="109.0">
+                  <ImageView fitHeight="53.0" fitWidth="41.0" layoutX="100.0" layoutY="146.0">
                      <image>
                         <Image url="@../png/deck/Turtle.png" />
                      </image>
                   </ImageView>
+                  <Label layoutX="73.0" layoutY="14.0" text="Your deck" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="clouds" layoutX="424.0" layoutY="159.0" onMouseClicked="#viewClouds">
+            <AnchorPane fx:id="clouds" layoutX="424.0" layoutY="159.0" onMouseClicked="#viewClouds"  prefHeight="123.0" prefWidth="104.0" styleClass="image-view-selection" stylesheets="@../style.css">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0">
+                  <ImageView fitHeight="83.0" fitWidth="79.0" layoutX="13.0" layoutY="26.0" onMouseClicked="#viewClouds">
                      <image>
                         <Image url="@../png/clouds/cloud_card.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="80.0">
-                     <image>
-                        <Image url="@../png/clouds/cloud_card.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="40.0" layoutY="53.0">
-                     <image>
-                        <Image url="@../png/clouds/cloud_card.png" />
-                     </image>
-                  </ImageView>
+                  <Label layoutX="34.0" layoutY="5.0" text="Clouds" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="characterCards" layoutX="424.0" layoutY="394.0">
+            <AnchorPane fx:id="characterCards" layoutX="649.0" layoutY="394.0"  prefHeight="193.0" prefWidth="158.0" styleClass="image-view-selection" stylesheets="@../style.css" onMouseClicked="#selectCharacterCards">
                <children>
-                  <ImageView fx:id="character1" fitHeight="200.0" fitWidth="55.0" preserveRatio="true">
+                  <ImageView fx:id="character1" fitHeight="200.0" fitWidth="55.0" layoutX="10.0" layoutY="30.0" preserveRatio="true">
                      <image>
                         <Image url="@../png/characters/CarteTOT_front.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="character2" fitHeight="200.0" fitWidth="55.0" layoutX="85.0" preserveRatio="true">
+                  <ImageView fx:id="character2" fitHeight="200.0" fitWidth="55.0" layoutX="95.0" layoutY="30.0" preserveRatio="true">
                      <image>
                         <Image url="@../png/characters/CarteTOT_front2.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="character3" fitHeight="200.0" fitWidth="55.0" layoutX="41.0" layoutY="98.0" preserveRatio="true">
+                  <ImageView fx:id="character3" fitHeight="200.0" fitWidth="55.0" layoutX="51.0" layoutY="118.0" preserveRatio="true">
                      <image>
                         <Image url="@../png/characters/CarteTOT_front3.jpg" />
                      </image>
                   </ImageView>
+                  <Label layoutX="25.0" layoutY="5.0" text="Available Characters" />
                </children>
             </AnchorPane>
-            <Label layoutX="284.0" layoutY="34.0" text="Here you can see all of the Game Board, select something to see it better">
+            <Label layoutX="226.0" layoutY="35.0" text="Here you can see all of the Game Board, select something to see it better">
                <font>
                   <Font size="16.0" />
                </font>

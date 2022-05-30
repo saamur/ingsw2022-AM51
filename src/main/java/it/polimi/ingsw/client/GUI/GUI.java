@@ -4,17 +4,13 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
-import it.polimi.ingsw.messages.updatemessages.UpdateChosenCard;
-import it.polimi.ingsw.messages.updatemessages.UpdateCloud;
-import it.polimi.ingsw.messages.updatemessages.UpdateGamePhase;
-import it.polimi.ingsw.messages.updatemessages.UpdateMessage;
+import it.polimi.ingsw.messages.updatemessages.*;
 import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.TurnState;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeListener;
@@ -26,10 +22,9 @@ import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
 public class GUI extends Application implements View{
 
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private PropertyChangeListener propertyChangeListener;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final Map<String, PageController> controllers = new HashMap<>();
-    private Map<String, Scene> scenes = new HashMap<>();
+    private final Map<String, Scene> scenes = new HashMap<>();
     private ServerHandler serverHandler;
     private String currScene;
     private Stage stage;
@@ -68,6 +63,8 @@ public class GUI extends Application implements View{
         this.nickname = nickname;
         ((GameSelectionController) controllers.get(GAMESELECTION)).setNickname(nickname);
         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setNickname(nickname);
+        ((CharactersController) controllers.get(CHARACTERS)).setNickname(nickname);
+        ((DeckController) controllers.get(DECK)).setNickname(nickname);
     }
 
     @Override
@@ -87,7 +84,7 @@ public class GUI extends Application implements View{
     }
 
     public void setScenes() throws IOException {
-        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, /*, CHARACTERS,*/DISCONNECTION));
+        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION));
         for (String file : fileNames){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file)); //FIXME aggiungere bottone per create username?
             scenes.put(file, new Scene(loader.load()));
@@ -109,12 +106,20 @@ public class GUI extends Application implements View{
                 ((IslandsPageController) controllers.get(ISLANDS)).setIslands(gameData.getIslandManager());
                 ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
                 ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager());
-                ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
+                ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
+                if(gameData.isExpertModeEnabled()) {
+                    System.out.println("getActivatedCharacterCard in setGameData:" + gameData.getActiveCharacterCard());
+                    ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
+                    ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
+                }
+
+
+
             }
         });
 
         gameChosen = true;
-        Platform.runLater(() -> setCurrScene(DECK));
+        chooseScene();
     }
 
     @Override
@@ -125,20 +130,49 @@ public class GUI extends Application implements View{
             }
             Platform.runLater(() -> {
                 synchronized (gameData) {
-                    if (updateMessage instanceof UpdateCloud) {
+                    if (updateMessage instanceof UpdateCloudManager) {
                         ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
+                        ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
                     } else if (updateMessage instanceof UpdateChosenCard) {
-                        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
-                    }
-                    if (gameData.getGameState().equals(GameState.PLANNING)) {
-                        //((DeckController) controllers.get(DECK)).resetCards(); fixme it resets the card even before the player chooses
-                        setCurrScene(DECK); //FIXME da testare
+                        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
+                    }else if(updateMessage instanceof UpdateCharacterCard){
+                        ((CharactersController) controllers.get(CHARACTERS)).updateCharacterCard(((UpdateCharacterCard) updateMessage).characterCard());
+                    }else if (updateMessage instanceof UpdateCloud){
+                        ((CloudController) controllers.get(CLOUDS)).updateCloud(((UpdateCloud) updateMessage).cloudData());
+                    } else if (updateMessage instanceof  UpdatePlayer){
+                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());
+                    } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
+                        ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(((UpdateIslandManager) updateMessage).islandManagerData());
                     }
                 }
             });
+            chooseScene();
         }
+    }
+
+    /**
+     * This method determines the currScene to show according to the gameState and the turnState.
+     * @see TurnState
+     * @see GameState
+     */
+    private void chooseScene(){
+        //FIXME have to double check when this method changes scene and when the controllers do
+        Platform.runLater(() -> {
+            if (gameData.getGameState().equals(GameState.PLANNING)) {
+                setCurrScene(DECK);
+            } else if(gameData.getGameState().equals(GameState.ACTION)){
+                if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING))
+                    setCurrScene(SCHOOLBOARDS);
+                else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING))
+                    setCurrScene(ISLANDS);
+                else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
+                    setCurrScene(CLOUDS);
+            } else if (gameData.getGameState().equals(GameState.GAME_OVER)){
+                //setCurrScene(GAMEOVER);
+            }
+        });
     }
 
     @Override
@@ -168,7 +202,7 @@ public class GUI extends Application implements View{
             ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
             setCurrScene(DISCONNECTION);
             try{
-                setScenes();
+                setScenes(); //FIXME maybe do when click reconnect
             } catch (IOException e){
                 //FIXME problem with loading images
                 e.printStackTrace();
@@ -181,14 +215,15 @@ public class GUI extends Application implements View{
         this.serverHandler = serverHandler;
     }
 
+    /**
+     * This method changes the currScene to a new one depending on how the game is evolving
+     * @param currScene
+     */
     public void setCurrScene(String currScene){
         this.currScene = currScene;//mappa delle Scene
 
         stage.setScene(scenes.get(currScene));
         stage.centerOnScreen();
-        /*Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);*/
         stage.show();
     }
 

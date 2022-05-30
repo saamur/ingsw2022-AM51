@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.messages.gamemessages.ChosenCardMessage;
 import it.polimi.ingsw.model.player.Card;
 import javafx.event.ActionEvent;
@@ -46,7 +45,7 @@ public class DeckController extends PageController implements Initializable {
 
 
     Map<Card, ImageView> cards;
-    boolean [] chosenCards = {false, false, false, false, false, false, false, false, false, false};
+    boolean [] chosenCards = new boolean[Card.values().length];
 
     /**
      * The method initialize initializes the attribute cards associating every ImageView to the corresponding Card enum value
@@ -77,21 +76,32 @@ public class DeckController extends PageController implements Initializable {
      * @param nickname Nickname of the player using the GUI
      */
     public void setCards(PlayerData[] players, String nickname){
+
+        Card thisPlayerCard = null;
+
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(-1);
+
         for(PlayerData player : players){
             if(nickname.equals(player.getNickname())){
                 for(Card card : Card.values()){
-                    chosenCards[card.getPriority()-1] = player.getAvailableCards().contains(card);
+                    if(player.getAvailableCards().contains(card))
+                        cards.get(card).setEffect(null);
+                    else
+                        cards.get(card).setEffect(monochrome);
                 }
-                currCard = player.getCurrCard();
-                if(currCard != null) {
-                    confirmCurrCard();
-                }
-            } else {
-                if(player.getCurrCard() != null) {
-                    setOtherPlayersCards(player.getCurrCard(), player.getNickname());
-                }
+                thisPlayerCard = player.getCurrCard();
+
+            }
+            else {
+                if (player.getCurrCard() != null)
+                    setOtherPlayersCard(player.getCurrCard(), player.getNickname());
             }
         }
+
+        if(thisPlayerCard != null)
+            setThisPlayerCard(thisPlayerCard);
+
     }
 
     /**
@@ -121,33 +131,35 @@ public class DeckController extends PageController implements Initializable {
      * The method confirmCurrCard is called after a card has been selected and after the ServerHandler sends confirmation that the chosen card is correct.
      */
     public void confirmCurrCard(){
+//        ColorAdjust colorAdjust = new ColorAdjust();
+//        colorAdjust.setSaturation(-1);
+//        Blend blend = new Blend(
+//                BlendMode.MULTIPLY,
+//                colorAdjust,
+//                new ColorInput(cards.get(currCard).getX(),
+//                        cards.get(currCard).getY(),
+//                        136,
+//                        200,
+//                        Color.GREEN)
+//        );
+//        cards.get(currCard).setEffect(blend);
+//        chosenCards[currCard.getPriority() - 1] = true;
+//        System.out.println("Accepted card: " + currCard);
+    }
+
+    private void setThisPlayerCard (Card card) {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-1);
         Blend blend = new Blend(
                 BlendMode.MULTIPLY,
                 colorAdjust,
-                new ColorInput(cards.get(currCard).getX(),
-                        cards.get(currCard).getY(),
+                new ColorInput(cards.get(card).getX(),
+                        cards.get(card).getY(),
                         136,
                         200,
                         Color.GREEN)
         );
-        cards.get(currCard).setEffect(blend);
-        chosenCards[currCard.getPriority() - 1] = true;
-        System.out.println("Accepted card: " + currCard);
-    }
-
-    /**
-     * The handleErrorMessage in DeckController calls for the PageController method {@link PageController#handleErrorMessage(String) handleErrorMessage}. If the error message received refers to the chosen card being wrong it sets the currCard to null.
-     * @param message
-     */
-    @Override
-    public void handleErrorMessage(String message){
-        super.handleErrorMessage(message);
-        if(message.contains("already chosen") || message.contains("Not the turn of this player")){
-            currCard = null;
-        }
-        System.out.println("Card should be null: " + currCard); //TODO delete
+        cards.get(card).setEffect(blend);
     }
 
     /**
@@ -155,20 +167,32 @@ public class DeckController extends PageController implements Initializable {
      * @param card card chosen
      * @param nickname nickname of the player that has chosen the card
      */
-    public void setOtherPlayersCards(Card card, String nickname){
-        ImageView imageCard = cards.get(card);
+    private void setOtherPlayersCard(Card card, String nickname){
+        System.out.println("setting other card: " + card);
+//        ColorAdjust colorAdjust = new ColorAdjust();
+//        colorAdjust.setSaturation(-1);
+//        Blend blend = new Blend(
+//                BlendMode.MULTIPLY,
+//                colorAdjust,
+//                new ColorInput(cards.get(card).getX(),
+//                        cards.get(card).getY(),
+//                        136,
+//                        200,
+//                        Color.RED)
+//        );
+//        cards.get(card).setEffect(blend);
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-1);
         Blend blend = new Blend(
                 BlendMode.MULTIPLY,
                 colorAdjust,
-                new ColorInput(imageCard.getX(),
-                        imageCard.getY(),
+                new ColorInput(cards.get(card).getX(),
+                        cards.get(card).getY(),
                         136,
                         200,
                         Color.RED)
-                );
-       imageCard.setEffect(blend);
+        );
+        cards.get(card).setEffect(blend);
        //TODO setLabel with nickname of Player that has chosen the card
     }
 

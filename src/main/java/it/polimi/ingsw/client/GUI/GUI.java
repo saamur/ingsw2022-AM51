@@ -116,16 +116,13 @@ public class GUI extends Application implements View{
     @Override
     public void updateGameData(UpdateMessage updateMessage) {
         if(gameData != null){
-            updateMessage.updateGameData(this.gameData);
+            updateMessage.updateGameData(gameData);
             if(updateMessage instanceof UpdateCloud){
                 ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
             } else if(updateMessage instanceof UpdateGamePhase){
                 ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
             } else if(updateMessage instanceof UpdateChosenCard){
-                if(!((UpdateChosenCard) updateMessage).playerNickname().equals(nickname)){
-                    UpdateChosenCard updateChosenCard = (UpdateChosenCard) updateMessage;
-                    ((DeckController) controllers.get(DECK)).setOtherPlayersCards(updateChosenCard.card(), nickname);
-                }
+                ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), nickname);
             }
             if(gameData.getGameState().equals(GameState.PLANNING)){
                 Platform.runLater(() -> {

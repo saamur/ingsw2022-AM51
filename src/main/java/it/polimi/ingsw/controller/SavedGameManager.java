@@ -96,7 +96,6 @@ public class SavedGameManager {
         try (ObjectOutputStream out = new ObjectOutputStream(new
                 BufferedOutputStream(new FileOutputStream(SAVED_GAMES_DIRECTORY + "/" + SAVED_GAME_BASE_NAME + i + SAVED_GAME_EXTENSION)))) {
 
-            game.save();
             out.writeObject(game);
         } catch (IOException e) {
             e.printStackTrace();
@@ -158,7 +157,6 @@ public class SavedGameManager {
         try (ObjectOutputStream out = new ObjectOutputStream(new
                 BufferedOutputStream(new FileOutputStream(SAVED_RUNNING_GAMES_DIRECTORY + "/" + SAVED_RUNNING_GAME_BASE_NAME + controllerID + SAVED_GAME_EXTENSION)))) {
 
-            game.save();
             out.writeObject(game);
         } catch (IOException e) {
             e.printStackTrace();

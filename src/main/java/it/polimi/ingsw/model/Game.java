@@ -40,7 +40,6 @@ public class Game implements GameInterface {
         };
     }
 
-    private int timesSaved;
 
     private GameState gameState;
 
@@ -780,10 +779,6 @@ public class Game implements GameInterface {
         return lastRound;
     }
 
-    public CharacterCard[] getAvailableCharacterCards(){
-        return availableCharacterCards;
-    }
-
     @Override
     public void setListeners(PropertyChangeListener listener){
         islandManager.addPropertyChangeListener(listener);
@@ -811,26 +806,21 @@ public class Game implements GameInterface {
 
     @Override
     public GameData getGameData() {
-
-        PlayerData[] playerData = new PlayerData[players.length];
-        for (int i = 0; i < players.length; i++)
-            playerData[i] = PlayerData.createPlayerData(players[i]);
-
-        CharacterCardData[] characterData = new CharacterCardData[3];
-
-        if(expertModeEnabled)
-            for(int i=0; i< availableCharacterCards.length; i++)
-                characterData[i] = CharacterCardData.createCharacterCardData(availableCharacterCards[i]);
+        CharacterCardData[] characterData = expertModeEnabled ?
+                Arrays.stream(availableCharacterCards).map(CharacterCardData::createCharacterCardData).toArray(CharacterCardData[]::new) :
+                new CharacterCardData[GameConstants.NUM_AVAILABLE_CHARACTER_CARDS];
 
         return new GameData(IslandManagerData.createIslandManagerData(islandManager),
                 CloudManagerData.createCloudManagerData(cloudManager),
-                playerData,
+                Arrays.stream(players).map(PlayerData::createPlayerData).toArray(PlayerData[]::new),
+                getNicknameCurrPlayer(),
                 gameState,
                 getTurnState(),
-                getNicknameCurrPlayer(),
+                lastRound,
                 expertModeEnabled,
                 characterData,
-                lastRound);
+                getActivatedCharacterCard(),
+                isActivatedCharacterCardPunctualEffectApplied());
     }
 
     @Override
@@ -859,16 +849,6 @@ public class Game implements GameInterface {
         if (turn == null)
             return false;
         return turn.isCharacterPunctualEffectApplied();
-    }
-
-    @Override
-    public void save () {
-        timesSaved++;
-    }
-
-    @Override
-    public int getTimesSaved() {
-        return timesSaved;
     }
 
 }

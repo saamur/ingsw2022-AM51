@@ -15,47 +15,43 @@ public class GameData implements Serializable {
     private CloudManagerData cloudManager;
     private final PlayerData[] playerData;
 
+    private String currPlayer;
+
     private GameState gameState;
     private TurnState turnState;
 
-    private String currPlayer;
+    private boolean lastRound;
+
+    private List<String> winnersNicknames;
 
     private final boolean expertModeEnabled;
     private final CharacterCardData[] characterCardData;
 
-    private boolean lastRound;
-    private List<String> winnersNicknames;
-
     private CharacterID activeCharacterCard;
     private boolean activeCharacterPunctualEffectApplied;
 
-    public GameData(IslandManagerData islandManager, CloudManagerData cloudManager, PlayerData[] playerData, GameState gameState, TurnState turnState, String currPlayer, boolean expertModeEnabled, CharacterCardData[] characterCardData, boolean lastRound) {
+    public GameData(IslandManagerData islandManager,
+                    CloudManagerData cloudManager,
+                    PlayerData[] playerData,
+                    String currPlayer,
+                    GameState gameState,
+                    TurnState turnState,
+                    boolean lastRound,
+                    boolean expertModeEnabled,
+                    CharacterCardData[] characterCardData,
+                    CharacterID activeCharacterCard,
+                    boolean activeCharacterPunctualEffectApplied) {
         this.islandManager = islandManager;
         this.cloudManager = cloudManager;
         this.playerData = playerData;
+        this.currPlayer = currPlayer;
         this.gameState = gameState;
         this.turnState = turnState;
-        this.currPlayer = currPlayer;
+        this.lastRound = lastRound;
         this.expertModeEnabled = expertModeEnabled;
         this.characterCardData = characterCardData;
-        this.lastRound = lastRound;
-    }
-
-    public static GameData createGameData(Game game){
-        IslandManagerData islandManagerData = IslandManagerData.createIslandManagerData(game.getIslandManager());
-        CloudManagerData cloudManagerData = CloudManagerData.createCloudManagerData(game.getCloudManager());
-        PlayerData[] playerData = new PlayerData[game.getPlayers().length];
-        for(int i=0; i<game.getPlayers().length; i++){
-            playerData[i] = PlayerData.createPlayerData(game.getPlayers()[i]);
-        }
-        CharacterCardData[] characterData = new CharacterCardData[3];
-        if(game.isExpertModeEnabled()){
-            for(int i=0; i< game.getAvailableCharacterCards().length; i++){
-                characterData[i] = CharacterCardData.createCharacterCardData(game.getAvailableCharacterCards()[i]);
-            }
-        }
-
-        return new GameData(islandManagerData, cloudManagerData, playerData, game.getGameState(), game.getTurnState(), game.getCurrPlayer().getNickname(), game.isExpertModeEnabled(), characterData, game.isLastRound());
+        this.activeCharacterCard = activeCharacterCard;
+        this.activeCharacterPunctualEffectApplied = activeCharacterPunctualEffectApplied;
     }
 
     public IslandManagerData getIslandManager() {

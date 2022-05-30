@@ -127,6 +127,10 @@ public class ModelDisplay {
         System.out.println("\n\n\n");
         if(gameData.isExpertModeEnabled()) {
             displayAvailableCharacters(gameData.getCharacterCardData(), gameData.getActiveCharacterCard());
+            System.out.println("\n\n");
+            for(CharacterCardData c : gameData.getCharacterCardData()){
+                System.out.println(c.characterID().name().toUpperCase() + ": " + GameConstants.getDescriptionCharacter(c.characterID()));
+            }
             System.out.println("\n\n\n");
         }
 

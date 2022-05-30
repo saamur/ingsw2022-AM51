@@ -90,6 +90,13 @@ public class Player implements Serializable {
     }
 
     /**
+     * method resetCurrCard sets currCard to null
+     */
+    public void resetCurrCard () {
+        currCard = null;
+    }
+
+    /**
      * method addTowers increases the variable numberOfTowers
      * @param n the amount of towers to add
      */

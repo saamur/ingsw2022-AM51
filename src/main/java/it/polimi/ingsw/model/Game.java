@@ -178,9 +178,8 @@ public class Game implements GameInterface {
         indexCurrPlayer = indexCurrFirstPlayer;
 
         for (Player p : players) {
-            PlayerData playerData = PlayerData.createPlayerData(p);
-            playerData.setCurrCard(null);
-            pcs.firePropertyChange("chosenCard", null, playerData);
+            p.resetCurrCard();
+            pcs.firePropertyChange("chosenCard", null, PlayerData.createPlayerData(p));
         }
 
         cloudManager.fillClouds(bag);

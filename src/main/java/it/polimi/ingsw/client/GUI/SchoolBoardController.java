@@ -78,15 +78,19 @@ public class SchoolBoardController extends PageController implements Initializab
                 anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
                 anchorPane.getChildren().add(professor);
 
-                Pane table = new AnchorPane();
-                table.setMaxWidth(ConstantsGUI.getTableWidth());
-                table.setMinWidth(ConstantsGUI.getTableWidth());
-                table.setMaxHeight(ConstantsGUI.getTableHeight());
-                table.setMinHeight(ConstantsGUI.getTableHeight());
-                table.setLayoutX(ConstantsGUI.getTableX());
-                table.setLayoutY(ConstantsGUI.getTableY(clan));
-                schoolBoards[i].tables.put(clan, table);
-                anchorPane.getChildren().add(table);
+                if (playersData[i].getNickname().equals(nickname)) {
+                    Pane table = new Pane();
+                    table.setId(clan.name());
+                    table.setMaxWidth(ConstantsGUI.getTableWidth());
+                    table.setMinWidth(ConstantsGUI.getTableWidth());
+                    table.setMaxHeight(ConstantsGUI.getTableHeight());
+                    table.setMinHeight(ConstantsGUI.getTableHeight());
+                    table.setLayoutX(ConstantsGUI.getTableX());
+                    table.setLayoutY(ConstantsGUI.getTableY(clan));
+                    schoolBoards[i].tables.put(clan, table);
+                    anchorPane.getChildren().add(table);
+                }
+
             }
 
             for (int j = 0; j < GameConstants.getNumInitialStudentsHall(playersData.length); j++) {
@@ -176,7 +180,6 @@ public class SchoolBoardController extends PageController implements Initializab
         }
 
     }
-
 
     private class SchoolBoard {
 

@@ -111,11 +111,11 @@ public class GameConstants {
 
     static{
         DESCRIPTION_CHARACTERS = new EnumMap<>(CharacterID.class);
-        DESCRIPTION_CHARACTERS.put(MONK, "Prendi 1 studente dalla carta e piazzalo su un'Isola a tua scelta\nPoi, pesca 1 Studente del sacchetto e mettilo su questa carta");
-        DESCRIPTION_CHARACTERS.put(FARMER, "Durante questo turno, prendi il controllo dei Professori anche se nella tua sala hai lo stesso numero di studenti del giocatore che li controlla in quel momento");
-        DESCRIPTION_CHARACTERS.put(HERALD, "Scegli un'Isola e calcola la maggioranza come se Madre Natura avesse terminato il suo movimento lì.\nIn questo turno Madre Natura si muoverà come di consueto e nell'Isola dove terminerà il suo movimento la maggioranza verrà normalmente calcolata");
-        DESCRIPTION_CHARACTERS.put(POSTMAN, "Puoi muovere Madre Natura fino a 2 Isole addizionali rispetto a quanto indicato sulla carta Assistente che hai giocato");
-        DESCRIPTION_CHARACTERS.put(GRANDMA, "Piazza una Tessera Divieto su un'Isola a tua scelta.\nLa prima volta che Madre Natura termina il suo movimento lì, rimettete la Tessera Divieto sulla carta senza calcolare l'influenza su quest'Isola nel piazzare Torri");
+        DESCRIPTION_CHARACTERS.put(MONK, "Pick 1 Student from the Card and place it on an Island of your choosing.\n"); /*Then, pick 1 Student from the Bag and mettilo su questa carta*/
+        DESCRIPTION_CHARACTERS.put(FARMER, "During this turn, you will be in control of the Professors even if in your Chamber you have the same number of Students of the Player who has them in that moment");
+        DESCRIPTION_CHARACTERS.put(HERALD, "Pick an Island and calculate the influence as if Mother Nature had terminated her movement there.\nIn this Turn Mother Nature will move as usual and on the Island where she will end her movement the influence will be calculated as normal");
+        DESCRIPTION_CHARACTERS.put(POSTMAN, "You can move Mother Nature up to 2 additional Islands than what is indicated on the Assistant's card that you have chosen");
+        DESCRIPTION_CHARACTERS.put(GRANDMA, "Place a Prohibition Card on an Island of you choosing.\nThe first time that Mother Nature ends her movement there, the Prohibition Card will be placed back on the Character Card without calculating the influence or placing any Towers");
         DESCRIPTION_CHARACTERS.put(CENTAUR, "Durante il conteggio dell'influenza su un'Isola (o su un gruppo di Isole), le Torri presenti non vengono calcolate");
         DESCRIPTION_CHARACTERS.put(JESTER, "Puoi prendere fino a 3 studenti da questa carta e scambiarli con altrettanti studenti presenti nel tuo ingresso");
         DESCRIPTION_CHARACTERS.put(KNIGHT, "In questo turno durante il calcolo dell'influenza hai due punti di influenza addizionali");
@@ -123,7 +123,7 @@ public class GameConstants {
         DESCRIPTION_CHARACTERS.put(MINSTREL, "Puoi scambiare fra loro fino a 2 studenti presenti nella tua sala e nel tuo ingresso");
         DESCRIPTION_CHARACTERS.put(PRINCESS, "Prendi uno studente da questa carta e piazzalo nella tua sala. Poi pesca uno studente dal sacchetto e posizionalo su questa carta");
         DESCRIPTION_CHARACTERS.put(THIEF, "Scegli il colore di uno Studente; ogni giocatore (incluso te) deve rimettere nel sacchetto 3 Studenti di quel colore presenti nella tua sala. Chi avesse meno di 3 studenti di quel colore, rimetterà tutti quelli che ha");
-    }
+    } //FIXME translate
 
     public static String getDescriptionCharacter(CharacterID character){
         return DESCRIPTION_CHARACTERS.get(character);

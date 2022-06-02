@@ -24,6 +24,7 @@ public class ConstantsGUI {
     public static final String SINGLEISLAND = "singleIsland.fxml";
     public static final String SCHOOLBOARDS = "schoolBoards.fxml";
     public static final String WAITINGROOM = "waitingRoom.fxml";
+    public static final String ACTIVATEEFFECT = "activateEffect.fxml";
 
 
 

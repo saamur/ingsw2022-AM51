@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
 import it.polimi.ingsw.model.GameState;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.model.charactercards.CharacterID.THIEF;
 
 public class GUI extends Application implements View{
 
@@ -84,7 +86,7 @@ public class GUI extends Application implements View{
     }
 
     public void setScenes() throws IOException {
-        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION));
+        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION, ACTIVATEEFFECT));
         for (String file : fileNames){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file)); //FIXME aggiungere bottone per create username?
             scenes.put(file, new Scene(loader.load()));
@@ -135,11 +137,14 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
+                        if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
+                            Platform.runLater(() -> setCurrScene(ACTIVATEEFFECT));
+                        }
                     } else if (updateMessage instanceof UpdateChosenCard) {
                         ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                     }else if(updateMessage instanceof UpdateCharacterCard){
                         ((CharactersController) controllers.get(CHARACTERS)).updateCharacterCard(((UpdateCharacterCard) updateMessage).characterCard());
-                    }else if (updateMessage instanceof UpdateCloud){
+                        }else if (updateMessage instanceof UpdateCloud){
                         ((CloudController) controllers.get(CLOUDS)).updateCloud(((UpdateCloud) updateMessage).cloudData());
                     } else if (updateMessage instanceof  UpdatePlayer){
                         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());

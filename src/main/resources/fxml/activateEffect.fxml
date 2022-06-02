@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.ActivateEffectController">
+   <children>
+      <Button fx:id="goToGameBoard" layoutX="486.0" layoutY="1.0" mnemonicParsing="false" onAction="#back" text="Go To GameBoard" />
+      <Label contentDisplay="CENTER" layoutX="208.0" layoutY="57.0" prefHeight="40.0" prefWidth="214.0" text="Choose the clan " textAlignment="CENTER" AnchorPane.leftAnchor="208.0">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="unicorns" fitHeight="58.0" fitWidth="59.0" layoutX="156.0" layoutY="191.0" onMouseClicked="#selectClan">
+         <image>
+            <Image url="@../png/clan/students/student_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="toads" fitHeight="58.0" fitWidth="59.0" layoutX="256.0" layoutY="191.0" onMouseClicked="#selectClan">
+         <image>
+            <Image url="@../png/clan/students/student_green.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="fairies" fitHeight="58.0" fitWidth="59.0" layoutX="476.0" layoutY="191.0" onMouseClicked="#selectClan">
+         <image>
+            <Image url="@../png/clan/students/student_pink.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="dragons" fitHeight="58.0" fitWidth="59.0" layoutX="363.0" layoutY="191.0" onMouseClicked="#selectClan">
+         <image>
+            <Image url="@../png/clan/students/student_red.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="pixies" fitHeight="58.0" fitWidth="59.0" layoutX="51.0" layoutY="191.0" onMouseClicked="#selectClan">
+         <image>
+            <Image url="@../png/clan/students/student_yellow.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

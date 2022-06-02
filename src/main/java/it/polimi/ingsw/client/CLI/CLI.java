@@ -57,6 +57,8 @@ public class CLI implements View, Runnable {
 
     }
 
+
+
     @Override
     public void run() {
 
@@ -81,6 +83,7 @@ public class CLI implements View, Runnable {
 
     }
 
+
     @Override
     public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
@@ -89,12 +92,14 @@ public class CLI implements View, Runnable {
             displayEverything();
     }
 
+
     @Override
     public synchronized void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
         this.availableGamesMessage = availableGamesMessage;
         if (nickname != null)
             displayEverything();
     }
+
 
     @Override
     public synchronized void playerAddedToGame(String message) {
@@ -103,12 +108,16 @@ public class CLI implements View, Runnable {
         displayEverything();
     }
 
+
+
     @Override
     public synchronized void setGameData (GameData gameData) {
         this.gameData = gameData;
         gameChosen = true;
         displayEverything();
     }
+
+
 
     @Override
     public synchronized void updateGameData (UpdateMessage updateMessage) {
@@ -118,17 +127,21 @@ public class CLI implements View, Runnable {
         }
     }
 
+
+
     @Override
     public void handleGenericMessage(String message) {
         System.out.println("handleGenericMessage: " + message);
         //todo
     }
 
+
     @Override
     public void handleErrorMessage(String message) {
         System.out.println("handleErrorMessage: " + message);
         //todo
     }
+
 
     @Override
     public synchronized void handleGameOver(List<String> winnersNickname) {
@@ -137,6 +150,8 @@ public class CLI implements View, Runnable {
         displayEverything();
     }
 
+
+
     @Override
     public synchronized void handlePlayerDisconnected(String playerDisconnectedNickname) {
         System.out.println(playerDisconnectedNickname + " has disconnected");
@@ -144,11 +159,17 @@ public class CLI implements View, Runnable {
         gameOver = true;
     }
 
-    public synchronized void displayEverything() {
+    /**
+     * the method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
+     */
 
+    public synchronized void displayEverything() {
         System.out.println("\n");
 
         if (nickname == null) {
+            System.out.println("\n");
+            System.out.println(CliGraphicConstants.ERIANTYS);
+            System.out.println("\n");
             System.out.println("Choose a nickname: ");
         } else if (!gameChosen) {
             ModelDisplay.displayAvailableGames(availableGamesMessage);

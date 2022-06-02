@@ -14,6 +14,11 @@ import java.util.Arrays;
 
 public class ModelDisplay {
 
+    /**
+     * the method displayAvailableGames shows the list of the new available games, the restored games and the saved games that the player can resume
+     * @param availableGamesMessage
+     */
+
     public static void displayAvailableGames (AvailableGamesMessage availableGamesMessage) {
         System.out.println("NEW AVAILABLE GAMES:");
         if(availableGamesMessage.openingNewGameDataList().size() > 0)
@@ -95,6 +100,12 @@ public class ModelDisplay {
 
     }
 
+    /**
+     * the method displayModel shows, based on the game data, the graphics
+     * @param gameData data of the current game
+     * @param nickname name of the player who is viewing the graphics
+     */
+
     public static void displayModel (GameData gameData, String nickname) {
         AnsiConsole.systemInstall();
 
@@ -148,6 +159,11 @@ public class ModelDisplay {
 
     }
 
+    /**
+     * this method shows the details of a player's hall
+     * @param hallData
+     */
+
     private static void displayHall (HallData hallData) {
         int i;
 
@@ -178,6 +194,11 @@ public class ModelDisplay {
         System.out.println("\n" + CliGraphicConstants.ANSI_RESET);
     }
 
+    /**
+     * this method shows the details of a player's chamber
+     * @param chamberData
+     */
+
     private static void displayChamber (ChamberData chamberData){
         System.out.println("CHAMBER");
 
@@ -204,6 +225,15 @@ public class ModelDisplay {
 
     }
 
+    /**
+     * this method shows the islands
+     * @param islandManagerData
+     * @param bool boolean parameter it is used to notify if the game is in expert mode and if one of the character
+     *             cards is GRANDMA in order to display the presence of prohibition cards on the islands
+     */
+
+
+
     private static void displayIslands (IslandManagerData islandManagerData, boolean bool) {
         System.out.println(CliGraphicConstants.ANSI_RESET + "ISLANDS");
         System.out.println("\n");
@@ -216,6 +246,14 @@ public class ModelDisplay {
 
         System.out.println("\n");
     }
+
+    /**
+     * support method used for graphical representation of islands
+     * @param islandManagerData
+     * @param init starting index for island counting
+     * @param end ending index for island counting
+     * @param bool
+     */
 
 
 
@@ -289,6 +327,10 @@ public class ModelDisplay {
 
     }
 
+    /**
+     * this method shows the details of a player's towers
+     * @param playerData
+     */
 
 
 
@@ -319,6 +361,10 @@ public class ModelDisplay {
 
     }
 
+    /**
+     * his method shows the clouds' data
+     * @param cloudManagerData
+     */
 
 
     private static void displayClouds (CloudManagerData cloudManagerData){
@@ -350,6 +396,12 @@ public class ModelDisplay {
             System.out.println("\n" + CliGraphicConstants.ANSI_RESET);
         }
     }
+
+    /**
+     * this method display the character cards available in the game
+     * @param characterCardData character cards available in the game
+     * @param activeCharacter character card activated during the turn
+     */
 
     private static void displayAvailableCharacters (CharacterCardData[] characterCardData, CharacterID activeCharacter){
 
@@ -387,6 +439,11 @@ public class ModelDisplay {
         System.out.println("\n");
     }
 
+    /**
+     * support method used for graphical representation of the available character cards
+     * @param characterCardData
+     */
+
     private static void printCharacter(CharacterCardData characterCardData){
         System.out.print(" ");
         if(characterCardData.numProhibitionCards() != 0){
@@ -418,7 +475,10 @@ public class ModelDisplay {
 
 
 
-
+    /**
+     * support method used for graphical representation of the available character cards
+     * @param characterCardData
+     */
 
 
     private static void displayCharacterCard (CharacterCardData characterCardData) {
@@ -431,6 +491,11 @@ public class ModelDisplay {
         }
     }
 
+    /**
+     * this method display the cards available in the player's deck
+     * @param playerData
+     */
+
     public static void displayDeck (PlayerData playerData) {
 
         updateDeck(0, playerData, Math.min(playerData.getAvailableCards().size(), CliGraphicConstants.MAX_VISUAL_DECK));
@@ -440,6 +505,14 @@ public class ModelDisplay {
             updateDeck(CliGraphicConstants.MAX_VISUAL_DECK, playerData, playerData.getAvailableCards().size());
         }
     }
+
+
+    /**
+     * support method used for graphical representation of the deck
+     * @param init
+     * @param playerData
+     * @param d parameter introduced for display limits
+     */
 
     private static void updateDeck(int init, PlayerData playerData, int d){
         System.out.print("          | ");
@@ -470,6 +543,10 @@ public class ModelDisplay {
 
     }
 
+    /**
+     * this method shows the coins owned by a player
+     * @param playerData
+     */
 
     private static void displayCoins(PlayerData playerData){
         if(playerData.getChamberData().coins()==0)

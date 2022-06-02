@@ -20,8 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.CHARACTERS_IMAGES;
-import static it.polimi.ingsw.constants.ConstantsGUI.GAMEBOARD;
+import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
 public class CharactersController extends PageController implements Initializable {
 
@@ -156,6 +155,8 @@ public class CharactersController extends PageController implements Initializabl
                 sendMessage(new ActivateCharacterCardMessage(CharacterID.valueOf(characters.get(selectedCharacterIndex).getId())));
             }
         }
+
+
         //FIXME una volta attivato si aprirà una pagina per molti dei character
     }
 

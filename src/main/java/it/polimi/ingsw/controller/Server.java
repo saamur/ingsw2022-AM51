@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * The class Server listens to the port given as argument and creates new sockets for the clients that connect to it
+ *
+ */
 public class Server {
 
     public static void main(String[] args) {

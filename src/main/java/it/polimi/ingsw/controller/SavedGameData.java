@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * SavedGameData class is a record that contains all the data that represent a saved game
+ * The SavedGameData class is a record that contains all the data that represent a saved game
  *
  */
 public record SavedGameData(String fileName,
@@ -17,7 +17,7 @@ public record SavedGameData(String fileName,
                             List<String> nicknames) implements Serializable {
 
     /**
-     * savedGameDataParser static method creates a SavedGameData object given a standardized String
+     * The savedGameDataParser static method creates a SavedGameData object given a standardized String
      * containing the necessary data.
      * The String returned by toString() of the returned objects will be equals to the given parameter
      * @param line  the String with the needed data

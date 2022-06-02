@@ -11,9 +11,13 @@ import it.polimi.ingsw.model.GameState;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.IOException;
 import java.util.List;
 
+/**
+ * The abstract class Controller manages all actions performed on a game by the clients and creates
+ * the game related messages that will be sent to them
+ *
+ */
 public abstract class Controller implements PropertyChangeListener {
 
     private static int counter = 0;
@@ -33,11 +37,15 @@ public abstract class Controller implements PropertyChangeListener {
             counter++;
         }
         this.game = game;
-        game.setListeners(this); //FIXME penso abbia senso metterlo nel costruttore
+        game.setListeners(this);
         started = false;
         closing = false;
     }
 
+    /**
+     * The method getID gives the univocal ID of the controller
+     * @return  the univocal ID of the controller
+     */
     public int getId() {
         return id;
     }
@@ -50,14 +58,24 @@ public abstract class Controller implements PropertyChangeListener {
         return game.getPlayersNicknames();
     }
 
+    /**
+     * The addPlayer method adds a player with the given nickname to the game managed by this controller
+     * @param nickname  the nickname of the player to add
+     */
     public abstract void addPlayer (String nickname);
 
+    /**
+     * The messageOnGame method performs the action represented by tho given message on the game managed by this controller
+     * @param nickname  the nickname of the player that performs the move
+     * @param message   the GameMessage that represent the move performed
+     * @return          the answer to be sent to the client bound to the player that performed the move
+     */
     public synchronized Message messageOnGame (String nickname, GameMessage message) {
 
-        System.out.println("message on game");
-        System.out.println(game.getGameState());
-        System.out.println(game.getPlayersNicknames());
-        System.out.println(started);
+//        System.out.println("message on game");
+//        System.out.println(game.getGameState());
+//        System.out.println(game.getPlayersNicknames());
+//        System.out.println(started);
 
         if (!started)
             return new ErrorMessage("You cannot make this move now");
@@ -87,6 +105,11 @@ public abstract class Controller implements PropertyChangeListener {
 
     }
 
+    /**
+     * The method clientDisconnected handles the disconnection of a client bound to this controller
+     * by informing all the other players and saving the game unless the game is finished or is not started yet
+     * @param nickname  the nickname of the player whose client disconnected
+     */
     public synchronized void clientDisconnected (String nickname) {
 
         if (!closing) {

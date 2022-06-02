@@ -17,7 +17,7 @@ import java.util.TimerTask;
 
 
 /**
- * class ClientHandler handles the connection with the client
+ * The class ClientHandler handles the connection, the pings and the communication with a client
  *
  */
 public class ClientHandler implements Runnable, PropertyChangeListener {
@@ -151,7 +151,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
     }
 
     /**
-     * method sendObject sends the given object through the socket
+     * The method sendObject sends the given object through the socket to the client
      * @param o the object that will be sent through the net
      * @throws IOException  if any error occurs with the socket
      */

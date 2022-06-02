@@ -7,6 +7,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The RestoredGameController class is the concrete implementation of the abstract class Controller
+ * for the previously saved games restored from file
+ *
+ */
 public class RestoredGameController extends Controller {
 
     private final List<String> missingPlayers;
@@ -23,12 +28,16 @@ public class RestoredGameController extends Controller {
         missingPlayers.remove(nickname);
         if (missingPlayers.isEmpty()) {
             started = true;
-            Lobby.getInstance().startController(this);
+            Lobby.getInstance().startControllerGame(this);
             pcs.firePropertyChange("gameStarted", null, new GameStartedMessage(game.getGameData()));
             SavedGameManager.saveRunningGame(game, getId());
         }
     }
 
+    /**
+     * The createOpeningRestoredGameData method creates a OpeningRestoredGameData object that represent the game bound to this controller
+     * @return  an OpeningRestoredGameData object that represent the game bound to this controller
+     */
     public OpeningRestoredGameData createOpeningRestoredGameData () {
         List<String> alreadyJoinedPlayers = game.getPlayersNicknames();
         alreadyJoinedPlayers.removeAll(missingPlayers);

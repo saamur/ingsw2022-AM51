@@ -6,6 +6,10 @@ import it.polimi.ingsw.messages.GameStartedMessage;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
 
+/**
+ * The NewGameController class is the concrete implementation of the abstract class Controller for the newly created games
+ *
+ */
 public class NewGameController extends Controller {
 
 
@@ -23,13 +27,17 @@ public class NewGameController extends Controller {
         }
         if (game.getGameState() == GameState.PLANNING) {
             started = true;
-            Lobby.getInstance().startController(this);
+            Lobby.getInstance().startControllerGame(this);
             pcs.firePropertyChange("gameStarted", null, new GameStartedMessage(game.getGameData()));
             SavedGameManager.saveRunningGame(game, getId());
         }
 
     }
 
+    /**
+     * The createOpeningNewGameData method creates a OpeningNewGameData object that represent the game bound to this controller
+     * @return  an OpeningNewGameData object that represent the game bound to this controller
+     */
     public OpeningNewGameData createOpeningNewGameData() {
         return new OpeningNewGameData(getId(), game.getNumOfPlayers(), game.isExpertModeEnabled(), game.getPlayersNicknames());
     }

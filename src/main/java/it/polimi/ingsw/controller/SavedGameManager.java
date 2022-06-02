@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * SavedGameManager class contains all static methods needed to save and restore games
+ * The SavedGameManager class contains all static methods needed to save and restore games
  *
  */
 public class SavedGameManager {
@@ -61,7 +61,7 @@ public class SavedGameManager {
     }
 
     /**
-     * method getSavedGameList creates a list with all SavedGameData that represent the games currently saved
+     * The method getSavedGameList creates a list with all SavedGameData that represent the games currently saved
      * @return  a list with a SavedGameData for every saved game that describes it
      */
     public synchronized static List<SavedGameData> getSavedGameList () {
@@ -82,7 +82,7 @@ public class SavedGameManager {
     }
 
     /**
-     * method saveGame saves the given game on file
+     * The method saveGame saves the given game on a file
      * @param game  the game to be saved
      */
     public synchronized static void saveGame (GameInterface game) {
@@ -117,7 +117,7 @@ public class SavedGameManager {
     }
 
     /**
-     * method restoreGame restores a game saved on file
+     * The method restoreGame restores a game saved on a file
      * @param fileName  the name of the file where the needed game is saved
      * @return          the needed game after it was restored
      * @throws FileNotFoundException  if there is no file with the given name
@@ -152,6 +152,11 @@ public class SavedGameManager {
 
     }
 
+    /**
+     * The method saveRunningGame saves the given running game on a file
+     * @param game          the game to be saved
+     * @param controllerID  the univocal ID of the controller bound to the game
+     */
     public static void saveRunningGame (GameInterface game, int controllerID) {
 
         try (ObjectOutputStream out = new ObjectOutputStream(new
@@ -164,6 +169,10 @@ public class SavedGameManager {
 
     }
 
+    /**
+     * The method removeSavedRunningGame deletes, if it exists, the file containing the game bound to the controller with the given controllerID
+     * @param controllerID  the univocal ID of the controller bound to the game
+     */
     public static void removeSavedRunningGame (int controllerID) {
         File file = new File (SAVED_RUNNING_GAMES_DIRECTORY + "/" + SAVED_RUNNING_GAME_BASE_NAME + controllerID + SAVED_GAME_EXTENSION);
         if (file.exists())

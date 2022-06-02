@@ -38,7 +38,6 @@ public class InfluenceCharacterCard extends CharacterCard {
         INITIAL_EFFECTS.put(CharacterID.CENTAUR, (turn, players) -> {turn.characterPunctualEffectApplied(); return true;});
         INITIAL_EFFECTS.put(CharacterID.KNIGHT, (turn, players) -> {turn.characterPunctualEffectApplied(); return true;});
         INITIAL_EFFECTS.put(CharacterID.MUSHROOMPICKER, (turn, players) -> true);
-
     }
 
     static {

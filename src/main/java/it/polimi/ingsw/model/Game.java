@@ -627,10 +627,10 @@ public class Game implements GameInterface {
 
         turn.setCharacterClan(clan);
 
-        if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF) {
+        if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.THIEF)
             applyCharacterCardEffect(playerNickname, -1, null, null);
+        if (turn.getActivatedCharacterCard().getCharacterID() == CharacterID.MUSHROOMPICKER)
             turn.characterPunctualEffectApplied();
-        }
 
     }
 

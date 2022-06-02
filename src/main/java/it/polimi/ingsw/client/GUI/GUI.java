@@ -103,7 +103,7 @@ public class GUI extends Application implements View{
         Platform.runLater(() -> {
             synchronized (gameData) {
                 ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
-                ((IslandsPageController) controllers.get(ISLANDS)).setIslands(gameData.getIslandManager());
+                ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                 ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
                 ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager());
                 ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
@@ -144,7 +144,7 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof  UpdatePlayer){
                         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());
                     } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
-                        ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(((UpdateIslandManager) updateMessage).islandManagerData());
+                        ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     }
                 }
             });
@@ -161,6 +161,7 @@ public class GUI extends Application implements View{
         //FIXME have to double check when this method changes scene and when the controllers do
         Platform.runLater(() -> {
             if (gameData.getGameState().equals(GameState.PLANNING)) {
+                ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
                 setCurrScene(DECK);
             } else if(gameData.getGameState().equals(GameState.ACTION)){
                 if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING))
@@ -230,6 +231,14 @@ public class GUI extends Application implements View{
     public void disconnect() throws IOException{
         serverHandler.disconnect();
         setScenes(); //In this case resets the stages
+    }
+
+    public GameState getGamePhase(){
+        return this.gameData.getGameState();
+    }
+
+    public TurnState getTurnState(){
+        return this.gameData.getTurnState();
     }
 
 }

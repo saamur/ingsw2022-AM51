@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="646.0" prefWidth="933.0" style="-fx-background-color: mediumaquamarine;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.IslandsPageController">
+<AnchorPane prefHeight="647.0" prefWidth="887.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.IslandsPageController">
    <children>
-      <Pane layoutY="51.0" prefHeight="596.0" prefWidth="933.0" style="-fx-background-color: LightBlue;">
+      <Pane fx:id="window" layoutY="51.0" prefHeight="618.0" prefWidth="898.0" style="-fx-background-color: LightBlue;">
          <children>
             <AnchorPane fx:id="anchorIsland10" layoutX="24.0" layoutY="306.0" onMouseClicked="#selectIsland">
                <children>
@@ -222,7 +224,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland1" layoutX="273.0" layoutY="-3.0" onMouseClicked="#selectIsland">
+            <AnchorPane fx:id="anchorIsland1" layoutX="273.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island1" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
@@ -593,7 +595,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorIsland2" layoutX="493.0" layoutY="-3.0" onMouseClicked="#selectIsland">
+            <AnchorPane fx:id="anchorIsland2" layoutX="493.0" onMouseClicked="#selectIsland">
                <children>
                   <ImageView fx:id="island2" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
@@ -646,8 +648,28 @@
                   </ImageView>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="droppedStudentAnchor" layoutX="404.0" layoutY="270.0" prefHeight="72.0" prefWidth="91.0" stylesheets="@../style.css">
+               <children>
+                  <ImageView fx:id="droppedStudentImage" layoutX="26.0" layoutY="9.0">
+                     <image>
+                        <Image url="@../png/clan/students/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="droppedStudentLabel" layoutX="4.0" layoutY="49.0" text="Chosen student" />
+               </children>
+            </AnchorPane>
+            <Label fx:id="instructionsDroppedStudent" layoutX="268.0" layoutY="237.0">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
-      <Button layoutX="804.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go to Game Board" />
+      <Button layoutX="769.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go to Game Board" />
+      <Label layoutX="315.0" layoutY="23.0" text="Click on any Island to open it">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

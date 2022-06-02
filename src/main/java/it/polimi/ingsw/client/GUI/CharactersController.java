@@ -117,29 +117,13 @@ public class CharactersController extends PageController implements Initializabl
         for(int i=0; i<3; i++){
             characters.get(i).setImage(new Image(getClass().getResource(CHARACTERS_IMAGES.get(characterCards[i].characterID())).toExternalForm()));
             characters.get(i).setId(characterCards[i].characterID().name());
-            if(characterCards[i].students() != null){
-                int numOfStudents = 0;
-                Map<Clan, Integer> students = characterCards[i].students();
-                for (Clan clan : Clan.values()) {
-                    while (students.get(clan) > 0) {
-                        System.out.println("Posiziono uno studente: "+ clan);
-                        charactersPieces.get(i).get(numOfStudents).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
-                        charactersPieces.get(i).get(numOfStudents).setVisible(true);
-                        charactersPieces.get(i).get(numOfStudents).setDisable(false);
-                        students.put(clan, students.get(clan) - 1);
-                        numOfStudents++;
-                    }
+            if(characterCards[i].characterID() == CharacterID.GRANDMA){
+                for(int j=0; j<4; j++) { //TODO test GRANDMA
+                    charactersPieces.get(i).get(j).setImage(new Image(getClass().getResource("/png/deny_island_icon.png").toExternalForm()));
                 }
             }
-            int prohibitionCards = characterCards[i].numProhibitionCards();
-            while(prohibitionCards > 0){
-                charactersPieces.get(i).get(prohibitionCards-1).setImage(new Image(getClass().getResource("/png/deny_island_icon.png").toExternalForm()));
-                charactersPieces.get(i).get(prohibitionCards-1).setDisable(false);
-                charactersPieces.get(i).get(prohibitionCards-1).setVisible(true);
-                prohibitionCards--;
-            }
-            costLabels.get(i).setText("Cost: " + characterCards[i].cost());
             descriptionLabels.get(i).setText(GameConstants.getDescriptionCharacter(characterCards[i].characterID()));
+            updateCharacterCard(characterCards[i]);
         }
 
 
@@ -181,6 +165,35 @@ public class CharactersController extends PageController implements Initializabl
     }
 
     public void updateCharacterCard(CharacterCardData characterCardData){
+        int characterIndex = 4;
+        for(ImageView character : characters){
+            if(character.getId().equals(characterCardData.characterID().name())){
+                characterIndex = characters.indexOf(character);
+            }
+        }
+        if (characterIndex >= 0 && characterIndex < 3) {
+            if(characterCardData.students() != null){
+                int numOfStudents = 0;
+                Map<Clan, Integer> students = characterCardData.students();
+                for (Clan clan : Clan.values()) {
+                    while (students.get(clan) > 0) {
+                        System.out.println("Posiziono uno studente: "+ clan);
+                        charactersPieces.get(characterIndex).get(numOfStudents).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                        charactersPieces.get(characterIndex).get(numOfStudents).setVisible(true);
+                        charactersPieces.get(characterIndex).get(numOfStudents).setDisable(false);
+                        students.put(clan, students.get(clan) - 1);
+                        numOfStudents++;
+                    }
+                }
+            }
+            int prohibitionCards = characterCardData.numProhibitionCards();
+            while(prohibitionCards > 0){
+                charactersPieces.get(characterIndex).get(prohibitionCards-1).setDisable(false);
+                charactersPieces.get(characterIndex).get(prohibitionCards-1).setVisible(true);
+                prohibitionCards--;
+            }
+            costLabels.get(characterIndex).setText("Cost: " + characterCardData.cost());
+        }
 
     }
 
@@ -196,8 +209,13 @@ public class CharactersController extends PageController implements Initializabl
                     activatedByLabels.get(characters.indexOf(character)).setVisible(true);
                 }
             }
-        } else {
-            //anchors.get(selectedCharacterIndex).getStyle().removeAll();
+        } else { //if the activated character is null -> restore the style
+            for(AnchorPane anchor : anchors) {
+                anchor.getStyleClass().removeIf(style -> style.equals("activated-character-card"));
+            }
+            for(Label label : activatedByLabels){
+                label.setText("");
+            }
         }
 
     }

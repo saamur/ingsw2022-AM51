@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.SingleIslandController">
    <children>
@@ -50,12 +51,30 @@
                   <Image url="@../png/towers/old/black_tower.png" />
                </image>
             </ImageView>
-            <Label fx:id="pinkLabel" layoutX="138.0" layoutY="270.0" text="3" />
-            <Label fx:id="greenLabel" layoutX="193.0" layoutY="270.0" text="2" />
-            <Label fx:id="blueLabel" layoutX="246.0" layoutY="270.0" text="1" />
-            <Label fx:id="yellowLabel" layoutX="295.0" layoutY="270.0" text="1" />
-            <Label fx:id="redLabel" layoutX="226.0" layoutY="327.0" text="4" />
-            <Label fx:id="towerLabel" layoutX="134.0" layoutY="159.0" style="-fx-background-color: WHITE;" text="1" />
+            <Label fx:id="pinkLabel" layoutX="138.0" layoutY="270.0" text="3">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="greenLabel" layoutX="193.0" layoutY="270.0" text="2">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="blueLabel" layoutX="246.0" layoutY="270.0" text="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="yellowLabel" layoutX="295.0" layoutY="270.0" text="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="redLabel" layoutX="226.0" layoutY="327.0" text="4">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="towerLabel" layoutX="134.0" layoutY="159.0" style="-fx-background-color: WHITE;" text="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
             <ImageView fx:id="prohibitionCard" fitHeight="139.0" fitWidth="133.0" layoutX="166.0" layoutY="148.0" preserveRatio="true">
                <image>
                   <Image url="@../png/deny_island_icon.png" />

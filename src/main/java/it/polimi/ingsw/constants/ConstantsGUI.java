@@ -258,15 +258,6 @@ public class ConstantsGUI {
 
     private static final Map<Clan, String> COLOR_CLAN;
 
-    /*static  {
-        COLOR_CLAN = new EnumMap<>(Clan.class);
-        COLOR_CLAN.put(TOADS, new Color(31, 181, 127)); //rgb(31, 181, 127)
-        COLOR_CLAN.put(DRAGONS, new Color(238, 46, 46));
-        COLOR_CLAN.put(PIXIES, new Color (255, 181, 15));
-        COLOR_CLAN.put(FAIRIES, new Color(220, 96, 162));
-        COLOR_CLAN.put(UNICORNS, new Color(39, 195, 243));
-    }*/
-
     static  {
         COLOR_CLAN = new EnumMap<>(Clan.class);
         COLOR_CLAN.put(TOADS, "rgb(31, 181, 127)"); //rgb(31, 181, 127)
@@ -280,4 +271,14 @@ public class ConstantsGUI {
         return COLOR_CLAN.get(clan);
     }
 
+    private static final int SINGLE_ISLAND_WIDTH_CONSTANT = 210;
+    private static final int SINGLE_ISLAND_HEIGHT_CONSTANT = 160;
+
+    public static int getIslandWidth() {
+        return SINGLE_ISLAND_WIDTH_CONSTANT;
+    }
+
+    public static int getIslandHeight(){
+        return SINGLE_ISLAND_HEIGHT_CONSTANT;
+    }
 }

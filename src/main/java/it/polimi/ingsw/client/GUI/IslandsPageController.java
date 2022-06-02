@@ -3,17 +3,24 @@ package it.polimi.ingsw.client.GUI;
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
-import it.polimi.ingsw.model.islands.IslandManager;
+import it.polimi.ingsw.model.TurnState;
 import it.polimi.ingsw.model.player.TowerColor;
+import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.*;
@@ -22,7 +29,9 @@ import static it.polimi.ingsw.constants.ConstantsGUI.*;
 import static it.polimi.ingsw.model.Clan.*;
 
 //TODO add droppedStudent to FXML
+//TODO add labels to island for the numbers
 public class IslandsPageController extends PageController implements Initializable {
+    public Pane window;
     List<AnchorPane> anchorIslands;
     List<ImageView> prohibitionCards;
     Map<Clan, List<ImageView>> clanColors = new EnumMap<>(Clan.class);
@@ -153,7 +162,14 @@ public class IslandsPageController extends PageController implements Initializab
 
     int motherNaturePosition;
     List<IslandData> modelIslands;
-    //TODO @FXML ImageView droppedStudent;
+
+    private ObjectProperty<Clan> droppedStudent = new SimpleObjectProperty<>(null);
+    @FXML ImageView droppedStudentImage;
+    @FXML Label droppedStudentLabel;
+    @FXML AnchorPane droppedStudentAnchor;
+    @FXML Label instructionsDroppedStudent;
+
+    private List<Integer> numOfIslands = new ArrayList<>();
 
 
 
@@ -184,12 +200,52 @@ public class IslandsPageController extends PageController implements Initializab
             motherNature.get(i).setVisible(false);
             towers.get(i).setVisible(false);
             prohibitionCards.get(i).setVisible(false);
+            anchorIslands.get(i).getStylesheets().add("/style.css");
+            anchorIslands.get(i).getStyleClass().add("image-view-selection");
+            numOfIslands.add(i, 1);
         }
 
+        makeDraggable(droppedStudentImage);
+
+        droppedStudentAnchor.getStyleClass().removeIf(style -> style.equals("image-view-selection"));
+        droppedStudentAnchor.setVisible(false);
+        droppedStudentAnchor.setDisable(true);
+        droppedStudentImage.setVisible(false);
+        droppedStudentLabel.setVisible(false);
+        instructionsDroppedStudent.setVisible(false);
+
+        droppedStudent.addListener((observable, oldValue, newValue) -> { //TODO test if it works
+                    if (observable.getValue() != null) {
+                        System.out.println("Dovrebbe essere null: " + observable.getValue());
+                        droppedStudentAnchor.getStyleClass().add("image-view-selection");
+                        droppedStudentAnchor.setVisible(true);
+                        droppedStudentAnchor.setDisable(false);
+                        droppedStudentImage.setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(newValue)).toExternalForm()));
+                        droppedStudentImage.setVisible(true);
+                        droppedStudentLabel.setVisible(true);
+                        instructionsDroppedStudent.setVisible(true);
+                        instructionsDroppedStudent.setText("Drag and drop the student on an Island");
+                    } else {
+                        droppedStudentAnchor.getStyleClass().removeIf(style -> style.equals("image-view-selection"));
+                        droppedStudentAnchor.setVisible(false);
+                        droppedStudentAnchor.setDisable(true);
+                        droppedStudentImage.setVisible(false);
+                        droppedStudentLabel.setVisible(false);
+                        instructionsDroppedStudent.setVisible(true);
+                    }
+                }
+            );
     }
 
-    public void back(ActionEvent event){
-        gui.setCurrScene(GAMEBOARD);
+    public void back(ActionEvent event) {
+        if (gui.getTurnState() == TurnState.STUDENT_MOVING) {
+            gui.setCurrScene(SCHOOLBOARDS); //Problema se ci arrivo da gameBoard
+        } else{
+            gui.setCurrScene(GAMEBOARD);
+        }
+        if(droppedStudent.getValue() != null){
+            droppedStudent.set(null); //TODO ok? così se si ritorno indietro azzera lo studente
+        }
     }
 
 
@@ -197,7 +253,7 @@ public class IslandsPageController extends PageController implements Initializab
         System.out.println("selected island" + mouseEvent.getSource());
         for(int i = 0; i< anchorIslands.size(); i++){
             if(anchorIslands.get(i).getChildren().contains((Node) mouseEvent.getSource())){ //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
-                System.out.println("è stata selezionata isola numero " + i); //TODO delete
+                System.out.println("è stata selezionata isola numero " + anchorIslands.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model"); //TODO delete
                 String imagePath = null;
                 for(Node child : anchorIslands.get(i).getChildren()){
                     if(child instanceof ImageView){
@@ -212,7 +268,7 @@ public class IslandsPageController extends PageController implements Initializab
         }
     }
 
-    public void setIslands(IslandManagerData islandManager){
+    public void setIslands(IslandManagerData islandManager){ //TODO Delete?
         modelIslands = islandManager.getIslands();
         for(int i=0; i<modelIslands.size(); i++){ //FIXME GESTIRE I MERGE
             prepareIsland(i, modelIslands.get(i));
@@ -221,15 +277,33 @@ public class IslandsPageController extends PageController implements Initializab
         motherNature.get(motherNaturePosition).setVisible(true);
     }
 
+    /**
+     * This method browses all of the modelIslands, if the number of islands does not correspond to the one saved it disables the following island, deleting the corresponding images and anchors from the various lists.
+     * Then procedes to call {@link #prepareIsland(int, IslandData) prepareIsland}
+     * @param islandManager the IslandManagerData sent via an UpdateIslands message
+     */
     public void updateIslands(IslandManagerData islandManager){
         //TODO non ci sono merge -> si toglie solo un'isola?
         modelIslands = islandManager.getIslands();
-        for(int i=0; i<modelIslands.size(); i++){ //FIXME GESTIRE I MERGE
-            //prepareIsland(i, modelIslands.get(i), modelIslands.get(i).numberOfIslands());
+        for(int i=0; i<modelIslands.size(); i++){
+            if(modelIslands.get(i).numberOfIslands() != numOfIslands.get(i)){
+                for(int j=1; j<modelIslands.get(i).numberOfIslands(); j++){
+                    double removedIslandX = anchorIslands.get(i + 1).getLayoutX();
+                    double removedIslandY = anchorIslands.get(i + 1).getLayoutY();
+                    anchorIslands.get(i + 1).setDisable(true);
+                    anchorIslands.get(i + 1).setVisible(false);
+                    for(Node child : anchorIslands.get(i + 1).getChildren()){
+                        child.setVisible(false);
+                        child.setDisable(true);
+                    }
+                    remove(i + 1);
+                    moveMergedIsland(i, removedIslandX, removedIslandY);
+                }
+                numOfIslands.set(i, modelIslands.get(i).numberOfIslands());
+            }
+            prepareIsland(i, modelIslands.get(i));
         }
-        if(modelIslands.size() != 12){
-            //TODO remove some islands
-        }
+
         motherNature.get(motherNaturePosition).setVisible(false);
         this.motherNaturePosition = islandManager.getMotherNaturePosition();
         motherNature.get(motherNaturePosition).setVisible(true);
@@ -248,6 +322,127 @@ public class IslandsPageController extends PageController implements Initializab
             towers.get(anchorIndex).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(towerColor)).toExternalForm()));
             towers.get(anchorIndex).setVisible(true);
         }
+        if(modelIsland.numberOfIslands() > 1){
+            double coefficient = modelIsland.numberOfIslands() - 1; //per due isole aggiungo la metà per 3 isole aggiungo
+            int childIslandIndex = 100;
+            for(Node child : anchorIslands.get(anchorIndex).getChildren()){
+                if(child.getId().contains("island")){
+                    childIslandIndex = anchorIslands.get(anchorIndex).getChildren().indexOf(child);
+                }
+            }
+            if (childIslandIndex != 100) {
+
+                ((ImageView) anchorIslands.get(anchorIndex).getChildren().get(childIslandIndex)).setFitWidth(ConstantsGUI.getIslandWidth() + coefficient * ConstantsGUI.getIslandWidth() / 2);
+                ((ImageView) anchorIslands.get(anchorIndex).getChildren().get(childIslandIndex)).setFitHeight(ConstantsGUI.getIslandHeight() + coefficient * ConstantsGUI.getIslandHeight() / 2);
+
+                double x = anchorIslands.get(anchorIndex).getLayoutX();
+                double width = ConstantsGUI.getIslandWidth() + coefficient * ConstantsGUI.getIslandWidth() / 2;
+                double height = ConstantsGUI.getIslandHeight() + coefficient * ConstantsGUI.getIslandHeight() / 2;
+                double y = anchorIslands.get(anchorIndex).getLayoutY();
+                System.out.println("Posizione isola " + anchorIndex + " che era fuori window prima del move: X: " + x + " Y: " + y);
+                System.out.println("Dimensioni isola: width: " + width + " height: " +height);
+
+                double windowRightX = window.getLayoutX() + window.getPrefWidth();
+                double windowBottomY = window.getLayoutY() + window.getPrefHeight();
+
+                if (x + width > windowRightX) {
+                    anchorIslands.get(anchorIndex).setLayoutX(windowRightX - width);
+                }
+                if (y + height > windowBottomY) {
+                    anchorIslands.get(anchorIndex).setLayoutY(windowBottomY - height);
+                }
+                System.out.println("Vecchia posizione isola che era fuori window: X: " + x + " Y: " + y);
+                System.out.println("Posizione dell'isola che era fuori dalla finestra: X: " + anchorIslands.get(childIslandIndex).getLayoutX() + " Y: " + anchorIslands.get(childIslandIndex).getLayoutY());
+            }
+
+        }
+    }
+
+    public void setDroppedStudent(Clan clan){
+        droppedStudent.set(clan);
+    }
+
+
+    private void makeDraggable(Node node) {
+        node.setOnMouseDragged(e -> {
+            System.out.println("onMousePressed");
+            e.setDragDetect(true);
+        });
+
+        node.setOnDragDetected( e -> { //Dragging not working properly
+            System.out.println("onDragDetected"); //FIXME viene stampato
+
+            Dragboard db = node.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(node.getId());
+            db.setContent(content);
+
+            e.consume();
+
+        });
+
+        for(AnchorPane island : anchorIslands){
+            island.setOnDragDropped( e -> {
+                System.out.println("onDragDropped");
+                boolean success = false;
+                if(!droppedStudentImage.getId().isEmpty()){
+                    System.out.println("è stato dropped un clan di tipo: " + droppedStudentImage.getId());
+                    droppedStudentImage.setVisible(false);
+                    instructionsDroppedStudent.setText("The student has been dropped on island " +  anchorIslands.indexOf(island));
+                    sendMessage(new MoveStudentToIslandMessage(droppedStudent.getValue(), anchorIslands.indexOf(island)));
+                    success = true;
+                }
+                System.out.println("Variabile success: " + success);
+                e.setDropCompleted(success);
+                e.consume();
+                    }
+            );
+            island.setOnDragOver( e -> {
+                System.out.println("Qualcosa sta passando sopra all'isola, onMouseDragOver");
+                if(e.getGestureSource() != island)
+                    e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                e.consume();
+            });
+        }
+
+        node.setOnMouseReleased( e -> {
+            System.out.println("onDragDone");
+            System.out.println("è stato dropped?");
+
+            e.consume();
+
+
+        });
+
+    }
+
+    public void remove(int index){
+        anchorIslands.remove(index);
+        prohibitionCards.remove(index);
+        pink.remove(index);
+        blue.remove(index);
+        green.remove(index);
+        yellow.remove(index);
+        red.remove(index);
+        towers.remove(index);
+        numOfIslands.remove(index);
+    }
+
+    /**
+     * The method moveMergedIsland moves the islands closer to the space where the removes island should have been
+     * @param indexIsland index of the merged island
+     * @param removedIslandX X coordinates of the removed island
+     * @param removedIslandY Y coordinates of the removes island
+     */
+    public void moveMergedIsland(int indexIsland, double removedIslandX, double removedIslandY){ //FIXM PROBLEM with more than 2 islands
+        double oldX = anchorIslands.get(indexIsland).getLayoutX();
+        double oldY = anchorIslands.get(indexIsland).getLayoutY();
+        double newX = (oldX + removedIslandX)/2;
+        double newY = (oldY + removedIslandY)/2;
+        anchorIslands.get(indexIsland).setLayoutX(newX);
+        anchorIslands.get(indexIsland).setLayoutY(newY);
+        System.out.println("Vecchia posizione isola "+ indexIsland + " che ha fatto merge: X: " + oldX + " Y: " + oldY + "(XremovedIsland: " + removedIslandX + " YremovedIsland: " + removedIslandY);
+        System.out.println("Posizione dell'isola che ha fatto merge: X: " + (oldX + removedIslandX)/2 + " Y: " + (oldY + removedIslandY)/2);
     }
 
 }

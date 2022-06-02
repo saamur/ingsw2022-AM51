@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-//TODO delete sout
-//FIXME Lobby??
+
 public class GameSelectionController extends PageController implements Initializable {
 
+    public Label noGameSelectedLabel;
     @FXML private TableView<OpeningNewGameData> newGames;
     @FXML private TableColumn<OpeningNewGameData, Integer> idNewGame;
     @FXML private TableColumn<OpeningNewGameData, Integer> numPlayersNewGame;
@@ -63,6 +63,10 @@ public class GameSelectionController extends PageController implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        noGameSelectedLabel.setText("You have not selected a game");
+        noGameSelectedLabel.setTextFill(Color.web("#a11515"));
+        noGameSelectedLabel.setVisible(false);
 
         idNewGame.setCellValueFactory(
                 game -> new SimpleIntegerProperty(game.getValue().id()).asObject()
@@ -170,25 +174,35 @@ public class GameSelectionController extends PageController implements Initializ
 
     @FXML
     public void enterGame(ActionEvent event) {
+        noGameSelectedLabel.setVisible(false);
         Object source = event.getSource();
         if(nickname != null) {
             if (chooseNewGame.equals(source)) { //potrei fare una switch ma solo facendo getSource.getId()
 
                 OpeningNewGameData selectedGame = newGames.getSelectionModel().getSelectedItem();
-                System.out.println(selectedGame); //TODO delete
-                sendMessage(new AddPlayerMessage(selectedGame.id()));
+                if(selectedGame == null){
+                    noGameSelectedLabel.setVisible(true);
+                } else {
+                    sendMessage(new AddPlayerMessage(selectedGame.id()));
+                }
 
             } else if (openSavedGame.equals(source)) {
 
                 SavedGameData selectedGame = savedGames.getSelectionModel().getSelectedItem();
-                System.out.println(selectedGame); //TODO delete
-                sendMessage(new RestoreGameMessage(selectedGame));
+                if(selectedGame == null){
+                    noGameSelectedLabel.setVisible(true);
+                } else {
+                    sendMessage(new RestoreGameMessage(selectedGame));
+                }
 
             } else if (chooseRestoredGame.equals(source)) {
 
                 OpeningRestoredGameData selectedGame = restoredGames.getSelectionModel().getSelectedItem();
-                System.out.println(selectedGame); //TODO delete
-                sendMessage(new AddPlayerMessage(selectedGame.id()));
+                if(selectedGame == null){
+                    noGameSelectedLabel.setVisible(true);
+                } else {
+                    sendMessage(new AddPlayerMessage(selectedGame.id()));
+                }
             }
 
         }
@@ -197,17 +211,12 @@ public class GameSelectionController extends PageController implements Initializ
     public void createNickname(ActionEvent event){
         if(nickname == null) {
             if (nicknameTextField.getText().isEmpty()) {
-                System.out.println("non c'era nickname");
                 chosenNicknameLabel.setTextFill(Color.web("#a11515"));
                 chosenNicknameLabel.setText("Please choose a username");
             } else {
-                System.out.println(nicknameTextField.getText());
                 sendMessage(new NicknameMessage(nicknameTextField.getText()));
-                System.out.println(new NicknameMessage((nicknameTextField.getText())));
-                System.out.println(gui);
             }
         } else {
-            //TODO add change nickname?
             errorNickname();
         }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.messages.gamemessages.ChosenCardMessage;
+import it.polimi.ingsw.messages.updatemessages.UpdateChosenCard;
 import it.polimi.ingsw.model.player.Card;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -88,8 +89,9 @@ public class DeckController extends PageController implements Initializable {
     }
 
     /**
-     * The setCards method is used when a game is reopened
+     * The setCards method is used when a game is reopened and when an UpdateChosenCard is sent to the client
      * @param players The data of the players, to extract from the currCard information
+     * @see UpdateChosenCard
      */
     public void setCards(PlayerData[] players, boolean lastRound){
 
@@ -149,6 +151,7 @@ public class DeckController extends PageController implements Initializable {
      *  The method setOtherPlayersCards, shows the card chosen by other players in the current turn as not available.
      * @param card card chosen
      * @param nickname nickname of the player that has chosen the card
+     * @param lastRound indicates whether the current round is the last one, for which different rules applly
      */
     private void setOtherPlayersCard(Card card, String nickname, boolean lastRound){
         if(!lastRound) {

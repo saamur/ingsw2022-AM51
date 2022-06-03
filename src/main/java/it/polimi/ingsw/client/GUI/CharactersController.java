@@ -21,7 +21,11 @@ import java.net.URL;
 import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
+//TODO JavaDocs
 
+/**
+ * This class is used to manage the character's Scene.
+ */
 public class CharactersController extends PageController implements Initializable {
 
     @FXML private AnchorPane anchorCharacter0;
@@ -111,9 +115,13 @@ public class CharactersController extends PageController implements Initializabl
         }
     }
 
+    /**
+     * This method is called when a game starts or is reopened. It sets the images of the character cards available and their description
+     * @param characterCards the CharacterCardData of the 3 avaible characterCards
+     */
     public void setCharacterCards(CharacterCardData[] characterCards){
         availableCharacterCards = characterCards;
-        for(int i=0; i<3; i++){
+        for(int i=0; i<characterCards.length; i++){
             characters.get(i).setImage(new Image(getClass().getResource(CHARACTERS_IMAGES.get(characterCards[i].characterID())).toExternalForm()));
             characters.get(i).setId(characterCards[i].characterID().name());
             if(characterCards[i].characterID() == CharacterID.GRANDMA){
@@ -128,10 +136,14 @@ public class CharactersController extends PageController implements Initializabl
 
     }
 
+    /**
+     * This method is called when a character card is clicked on. It shows the description of the CharacterCard and the button to activate it. It disables and renders not visible all of the other CharacterCards
+     * @param mouseEvent
+     */
     public void selectCharacter(MouseEvent mouseEvent) {
         for(AnchorPane anchor : anchors){
             System.out.println("Ho selezionato: " + mouseEvent.getSource());
-            if(anchor == mouseEvent.getSource()/*anchor.getChildren().contains((Node) mouseEvent.getSource())*/){
+            if(anchor == mouseEvent.getSource()){
                 buttonsCharacters.get(anchors.indexOf(anchor)).setVisible(true);
                 buttonsCharacters.get(anchors.indexOf(anchor)).setDisable(false);
                 descriptionLabels.get(anchors.indexOf(anchor)).setVisible(true);
@@ -143,9 +155,6 @@ public class CharactersController extends PageController implements Initializabl
         }
     }
 
-    public void selectPiece(MouseEvent mouseEvent) {
-        //TODO delete?
-    }
 
     public void activate(ActionEvent actionEvent) {
         System.out.println("Ho \"selezionato\":" + actionEvent.getSource());

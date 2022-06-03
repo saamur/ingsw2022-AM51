@@ -99,8 +99,8 @@
                </children>
             </AnchorPane>
             <Label fx:id="chooseCloudLabel" layoutX="212.0" layoutY="27.0" text="Choose a Cloud" />
-            <Button fx:id="activateCharacterButton" layoutX="14.0" layoutY="313.0" mnemonicParsing="false" text="Activate CharacterCard" />
-            <Button fx:id="endTurnButton" layoutX="449.0" layoutY="313.0" mnemonicParsing="false" text="End Turn" />
+            <Button fx:id="activateCharacterButton" layoutX="14.0" layoutY="313.0" mnemonicParsing="false" text="Activate CharacterCard" onAction="#activateCharacterCard"/>
+            <Button fx:id="endTurnButton" layoutX="449.0" layoutY="313.0" mnemonicParsing="false" text="End Turn" onAction="#endTurn"/>
          </children>
       </AnchorPane>
    </children>

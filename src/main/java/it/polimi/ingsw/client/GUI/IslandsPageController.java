@@ -3,18 +3,20 @@ package it.polimi.ingsw.client.GUI;
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.messages.gamemessages.MoveMotherNatureMessage;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.TurnState;
+import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.TowerColor;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,7 +33,13 @@ import static it.polimi.ingsw.model.Clan.*;
 //TODO add droppedStudent to FXML
 //TODO add labels to island for the numbers
 public class IslandsPageController extends PageController implements Initializable {
-    public Pane window;
+
+    private String CLICKED_BUTTON = "-fx-opacity: 0.5";
+
+    @FXML private Pane window;
+    @FXML private Button moveMotherNature;
+    private boolean enabledMoveMotherNature;
+
     List<AnchorPane> anchorIslands;
     List<ImageView> prohibitionCards;
     Map<Clan, List<ImageView>> clanColors = new EnumMap<>(Clan.class);
@@ -160,6 +168,8 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView motherNature11;
     List<ImageView> motherNature;
 
+    @FXML Button back;
+
     int motherNaturePosition;
     List<IslandData> modelIslands;
 
@@ -167,13 +177,11 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView droppedStudentImage;
     @FXML Label droppedStudentLabel;
     @FXML AnchorPane droppedStudentAnchor;
-    @FXML Label instructionsDroppedStudent;
+    @FXML Label instructions;
 
     private List<Integer> numOfIslands = new ArrayList<>();
 
-
-
-
+    private String previousScene;
 
 
     @Override
@@ -212,7 +220,7 @@ public class IslandsPageController extends PageController implements Initializab
         droppedStudentAnchor.setDisable(true);
         droppedStudentImage.setVisible(false);
         droppedStudentLabel.setVisible(false);
-        instructionsDroppedStudent.setVisible(false);
+        instructions.setVisible(false);
 
         droppedStudent.addListener((observable, oldValue, newValue) -> { //TODO test if it works
                     if (observable.getValue() != null) {
@@ -223,49 +231,53 @@ public class IslandsPageController extends PageController implements Initializab
                         droppedStudentImage.setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(newValue)).toExternalForm()));
                         droppedStudentImage.setVisible(true);
                         droppedStudentLabel.setVisible(true);
-                        instructionsDroppedStudent.setVisible(true);
-                        instructionsDroppedStudent.setText("Drag and drop the student on an Island");
+                        instructions.setVisible(true);
+                        instructions.setText("Drag and drop the student on an Island");
                     } else {
                         droppedStudentAnchor.getStyleClass().removeIf(style -> style.equals("image-view-selection"));
                         droppedStudentAnchor.setVisible(false);
                         droppedStudentAnchor.setDisable(true);
                         droppedStudentImage.setVisible(false);
                         droppedStudentLabel.setVisible(false);
-                        instructionsDroppedStudent.setVisible(true);
                     }
                 }
             );
+
+        moveMotherNature.setVisible(false);
+        moveMotherNature.setDisable(true);
     }
 
     public void back(ActionEvent event) {
-        if (gui.getTurnState() == TurnState.STUDENT_MOVING) {
-            gui.setCurrScene(SCHOOLBOARDS); //Problema se ci arrivo da gameBoard
-        } else{
+        if(previousScene != null && !gui.getTurnState().equals(TurnState.MOTHER_MOVING))
+            gui.setCurrScene(previousScene);
+        else
             gui.setCurrScene(GAMEBOARD);
-        }
-        if(droppedStudent.getValue() != null){
-            droppedStudent.set(null); //TODO ok? così se si ritorno indietro azzera lo studente
-        }
+        previousScene = null;
     }
 
 
     public void selectIsland(MouseEvent mouseEvent) {
         System.out.println("selected island" + mouseEvent.getSource());
-        for(int i = 0; i< anchorIslands.size(); i++){
-            if(anchorIslands.get(i).getChildren().contains((Node) mouseEvent.getSource())){ //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
-                System.out.println("è stata selezionata isola numero " + anchorIslands.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model"); //TODO delete
-                String imagePath = null;
-                for(Node child : anchorIslands.get(i).getChildren()){
-                    if(child instanceof ImageView){
-                        if(child.getId().contains("island")){
-                            imagePath = ((ImageView) child).getImage().getUrl();
+
+            for (int i = 0; i < anchorIslands.size(); i++) {
+                if (anchorIslands.get(i).getChildren().contains((Node) mouseEvent.getSource())) { //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
+                    System.out.println("è stata selezionata isola numero " + anchorIslands.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model"); //TODO delete
+                    if(!enabledMoveMotherNature) {
+                        String imagePath = null;
+                        for (Node child : anchorIslands.get(i).getChildren()) {
+                            if (child instanceof ImageView) {
+                                if (child.getId().contains("island")) {
+                                    imagePath = ((ImageView) child).getImage().getUrl();
+                                }
+                            }
                         }
+                        ((SingleIslandController) gui.getControllers().get(SINGLEISLAND)).setIsland(modelIslands.get(i), imagePath, i == motherNaturePosition);
+                        gui.setCurrScene(SINGLEISLAND);
+                    } else {
+                        sendMessage(new MoveMotherNatureMessage(i));
                     }
                 }
-                ((SingleIslandController) gui.getControllers().get(SINGLEISLAND)).setIsland(modelIslands.get(i), imagePath, i==motherNaturePosition);
-                gui.setCurrScene(SINGLEISLAND);
             }
-        }
     }
 
     public void setIslands(IslandManagerData islandManager){ //TODO Delete?
@@ -360,6 +372,7 @@ public class IslandsPageController extends PageController implements Initializab
 
     public void setDroppedStudent(Clan clan){
         droppedStudent.set(clan);
+        previousScene = SCHOOLBOARDS;
     }
 
 
@@ -388,8 +401,9 @@ public class IslandsPageController extends PageController implements Initializab
                 if(!droppedStudentImage.getId().isEmpty()){
                     System.out.println("è stato dropped un clan di tipo: " + droppedStudentImage.getId());
                     droppedStudentImage.setVisible(false);
-                    instructionsDroppedStudent.setText("The student has been dropped on island " +  anchorIslands.indexOf(island));
+                    instructions.setText("The student has been dropped on island " +  anchorIslands.indexOf(island));
                     sendMessage(new MoveStudentToIslandMessage(droppedStudent.getValue(), anchorIslands.indexOf(island)));
+                    droppedStudent.setValue(null);
                     success = true;
                 }
                 System.out.println("Variabile success: " + success);
@@ -445,4 +459,42 @@ public class IslandsPageController extends PageController implements Initializab
         System.out.println("Posizione dell'isola che ha fatto merge: X: " + (oldX + removedIslandX)/2 + " Y: " + (oldY + removedIslandY)/2);
     }
 
+    private Card currCard;
+
+    public void setMotherMovingLabels(Card currCard){
+        //TODO così se qualcuno ha mosso studente su un'isola e diventa mother moving lo capisce dalle labels
+        this.currCard = currCard;
+        moveMotherNature.setVisible(true);
+        moveMotherNature.setDisable(false);
+        int maxSteps = currCard.getMaxStepsMotherNature(); //FIXME modificare per characters
+        instructions.setText("By clicking the button and then clicking on an Island\nyou will move Mother Nature there\nYou have " + maxSteps + " step" + (maxSteps > 1 ? "s" : ""));
+    }
+
+    public void moveMotherNature(ActionEvent actionEvent) {
+        moveMotherNature.setStyle(CLICKED_BUTTON);
+        enabledMoveMotherNature = true;
+    }
+
+    public void movedMotherNature(boolean successfulMove){
+        if(successfulMove){
+            moveMotherNature.setVisible(false);
+            moveMotherNature.setDisable(true);
+            instructions.setText("");
+            currCard = null;
+        } else {
+            instructions.setText("You are only allowed " + currCard.getPriority() + " steps");
+        }
+        moveMotherNature.setStyle(null);
+        enabledMoveMotherNature = false; //FIXME deve cliccare di nuovo sul bottone per muovere madre natura
+    }
+
+    @Override
+    public void handleErrorMessage(String message){
+        super.handleErrorMessage(message);
+        if(message.contains("The selected island is too far from Mother Nature")){
+            Platform.runLater(() -> {
+                movedMotherNature(false);
+            });
+        }
+    }
 }

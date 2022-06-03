@@ -4,7 +4,13 @@
     -fx-border-width: 5;
 }
 
-.tables:hover{
+.image-drag-over {
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 5;
+}
+
+.tables:hover, .tables-drag-over{
     -fx-background-color: -my-background;
     -fx-opacity: 0.5;
 }

@@ -257,6 +257,23 @@ public class ConstantsGUI {
         return SCHOOL_COORDINATE_Y + COIN_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
     }
 
+    //FIXME provare a fare proporzionale
+    private static final double ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO = (double) 105;//115/181;
+    private static final double ISLAND_X_SCHOOL_HEIGHT_RATIO = (double) 600;//600/362;
+    private static final double ISLAND_Y_SCHOOL_HEIGHT_RATIO = (double) 407;//437/181;
+
+    public static double getIslandHeightSchoolBoards () {
+        return ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO /* * SCHOOL_HEIGHT*/;
+    }
+
+    public static double getIslandXSchoolBoards () {
+        return /*SCHOOL_COORDINATE_X + SCHOOL_HEIGHT * */ ISLAND_X_SCHOOL_HEIGHT_RATIO ;
+    }
+
+    public static double getIslandYSchoolBoards () {
+        return /*SCHOOL_COORDINATE_Y + SCHOOL_HEIGHT * */ ISLAND_Y_SCHOOL_HEIGHT_RATIO;
+    }
+
     private static final Map<Clan, String> COLOR_CLAN;
 
     static  {

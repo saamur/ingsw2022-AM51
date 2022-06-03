@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.modeldata.CloudManagerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.ChosenCloudMessage;
+import it.polimi.ingsw.messages.gamemessages.EndTurnMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.TurnState;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.*;
 
+import static it.polimi.ingsw.constants.ConstantsGUI.CHARACTERS;
 import static it.polimi.ingsw.constants.ConstantsGUI.GAMEBOARD;
 
 public class CloudController extends PageController implements Initializable {
@@ -78,13 +80,12 @@ public class CloudController extends PageController implements Initializable {
     @FXML Button activateCharacterButton; //FIXME potrebbe non servire se gli faccio vedere SEMPRE la GameBoard
     @FXML Label chooseCloudLabel;
 
+    private boolean expertModeEnabled;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         clouds = new ArrayList<>(Arrays.asList(anchorCloud0, anchorCloud1, anchorCloud2));
-        for (int i = 0; i < numOfClouds; i++) {
-            availableClouds[i] = true;
-        }
         endTurnButton.setVisible(false);
         activateCharacterButton.setVisible(false);
         endTurnButton.setDisable(true);
@@ -97,9 +98,12 @@ public class CloudController extends PageController implements Initializable {
         gui.setCurrScene(GAMEBOARD);
     }
 
-    public void setClouds(CloudManagerData cloudManagerData) {
+    public void setClouds(CloudManagerData cloudManagerData, boolean expertModeEnabled) {
         this.modelClouds = cloudManagerData.clouds();
         numOfClouds = modelClouds.length;
+        for (int i = 0; i < numOfClouds; i++) {
+            availableClouds[i] = true;
+        }
         numOfStudentsPerCloud = GameConstants.getNumStudentsPerCloud(numOfClouds);
         studentsCloud0 = new ArrayList<>(Arrays.asList(student1cloud0, student2cloud0, student3cloud0));
         studentsCloud1 = new ArrayList<>(Arrays.asList(student1cloud1, student2cloud1, student3cloud1));
@@ -131,13 +135,14 @@ public class CloudController extends PageController implements Initializable {
             modifyCloud(i, modelClouds[i]);
         }
 
+        this.expertModeEnabled = expertModeEnabled;
     }
 
     public void selectCloud(MouseEvent event) {
         //FIXME if CLOUD CHOOSING
         for (int i = 0; i < numOfClouds; i++) {
-            if (clouds.get(i).getChildren().contains(event.getSource())) {
-                if (availableClouds[i]) { //this.availableClouds[i] is null
+            if (clouds.get(i).getChildren().contains((Node) event.getSource())) {
+                if (availableClouds[i]) {
                     sendMessage(new ChosenCloudMessage(i));
                     clouds.get(i).setOpacity(0.5);
                 } else {
@@ -163,20 +168,23 @@ public class CloudController extends PageController implements Initializable {
         if(cloud.picked()){
             clouds.get(cloud.cloudIndex()).setOpacity(0.5);
             availableClouds[cloud.cloudIndex()] = false;
+            endTurnButton.setVisible(true);
+            endTurnButton.setDisable(false);
         }
     }
 
     public void updateTurnState(TurnState turnState){
-        if(turnState == TurnState.CLOUD_CHOOSING){
-            endTurnButton.setVisible(true);
-            endTurnButton.setDisable(false);
-            activateCharacterButton.setVisible(true);
-            endTurnButton.setDisable(false);
+        if(turnState == TurnState.CLOUD_CHOOSING || turnState == TurnState.END_TURN){
+            if(expertModeEnabled) {
+                activateCharacterButton.setVisible(true);
+                activateCharacterButton.setDisable(false);
+            }
             chooseCloudLabel.setVisible(true);
         } else {
             endTurnButton.setVisible(false);
             endTurnButton.setDisable(true);
             activateCharacterButton.setVisible(false);
+            activateCharacterButton.setDisable(true);
             endTurnButton.setDisable(true);
             chooseCloudLabel.setVisible(false);
         }
@@ -195,4 +203,13 @@ public class CloudController extends PageController implements Initializable {
     }
 
 
+    public void endTurn(ActionEvent actionEvent) {
+        sendMessage(new EndTurnMessage());
+    }
+
+    public void activateCharacterCard(ActionEvent actionEvent) {
+        //((CharactersController) gui.getControllers().get(CHARACTERS)).setPreviousScene(CLOUDS);
+        gui.setCurrScene(CHARACTERS);
+        //TODO
+    }
 }

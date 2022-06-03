@@ -144,6 +144,7 @@ public class DeckController extends PageController implements Initializable {
                 "chosen by you" :
                 labels.get(card).getText() + " and you"));
         labels.get(card).setVisible(true);
+        chooseAssistantLabel.setText("You have chosen an Assistant"); //FIXME is it centered?
 
     }
 

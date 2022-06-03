@@ -1,19 +1,27 @@
 package it.polimi.ingsw.client.GUI;
 
 
+import com.google.inject.internal.ConstantBindingBuilderImpl;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.constants.GameConstants;
+import it.polimi.ingsw.messages.gamemessages.MoveStudentToChamberMessage;
+import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
+import it.polimi.ingsw.model.TurnState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -23,12 +31,16 @@ import java.util.*;
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
 //FIXME USE computed_size
+//FIXME add label for instructions over tabPane
 public class SchoolBoardController extends PageController implements Initializable {
 
     @FXML TabPane tabPane;
 
     private String nickname;
     private SchoolBoard[] schoolBoards;
+
+    private ImageView island;
+    private Pane islandPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,7 +92,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
                 if (playersData[i].getNickname().equals(nickname)) {
                     Pane table = new Pane();
-                    table.setId(clan.name());
+                    table.setId(clan.name() + "' table");
                     table.setMaxWidth(ConstantsGUI.getTableWidth());
                     table.setMinWidth(ConstantsGUI.getTableWidth());
                     table.setMaxHeight(ConstantsGUI.getTableHeight());
@@ -92,6 +104,25 @@ public class SchoolBoardController extends PageController implements Initializab
                     table.setStyle("-my-background: " + ConstantsGUI.getColorClan(clan));
                     schoolBoards[i].tables.put(clan, table);
                     anchorPane.getChildren().add(table);
+
+                    islandPane = new Pane();
+                    island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
+                    island.setPreserveRatio(true);
+                    //island.setFitHeight(125);
+                    island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
+                    island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
+                    //island.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
+                    //island.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
+                    island.setStyle("-fx-border-color: black");
+                    islandPane.getChildren().add(island);
+                    island.fitHeightProperty().bind(islandPane.heightProperty());
+                    islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
+                    islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
+                    islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
+                    island.setVisible(false);
+                    islandPane.setId("islandPane");
+                    islandPane.getStylesheets().add("/style.css");
+                    anchorPane.getChildren().add(islandPane);
                 }
 
             }
@@ -168,6 +199,7 @@ public class SchoolBoardController extends PageController implements Initializab
                 for (Clan clan : Clan.values()) {
                     for (int numStudentsClan = playerData.getHallData().students().get(clan); numStudentsClan > 0; numStudentsClan--) {
                         schoolBoard.studentsHall[hallStudentIndex].setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                        schoolBoard.studentsHall[hallStudentIndex].setId(clan.name());
                         schoolBoard.studentsHall[hallStudentIndex].setVisible(true);
                         hallStudentIndex++;
                     }
@@ -207,4 +239,116 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
+    //FIXME devo mettere l'attivazione della azioni prima, disabilitarle subito ed abilitarle solo se in STUDENT_MOVING
+    public void setCurrPlayer(String nicknameCurrPlayer){
+        if (nicknameCurrPlayer.equals(this.nickname) && gui.getTurnState() == TurnState.STUDENT_MOVING) {
+            for (SchoolBoard schoolBoard : schoolBoards) {
+                if (this.nickname.equals(schoolBoard.nickname)) {
+                    islandPane.setVisible(true);
+                    island.setVisible(true);
+                    island.setDisable(false);
+                    islandPane.setDisable(false);
+                    islandPane.getStylesheets().add("/style.css");
+                    for(Clan clan : Clan.values()) //FIXME dato che ho fatto disable qui mi basterebbe fare able
+                        enableDropOnNode(schoolBoard.tables.get(clan));
+                    for(ImageView student : schoolBoard.studentsHall)
+                        makeDraggable(student);
+                    enableDropOnNode(islandPane);
+                }
+            }
+        }
+    }
+
+    /* This method is for the Chambers and for the Island */
+    private void enableDropOnNode(Node target){
+        target.setOnDragDropped( e -> {
+                    System.out.println("onDragDropped");
+                    boolean success = false;
+                    Dragboard db = e.getDragboard();
+                    if(db.hasString()){
+                        System.out.println("è stato dropped un clan di tipo: " + db.getString());
+                        Clan clan = Clan.valueOf(db.getString());
+                        if(target.getId().contains("table"))
+                            sendMessage(new MoveStudentToChamberMessage(clan)); //FIXME it adds student to right chamber even if chamber is the wrong color
+                        else {
+                            ((IslandsPageController) gui.getControllers().get(ISLANDS)).setDroppedStudent(clan);
+                            gui.setCurrScene(ISLANDS);
+                        }
+                        success = true;
+                    }
+                    System.out.println("Variabile success: " + success);
+                    e.setDropCompleted(success);
+                    e.consume();
+                }
+        );
+        target.setOnDragOver( e -> {
+            System.out.println("Qualcosa sta passando sopra a " + target.getId() + "isola, onMouseDragOver");
+            if(e.getGestureSource() != island)
+                e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+
+            e.consume();
+        });
+
+        target.setOnDragEntered(e -> {
+                System.out.println("onDragEntered");
+                /* show to the user that it is an actual gesture target */
+                if (e.getGestureSource() != target &&
+                        e.getDragboard().hasString()) {
+                    target.getStyleClass().add(target.getId().contains("table") ? "tables-drag-over" : "image-drag-over");
+                }
+                e.consume();
+        });
+
+        target.setOnDragExited(e -> {
+                target.getStyleClass().removeIf(style -> style.equals("tables-drag-over") || style.equals("image-drag-over"));
+                e.consume();
+        });
+    }
+
+    private void makeDraggable(Node source) {
+        source.setOnMouseDragged(e -> {
+            System.out.println("onMouseDragged");
+            e.setDragDetect(true);
+        });
+
+        source.setOnDragDetected( e -> {
+            System.out.println("onDragDetected");
+
+            source.setStyle("-fx-opacity: 0.7");
+            System.out.println("Da DragDetected: " + source.getStyle());
+
+            Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(source.getId());
+            db.setContent(content);
+
+            e.consume();
+
+        });
+
+        source.setOnDragDone( e -> {
+            System.out.println("onDragDone");
+            System.out.println("è stato dropped?");
+            source.setStyle(null);
+            e.consume();
+        });
+
+    }
+
+    public void disableStudentMoving(){
+        //TODO disable all of the dragging
+        //penso basti disabilitare gli studenti
+        for(SchoolBoard schoolBoard : schoolBoards) {
+            if(schoolBoard.nickname.equals(this.nickname)){
+                for (ImageView student : schoolBoard.studentsHall)
+                    student.setDisable(true);
+                for(Clan clan : Clan.values()) {
+                    schoolBoard.tables.get(clan).getStyleClass().removeIf(style -> style.equals("tables-drag-over"));
+                }
+            }
+        }
+        island.setVisible(false);
+        island.setDisable(true);
+        islandPane.getStyleClass().removeIf( style ->  style.equals("image-drag-over"));
+    }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
@@ -107,7 +108,7 @@ public class GUI extends Application implements View{
                 ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
                 ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                 ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
-                ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager());
+                ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager(), gameData.isExpertModeEnabled());
                 ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                 if(gameData.isExpertModeEnabled()) {
                     System.out.println("getActivatedCharacterCard in setGameData:" + gameData.getActiveCharacterCard());
@@ -127,6 +128,8 @@ public class GUI extends Application implements View{
     @Override
     public void updateGameData(UpdateMessage updateMessage) {
         if(gameData != null){
+            GameState oldGameState =  gameData.getGameState();
+            TurnState oldTurnState = gameData.getTurnState();
             synchronized (gameData) {
                 updateMessage.updateGameData(gameData);
             }
@@ -150,10 +153,13 @@ public class GUI extends Application implements View{
                         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());
                     } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
+                    } else if (updateMessage instanceof UpdateMotherNaturePosition){
+                        ((IslandsPageController) controllers.get(ISLANDS)).movedMotherNature(true);
                     }
                 }
             });
-            chooseScene();
+            if(oldGameState != gameData.getGameState() || oldTurnState != gameData.getTurnState()) //TODO verify this is correct
+                chooseScene();
         }
     }
 
@@ -169,10 +175,18 @@ public class GUI extends Application implements View{
                 ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
                 setCurrScene(DECK);
             } else if(gameData.getGameState().equals(GameState.ACTION)){
-                if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING))
+                if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING)) {
+                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCurrPlayer(gameData.getCurrPlayer());
                     setCurrScene(SCHOOLBOARDS);
-                else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING))
-                    setCurrScene(ISLANDS);
+                }
+                else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING)) {
+                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
+                        for(PlayerData player : gameData.getPlayerData()) {
+                            if(gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
+                                ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
+                            }
+                        }
+                    }
                 else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
                     setCurrScene(CLOUDS);
             } else if (gameData.getGameState().equals(GameState.GAME_OVER)){

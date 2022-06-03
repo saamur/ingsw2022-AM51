@@ -658,14 +658,15 @@
                   <Label fx:id="droppedStudentLabel" layoutX="4.0" layoutY="49.0" text="Chosen student" />
                </children>
             </AnchorPane>
-            <Label fx:id="instructionsDroppedStudent" layoutX="268.0" layoutY="237.0">
+            <Label fx:id="instructions" layoutX="268.0" layoutY="237.0">
                <font>
                   <Font size="17.0" />
                </font>
             </Label>
+            <Button fx:id="moveMotherNature" layoutX="386.0" layoutY="361.0" mnemonicParsing="false" onAction="#moveMotherNature" text="Move Mother Nature" />
          </children>
       </Pane>
-      <Button layoutX="769.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go to Game Board" />
+      <Button fx:id="back" layoutX="824.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go Back" />
       <Label layoutX="315.0" layoutY="23.0" text="Click on any Island to open it">
          <font>
             <Font size="21.0" />

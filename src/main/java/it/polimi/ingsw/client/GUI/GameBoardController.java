@@ -79,6 +79,7 @@ public class GameBoardController extends PageController implements Initializable
                     }
                 } else {
                     characterCards.setVisible(false); //FIXME SAREBBE MEGLIO ELIMINARLO COMPLETAMENTE
+                    characterCards.setDisable(true);
                 }
             }
         });

@@ -16,38 +16,38 @@
                   <Image url="@../png/characters/CarteTOT_front.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece1character0" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="288.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece1character0" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="288.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece5character0" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="329.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece5character0" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="329.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece2character0" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="288.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece2character0" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="288.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece4character0" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="329.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece4character0" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="329.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece3character0" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="288.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece3character0" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="288.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece6character0" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="329.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece6character0" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="329.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
             <Button fx:id="buttonCharacter0" layoutX="81.0" layoutY="185.0" mnemonicParsing="false" onAction="#activate" text="Activate" />
-            <Label fx:id="descriptionLabel0" layoutX="34.0" layoutY="14.0" maxHeight="165.0" maxWidth="153.0" prefHeight="17.0" prefWidth="28.0" style="-fx-background-color: white;" text="Label" />
+            <Label fx:id="descriptionLabel0" layoutX="34.0" layoutY="14.0" maxHeight="165.0" maxWidth="153.0" style="-fx-background-color: white;" text="Label" />
             <Label fx:id="costLabel0" layoutX="48.0" layoutY="263.0" text="Cost: 1" />
             <Label fx:id="activatedByLabel0" layoutX="48.0" layoutY="373.0" text="Label" />
          </children>
@@ -59,32 +59,32 @@
                   <Image url="@../png/characters/CarteTOT_front2.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece1character1" fitHeight="35.0" fitWidth="35.0" layoutX="45.0" layoutY="287.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece1character1" fitHeight="35.0" fitWidth="35.0" layoutX="45.0" layoutY="287.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece5character1" fitHeight="35.0" fitWidth="35.0" layoutX="45.0" layoutY="328.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece5character1" fitHeight="35.0" fitWidth="35.0" layoutX="45.0" layoutY="328.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece2character1" fitHeight="35.0" fitWidth="35.0" layoutX="90.0" layoutY="287.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece2character1" fitHeight="35.0" fitWidth="35.0" layoutX="90.0" layoutY="287.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece4character1" fitHeight="35.0" fitWidth="35.0" layoutX="90.0" layoutY="328.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece4character1" fitHeight="35.0" fitWidth="35.0" layoutX="90.0" layoutY="328.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece3character1" fitHeight="35.0" fitWidth="35.0" layoutX="134.0" layoutY="287.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece3character1" fitHeight="35.0" fitWidth="35.0" layoutX="134.0" layoutY="287.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece6character1" fitHeight="35.0" fitWidth="35.0" layoutX="134.0" layoutY="328.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece6character1" fitHeight="35.0" fitWidth="35.0" layoutX="134.0" layoutY="328.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
@@ -102,32 +102,32 @@
                   <Image url="@../png/characters/CarteTOT_front3.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece1character2" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="288.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece1character2" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="288.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece5character2" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="329.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece5character2" fitHeight="35.0" fitWidth="35.0" layoutX="48.0" layoutY="329.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece2character2" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="288.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece2character2" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="288.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece4character2" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="329.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece4character2" fitHeight="35.0" fitWidth="35.0" layoutX="93.0" layoutY="329.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece3character2" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="288.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece3character2" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="288.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="piece6character2" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="329.0" onMouseClicked="#selectPiece">
+            <ImageView fx:id="piece6character2" fitHeight="35.0" fitWidth="35.0" layoutX="137.0" layoutY="329.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>

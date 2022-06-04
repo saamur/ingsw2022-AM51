@@ -280,13 +280,13 @@ public class IslandsPageController extends PageController implements Initializab
             }
     }
 
-    public void setIslands(IslandManagerData islandManager){ //TODO Delete?
-        modelIslands = islandManager.getIslands();
-        for(int i=0; i<modelIslands.size(); i++){ //FIXME GESTIRE I MERGE
-            prepareIsland(i, modelIslands.get(i));
+
+    private void updateMotherNaturePosition(int motherNaturePositionUpdate){
+        if(motherNaturePositionUpdate != this.motherNaturePosition) {
+            motherNature.get(motherNaturePosition).setVisible(false);
+            this.motherNaturePosition = motherNaturePositionUpdate;
+            motherNature.get(motherNaturePosition).setVisible(true);
         }
-        this.motherNaturePosition = islandManager.getMotherNaturePosition();
-        motherNature.get(motherNaturePosition).setVisible(true);
     }
 
     /**
@@ -315,10 +315,7 @@ public class IslandsPageController extends PageController implements Initializab
             }
             prepareIsland(i, modelIslands.get(i));
         }
-
-        motherNature.get(motherNaturePosition).setVisible(false);
-        this.motherNaturePosition = islandManager.getMotherNaturePosition();
-        motherNature.get(motherNaturePosition).setVisible(true);
+        updateMotherNaturePosition(islandManager.getMotherNaturePosition());
     }
 
     private void prepareIsland(int anchorIndex, IslandData modelIsland){
@@ -475,8 +472,9 @@ public class IslandsPageController extends PageController implements Initializab
         enabledMoveMotherNature = true;
     }
 
-    public void movedMotherNature(boolean successfulMove){
+    public void movedMotherNature(boolean successfulMove, int updatedPosition){
         if(successfulMove){
+            updateMotherNaturePosition(updatedPosition);
             moveMotherNature.setVisible(false);
             moveMotherNature.setDisable(true);
             instructions.setText("");
@@ -493,7 +491,7 @@ public class IslandsPageController extends PageController implements Initializab
         super.handleErrorMessage(message);
         if(message.contains("The selected island is too far from Mother Nature")){
             Platform.runLater(() -> {
-                movedMotherNature(false);
+                movedMotherNature(false, 13);
             });
         }
     }

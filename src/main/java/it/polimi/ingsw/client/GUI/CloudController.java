@@ -144,7 +144,7 @@ public class CloudController extends PageController implements Initializable {
             if (clouds.get(i).getChildren().contains((Node) event.getSource())) {
                 if (availableClouds[i]) {
                     sendMessage(new ChosenCloudMessage(i));
-                    clouds.get(i).setOpacity(0.5);
+                     //clouds.get(i).setOpacity(0.5);
                 } else {
                     errorLabel.setText("This cloud has already been chosen, choose another cloud");
                 }
@@ -161,6 +161,7 @@ public class CloudController extends PageController implements Initializable {
                 modifyCloud(i, newClouds[i]);
             }
             availableClouds[i] = true;
+            clouds.get(i).setOpacity(1);
         }
     }
 

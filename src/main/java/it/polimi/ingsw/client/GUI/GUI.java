@@ -154,7 +154,7 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateMotherNaturePosition){
-                        ((IslandsPageController) controllers.get(ISLANDS)).movedMotherNature(true);
+                        ((IslandsPageController) controllers.get(ISLANDS)).movedMotherNature(true, ((UpdateMotherNaturePosition) updateMessage).islandIndex());
                     }
                 }
             });
@@ -186,6 +186,7 @@ public class GUI extends Application implements View{
                                 ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
                             }
                         }
+                        setCurrScene(ISLANDS);
                     }
                 else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
                     setCurrScene(CLOUDS);

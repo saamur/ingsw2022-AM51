@@ -9,6 +9,7 @@ import it.polimi.ingsw.messages.gamemessages.MoveStudentToChamberMessage;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.TurnState;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -251,8 +252,10 @@ public class SchoolBoardController extends PageController implements Initializab
                     islandPane.getStylesheets().add("/style.css");
                     for(Clan clan : Clan.values()) //FIXME dato che ho fatto disable qui mi basterebbe fare able
                         enableDropOnNode(schoolBoard.tables.get(clan));
-                    for(ImageView student : schoolBoard.studentsHall)
+                    for(ImageView student : schoolBoard.studentsHall) {
+                        student.setDisable(false);
                         makeDraggable(student);
+                    }
                     enableDropOnNode(islandPane);
                 }
             }
@@ -272,7 +275,10 @@ public class SchoolBoardController extends PageController implements Initializab
                             sendMessage(new MoveStudentToChamberMessage(clan)); //FIXME it adds student to right chamber even if chamber is the wrong color
                         else {
                             ((IslandsPageController) gui.getControllers().get(ISLANDS)).setDroppedStudent(clan);
-                            gui.setCurrScene(ISLANDS);
+                            target.getStyleClass().removeIf(style -> style.equals("image-drag-over"));
+                            Platform.runLater(() -> {
+                                gui.setCurrScene(ISLANDS);
+                            });
                         }
                         success = true;
                     }

@@ -98,7 +98,7 @@ public class CloudController extends PageController implements Initializable {
         gui.setCurrScene(GAMEBOARD);
     }
 
-    public void setClouds(CloudManagerData cloudManagerData, boolean expertModeEnabled) {
+    public void setClouds(CloudManagerData cloudManagerData, boolean expertModeEnabled) { //FIXME potrebbe esserci un problema dopo disconnetto e riconnetto
         this.modelClouds = cloudManagerData.clouds();
         numOfClouds = modelClouds.length;
         for (int i = 0; i < numOfClouds; i++) {
@@ -156,7 +156,7 @@ public class CloudController extends PageController implements Initializable {
     public void updateClouds(CloudManagerData cloudManager) {
         CloudData[] newClouds = cloudManager.clouds();
         for (int i = 0; i < newClouds.length; i++) {
-            if (!newClouds[i].equals(modelClouds[i])) {
+            if (!newClouds[i].equals(modelClouds[i])) { //FIXME è arrivato update senza il Set
                 System.out.println("Sto modificando cloud con indice: " + i);
                 modifyCloud(i, newClouds[i]);
             }

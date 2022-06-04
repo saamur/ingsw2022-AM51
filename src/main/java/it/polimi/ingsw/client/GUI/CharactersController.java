@@ -219,7 +219,7 @@ public class CharactersController extends PageController implements Initializabl
                     activatedByLabels.get(characters.indexOf(character)).setVisible(true);
                 }
             }
-        } else { //if the activated character is null -> restore the style
+        } else {
             for(AnchorPane anchor : anchors) {
                 anchor.getStyleClass().removeIf(style -> style.equals("activated-character-card"));
             }

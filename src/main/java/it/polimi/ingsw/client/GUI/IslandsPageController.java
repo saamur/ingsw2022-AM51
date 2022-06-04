@@ -32,6 +32,7 @@ import static it.polimi.ingsw.model.Clan.*;
 
 //TODO add droppedStudent to FXML
 //TODO add labels to island for the numbers
+//FIXME fix merge proportions
 public class IslandsPageController extends PageController implements Initializable {
 
     private String CLICKED_BUTTON = "-fx-opacity: 0.5";
@@ -261,7 +262,7 @@ public class IslandsPageController extends PageController implements Initializab
 
             for (int i = 0; i < anchorIslands.size(); i++) {
                 if (anchorIslands.get(i).getChildren().contains((Node) mouseEvent.getSource())) { //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
-                    System.out.println("è stata selezionata isola numero " + anchorIslands.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model"); //TODO delete
+                    System.out.println("è stata selezionata isola numero " + anchorIslands.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model e: " + i + " nel controller"); //TODO delete
                     if(!enabledMoveMotherNature) {
                         String imagePath = null;
                         for (Node child : anchorIslands.get(i).getChildren()) {
@@ -281,11 +282,13 @@ public class IslandsPageController extends PageController implements Initializab
     }
 
 
-    private void updateMotherNaturePosition(int motherNaturePositionUpdate){
-        if(motherNaturePositionUpdate != this.motherNaturePosition) {
+    public void updateMotherNaturePosition(int motherNaturePositionUpdate){
+        if(motherNaturePositionUpdate < modelIslands.size()) { //FIXME arriva update della posizione di MN prima del merge, e poi madre natura viene persa
             motherNature.get(motherNaturePosition).setVisible(false);
             this.motherNaturePosition = motherNaturePositionUpdate;
             motherNature.get(motherNaturePosition).setVisible(true);
+        } else {
+            System.out.println("INDEX OUT OF BOUNDS");
         }
     }
 
@@ -297,6 +300,7 @@ public class IslandsPageController extends PageController implements Initializab
     public void updateIslands(IslandManagerData islandManager){
         //TODO non ci sono merge -> si toglie solo un'isola?
         modelIslands = islandManager.getIslands();
+        //FIXME non aggiorna le isole precedenti fino al prossimo update
         for(int i=0; i<modelIslands.size(); i++){
             if(modelIslands.get(i).numberOfIslands() != numOfIslands.get(i)){
                 for(int j=1; j<modelIslands.get(i).numberOfIslands(); j++){
@@ -316,6 +320,7 @@ public class IslandsPageController extends PageController implements Initializab
             prepareIsland(i, modelIslands.get(i));
         }
         updateMotherNaturePosition(islandManager.getMotherNaturePosition());
+        System.out.println("UpdateMotherNaturePosition da UpdateIslands, MNPosition: " + islandManager.getMotherNaturePosition());
     }
 
     private void prepareIsland(int anchorIndex, IslandData modelIsland){
@@ -428,6 +433,7 @@ public class IslandsPageController extends PageController implements Initializab
     }
 
     public void remove(int index){
+        motherNature.remove(index);
         anchorIslands.remove(index);
         prohibitionCards.remove(index);
         pink.remove(index);
@@ -437,6 +443,7 @@ public class IslandsPageController extends PageController implements Initializab
         red.remove(index);
         towers.remove(index);
         numOfIslands.remove(index);
+
     }
 
     /**
@@ -472,9 +479,8 @@ public class IslandsPageController extends PageController implements Initializab
         enabledMoveMotherNature = true;
     }
 
-    public void movedMotherNature(boolean successfulMove, int updatedPosition){
+    public void movedMotherNature(boolean successfulMove){
         if(successfulMove){
-            updateMotherNaturePosition(updatedPosition);
             moveMotherNature.setVisible(false);
             moveMotherNature.setDisable(true);
             instructions.setText("");
@@ -491,7 +497,7 @@ public class IslandsPageController extends PageController implements Initializab
         super.handleErrorMessage(message);
         if(message.contains("The selected island is too far from Mother Nature")){
             Platform.runLater(() -> {
-                movedMotherNature(false, 13);
+                movedMotherNature(false);
             });
         }
     }

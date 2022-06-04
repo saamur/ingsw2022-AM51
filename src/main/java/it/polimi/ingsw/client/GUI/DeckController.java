@@ -202,7 +202,7 @@ public class DeckController extends PageController implements Initializable {
     }
 
     public void setCurrPlayer(String currPlayer){
-        //TODO controllare centratura corretta Label
+        //FIXME se si è secodni non lo aggiorna
         if (!this.nickname.equals(currPlayer)){
             chooseAssistantLabel.setText(currPlayer + " is choosing");
         } else {

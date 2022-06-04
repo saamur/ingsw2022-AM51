@@ -135,26 +135,33 @@ public class GUI extends Application implements View{
             }
             Platform.runLater(() -> {
                 synchronized (gameData) {
-                    if (updateMessage instanceof UpdateCloudManager) {
+                    if (updateMessage instanceof UpdateChosenCard) {
+                        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
+                        if (gameData.getGameState().equals(GameState.PLANNING)) {
+                            ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
+                            System.out.println("Giocatore che ha appena scelto: " + gameData.getCurrPlayer());
+                        }
+                    }else if (updateMessage instanceof UpdateCloudManager) {
                         ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
+                    } else if(updateMessage instanceof UpdateCharacterCard){
+                        ((CharactersController) controllers.get(CHARACTERS)).updateCharacterCard(((UpdateCharacterCard) updateMessage).characterCard());
+                        }else if (updateMessage instanceof UpdateCloud){
+                        ((CloudController) controllers.get(CLOUDS)).updateCloud(((UpdateCloud) updateMessage).cloudData());
+                    }else if (updateMessage instanceof UpdateMotherNaturePosition){
+                        if(gameData.getCurrPlayer().equals(this.nickname)) {
+                            ((IslandsPageController) controllers.get(ISLANDS)).movedMotherNature(true);
+                        }
+                        ((IslandsPageController) controllers.get(ISLANDS)).updateMotherNaturePosition(((UpdateMotherNaturePosition) updateMessage).islandIndex());
+                    } else if (updateMessage instanceof  UpdatePlayer){
+                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());
+                    } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
+                        ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
                         if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                             Platform.runLater(() -> setCurrScene(ACTIVATEEFFECT));
                         }
-                    } else if (updateMessage instanceof UpdateChosenCard) {
-                        ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
-                    }else if(updateMessage instanceof UpdateCharacterCard){
-                        ((CharactersController) controllers.get(CHARACTERS)).updateCharacterCard(((UpdateCharacterCard) updateMessage).characterCard());
-                        }else if (updateMessage instanceof UpdateCloud){
-                        ((CloudController) controllers.get(CLOUDS)).updateCloud(((UpdateCloud) updateMessage).cloudData());
-                    } else if (updateMessage instanceof  UpdatePlayer){
-                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());
-                    } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
-                        ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
-                    } else if (updateMessage instanceof UpdateMotherNaturePosition){
-                        ((IslandsPageController) controllers.get(ISLANDS)).movedMotherNature(true, ((UpdateMotherNaturePosition) updateMessage).islandIndex());
                     }
                 }
             });

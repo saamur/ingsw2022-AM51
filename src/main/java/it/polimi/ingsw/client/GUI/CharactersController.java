@@ -209,7 +209,6 @@ public class CharactersController extends PageController implements Initializabl
 
     public void setActivatedCharacter(CharacterID activatedCharacter, String nicknameCurrPlayer){
         this.activatedCharacter = activatedCharacter;
-        System.out.println("Ho settato activatedCharacter: " + activatedCharacter);
         if(activatedCharacter != null){
             System.out.println("Old style: " + anchors.get(selectedCharacterIndex).getStyleClass());
             for(ImageView character : characters){

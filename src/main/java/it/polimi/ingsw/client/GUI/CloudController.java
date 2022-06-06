@@ -156,8 +156,7 @@ public class CloudController extends PageController implements Initializable {
     public void updateClouds(CloudManagerData cloudManager) {
         CloudData[] newClouds = cloudManager.clouds();
         for (int i = 0; i < newClouds.length; i++) {
-            if (!newClouds[i].equals(modelClouds[i])) { //FIXME è arrivato update senza il Set
-                System.out.println("Sto modificando cloud con indice: " + i);
+            if (!newClouds[i].equals(modelClouds[i])) {
                 modifyCloud(i, newClouds[i]);
             }
             availableClouds[i] = true;

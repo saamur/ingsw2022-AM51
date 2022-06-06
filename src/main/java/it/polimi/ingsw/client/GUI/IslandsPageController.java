@@ -249,7 +249,7 @@ public class IslandsPageController extends PageController implements Initializab
     }
 
     public void back(ActionEvent event) {
-        if(previousScene != null && !gui.getTurnState().equals(TurnState.MOTHER_MOVING))
+        if(previousScene != null && gui.getTurnState()!=null && !gui.getTurnState().equals(TurnState.MOTHER_MOVING))
             gui.setCurrScene(previousScene);
         else
             gui.setCurrScene(GAMEBOARD);
@@ -284,11 +284,10 @@ public class IslandsPageController extends PageController implements Initializab
 
     public void updateMotherNaturePosition(int motherNaturePositionUpdate){
         if(motherNaturePositionUpdate < modelIslands.size()) { //FIXME arriva update della posizione di MN prima del merge, e poi madre natura viene persa
-            motherNature.get(motherNaturePosition).setVisible(false);
+            if(motherNaturePosition < motherNature.size())
+                motherNature.get(motherNaturePosition).setVisible(false);
             this.motherNaturePosition = motherNaturePositionUpdate;
             motherNature.get(motherNaturePosition).setVisible(true);
-        } else {
-            System.out.println("INDEX OUT OF BOUNDS");
         }
     }
 
@@ -297,13 +296,13 @@ public class IslandsPageController extends PageController implements Initializab
      * Then procedes to call {@link #prepareIsland(int, IslandData) prepareIsland}
      * @param islandManager the IslandManagerData sent via an UpdateIslands message
      */
-    public void updateIslands(IslandManagerData islandManager){
+    public synchronized void updateIslands(IslandManagerData islandManager){
         //TODO non ci sono merge -> si toglie solo un'isola?
         modelIslands = islandManager.getIslands();
         //FIXME non aggiorna le isole precedenti fino al prossimo update
         for(int i=0; i<modelIslands.size(); i++){
             if(modelIslands.get(i).numberOfIslands() != numOfIslands.get(i)){
-                for(int j=1; j<modelIslands.get(i).numberOfIslands(); j++){
+                for(int j=numOfIslands.get(i); j<modelIslands.get(i).numberOfIslands(); j++){
                     double removedIslandX = anchorIslands.get(i + 1).getLayoutX();
                     double removedIslandY = anchorIslands.get(i + 1).getLayoutY();
                     anchorIslands.get(i + 1).setDisable(true);
@@ -312,6 +311,7 @@ public class IslandsPageController extends PageController implements Initializab
                         child.setVisible(false);
                         child.setDisable(true);
                     }
+                    j = j + numOfIslands.get(i+1); //This way j comprehends the num of islands corresponding to the removed island
                     remove(i + 1);
                     moveMergedIsland(i, removedIslandX, removedIslandY);
                 }
@@ -320,7 +320,6 @@ public class IslandsPageController extends PageController implements Initializab
             prepareIsland(i, modelIslands.get(i));
         }
         updateMotherNaturePosition(islandManager.getMotherNaturePosition());
-        System.out.println("UpdateMotherNaturePosition da UpdateIslands, MNPosition: " + islandManager.getMotherNaturePosition());
     }
 
     private void prepareIsland(int anchorIndex, IslandData modelIsland){
@@ -379,14 +378,9 @@ public class IslandsPageController extends PageController implements Initializab
 
 
     private void makeDraggable(Node node) {
-        node.setOnMouseDragged(e -> {
-            System.out.println("onMousePressed");
-            e.setDragDetect(true);
-        });
+        node.setOnMouseDragged(e -> e.setDragDetect(true));
 
-        node.setOnDragDetected( e -> { //Dragging not working properly
-            System.out.println("onDragDetected"); //FIXME viene stampato
-
+        node.setOnDragDetected( e -> {
             Dragboard db = node.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.putString(node.getId());
@@ -398,37 +392,25 @@ public class IslandsPageController extends PageController implements Initializab
 
         for(AnchorPane island : anchorIslands){
             island.setOnDragDropped( e -> {
-                System.out.println("onDragDropped");
                 boolean success = false;
                 if(!droppedStudentImage.getId().isEmpty()){
-                    System.out.println("è stato dropped un clan di tipo: " + droppedStudentImage.getId());
                     droppedStudentImage.setVisible(false);
-                    instructions.setText("The student has been dropped on island " +  anchorIslands.indexOf(island));
                     sendMessage(new MoveStudentToIslandMessage(droppedStudent.getValue(), anchorIslands.indexOf(island)));
                     droppedStudent.setValue(null);
                     success = true;
                 }
-                System.out.println("Variabile success: " + success);
                 e.setDropCompleted(success);
                 e.consume();
                     }
             );
             island.setOnDragOver( e -> {
-                System.out.println("Qualcosa sta passando sopra all'isola, onMouseDragOver");
                 if(e.getGestureSource() != island)
                     e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                 e.consume();
             });
         }
 
-        node.setOnMouseReleased( e -> {
-            System.out.println("onDragDone");
-            System.out.println("è stato dropped?");
-
-            e.consume();
-
-
-        });
+        node.setOnMouseReleased( e -> e.consume()); //TODO delete?
 
     }
 
@@ -483,6 +465,7 @@ public class IslandsPageController extends PageController implements Initializab
         if(successfulMove){
             moveMotherNature.setVisible(false);
             moveMotherNature.setDisable(true);
+            instructions.setVisible(true);
             instructions.setText("");
             currCard = null;
         } else {
@@ -496,9 +479,7 @@ public class IslandsPageController extends PageController implements Initializab
     public void handleErrorMessage(String message){
         super.handleErrorMessage(message);
         if(message.contains("The selected island is too far from Mother Nature")){
-            Platform.runLater(() -> {
-                movedMotherNature(false);
-            });
+            Platform.runLater(() -> movedMotherNature(false));
         }
     }
 }

@@ -54,6 +54,7 @@ public class GUI extends Application implements View{
         this.stage = stage;
         setScenes();
         stage.setTitle("Eriantys");
+        setCurrScene(CONNECTION);
 
     }
 
@@ -87,16 +88,13 @@ public class GUI extends Application implements View{
     }
 
     public void setScenes() throws IOException {
-        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION, ACTIVATEEFFECT));
+        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION, ACTIVATEEFFECT /*, GAMEOVER*/));
         for (String file : fileNames){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file)); //FIXME aggiungere bottone per create username?
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file));
             scenes.put(file, new Scene(loader.load()));
             controllers.put(file, loader.getController());
             controllers.get(file).setGui(this);
         }
-
-        setCurrScene(CONNECTION);
-
     }
 
     @Override
@@ -137,10 +135,6 @@ public class GUI extends Application implements View{
                 synchronized (gameData) {
                     if (updateMessage instanceof UpdateChosenCard) {
                         ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
-                        if (gameData.getGameState().equals(GameState.PLANNING)) {
-                            ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
-                            System.out.println("Giocatore che ha appena scelto: " + gameData.getCurrPlayer());
-                        }
                     }else if (updateMessage instanceof UpdateCloudManager) {
                         ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
                     } else if(updateMessage instanceof UpdateCharacterCard){
@@ -162,6 +156,8 @@ public class GUI extends Application implements View{
                         if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                             Platform.runLater(() -> setCurrScene(ACTIVATEEFFECT));
                         }
+                        if (gameData.getGameState().equals(GameState.PLANNING))
+                            ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
                     }
                 }
             });
@@ -191,6 +187,7 @@ public class GUI extends Application implements View{
                         for(PlayerData player : gameData.getPlayerData()) {
                             if(gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
                                 ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
+                                System.out.println("Ora label dovrebbe vedersi");
                             }
                         }
                         setCurrScene(ISLANDS);
@@ -229,6 +226,7 @@ public class GUI extends Application implements View{
         Platform.runLater(() -> {
             ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
             setCurrScene(DISCONNECTION);
+            gameData = null;
             try{
                 setScenes(); //FIXME maybe do when click reconnect
             } catch (IOException e){
@@ -257,6 +255,7 @@ public class GUI extends Application implements View{
 
     public void disconnect() throws IOException{
         serverHandler.disconnect();
+        gameData = null;
         setScenes(); //In this case resets the stages
     }
 
@@ -265,7 +264,10 @@ public class GUI extends Application implements View{
     }
 
     public TurnState getTurnState(){
-        return this.gameData.getTurnState();
+        if(this.gameData.getTurnState() == null)
+            return null;
+        else
+            return this.gameData.getTurnState();
     }
 
 }

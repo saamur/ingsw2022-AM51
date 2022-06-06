@@ -265,11 +265,9 @@ public class SchoolBoardController extends PageController implements Initializab
     /* This method is for the Chambers and for the Island */
     private void enableDropOnNode(Node target){
         target.setOnDragDropped( e -> {
-                    System.out.println("onDragDropped");
                     boolean success = false;
                     Dragboard db = e.getDragboard();
                     if(db.hasString()){
-                        System.out.println("è stato dropped un clan di tipo: " + db.getString());
                         Clan clan = Clan.valueOf(db.getString());
                         if(target.getId().contains("table"))
                             sendMessage(new MoveStudentToChamberMessage(clan)); //FIXME it adds student to right chamber even if chamber is the wrong color
@@ -282,13 +280,11 @@ public class SchoolBoardController extends PageController implements Initializab
                         }
                         success = true;
                     }
-                    System.out.println("Variabile success: " + success);
                     e.setDropCompleted(success);
                     e.consume();
                 }
         );
         target.setOnDragOver( e -> {
-            System.out.println("Qualcosa sta passando sopra a " + target.getId() + "isola, onMouseDragOver");
             if(e.getGestureSource() != island)
                 e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 
@@ -333,8 +329,6 @@ public class SchoolBoardController extends PageController implements Initializab
         });
 
         source.setOnDragDone( e -> {
-            System.out.println("onDragDone");
-            System.out.println("è stato dropped?");
             source.setStyle(null);
             e.consume();
         });

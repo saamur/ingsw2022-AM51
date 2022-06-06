@@ -48,7 +48,6 @@ public class GameBoardController extends PageController implements Initializable
 
     public void selectIslands(MouseEvent click){
         gui.setCurrScene(ISLANDS);
-        System.out.println("ho selezionato le isole");
     }
 
     public void selectDeck(MouseEvent event){

@@ -111,19 +111,19 @@ public class GameConstants {
 
     static{
         DESCRIPTION_CHARACTERS = new EnumMap<>(CharacterID.class);
-        DESCRIPTION_CHARACTERS.put(MONK, "Pick 1 Student from the Card and place it on an Island of your choosing.\n"); /*Then, pick 1 Student from the Bag and mettilo su questa carta*/
-        DESCRIPTION_CHARACTERS.put(FARMER, "During this turn, you will be in control of the Professors even if in your Chamber you have the same number of Students of the Player who has them in that moment");
-        DESCRIPTION_CHARACTERS.put(HERALD, "Pick an Island and calculate the influence as if Mother Nature had terminated her movement there.\nIn this Turn Mother Nature will move as usual and on the Island where she will end her movement the influence will be calculated as normal");
-        DESCRIPTION_CHARACTERS.put(POSTMAN, "You can move Mother Nature up to 2 additional Islands than what is indicated on the Assistant's card that you have chosen");
-        DESCRIPTION_CHARACTERS.put(GRANDMA, "Place a Prohibition Card on an Island of you choosing.\nThe first time that Mother Nature ends her movement there, the Prohibition Card will be placed back on the Character Card without calculating the influence or placing any Towers");
-        DESCRIPTION_CHARACTERS.put(CENTAUR, "Durante il conteggio dell'influenza su un'Isola (o su un gruppo di Isole), le Torri presenti non vengono calcolate");
-        DESCRIPTION_CHARACTERS.put(JESTER, "Puoi prendere fino a 3 studenti da questa carta e scambiarli con altrettanti studenti presenti nel tuo ingresso");
-        DESCRIPTION_CHARACTERS.put(KNIGHT, "In questo turno durante il calcolo dell'influenza hai due punti di influenza addizionali");
-        DESCRIPTION_CHARACTERS.put(MUSHROOMPICKER, "Scegli il colore di uno Studente; in questo turno, durante il calcolo dell'influenza quel colore non fornisce influenza");
-        DESCRIPTION_CHARACTERS.put(MINSTREL, "Puoi scambiare fra loro fino a 2 studenti presenti nella tua sala e nel tuo ingresso");
-        DESCRIPTION_CHARACTERS.put(PRINCESS, "Prendi uno studente da questa carta e piazzalo nella tua sala. Poi pesca uno studente dal sacchetto e posizionalo su questa carta");
-        DESCRIPTION_CHARACTERS.put(THIEF, "Scegli il colore di uno Studente; ogni giocatore (incluso te) deve rimettere nel sacchetto 3 Studenti di quel colore presenti nella tua sala. Chi avesse meno di 3 studenti di quel colore, rimetterà tutti quelli che ha");
-    } //FIXME translate
+        DESCRIPTION_CHARACTERS.put(MONK, "Take 1 student from this card and place it on an Island of your choice.\n");
+        DESCRIPTION_CHARACTERS.put(FARMER, "During this turn, you take control of any number of Professor even if you have the same number of Students as the player who currently controls them\n");
+        DESCRIPTION_CHARACTERS.put(HERALD, "Choose an Island and resolve the Island as if Mother Nature had ended her movement there.\nMother Nature will still move and the Island where she ends her movement will also be resolved\n");
+        DESCRIPTION_CHARACTERS.put(POSTMAN, "You may move Mother Nature up to 2 additional Island than is indicated by the Assistant card you've played\n");
+        DESCRIPTION_CHARACTERS.put(GRANDMA, "Place a No Entry tile on an Island of your choice.\nThe first time that Mother Nature ends her movement there, put the Prohibition Card back onto this card and DO NOT calculate influence on that Island, or place any Towers \n");
+        DESCRIPTION_CHARACTERS.put(CENTAUR, "When resolving a Conquering on an Island do not count towards influence\n");
+        DESCRIPTION_CHARACTERS.put(JESTER, "You may take up to 3 Students from this card and replace them with the same number of Students from your Hall\n");
+        DESCRIPTION_CHARACTERS.put(KNIGHT, "During the influence calculation this turn, you count as having 2 more influence\n");
+        DESCRIPTION_CHARACTERS.put(MUSHROOMPICKER, "Choose a color of Student: during the influence calculation this turn, that color adds no influence\n");
+        DESCRIPTION_CHARACTERS.put(MINSTREL, "You may exchange up to 2 Students between your Hall and your Chamber\n");
+        DESCRIPTION_CHARACTERS.put(PRINCESS, "Take 1 Student from this card and place it in your Chamber.");
+        DESCRIPTION_CHARACTERS.put(THIEF, "Choose a type of Student: every player (including yourself) must return 3 Students of that type from their Chamber. If any player has fewer than 3 Students of that type, return as many Students as they have\n");
+    }
 
     public static String getDescriptionCharacter(CharacterID character){
         return DESCRIPTION_CHARACTERS.get(character);

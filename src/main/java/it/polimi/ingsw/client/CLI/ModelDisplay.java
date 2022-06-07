@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.charactercards.CharacterID;
+import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -498,12 +499,9 @@ public class ModelDisplay {
 
     public static void displayDeck (PlayerData playerData) {
 
-        updateDeck(0, playerData, Math.min(playerData.getAvailableCards().size(), CliGraphicConstants.MAX_VISUAL_DECK));
+        updateDeck(0, playerData, CliGraphicConstants.MAX_VISUAL_DECK);
+        updateDeck(CliGraphicConstants.MAX_VISUAL_DECK, playerData, Card.values().length);
 
-
-        if (playerData.getAvailableCards().size() > 5) {
-            updateDeck(CliGraphicConstants.MAX_VISUAL_DECK, playerData, playerData.getAvailableCards().size());
-        }
     }
 
 
@@ -517,17 +515,25 @@ public class ModelDisplay {
     private static void updateDeck(int init, PlayerData playerData, int d){
         System.out.print("          | ");
         for(int i = init; i < d; i++) {
-            System.out.print(playerData.getAvailableCards().get(i).toString());
-            for (int j = 0; j < CliGraphicConstants.MAX_NAME_CARD_LENGTH - playerData.getAvailableCards().get(i).toString().length(); j++) {
+            Card c = Card.values()[i];
+            if(playerData.getAvailableCards().contains(c))
+                System.out.print(c.toString());
+            else
+                System.out.print(CliGraphicConstants.ANSI_GRAY + c.toString() + CliGraphicConstants.ANSI_RESET);
+            for (int j = 0; j < CliGraphicConstants.MAX_NAME_CARD_LENGTH - c.toString().length(); j++) {
                 System.out.print(" ");
             }
             System.out.print(" | ");
         }
         System.out.print("\nPriority  |");
         for(int i = init; i < d; i++) {
+            Card c = Card.values()[i];
             System.out.print("    ");
-            System.out.print(playerData.getAvailableCards().get(i).getPriority());
-            if (playerData.getAvailableCards().get(i).getPriority() == CliGraphicConstants.DOUBLE_DIGITS)
+            if(playerData.getAvailableCards().contains(c))
+                System.out.print(c.getPriority());
+            else
+                System.out.print(CliGraphicConstants.ANSI_GRAY + c.getPriority() + CliGraphicConstants.ANSI_RESET);
+            if (c.getPriority() == CliGraphicConstants.DOUBLE_DIGITS)
                 System.out.print("    |");
             else
                 System.out.print("     |");
@@ -535,8 +541,12 @@ public class ModelDisplay {
 
         System.out.print("\nMax Steps |");
         for(int i = init; i < d; i++) {
+            Card c = Card.values()[i];
             System.out.print("    ");
-            System.out.print(playerData.getAvailableCards().get(i).getMaxStepsMotherNature());
+            if(playerData.getAvailableCards().contains(c))
+                System.out.print(c.getMaxStepsMotherNature());
+            else
+                System.out.print(CliGraphicConstants.ANSI_GRAY + c.getMaxStepsMotherNature() + CliGraphicConstants.ANSI_RESET);
             System.out.print("     |");
         }
         System.out.println("\n\n");

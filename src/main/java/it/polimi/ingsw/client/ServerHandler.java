@@ -44,7 +44,7 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 o = in.readObject();
 //                if (!(o instanceof String))
-//                    System.out.println("Message received: " + o);
+//                   System.out.println("Message received: " + o);
 
                 if ("ping".equals(o)) {
                     sendObject("pong");

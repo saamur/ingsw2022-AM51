@@ -452,6 +452,7 @@ public class IslandsPageController extends PageController implements Initializab
         this.currCard = currCard;
         moveMotherNature.setVisible(true);
         moveMotherNature.setDisable(false);
+        instructions.setVisible(true);
         int maxSteps = currCard.getMaxStepsMotherNature(); //FIXME modificare per characters
         instructions.setText("By clicking the button and then clicking on an Island\nyou will move Mother Nature there\nYou have " + maxSteps + " step" + (maxSteps > 1 ? "s" : ""));
     }
@@ -465,7 +466,6 @@ public class IslandsPageController extends PageController implements Initializab
         if(successfulMove){
             moveMotherNature.setVisible(false);
             moveMotherNature.setDisable(true);
-            instructions.setVisible(true);
             instructions.setText("");
             currCard = null;
         } else {

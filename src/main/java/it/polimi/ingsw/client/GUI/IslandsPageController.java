@@ -296,13 +296,15 @@ public class IslandsPageController extends PageController implements Initializab
      * Then procedes to call {@link #prepareIsland(int, IslandData) prepareIsland}
      * @param islandManager the IslandManagerData sent via an UpdateIslands message
      */
-    public synchronized void updateIslands(IslandManagerData islandManager){
+    public synchronized void updateIslands(IslandManagerData islandManager){ //FIXME opening game with 10 islands, 11th island is visible, it should't be
         //TODO non ci sono merge -> si toglie solo un'isola?
         modelIslands = islandManager.getIslands();
         //FIXME non aggiorna le isole precedenti fino al prossimo update
         for(int i=0; i<modelIslands.size(); i++){
             if(modelIslands.get(i).numberOfIslands() != numOfIslands.get(i)){
-                for(int j=numOfIslands.get(i); j<modelIslands.get(i).numberOfIslands(); j++){
+                int j = numOfIslands.get(i);
+                while(j<modelIslands.get(i).numberOfIslands()){
+                    System.out.println("L'isola che sta facendo merging è: " + i);
                     double removedIslandX = anchorIslands.get(i + 1).getLayoutX();
                     double removedIslandY = anchorIslands.get(i + 1).getLayoutY();
                     anchorIslands.get(i + 1).setDisable(true);
@@ -312,7 +314,9 @@ public class IslandsPageController extends PageController implements Initializab
                         child.setDisable(true);
                     }
                     j = j + numOfIslands.get(i+1); //This way j comprehends the num of islands corresponding to the removed island
+                    System.out.println("il numero di isole ora è a: " + j);
                     remove(i + 1);
+                    System.out.println("Ho rimosso l'isola: " + (i+1));
                     moveMergedIsland(i, removedIslandX, removedIslandY);
                 }
                 numOfIslands.set(i, modelIslands.get(i).numberOfIslands());
@@ -334,6 +338,8 @@ public class IslandsPageController extends PageController implements Initializab
         if(towerColor != null){
             towers.get(anchorIndex).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(towerColor)).toExternalForm()));
             towers.get(anchorIndex).setVisible(true);
+        } else {
+            towers.get(anchorIndex).setVisible(false);
         }
         if(modelIsland.numberOfIslands() > 1){
             double coefficient = modelIsland.numberOfIslands() - 1; //per due isole aggiungo la metà per 3 isole aggiungo

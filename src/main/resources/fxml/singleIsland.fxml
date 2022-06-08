@@ -21,27 +21,27 @@
                   <Image url="@../png/mother_nature.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="yellow" layoutX="279.0" layoutY="259.0">
+            <ImageView fx:id="yellow" fitHeight="40.0" fitWidth="40.0" layoutX="279.0" layoutY="259.0">
                <image>
                   <Image url="@../png/clan/students/student_yellow.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="blue" layoutX="229.0" layoutY="259.0">
+            <ImageView fx:id="blue" fitHeight="40.0" fitWidth="40.0" layoutX="229.0" layoutY="259.0">
                <image>
                   <Image url="@../png/clan/students/student_blue.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="green" layoutX="177.0" layoutY="259.0">
+            <ImageView fx:id="green" fitHeight="40.0" fitWidth="40.0" layoutX="177.0" layoutY="259.0">
                <image>
                   <Image url="@../png/clan/students/student_green.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="pink" layoutX="122.0" layoutY="259.0">
+            <ImageView fx:id="pink" fitHeight="40.0" fitWidth="40.0" layoutX="122.0" layoutY="259.0">
                <image>
                   <Image url="@../png/clan/students/student_pink.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="red" layoutX="209.0" layoutY="316.0">
+            <ImageView fx:id="red" fitHeight="40.0" fitWidth="40.0" layoutX="209.0" layoutY="316.0">
                <image>
                   <Image url="@../png/clan/students/student_red.png" />
                </image>

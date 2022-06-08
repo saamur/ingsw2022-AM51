@@ -650,7 +650,7 @@
             </AnchorPane>
             <AnchorPane fx:id="droppedStudentAnchor" layoutX="404.0" layoutY="270.0" prefHeight="72.0" prefWidth="91.0" stylesheets="@../style.css">
                <children>
-                  <ImageView fx:id="droppedStudentImage" layoutX="26.0" layoutY="9.0">
+                  <ImageView fx:id="droppedStudentImage" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="9.0">
                      <image>
                         <Image url="@../png/clan/students/student_pink.png" />
                      </image>

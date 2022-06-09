@@ -14,7 +14,7 @@
          <children>
             <AnchorPane fx:id="anchorIsland10" layoutX="24.0" layoutY="306.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island10" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island10" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
@@ -67,7 +67,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland0" layoutX="24.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island0" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island0" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
@@ -120,7 +120,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland3" layoutX="713.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island3" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island3" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
@@ -173,7 +173,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland5" layoutX="713.0" layoutY="306.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island5" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island5" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
@@ -226,7 +226,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland1" layoutX="273.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island1" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island1" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
@@ -279,7 +279,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland9" layoutX="24.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island9" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island9" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
@@ -332,7 +332,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland8" layoutX="273.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island8" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island8" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
@@ -385,7 +385,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland7" layoutX="493.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island7" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island7" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
@@ -438,7 +438,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland6" layoutX="713.0" layoutY="447.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island6" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island6" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island1.png" />
                      </image>
@@ -491,7 +491,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland4" layoutX="713.0" layoutY="146.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island4" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island4" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island3.png" />
                      </image>
@@ -544,7 +544,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland11" layoutX="24.0" layoutY="157.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island11" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island11" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>
@@ -597,7 +597,7 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorIsland2" layoutX="493.0" onMouseClicked="#selectIsland">
                <children>
-                  <ImageView fx:id="island2" fitHeight="160.0" fitWidth="210.0" onMouseClicked="#selectIsland" preserveRatio="true">
+                  <ImageView fx:id="island2" fitHeight="160.0" fitWidth="160.0" onMouseClicked="#selectIsland" preserveRatio="true">
                      <image>
                         <Image url="@../png/islands/island2.png" />
                      </image>

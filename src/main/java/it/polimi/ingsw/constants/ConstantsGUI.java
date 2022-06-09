@@ -292,17 +292,17 @@ public class ConstantsGUI {
         return COLOR_CLAN.get(clan);
     }
 
-    private static final int SINGLE_ISLAND_WIDTH_CONSTANT = 210;
-    private static final int SINGLE_ISLAND_HEIGHT_CONSTANT = 160;
+    private static final double SINGLE_ISLAND_WIDTH_CONSTANT = 160;
+    private static final double SINGLE_ISLAND_HEIGHT_CONSTANT = 160;
     private static final Map<String, Integer> ORIGINAL_ISLANDS_X_COORDINATES = new HashMap<>();
     private static final Map<String, Integer> ORIGINAL_ISLANDS_Y_COORDINATES = new HashMap<>();
 
-    public static int getIslandWidth() {
-        return SINGLE_ISLAND_WIDTH_CONSTANT;
+    public static double getIslandWidth(int numSubIslands) {
+        return (1 + (double)(numSubIslands-1)/2) * SINGLE_ISLAND_WIDTH_CONSTANT;
     }
 
-    public static int getIslandHeight(){
-        return SINGLE_ISLAND_HEIGHT_CONSTANT;
+    public static double getIslandHeight(int numSubIslands){
+        return (1 + (double)(numSubIslands-1)/2) * SINGLE_ISLAND_HEIGHT_CONSTANT;
     }
 
     static{

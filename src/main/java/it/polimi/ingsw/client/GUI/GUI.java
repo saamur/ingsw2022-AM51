@@ -88,7 +88,7 @@ public class GUI extends Application implements View{
     }
 
     public void setScenes() throws IOException {
-        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION, ACTIVATEEFFECT /*, GAMEOVER*/));
+        List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION, ACTIVATEEFFECT , GAMEOVER));
         for (String file : fileNames){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + file));
             scenes.put(file, new Scene(loader.load()));
@@ -198,9 +198,10 @@ public class GUI extends Application implements View{
                     }
                 else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
                     setCurrScene(CLOUDS);
-            } else if (gameData.getGameState().equals(GameState.GAME_OVER)){
-                //setCurrScene(GAMEOVER);
-            }
+            }/* else if (gameData.getGameState().equals(GameState.GAME_OVER)){
+                ((GameOverController) controllers.get(GAMEOVER)).setWinners(gameData);
+                setCurrScene(GAMEOVER);
+            }*/
         });
     }
 
@@ -222,7 +223,8 @@ public class GUI extends Application implements View{
 
     @Override
     public void handleGameOver(List<String> winnersNickname) {
-
+        ((GameOverController) controllers.get(GAMEOVER)).setWinners(winnersNickname );
+        Platform.runLater(() -> setCurrScene(GAMEOVER));
     }
 
     @Override

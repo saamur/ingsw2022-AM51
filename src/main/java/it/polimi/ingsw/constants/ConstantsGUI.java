@@ -3,9 +3,11 @@ package it.polimi.ingsw.constants;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;
+import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import static it.polimi.ingsw.model.Clan.*;
@@ -291,6 +293,8 @@ public class ConstantsGUI {
 
     private static final int SINGLE_ISLAND_WIDTH_CONSTANT = 210;
     private static final int SINGLE_ISLAND_HEIGHT_CONSTANT = 160;
+    private static final Map<String, Integer> ORIGINAL_ISLANDS_X_COORDINATES = new HashMap<>();
+    private static final Map<String, Integer> ORIGINAL_ISLANDS_Y_COORDINATES = new HashMap<>();
 
     public static int getIslandWidth() {
         return SINGLE_ISLAND_WIDTH_CONSTANT;
@@ -298,5 +302,43 @@ public class ConstantsGUI {
 
     public static int getIslandHeight(){
         return SINGLE_ISLAND_HEIGHT_CONSTANT;
+    }
+
+    static{
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland0", 24);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland1", 273);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland2", 493);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland3", 713);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland4", 713);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland5", 713);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland6", 713);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland7", 493);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland8", 273);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland9", 24);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland10", 24);
+       ORIGINAL_ISLANDS_X_COORDINATES.put("anchorIsland11", 24);
+    }
+
+    static{
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland0", 0);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland1", 0);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland2", 0);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland3", 0);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland4", 146);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland5", 306);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland6", 447);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland7", 447);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland8", 447);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland9", 447);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland10", 306);
+        ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland11", 157);
+    }
+
+    public static int getIslandX(AnchorPane anchor){
+        return ORIGINAL_ISLANDS_X_COORDINATES.get(anchor.getId());
+    }
+
+    public static int getIslandY(AnchorPane anchor){
+        return ORIGINAL_ISLANDS_Y_COORDINATES.get(anchor.getId());
     }
 }

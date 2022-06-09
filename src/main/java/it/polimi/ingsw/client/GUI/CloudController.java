@@ -131,8 +131,13 @@ public class CloudController extends PageController implements Initializable {
         students.put(1, studentsCloud1);
 
         for (int i = 0; i < modelClouds.length; i++) {
-            System.out.println("Sto modificando cloud con indice: " + i);
-            modifyCloud(i, modelClouds[i]);
+            if(modelClouds[i].picked()){
+                clouds.get(i).setOpacity(0.5);
+                availableClouds[i] = false;
+                for(int j=0; j<numOfStudentsPerCloud; j++)
+                    students.get(i).get(j).setVisible(false);
+            } else
+                modifyCloud(i, modelClouds[i]);
         }
 
         this.expertModeEnabled = expertModeEnabled;
@@ -144,7 +149,6 @@ public class CloudController extends PageController implements Initializable {
             if (clouds.get(i).getChildren().contains((Node) event.getSource())) {
                 if (availableClouds[i]) {
                     sendMessage(new ChosenCloudMessage(i));
-                     //clouds.get(i).setOpacity(0.5);
                 } else {
                     errorLabel.setText("This cloud has already been chosen, choose another cloud");
                 }
@@ -202,7 +206,7 @@ public class CloudController extends PageController implements Initializable {
         }
     }
 
-
+    //FIXME togliere endturn per i non currPlayers
     public void endTurn(ActionEvent actionEvent) {
         sendMessage(new EndTurnMessage());
     }
@@ -211,5 +215,20 @@ public class CloudController extends PageController implements Initializable {
         //((CharactersController) gui.getControllers().get(CHARACTERS)).setPreviousScene(CLOUDS);
         gui.setCurrScene(CHARACTERS);
         //TODO
+    }
+
+    public void lastRound(){
+        for(AnchorPane cloud : clouds){
+            for(Node child : cloud.getChildren()) {
+                child.setVisible(false);
+                child.setDisable(true);
+            }
+            cloud.setVisible(false);
+            cloud.setDisable(true);
+        }
+        //FIXME show only if currPlayer
+        endTurnButton.setVisible(true);
+        endTurnButton.setDisable(false);
+        chooseCloudLabel.setVisible(false);
     }
 }

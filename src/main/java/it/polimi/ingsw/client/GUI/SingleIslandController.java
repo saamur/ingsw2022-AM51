@@ -70,6 +70,7 @@ public class SingleIslandController extends PageController implements Initializa
      * @param event
      */
     public void back(ActionEvent event){
+        System.out.println("The back button has been clicked");
         gui.setCurrScene(ISLANDS);
         resetIsland();
     }
@@ -102,6 +103,7 @@ public class SingleIslandController extends PageController implements Initializa
             tower.setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(modelIsland.towerColor())).toExternalForm()));
             towerLabel.setText("x" + modelIsland.numberOfTowers());
         }
+        System.out.println("The island has been set");
     }
 
     /**
@@ -117,6 +119,7 @@ public class SingleIslandController extends PageController implements Initializa
         towerLabel.setText("");
         prohibitionCard.setVisible(false);
         prohibitionCardLabel.setText("");
+        System.out.println("The island has been reset");
     }
 
 

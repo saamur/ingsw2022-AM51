@@ -35,15 +35,17 @@ import static it.polimi.ingsw.model.Clan.*;
 //FIXME fix merge proportions
 public class IslandsPageController extends PageController implements Initializable {
 
-    private String CLICKED_BUTTON = "-fx-opacity: 0.5";
+    private final String CLICKED_BUTTON = "-fx-opacity: 0.5";
 
     @FXML private Pane window;
     @FXML private Button moveMotherNature;
     private boolean enabledMoveMotherNature;
 
     List<AnchorPane> anchorIslands;
-    List<ImageView> prohibitionCards;
-    Map<Clan, List<ImageView>> clanColors = new EnumMap<>(Clan.class);
+    List<AnchorPane> tempAnchor;
+
+    Map<AnchorPane, ImageView> prohibitionCards = new HashMap<>();
+    Map<Clan, Map<AnchorPane, ImageView>> clanColors = new EnumMap<>(Clan.class);
 
     @FXML AnchorPane anchorIsland0;
     @FXML AnchorPane anchorIsland1;
@@ -83,7 +85,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView pink9;
     @FXML ImageView pink10;
     @FXML ImageView pink11;
-    List<ImageView> pink;
+    Map<AnchorPane, ImageView> pink = new HashMap<>();
 
     @FXML ImageView green0;
     @FXML ImageView green1;
@@ -97,7 +99,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView green9;
     @FXML ImageView green10;
     @FXML ImageView green11;
-    List<ImageView> green;
+    Map<AnchorPane, ImageView> green = new HashMap<>();
 
     @FXML ImageView blue0;
     @FXML ImageView blue1;
@@ -111,7 +113,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView blue9;
     @FXML ImageView blue10;
     @FXML ImageView blue11;
-    List<ImageView> blue;
+    Map<AnchorPane, ImageView> blue = new HashMap<>();
 
     @FXML ImageView red0;
     @FXML ImageView red1;
@@ -125,7 +127,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView red9;
     @FXML ImageView red10;
     @FXML ImageView red11;
-    List<ImageView> red;
+    Map<AnchorPane, ImageView> red = new HashMap<>();
 
     @FXML ImageView yellow0;
     @FXML ImageView yellow1;
@@ -139,7 +141,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView yellow9;
     @FXML ImageView yellow10;
     @FXML ImageView yellow11;
-    List<ImageView> yellow;
+    Map<AnchorPane, ImageView> yellow = new HashMap<>();
 
     @FXML ImageView tower0;
     @FXML ImageView tower1;
@@ -153,7 +155,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView tower9;
     @FXML ImageView tower10;
     @FXML ImageView tower11;
-    List<ImageView> towers;
+    Map< AnchorPane, ImageView> towers = new HashMap<>();
 
     @FXML ImageView motherNature0;
     @FXML ImageView motherNature1;
@@ -167,7 +169,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML ImageView motherNature9;
     @FXML ImageView motherNature10;
     @FXML ImageView motherNature11;
-    List<ImageView> motherNature;
+    Map<AnchorPane, ImageView> motherNature = new HashMap<>();
 
     @FXML Button back;
 
@@ -180,8 +182,6 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML AnchorPane droppedStudentAnchor;
     @FXML Label instructions;
 
-    private List<Integer> numOfIslands = new ArrayList<>();
-
     private String previousScene;
 
 
@@ -189,12 +189,26 @@ public class IslandsPageController extends PageController implements Initializab
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //islands = new ArrayList<>(Arrays.asList(island0, island1, island2, island3, island4, island5, island6, island7, island8, island9, island10, island11));
         anchorIslands = new ArrayList<>(Arrays.asList(anchorIsland0, anchorIsland1, anchorIsland2, anchorIsland3, anchorIsland4, anchorIsland5, anchorIsland6, anchorIsland7, anchorIsland8, anchorIsland9, anchorIsland10, anchorIsland11));
-        prohibitionCards = new ArrayList<>(Arrays.asList(prohibitionCard0, prohibitionCard1, prohibitionCard2, prohibitionCard3, prohibitionCard4, prohibitionCard5, prohibitionCard6, prohibitionCard7, prohibitionCard8, prohibitionCard9, prohibitionCard10, prohibitionCard11));
-        pink = new ArrayList<>(Arrays.asList(pink0, pink1, pink2, pink3, pink4, pink5, pink6, pink7, pink8, pink9, pink10, pink11));
-        green = new ArrayList<>(Arrays.asList(green0, green1, green2, green3, green4, green5, green6, green7, green8, green9, green10, green11));
-        blue = new ArrayList<>(Arrays.asList(blue0, blue1, blue2, blue3, blue4, blue5, blue6, blue7, blue8, blue9, blue10, blue11));
-        red = new ArrayList<>(Arrays.asList(red0, red1, red2, red3, red4, red5, red6, red7, red8, red9, red10, red11));
-        yellow = new ArrayList<>(Arrays.asList(yellow0, yellow1, yellow2, yellow3, yellow4, yellow5, yellow6, yellow7, yellow8, yellow9, yellow10, yellow11));
+
+        List<ImageView> tempProhibitionCards = new ArrayList<>(Arrays.asList(prohibitionCard0, prohibitionCard1, prohibitionCard2, prohibitionCard3, prohibitionCard4, prohibitionCard5, prohibitionCard6, prohibitionCard7, prohibitionCard8, prohibitionCard9, prohibitionCard10, prohibitionCard11));
+        List<ImageView> tempTowers = new ArrayList<>(Arrays.asList(tower0, tower1, tower2, tower3, tower4, tower5, tower6, tower7, tower8, tower9, tower10, tower11));
+        List<ImageView> tempPink = new ArrayList<>(Arrays.asList(pink0, pink1, pink2, pink3, pink4, pink5, pink6, pink7, pink8, pink9, pink10, pink11));
+        List<ImageView> tempGreen = new ArrayList<>(Arrays.asList(green0, green1, green2, green3, green4, green5, green6, green7, green8, green9, green10, green11));
+        List<ImageView> tempBlue = new ArrayList<>(Arrays.asList(blue0, blue1, blue2, blue3, blue4, blue5, blue6, blue7, blue8, blue9, blue10, blue11));
+        List<ImageView> tempRed = new ArrayList<>(Arrays.asList(red0, red1, red2, red3, red4, red5, red6, red7, red8, red9, red10, red11));
+        List<ImageView> tempYellow = new ArrayList<>(Arrays.asList(yellow0, yellow1, yellow2, yellow3, yellow4, yellow5, yellow6, yellow7, yellow8, yellow9, yellow10, yellow11));
+        List<ImageView> tempMotherNature = new ArrayList<>(Arrays.asList(motherNature0, motherNature1, motherNature2, motherNature3, motherNature4, motherNature5, motherNature6, motherNature7, motherNature8, motherNature9, motherNature10, motherNature11));
+
+        for(int i=0; i<anchorIslands.size(); i++){
+            prohibitionCards.put(anchorIslands.get(i), tempProhibitionCards.get(i));
+            towers.put(anchorIslands.get(i), tempTowers.get(i));
+            pink.put(anchorIslands.get(i), tempPink.get(i));
+            green.put(anchorIslands.get(i), tempGreen.get(i));
+            blue.put(anchorIslands.get(i), tempBlue.get(i));
+            red.put(anchorIslands.get(i), tempRed.get(i));
+            yellow.put(anchorIslands.get(i), tempYellow.get(i));
+            motherNature.put(anchorIslands.get(i), tempMotherNature.get(i));
+        }
 
         clanColors.put(PIXIES, yellow);
         clanColors.put(UNICORNS, blue);
@@ -202,17 +216,15 @@ public class IslandsPageController extends PageController implements Initializab
         clanColors.put(DRAGONS, red);
         clanColors.put(FAIRIES, pink);
 
-        towers = new ArrayList<>(Arrays.asList(tower0, tower1, tower2, tower3, tower4, tower5, tower6, tower7, tower8, tower9, tower10, tower11));
-        motherNature = new ArrayList<>(Arrays.asList(motherNature0, motherNature1, motherNature2, motherNature3, motherNature4, motherNature5, motherNature6, motherNature7, motherNature8, motherNature9, motherNature10, motherNature11));
 
-        for(int i = 0; i< anchorIslands.size(); i++) {
-            motherNature.get(i).setVisible(false);
-            towers.get(i).setVisible(false);
-            prohibitionCards.get(i).setVisible(false);
-            anchorIslands.get(i).getStylesheets().add("/style.css");
-            anchorIslands.get(i).getStyleClass().add("image-view-selection");
-            numOfIslands.add(i, 1);
+        for(AnchorPane anchor : anchorIslands) {
+            motherNature.get(anchor).setVisible(false);
+            towers.get(anchor).setVisible(false);
+            prohibitionCards.get(anchor).setVisible(false);
+            anchor.getStylesheets().add("/style.css");
+            anchor.getStyleClass().add("image-view-selection");
         }
+        tempAnchor = new ArrayList<>(anchorIslands);
 
         makeDraggable(droppedStudentImage);
 
@@ -259,13 +271,14 @@ public class IslandsPageController extends PageController implements Initializab
 
     public void selectIsland(MouseEvent mouseEvent) {
         System.out.println("selected island" + mouseEvent.getSource());
-
-            for (int i = 0; i < anchorIslands.size(); i++) {
-                if (anchorIslands.get(i).getChildren().contains((Node) mouseEvent.getSource())) { //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
-                    System.out.println("è stata selezionata isola numero " + anchorIslands.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model e: " + i + " nel controller"); //TODO delete
+        System.out.println("tempAnchor size: " + tempAnchor.size());
+            for (int i = 0; i < tempAnchor.size(); i++) {
+                System.out.println("elemento di TempAnchor: " + tempAnchor.get(i));
+                if (/*tempAnchor.get(i).getChildren().contains((Node) mouseEvent.getSource()) ||*/ tempAnchor.get(i).equals(mouseEvent.getSource())) { //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
+                    System.out.println("è stata selezionata isola numero " + tempAnchor.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model e: " + i + " nel controller"); //TODO delete
                     if(!enabledMoveMotherNature) {
                         String imagePath = null;
-                        for (Node child : anchorIslands.get(i).getChildren()) {
+                        for (Node child : tempAnchor.get(i).getChildren()) {
                             if (child instanceof ImageView) {
                                 if (child.getId().contains("island")) {
                                     imagePath = ((ImageView) child).getImage().getUrl();
@@ -276,7 +289,9 @@ public class IslandsPageController extends PageController implements Initializab
                         gui.setCurrScene(SINGLEISLAND);
                     } else {
                         sendMessage(new MoveMotherNatureMessage(i));
+                        System.out.println("inviato messaggio, spostare MN su: " + i);
                     }
+                    System.out.println("MoveMotherNatureButton: " + (enabledMoveMotherNature? "clicked" : "not clicked"));
                 }
             }
     }
@@ -284,96 +299,116 @@ public class IslandsPageController extends PageController implements Initializab
 
     public void updateMotherNaturePosition(int motherNaturePositionUpdate){
         if(motherNaturePositionUpdate < modelIslands.size()) { //FIXME arriva update della posizione di MN prima del merge, e poi madre natura viene persa
-            if(motherNaturePosition < motherNature.size())
-                motherNature.get(motherNaturePosition).setVisible(false);
+            if(motherNaturePosition < tempAnchor.size())
+                motherNature.get(tempAnchor.get(motherNaturePosition)).setVisible(false);
             this.motherNaturePosition = motherNaturePositionUpdate;
-            motherNature.get(motherNaturePosition).setVisible(true);
+            motherNature.get(tempAnchor.get(motherNaturePosition)).setVisible(true);
         }
     }
 
     /**
      * This method browses all of the modelIslands, if the number of islands does not correspond to the one saved it disables the following island, deleting the corresponding images and anchors from the various lists.
-     * Then procedes to call {@link #prepareIsland(int, IslandData) prepareIsland}
+     * Then procedes to call {@link #prepareIsland(AnchorPane, IslandData)}  prepareIsland}
      * @param islandManager the IslandManagerData sent via an UpdateIslands message
      */
     public synchronized void updateIslands(IslandManagerData islandManager){ //FIXME opening game with 10 islands, 11th island is visible, it should't be
-        //TODO non ci sono merge -> si toglie solo un'isola?
+        for(AnchorPane anchor : anchorIslands) {
+            motherNature.get(anchor).setVisible(false);
+            towers.get(anchor).setVisible(false);
+            prohibitionCards.get(anchor).setVisible(false);
+            anchor.setVisible(true);
+            anchor.setDisable(false);
+            for(Node child : anchor.getChildren()) {
+                child.setDisable(false);
+                if(!child.getId().contains("motherNature"))
+                    child.setVisible(true);
+            }
+        }
+        tempAnchor = new ArrayList<>(anchorIslands);
+
         modelIslands = islandManager.getIslands();
-        //FIXME non aggiorna le isole precedenti fino al prossimo update
         for(int i=0; i<modelIslands.size(); i++){
-            if(modelIslands.get(i).numberOfIslands() != numOfIslands.get(i)){
-                int j = numOfIslands.get(i);
+            if(modelIslands.get(i).numberOfIslands() != 1){
+                int j = 1;
                 while(j<modelIslands.get(i).numberOfIslands()){
                     System.out.println("L'isola che sta facendo merging è: " + i);
-                    double removedIslandX = anchorIslands.get(i + 1).getLayoutX();
-                    double removedIslandY = anchorIslands.get(i + 1).getLayoutY();
-                    anchorIslands.get(i + 1).setDisable(true);
-                    anchorIslands.get(i + 1).setVisible(false);
-                    for(Node child : anchorIslands.get(i + 1).getChildren()){
+                    double removedIslandX = tempAnchor.get(i + 1).getLayoutX();
+                    double removedIslandY = tempAnchor.get(i + 1).getLayoutY();
+                    tempAnchor.get(i + 1).setDisable(true);
+                    tempAnchor.get(i + 1).setVisible(false);
+                    for(Node child : tempAnchor.get(i + 1).getChildren()){
                         child.setVisible(false);
                         child.setDisable(true);
                     }
-                    j = j + numOfIslands.get(i+1); //This way j comprehends the num of islands corresponding to the removed island
+                    j++; /*numOfIslands.get(i+1)*/ //This way j comprehends the num of islands corresponding to the removed island
                     System.out.println("il numero di isole ora è a: " + j);
-                    remove(i + 1);
+                    //remove(i + 1);
+                    tempAnchor.remove(i + 1);
                     System.out.println("Ho rimosso l'isola: " + (i+1));
-                    moveMergedIsland(i, removedIslandX, removedIslandY);
+                    moveMergedIsland(tempAnchor.get(i), removedIslandX, removedIslandY);
+                    //FIXME non fa vedere la pedina dell'ultima isola, fixed?
                 }
-                numOfIslands.set(i, modelIslands.get(i).numberOfIslands());
             }
-            prepareIsland(i, modelIslands.get(i));
+            prepareIsland(tempAnchor.get(i), modelIslands.get(i));
         }
         updateMotherNaturePosition(islandManager.getMotherNaturePosition());
     }
 
-    private void prepareIsland(int anchorIndex, IslandData modelIsland){
-        if(modelIsland.numProhibitionCards() != 0){
-            prohibitionCards.get(anchorIndex).setVisible(true); //should work
-        }
+    private void prepareIsland(AnchorPane anchor, IslandData modelIsland){
+        System.out.println("Sto preparando l'isola: " + anchor + " con indice nel model: " + modelIsland.islandIndex());
+        prohibitionCards.get(anchor).setVisible(modelIsland.numProhibitionCards() > 0); //should work
         Map<Clan, Integer> studentsPresent = modelIsland.students();
+        System.out.println("Students present: " + studentsPresent);
         for(Clan clan : Clan.values()){
-            clanColors.get(clan).get(anchorIndex).setVisible(studentsPresent.get(clan) != 0);
+            clanColors.get(clan).get(anchor).setVisible(studentsPresent.get(clan) > 0);
         }
         TowerColor towerColor = modelIsland.towerColor();
         if(towerColor != null){
-            towers.get(anchorIndex).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(towerColor)).toExternalForm()));
-            towers.get(anchorIndex).setVisible(true);
+            towers.get(anchor).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(towerColor)).toExternalForm()));
+            towers.get(anchor).setVisible(true);
         } else {
-            towers.get(anchorIndex).setVisible(false);
+            towers.get(anchor).setVisible(false);
         }
-        if(modelIsland.numberOfIslands() > 1){
-            double coefficient = modelIsland.numberOfIslands() - 1; //per due isole aggiungo la metà per 3 isole aggiungo
-            int childIslandIndex = 100;
-            for(Node child : anchorIslands.get(anchorIndex).getChildren()){
-                if(child.getId().contains("island")){
-                    childIslandIndex = anchorIslands.get(anchorIndex).getChildren().indexOf(child);
-                }
+        int childIslandIndex = 100;
+        for(Node child : anchor.getChildren()){
+            if(child.getId().contains("island")){
+                childIslandIndex = anchor.getChildren().indexOf(child);
             }
+        }
+        if(modelIsland.numberOfIslands() > 1){ //FIXME le isole si muovono anche quando vengono spostati gli studenti
+            double coefficient = modelIsland.numberOfIslands() - 1; //per due isole aggiungo la metà per 3 isole aggiungo
             if (childIslandIndex != 100) {
 
-                ((ImageView) anchorIslands.get(anchorIndex).getChildren().get(childIslandIndex)).setFitWidth(ConstantsGUI.getIslandWidth() + coefficient * ConstantsGUI.getIslandWidth() / 2);
-                ((ImageView) anchorIslands.get(anchorIndex).getChildren().get(childIslandIndex)).setFitHeight(ConstantsGUI.getIslandHeight() + coefficient * ConstantsGUI.getIslandHeight() / 2);
+                ((ImageView) anchor.getChildren().get(childIslandIndex)).setFitWidth(ConstantsGUI.getIslandWidth() + coefficient * ConstantsGUI.getIslandWidth() / 2);
+                ((ImageView) anchor.getChildren().get(childIslandIndex)).setFitHeight(ConstantsGUI.getIslandHeight() + coefficient * ConstantsGUI.getIslandHeight() / 2);
 
-                double x = anchorIslands.get(anchorIndex).getLayoutX();
+                double x = anchor.getLayoutX();
                 double width = ConstantsGUI.getIslandWidth() + coefficient * ConstantsGUI.getIslandWidth() / 2;
                 double height = ConstantsGUI.getIslandHeight() + coefficient * ConstantsGUI.getIslandHeight() / 2;
-                double y = anchorIslands.get(anchorIndex).getLayoutY();
-                System.out.println("Posizione isola " + anchorIndex + " che era fuori window prima del move: X: " + x + " Y: " + y);
+                double y = anchor.getLayoutY();
+                System.out.println("Posizione isola " + anchor + " che era fuori window prima del move: X: " + x + " Y: " + y);
                 System.out.println("Dimensioni isola: width: " + width + " height: " +height);
 
                 double windowRightX = window.getLayoutX() + window.getPrefWidth();
                 double windowBottomY = window.getLayoutY() + window.getPrefHeight();
 
                 if (x + width > windowRightX) {
-                    anchorIslands.get(anchorIndex).setLayoutX(windowRightX - width);
+                    anchor.setLayoutX(windowRightX - width);
                 }
                 if (y + height > windowBottomY) {
-                    anchorIslands.get(anchorIndex).setLayoutY(windowBottomY - height);
+                    anchor.setLayoutY(windowBottomY - height);
                 }
                 System.out.println("Vecchia posizione isola che era fuori window: X: " + x + " Y: " + y);
                 System.out.println("Posizione dell'isola che era fuori dalla finestra: X: " + anchorIslands.get(childIslandIndex).getLayoutX() + " Y: " + anchorIslands.get(childIslandIndex).getLayoutY());
             }
 
+        }else { //Caso in cui è isola singola, devo resettare isola alla dimensione normale
+            if (childIslandIndex != 100) {
+                ((ImageView) anchor.getChildren().get(childIslandIndex)).setFitWidth(ConstantsGUI.getIslandWidth());
+                ((ImageView) anchor.getChildren().get(childIslandIndex)).setFitHeight(ConstantsGUI.getIslandHeight());
+                anchor.setLayoutX(ConstantsGUI.getIslandX(anchor));
+                anchor.setLayoutY(ConstantsGUI.getIslandY(anchor));
+            }
         }
     }
 
@@ -401,7 +436,7 @@ public class IslandsPageController extends PageController implements Initializab
                 boolean success = false;
                 if(!droppedStudentImage.getId().isEmpty()){
                     droppedStudentImage.setVisible(false);
-                    sendMessage(new MoveStudentToIslandMessage(droppedStudent.getValue(), anchorIslands.indexOf(island)));
+                    sendMessage(new MoveStudentToIslandMessage(droppedStudent.getValue(), tempAnchor.indexOf(island)));
                     droppedStudent.setValue(null);
                     success = true;
                 }
@@ -420,41 +455,28 @@ public class IslandsPageController extends PageController implements Initializab
 
     }
 
-    public void remove(int index){
-        motherNature.remove(index);
-        anchorIslands.remove(index);
-        prohibitionCards.remove(index);
-        pink.remove(index);
-        blue.remove(index);
-        green.remove(index);
-        yellow.remove(index);
-        red.remove(index);
-        towers.remove(index);
-        numOfIslands.remove(index);
-
-    }
 
     /**
      * The method moveMergedIsland moves the islands closer to the space where the removes island should have been
-     * @param indexIsland index of the merged island
+     * @param anchor index of the merged island
      * @param removedIslandX X coordinates of the removed island
      * @param removedIslandY Y coordinates of the removes island
      */
-    public void moveMergedIsland(int indexIsland, double removedIslandX, double removedIslandY){ //FIXM PROBLEM with more than 2 islands
-        double oldX = anchorIslands.get(indexIsland).getLayoutX();
-        double oldY = anchorIslands.get(indexIsland).getLayoutY();
+    public void moveMergedIsland(AnchorPane anchor, double removedIslandX, double removedIslandY){ //FIXM PROBLEM with more than 2 islands
+        double oldX = anchor.getLayoutX();
+        double oldY = anchor.getLayoutY();
         double newX = (oldX + removedIslandX)/2;
         double newY = (oldY + removedIslandY)/2;
-        anchorIslands.get(indexIsland).setLayoutX(newX);
-        anchorIslands.get(indexIsland).setLayoutY(newY);
-        System.out.println("Vecchia posizione isola "+ indexIsland + " che ha fatto merge: X: " + oldX + " Y: " + oldY + "(XremovedIsland: " + removedIslandX + " YremovedIsland: " + removedIslandY);
+        anchor.setLayoutX(newX);
+        anchor.setLayoutY(newY);
+        //FIXME muovere studenti
+        System.out.println("Vecchia posizione isola "+ anchor + " che ha fatto merge: X: " + oldX + " Y: " + oldY + "(XremovedIsland: " + removedIslandX + " YremovedIsland: " + removedIslandY);
         System.out.println("Posizione dell'isola che ha fatto merge: X: " + (oldX + removedIslandX)/2 + " Y: " + (oldY + removedIslandY)/2);
     }
 
     private Card currCard;
 
     public void setMotherMovingLabels(Card currCard){
-        //TODO così se qualcuno ha mosso studente su un'isola e diventa mother moving lo capisce dalle labels
         this.currCard = currCard;
         moveMotherNature.setVisible(true);
         moveMotherNature.setDisable(false);
@@ -475,7 +497,7 @@ public class IslandsPageController extends PageController implements Initializab
             instructions.setText("");
             currCard = null;
         } else {
-            instructions.setText("You are only allowed " + currCard.getPriority() + " steps");
+            instructions.setText("You are only allowed " + currCard.getMaxStepsMotherNature() + " steps");
         }
         moveMotherNature.setStyle(null);
         enabledMoveMotherNature = false; //FIXME deve cliccare di nuovo sul bottone per muovere madre natura

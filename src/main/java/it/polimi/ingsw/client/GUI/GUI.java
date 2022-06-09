@@ -136,7 +136,10 @@ public class GUI extends Application implements View{
                     if (updateMessage instanceof UpdateChosenCard) {
                         ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                     }else if (updateMessage instanceof UpdateCloudManager) {
-                        ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
+                        if(!gameData.isLastRound())
+                            ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
+                        else
+                            ((CloudController) controllers.get(CLOUDS)).lastRound();
                     } else if(updateMessage instanceof UpdateCharacterCard){
                         ((CharactersController) controllers.get(CHARACTERS)).updateCharacterCard(((UpdateCharacterCard) updateMessage).characterCard());
                         }else if (updateMessage instanceof UpdateCloud){
@@ -171,6 +174,7 @@ public class GUI extends Application implements View{
      * @see TurnState
      * @see GameState
      */
+    //FIXME mettere 2sec di ritardo per vedere le modifiche?? Ad esempio madre natura che conquista isole
     private void chooseScene(){
         //FIXME have to double check when this method changes scene and when the controllers do
         Platform.runLater(() -> {

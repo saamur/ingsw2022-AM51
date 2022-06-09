@@ -32,7 +32,8 @@ import java.util.*;
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
 //FIXME USE computed_size
-//FIXME add label for instructions over tabPane
+//FIXME add label for instructions over tabPane, and currPlayer (who's turn is it?)
+//FIXME togliere coins se non è expert
 public class SchoolBoardController extends PageController implements Initializable {
 
     @FXML TabPane tabPane;

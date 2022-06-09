@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.ServerHandler;
 import javafx.event.ActionEvent;

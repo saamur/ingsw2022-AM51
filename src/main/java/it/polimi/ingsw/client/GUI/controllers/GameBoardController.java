@@ -1,19 +1,15 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
 
 import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.client.modeldata.GameData;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.Arrays;

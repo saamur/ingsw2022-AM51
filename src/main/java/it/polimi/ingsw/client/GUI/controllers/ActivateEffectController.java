@@ -1,15 +1,12 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
-import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.messages.gamemessages.SetClanCharacterMessage;
 import it.polimi.ingsw.model.Clan;
-import it.polimi.ingsw.model.charactercards.CharacterID;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 
 import java.net.URL;

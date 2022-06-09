@@ -1,15 +1,15 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
+import it.polimi.ingsw.client.GUI.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.CONNECTION;
-import static it.polimi.ingsw.constants.ConstantsGUI.GAMESELECTION;
 
 /**
  * The class DisconnectionController handles the disconnection.fxml file that corresponds to the disconnection page that appears when another player has disconnected.
  */
-public class DisconnectionController extends PageController{
+public class DisconnectionController extends PageController {
 
     @FXML
     Label disconnectionLabel;

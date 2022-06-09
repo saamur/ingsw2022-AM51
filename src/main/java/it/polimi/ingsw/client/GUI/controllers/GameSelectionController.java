@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.controller.OpeningNewGameData;
 import it.polimi.ingsw.controller.OpeningRestoredGameData;

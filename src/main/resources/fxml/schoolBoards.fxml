@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="844.0" style="-fx-background-color: mediumaquamarine;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.SchoolBoardController">
+<AnchorPane prefHeight="600.0" prefWidth="844.0" style="-fx-background-color: mediumaquamarine;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.SchoolBoardController">
    <children>
       <TabPane fx:id="tabPane" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="844.0" style="-fx-background-color: mediumaquamarine;" tabClosingPolicy="UNAVAILABLE" />
       <Button layoutX="715.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go to Game Board" />

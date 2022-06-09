@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.ActivateEffectController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ActivateEffectController">
    <children>
       <Button fx:id="goToGameBoard" layoutX="486.0" layoutY="1.0" mnemonicParsing="false" onAction="#back" text="Go To GameBoard" />
       <Label contentDisplay="CENTER" layoutX="208.0" layoutY="57.0" prefHeight="40.0" prefWidth="214.0" text="Choose the clan " textAlignment="CENTER" AnchorPane.leftAnchor="208.0">

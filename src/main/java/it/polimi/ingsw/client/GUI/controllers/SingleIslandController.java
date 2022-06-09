@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
 
 import it.polimi.ingsw.client.modeldata.IslandData;
@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.ISLANDS;
-import static it.polimi.ingsw.constants.ConstantsGUI.getColorClan;
 import static it.polimi.ingsw.model.Clan.*;
 
 /**

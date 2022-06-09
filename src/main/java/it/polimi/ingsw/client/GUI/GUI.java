@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.GUI;
 
+import it.polimi.ingsw.client.GUI.controllers.*;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
 import it.polimi.ingsw.model.GameState;
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
-import static it.polimi.ingsw.model.charactercards.CharacterID.THIEF;
 
 public class GUI extends Application implements View{
 

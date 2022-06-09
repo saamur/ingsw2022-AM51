@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
+import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.messages.Message;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;

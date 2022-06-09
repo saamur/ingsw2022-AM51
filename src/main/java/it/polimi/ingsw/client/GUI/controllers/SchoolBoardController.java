@@ -1,12 +1,10 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.controllers;
 
 
-import com.google.inject.internal.ConstantBindingBuilderImpl;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToChamberMessage;
-import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.TurnState;
 import javafx.application.Platform;

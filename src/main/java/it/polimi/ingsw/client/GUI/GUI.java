@@ -6,9 +6,14 @@ import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
+import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage1;
+import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
+import it.polimi.ingsw.messages.gamemessages.SetClanCharacterMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
+import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -111,10 +116,40 @@ public class GUI extends Application implements View{
                     System.out.println("getActivatedCharacterCard in setGameData:" + gameData.getActiveCharacterCard());
                     ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
                     ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
+
+                    Platform.runLater(() -> {
+                        switch (gameData.getActiveCharacterCard()) {
+                            case MONK -> {
+                                        /*String[] words = line.split(" ");
+                                        if (words.length == 2) {
+                                            try {
+                                                message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), mapFromStringOfClans(words[0]), null);
+                                            } catch (IllegalArgumentException e) {}
+                                        }*/
+                            }
+                            case HERALD, GRANDMA -> {
+                                ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
+                                setCurrScene(ISLANDS);
+                            }
+                            case JESTER, MINSTREL -> {
+                                        /*String[] words = line.split("#");
+                                        if (words.length == 2) {
+                                            try {
+                                                message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
+                                            } catch (IllegalArgumentException e) {}
+                                        }*/
+                            }
+                            case MUSHROOMPICKER, THIEF -> {
+                                setCurrScene(ACTIVATEEFFECT);
+                            }
+                            case PRINCESS -> {
+                                        /*try {
+                                            message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(line), null);
+                                        } catch (IllegalArgumentException e) {}*/
+                            }
+                        }
+                    });
                 }
-
-
-
             }
         });
 
@@ -156,7 +191,38 @@ public class GUI extends Application implements View{
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
                         if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
-                            Platform.runLater(() -> setCurrScene(ACTIVATEEFFECT));
+                            Platform.runLater(() -> {
+                                switch (gameData.getActiveCharacterCard()){
+                                    case MONK -> {
+                                        /*String[] words = line.split(" ");
+                                        if (words.length == 2) {
+                                            try {
+                                                message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), mapFromStringOfClans(words[0]), null);
+                                            } catch (IllegalArgumentException e) {}
+                                        }*/
+                                    }
+                                    case HERALD, GRANDMA -> {
+                                        ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
+                                        setCurrScene(ISLANDS);
+                                    }
+                                    case JESTER, MINSTREL -> {
+                                        /*String[] words = line.split("#");
+                                        if (words.length == 2) {
+                                            try {
+                                                message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
+                                            } catch (IllegalArgumentException e) {}
+                                        }*/
+                                    }
+                                    case MUSHROOMPICKER, THIEF -> {
+                                        setCurrScene(ACTIVATEEFFECT);
+                                    }
+                                    case PRINCESS -> {
+                                        /*try {
+                                            message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(line), null);
+                                        } catch (IllegalArgumentException e) {}*/
+                                    }
+                                }
+                            });
                         }
                         if (gameData.getGameState().equals(GameState.PLANNING))
                             ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
@@ -180,10 +246,15 @@ public class GUI extends Application implements View{
             if (gameData.getGameState().equals(GameState.PLANNING)) {
                 ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
                 setCurrScene(DECK);
+                if(gameData.getCurrPlayer().equals(this.nickname))
+                    ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to choose a Card");
+
             } else if(gameData.getGameState().equals(GameState.ACTION)){
                 if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING)) {
                     ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCurrPlayer(gameData.getCurrPlayer());
                     setCurrScene(SCHOOLBOARDS);
+                    if(gameData.getCurrPlayer().equals(this.nickname))
+                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's time for you to move your students");
                 }
                 else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING)) {
                     ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
@@ -191,6 +262,8 @@ public class GUI extends Application implements View{
                             if(gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
                                 ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
                                 System.out.println("Ora label dovrebbe vedersi");
+                                ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to move Mother Nature");
+
                             }
                         }
                         setCurrScene(ISLANDS);
@@ -231,9 +304,11 @@ public class GUI extends Application implements View{
         Platform.runLater(() -> {
             ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
             setCurrScene(DISCONNECTION);
+            //FIXME reconnection button disabled
             gameData = null;
             try{
-                setScenes(); //FIXME maybe do when click reconnect
+                setScenes();
+                //FIXME reconnect button reabled
             } catch (IOException e){
                 //FIXME problem with loading images
                 e.printStackTrace();

@@ -3,16 +3,19 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage1;
 import it.polimi.ingsw.messages.gamemessages.MoveMotherNatureMessage;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.TurnState;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.Card;
 import it.polimi.ingsw.model.player.TowerColor;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -36,10 +39,12 @@ import static it.polimi.ingsw.model.Clan.*;
 public class IslandsPageController extends PageController implements Initializable {
 
     private final String CLICKED_BUTTON = "-fx-opacity: 0.5";
+    Button chooseIsland;
 
     @FXML private Pane window;
     @FXML private Button moveMotherNature;
     private boolean enabledMoveMotherNature;
+    private boolean enableCharacter;
 
     List<AnchorPane> anchorIslands;
     List<AnchorPane> tempAnchor;
@@ -209,6 +214,16 @@ public class IslandsPageController extends PageController implements Initializab
             yellow.put(anchorIslands.get(i), tempYellow.get(i));
             motherNature.put(anchorIslands.get(i), tempMotherNature.get(i));
         }
+        chooseIsland = new Button("Choose island");
+        window.getChildren().add(chooseIsland);
+        chooseIsland.setLayoutX(406);
+        chooseIsland.setLayoutY(329);
+        chooseIsland.setVisible(false);
+        chooseIsland.setDisable(true);
+        chooseIsland.setOnAction(e -> {
+            enableCharacter = true;
+            chooseIsland.setStyle(CLICKED_BUTTON);
+        });
 
         clanColors.put(PIXIES, yellow);
         clanColors.put(UNICORNS, blue);
@@ -276,7 +291,17 @@ public class IslandsPageController extends PageController implements Initializab
             System.out.println("elemento di TempAnchor: " + tempAnchor.get(i));
             if (/*tempAnchor.get(i).getChildren().contains((Node) mouseEvent.getSource()) ||*/ tempAnchor.get(i).equals(mouseEvent.getSource())) { //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
                 System.out.println("è stata selezionata isola numero " + tempAnchor.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model e: " + i + " nel controller"); //TODO delete
-                if(!enabledMoveMotherNature) {
+                if(enabledMoveMotherNature) {
+                    sendMessage(new MoveMotherNatureMessage(i));
+                    System.out.println("inviato messaggio, spostare MN su: " + i);
+                } else if (enableCharacter){
+                    sendMessage(new ApplyCharacterCardEffectMessage1(i));
+                    enableCharacter = false;
+                    activatedCharacter = null;
+                    chooseIsland.setVisible(false);
+                    chooseIsland.setDisable(true);
+                    instructions.setVisible(false);
+                }else{
                     String imagePath = null;
                     for (Node child : tempAnchor.get(i).getChildren()) {
                         if (child instanceof ImageView) {
@@ -287,9 +312,6 @@ public class IslandsPageController extends PageController implements Initializab
                     }
                     ((SingleIslandController) gui.getControllers().get(SINGLEISLAND)).setIsland(modelIslands.get(i), imagePath, i == motherNaturePosition);
                     gui.setCurrScene(SINGLEISLAND);
-                } else {
-                    sendMessage(new MoveMotherNatureMessage(i));
-                    System.out.println("inviato messaggio, spostare MN su: " + i);
                 }
                 System.out.println("MoveMotherNatureButton: " + (enabledMoveMotherNature? "clicked" : "not clicked"));
             }
@@ -360,7 +382,6 @@ public class IslandsPageController extends PageController implements Initializab
         System.out.println("Sto preparando l'isola: " + anchor + " con indice nel model: " + modelIsland.islandIndex());
         prohibitionCards.get(anchor).setVisible(modelIsland.numProhibitionCards() > 0); //should work
         Map<Clan, Integer> studentsPresent = modelIsland.students();
-        System.out.println("Students present: " + studentsPresent);
         for(Clan clan : Clan.values())
             clanColors.get(clan).get(anchor).setVisible(studentsPresent.get(clan) > 0);
 
@@ -467,6 +488,8 @@ public class IslandsPageController extends PageController implements Initializab
         moveMotherNature.setDisable(false);
         instructions.setVisible(true);
         int maxSteps = currCard.getMaxStepsMotherNature(); //FIXME modificare per characters
+        if(postmanActivated)
+            maxSteps += 2;
         instructions.setText("By clicking the button and then clicking on an Island\nyou will move Mother Nature there\nYou have " + maxSteps + " step" + (maxSteps > 1 ? "s" : ""));
     }
 
@@ -482,7 +505,10 @@ public class IslandsPageController extends PageController implements Initializab
             instructions.setText("");
             currCard = null;
         } else {
-            instructions.setText("You are only allowed " + currCard.getMaxStepsMotherNature() + " steps");
+            int steps = currCard.getMaxStepsMotherNature();
+            if(postmanActivated)
+                steps += 2;
+            instructions.setText("You are only allowed " + steps + " steps");
         }
         moveMotherNature.setStyle(null);
         enabledMoveMotherNature = false; //FIXME deve cliccare di nuovo sul bottone per muovere madre natura
@@ -495,4 +521,30 @@ public class IslandsPageController extends PageController implements Initializab
             Platform.runLater(() -> movedMotherNature(false));
         }
     }
+
+    CharacterID activatedCharacter;
+
+    boolean postmanActivated;
+
+    public void setActivatedCharacter(CharacterID character){
+        this.activatedCharacter = character;
+        if(character != null) {
+            if (character == CharacterID.HERALD || character == CharacterID.GRANDMA) {
+                chooseIsland.setStyle(null);
+                chooseIsland.setVisible(true);
+                chooseIsland.setDisable(false);
+                instructions.setVisible(true);
+                instructions.setText("By clicking on \"Choose Island\" and then clicking on an Island,\n you will use the character effect on this island");
+                //TODO magari non dare la possibilità di fare back
+            } else if (character == CharacterID.POSTMAN) {
+                postmanActivated = true;
+            } else {
+                postmanActivated = false;
+            }
+        } else {
+            postmanActivated = false;
+        }
+
+    }
+
 }

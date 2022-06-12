@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.modeldata.GameData;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ import static it.polimi.ingsw.constants.ConstantsGUI.*;
 //FIXME rapporto schermata
 public class GameBoardController extends PageController implements Initializable {
 
+    @FXML private Label info;
     @FXML
     AnchorPane characterCards;
     @FXML
@@ -81,13 +83,8 @@ public class GameBoardController extends PageController implements Initializable
     }
 
 
-
-    public void enterNode(MouseEvent mouseEvent) {
-        //((AnchorPane) mouseEvent.getSource()).getStylesheets().add("style.css");
-    }
-
-    public void exitNode(MouseEvent mouseEvent){
-        //((AnchorPane) mouseEvent.getSource()).getStyleClass().removeIf(style -> style.equals("image-view-selector"));
+    public void setInfoLabel(String text){
+        info.setText(text);
     }
 
 }

@@ -163,9 +163,6 @@ public class CharactersController extends PageController implements Initializabl
                 sendMessage(new ActivateCharacterCardMessage(CharacterID.valueOf(characters.get(selectedCharacterIndex).getId())));
             }
         }
-
-
-        //FIXME una volta attivato si aprirà una pagina per molti dei character
     }
 
     public void back(ActionEvent actionEvent) {

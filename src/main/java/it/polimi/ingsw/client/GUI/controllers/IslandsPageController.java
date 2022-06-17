@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage1;
+import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
 import it.polimi.ingsw.messages.gamemessages.MoveMotherNatureMessage;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToIslandMessage;
 import it.polimi.ingsw.model.Clan;
@@ -39,153 +40,153 @@ import static it.polimi.ingsw.model.Clan.*;
 public class IslandsPageController extends PageController implements Initializable {
 
     private final String CLICKED_BUTTON = "-fx-opacity: 0.5";
-    Button chooseIsland;
+    private Button chooseIsland;
 
     @FXML private Pane window;
     @FXML private Button moveMotherNature;
     private boolean enabledMoveMotherNature;
     private boolean enableCharacter;
 
-    List<AnchorPane> anchorIslands;
-    List<AnchorPane> tempAnchor;
+    private List<AnchorPane> anchorIslands;
+    private List<AnchorPane> tempAnchor;
 
-    Map<AnchorPane, ImageView> prohibitionCards = new HashMap<>();
-    Map<Clan, Map<AnchorPane, ImageView>> clanColors = new EnumMap<>(Clan.class);
+    private Map<AnchorPane, ImageView> prohibitionCards = new HashMap<>();
+    private Map<Clan, Map<AnchorPane, ImageView>> clanColors = new EnumMap<>(Clan.class);
 
-    @FXML AnchorPane anchorIsland0;
-    @FXML AnchorPane anchorIsland1;
-    @FXML AnchorPane anchorIsland2;
-    @FXML AnchorPane anchorIsland3;
-    @FXML AnchorPane anchorIsland4;
-    @FXML AnchorPane anchorIsland5;
-    @FXML AnchorPane anchorIsland6;
-    @FXML AnchorPane anchorIsland7;
-    @FXML AnchorPane anchorIsland8;
-    @FXML AnchorPane anchorIsland9;
-    @FXML AnchorPane anchorIsland10;
-    @FXML AnchorPane anchorIsland11;
+    @FXML private AnchorPane anchorIsland0;
+    @FXML private AnchorPane anchorIsland1;
+    @FXML private AnchorPane anchorIsland2;
+    @FXML private AnchorPane anchorIsland3;
+    @FXML private AnchorPane anchorIsland4;
+    @FXML private AnchorPane anchorIsland5;
+    @FXML private AnchorPane anchorIsland6;
+    @FXML private AnchorPane anchorIsland7;
+    @FXML private AnchorPane anchorIsland8;
+    @FXML private AnchorPane anchorIsland9;
+    @FXML private AnchorPane anchorIsland10;
+    @FXML private AnchorPane anchorIsland11;
 
-    @FXML ImageView prohibitionCard0;
-    @FXML ImageView prohibitionCard1;
-    @FXML ImageView prohibitionCard2;
-    @FXML ImageView prohibitionCard3;
-    @FXML ImageView prohibitionCard4;
-    @FXML ImageView prohibitionCard5;
-    @FXML ImageView prohibitionCard6;
-    @FXML ImageView prohibitionCard7;
-    @FXML ImageView prohibitionCard8;
-    @FXML ImageView prohibitionCard9;
-    @FXML ImageView prohibitionCard10;
-    @FXML ImageView prohibitionCard11;
+    @FXML private ImageView prohibitionCard0;
+    @FXML private ImageView prohibitionCard1;
+    @FXML private ImageView prohibitionCard2;
+    @FXML private ImageView prohibitionCard3;
+    @FXML private ImageView prohibitionCard4;
+    @FXML private ImageView prohibitionCard5;
+    @FXML private ImageView prohibitionCard6;
+    @FXML private ImageView prohibitionCard7;
+    @FXML private ImageView prohibitionCard8;
+    @FXML private ImageView prohibitionCard9;
+    @FXML private ImageView prohibitionCard10;
+    @FXML private ImageView prohibitionCard11;
 
-    @FXML ImageView pink0;
-    @FXML ImageView pink1;
-    @FXML ImageView pink2;
-    @FXML ImageView pink3;
-    @FXML ImageView pink4;
-    @FXML ImageView pink5;
-    @FXML ImageView pink6;
-    @FXML ImageView pink7;
-    @FXML ImageView pink8;
-    @FXML ImageView pink9;
-    @FXML ImageView pink10;
-    @FXML ImageView pink11;
-    Map<AnchorPane, ImageView> pink = new HashMap<>();
+    @FXML private ImageView pink0;
+    @FXML private ImageView pink1;
+    @FXML private ImageView pink2;
+    @FXML private ImageView pink3;
+    @FXML private ImageView pink4;
+    @FXML private ImageView pink5;
+    @FXML private ImageView pink6;
+    @FXML private ImageView pink7;
+    @FXML private ImageView pink8;
+    @FXML private ImageView pink9;
+    @FXML private ImageView pink10;
+    @FXML private ImageView pink11;
+    private Map<AnchorPane, ImageView> pink = new HashMap<>();
 
-    @FXML ImageView green0;
-    @FXML ImageView green1;
-    @FXML ImageView green2;
-    @FXML ImageView green3;
-    @FXML ImageView green4;
-    @FXML ImageView green5;
-    @FXML ImageView green6;
-    @FXML ImageView green7;
-    @FXML ImageView green8;
-    @FXML ImageView green9;
-    @FXML ImageView green10;
-    @FXML ImageView green11;
-    Map<AnchorPane, ImageView> green = new HashMap<>();
+    @FXML private ImageView green0;
+    @FXML private ImageView green1;
+    @FXML private ImageView green2;
+    @FXML private ImageView green3;
+    @FXML private ImageView green4;
+    @FXML private ImageView green5;
+    @FXML private ImageView green6;
+    @FXML private ImageView green7;
+    @FXML private ImageView green8;
+    @FXML private ImageView green9;
+    @FXML private ImageView green10;
+    @FXML private ImageView green11;
+    private Map<AnchorPane, ImageView> green = new HashMap<>();
 
-    @FXML ImageView blue0;
-    @FXML ImageView blue1;
-    @FXML ImageView blue2;
-    @FXML ImageView blue3;
-    @FXML ImageView blue4;
-    @FXML ImageView blue5;
-    @FXML ImageView blue6;
-    @FXML ImageView blue7;
-    @FXML ImageView blue8;
-    @FXML ImageView blue9;
-    @FXML ImageView blue10;
-    @FXML ImageView blue11;
-    Map<AnchorPane, ImageView> blue = new HashMap<>();
+    @FXML private ImageView blue0;
+    @FXML private ImageView blue1;
+    @FXML private ImageView blue2;
+    @FXML private ImageView blue3;
+    @FXML private ImageView blue4;
+    @FXML private ImageView blue5;
+    @FXML private ImageView blue6;
+    @FXML private ImageView blue7;
+    @FXML private ImageView blue8;
+    @FXML private ImageView blue9;
+    @FXML private ImageView blue10;
+    @FXML private ImageView blue11;
+    private Map<AnchorPane, ImageView> blue = new HashMap<>();
 
-    @FXML ImageView red0;
-    @FXML ImageView red1;
-    @FXML ImageView red2;
-    @FXML ImageView red3;
-    @FXML ImageView red4;
-    @FXML ImageView red5;
-    @FXML ImageView red6;
-    @FXML ImageView red7;
-    @FXML ImageView red8;
-    @FXML ImageView red9;
-    @FXML ImageView red10;
-    @FXML ImageView red11;
-    Map<AnchorPane, ImageView> red = new HashMap<>();
+    @FXML private ImageView red0;
+    @FXML private ImageView red1;
+    @FXML private ImageView red2;
+    @FXML private ImageView red3;
+    @FXML private ImageView red4;
+    @FXML private ImageView red5;
+    @FXML private ImageView red6;
+    @FXML private ImageView red7;
+    @FXML private ImageView red8;
+    @FXML private ImageView red9;
+    @FXML private ImageView red10;
+    @FXML private ImageView red11;
+    private Map<AnchorPane, ImageView> red = new HashMap<>();
 
-    @FXML ImageView yellow0;
-    @FXML ImageView yellow1;
-    @FXML ImageView yellow2;
-    @FXML ImageView yellow3;
-    @FXML ImageView yellow4;
-    @FXML ImageView yellow5;
-    @FXML ImageView yellow6;
-    @FXML ImageView yellow7;
-    @FXML ImageView yellow8;
-    @FXML ImageView yellow9;
-    @FXML ImageView yellow10;
-    @FXML ImageView yellow11;
-    Map<AnchorPane, ImageView> yellow = new HashMap<>();
+    @FXML private ImageView yellow0;
+    @FXML private ImageView yellow1;
+    @FXML private ImageView yellow2;
+    @FXML private ImageView yellow3;
+    @FXML private ImageView yellow4;
+    @FXML private ImageView yellow5;
+    @FXML private ImageView yellow6;
+    @FXML private ImageView yellow7;
+    @FXML private ImageView yellow8;
+    @FXML private ImageView yellow9;
+    @FXML private ImageView yellow10;
+    @FXML private ImageView yellow11;
+    private Map<AnchorPane, ImageView> yellow = new HashMap<>();
 
-    @FXML ImageView tower0;
-    @FXML ImageView tower1;
-    @FXML ImageView tower2;
-    @FXML ImageView tower3;
-    @FXML ImageView tower4;
-    @FXML ImageView tower5;
-    @FXML ImageView tower6;
-    @FXML ImageView tower7;
-    @FXML ImageView tower8;
-    @FXML ImageView tower9;
-    @FXML ImageView tower10;
-    @FXML ImageView tower11;
-    Map< AnchorPane, ImageView> towers = new HashMap<>();
+    @FXML private ImageView tower0;
+    @FXML private ImageView tower1;
+    @FXML private ImageView tower2;
+    @FXML private ImageView tower3;
+    @FXML private ImageView tower4;
+    @FXML private ImageView tower5;
+    @FXML private ImageView tower6;
+    @FXML private ImageView tower7;
+    @FXML private ImageView tower8;
+    @FXML private ImageView tower9;
+    @FXML private ImageView tower10;
+    @FXML private ImageView tower11;
+    private Map< AnchorPane, ImageView> towers = new HashMap<>();
 
-    @FXML ImageView motherNature0;
-    @FXML ImageView motherNature1;
-    @FXML ImageView motherNature2;
-    @FXML ImageView motherNature3;
-    @FXML ImageView motherNature4;
-    @FXML ImageView motherNature5;
-    @FXML ImageView motherNature6;
-    @FXML ImageView motherNature7;
-    @FXML ImageView motherNature8;
-    @FXML ImageView motherNature9;
-    @FXML ImageView motherNature10;
-    @FXML ImageView motherNature11;
-    Map<AnchorPane, ImageView> motherNature = new HashMap<>();
+    @FXML private ImageView motherNature0;
+    @FXML private ImageView motherNature1;
+    @FXML private ImageView motherNature2;
+    @FXML private ImageView motherNature3;
+    @FXML private ImageView motherNature4;
+    @FXML private ImageView motherNature5;
+    @FXML private ImageView motherNature6;
+    @FXML private ImageView motherNature7;
+    @FXML private ImageView motherNature8;
+    @FXML private ImageView motherNature9;
+    @FXML private ImageView motherNature10;
+    @FXML private ImageView motherNature11;
+    private Map<AnchorPane, ImageView> motherNature = new HashMap<>();
 
-    @FXML Button back;
+    @FXML private Button back;
 
-    int motherNaturePosition;
-    List<IslandData> modelIslands;
+    private int motherNaturePosition;
+    private List<IslandData> modelIslands;
 
     private ObjectProperty<Clan> droppedStudent = new SimpleObjectProperty<>(null);
-    @FXML ImageView droppedStudentImage;
-    @FXML Label droppedStudentLabel;
-    @FXML AnchorPane droppedStudentAnchor;
-    @FXML Label instructions;
+    @FXML private ImageView droppedStudentImage;
+    @FXML private Label droppedStudentLabel;
+    @FXML private AnchorPane droppedStudentAnchor;
+    @FXML private Label instructions;
 
     private String previousScene;
 
@@ -295,12 +296,26 @@ public class IslandsPageController extends PageController implements Initializab
                     sendMessage(new MoveMotherNatureMessage(i));
                     System.out.println("inviato messaggio, spostare MN su: " + i);
                 } else if (enableCharacter){
-                    sendMessage(new ApplyCharacterCardEffectMessage1(i));
+                    switch(activatedCharacter){
+                        case HERALD, GRANDMA ->
+                            sendMessage(new ApplyCharacterCardEffectMessage1(i));
+                        case MONK -> {
+                            sendMessage(new ApplyCharacterCardEffectMessage2(i, characterMap, null));
+                            characterMap = null;
+                        }
+                    }
                     enableCharacter = false;
                     activatedCharacter = null;
                     chooseIsland.setVisible(false);
                     chooseIsland.setDisable(true);
-                    instructions.setVisible(false);
+                    boolean motherMoving = gui.getTurnState()==TurnState.MOTHER_MOVING;
+                    String text = "";
+                    if(motherMoving) {
+                        text = "By clicking the button and then clicking on an Island\nyou will move Mother Nature there\nYou have " + currCard.getMaxStepsMotherNature() + " step" + (currCard.getMaxStepsMotherNature() > 1 ? "s" : "");
+                        moveMotherNature.setVisible(true);
+                    }
+                    instructions.setVisible(motherMoving);
+                    instructions.setText(text);
                 }else{
                     String imagePath = null;
                     for (Node child : tempAnchor.get(i).getChildren()) {
@@ -522,29 +537,41 @@ public class IslandsPageController extends PageController implements Initializab
         }
     }
 
-    CharacterID activatedCharacter;
+    private CharacterID activatedCharacter;
 
-    boolean postmanActivated;
+    private boolean postmanActivated;
 
+    private Map<Clan, Integer> characterMap;
+
+    /**
+     * This method is used to set the current activated Character. It makes visible all of the commands associated with the action to apply the effect of the character.
+     * If the TurnState is MotherMoving it disables the "move MotherNature" button until the character action is done
+     * @param character the character that has been activated
+     */
     public void setActivatedCharacter(CharacterID character){
         this.activatedCharacter = character;
+        postmanActivated = false;
         if(character != null) {
-            if (character == CharacterID.HERALD || character == CharacterID.GRANDMA) {
+            if (character == CharacterID.HERALD || character == CharacterID.GRANDMA || (character == CharacterID.MONK && characterMap != null)) {
                 chooseIsland.setStyle(null);
                 chooseIsland.setVisible(true);
                 chooseIsland.setDisable(false);
                 instructions.setVisible(true);
-                instructions.setText("By clicking on \"Choose Island\" and then clicking on an Island,\n you will use the character effect on this island");
+                instructions.setText("By clicking on \"Choose Island\" and then clicking on an Island,\n you will use the character effect on this island\n");
+                moveMotherNature.setVisible(false); //You have activated a card, you will finish the activation and then will be able to move Mother nature
                 //TODO magari non dare la possibilità di fare back
             } else if (character == CharacterID.POSTMAN) {
                 postmanActivated = true;
-            } else {
-                postmanActivated = false;
+            } else if (character == CharacterID.MONK){
+
             }
-        } else {
-            postmanActivated = false;
+
         }
 
+    }
+
+    public void setCharacterMap(Map<Clan, Integer> map){
+        this.characterMap = new EnumMap<>(map);
     }
 
 }

@@ -4,14 +4,21 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.constants.GameConstants;
+import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToChamberMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.TurnState;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 
@@ -34,13 +41,17 @@ import static it.polimi.ingsw.constants.ConstantsGUI.*;
 //FIXME togliere coins se non è expert
 public class SchoolBoardController extends PageController implements Initializable {
 
-    @FXML TabPane tabPane;
+    @FXML
+    private AnchorPane baseAnchor;
+    @FXML
+    private TabPane tabPane;
 
     private String nickname;
     private SchoolBoard[] schoolBoards;
 
     private ImageView island;
     private Pane islandPane;
+    Label instructions = new Label();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,11 +59,11 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
-    public void setNickname (String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public void initialSetUp (PlayerData[] playersData) {
+    public void initialSetUp(PlayerData[] playersData) {
 
         schoolBoards = new SchoolBoard[playersData.length];
 
@@ -76,7 +87,7 @@ public class SchoolBoardController extends PageController implements Initializab
                     ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
                     student.setFitWidth(ConstantsGUI.getStudentSize());
                     student.setFitHeight(ConstantsGUI.getStudentSize());
-                    student.setX(ConstantsGUI.getFirstStudentX() + j*ConstantsGUI.getHorizontalDistanceStudents());
+                    student.setX(ConstantsGUI.getFirstStudentX() + j * ConstantsGUI.getHorizontalDistanceStudents());
                     student.setY(ConstantsGUI.getFirstStudentY(clan));
                     schoolBoards[i].studentsChamber.get(clan)[j] = student;
                 }
@@ -105,25 +116,36 @@ public class SchoolBoardController extends PageController implements Initializab
                     schoolBoards[i].tables.put(clan, table);
                     anchorPane.getChildren().add(table);
 
-                    islandPane = new Pane();
-                    island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
-                    island.setPreserveRatio(true);
-                    //island.setFitHeight(125);
-                    island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
-                    island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
-                    //island.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
-                    //island.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
-                    island.setStyle("-fx-border-color: black");
-                    islandPane.getChildren().add(island);
-                    island.fitHeightProperty().bind(islandPane.heightProperty());
-                    islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
-                    islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
-                    islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
-                    island.setVisible(false);
-                    islandPane.setId("islandPane");
-                    islandPane.getStylesheets().add("/style.css");
-                    anchorPane.getChildren().add(islandPane);
+
                 }
+
+            }
+
+            if (playersData[i].getNickname().equals(nickname)) {
+                islandPane = new Pane();
+                island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
+                island.setPreserveRatio(true);
+                island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
+                island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
+                islandPane.getChildren().add(island);
+                island.fitHeightProperty().bind(islandPane.heightProperty());
+                islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
+                islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
+                islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
+                island.setVisible(false);
+                islandPane.setId("islandPane");
+                islandPane.getStylesheets().add("/style.css");
+                anchorPane.getChildren().add(islandPane);
+
+                instructions.setPrefWidth(baseAnchor.getPrefWidth());
+                instructions.setWrapText(true);
+                instructions.setAlignment(Pos.CENTER);
+                instructions.setCenterShape(true);
+                anchorPane.getChildren().add(instructions);
+                instructions.setLayoutX(0);
+                instructions.setLayoutY(5);
+                instructions.setVisible(false);
+
 
             }
 
@@ -131,8 +153,8 @@ public class SchoolBoardController extends PageController implements Initializab
                 ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
                 student.setFitWidth(ConstantsGUI.getStudentSize());
                 student.setFitHeight(ConstantsGUI.getStudentSize());
-                student.setX(ConstantsGUI.getHallFirstStudentX() - (j%2)*ConstantsGUI.getHallStudentHorizontalDistance());
-                student.setY(ConstantsGUI.getHallFirstStudentY() - (j/2)*ConstantsGUI.getHallStudentVerticalDistance());
+                student.setX(ConstantsGUI.getHallFirstStudentX() - (j % 2) * ConstantsGUI.getHallStudentHorizontalDistance());
+                student.setY(ConstantsGUI.getHallFirstStudentY() - (j / 2) * ConstantsGUI.getHallStudentVerticalDistance());
                 schoolBoards[i].studentsHall[j] = student;
             }
 
@@ -142,8 +164,8 @@ public class SchoolBoardController extends PageController implements Initializab
                 ImageView tower = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(playersData[i].getColorOfTowers())).toExternalForm()));
                 tower.setFitWidth(ConstantsGUI.getTowerWidth());
                 tower.setFitHeight(ConstantsGUI.getTowerHeight());
-                tower.setX(ConstantsGUI.getFirstTowerX() + (j%2)*ConstantsGUI.getTowerHorizontalDistance());
-                tower.setY(ConstantsGUI.getFirstTowerY() + (j/2)*ConstantsGUI.getTowerVerticalDistance());
+                tower.setX(ConstantsGUI.getFirstTowerX() + (j % 2) * ConstantsGUI.getTowerHorizontalDistance());
+                tower.setY(ConstantsGUI.getFirstTowerY() + (j / 2) * ConstantsGUI.getTowerVerticalDistance());
                 schoolBoards[i].towers[j] = tower;
             }
 
@@ -172,7 +194,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
     //mettere nomi giocatori sulle tab
     //mettere giocatori nelle plance?
-    public void back(ActionEvent event){
+    public void back(ActionEvent event) {
         gui.setCurrScene(GAMEBOARD);
     }
 
@@ -185,7 +207,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
-    public void setSchoolBoard (PlayerData playerData) {
+    public void setSchoolBoard(PlayerData playerData) {
 
         for (SchoolBoard schoolBoard : schoolBoards) {
             if (playerData.getNickname().equals(schoolBoard.nickname)) {
@@ -209,7 +231,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
                 for (int i = 0; i < schoolBoard.towers.length; i++)
                     schoolBoard.towers[i].setVisible(playerData.getNumberOfTowers() > i);
-                schoolBoard.coins.setText(playerData.getChamberData().coins() == 0 ? "No coins" : (playerData.getChamberData().coins() + " coin" + (playerData.getChamberData().coins()==1?"":"s")));
+                schoolBoard.coins.setText(playerData.getChamberData().coins() == 0 ? "No coins" : (playerData.getChamberData().coins() + " coin" + (playerData.getChamberData().coins() == 1 ? "" : "s")));
                 break;
             }
         }
@@ -240,7 +262,7 @@ public class SchoolBoardController extends PageController implements Initializab
     }
 
     //FIXME devo mettere l'attivazione della azioni prima, disabilitarle subito ed abilitarle solo se in STUDENT_MOVING
-    public void setCurrPlayer(String nicknameCurrPlayer){
+    public void setCurrPlayer(String nicknameCurrPlayer) {
         if (nicknameCurrPlayer.equals(this.nickname) && gui.getTurnState() == TurnState.STUDENT_MOVING) {
             for (SchoolBoard schoolBoard : schoolBoards) {
                 if (this.nickname.equals(schoolBoard.nickname)) {
@@ -248,10 +270,12 @@ public class SchoolBoardController extends PageController implements Initializab
                     island.setVisible(true);
                     island.setDisable(false);
                     islandPane.setDisable(false);
+                    instructions.setText("It is now your turn to move the students\nYou can drag and drop the students on the hall or on the island image");
+                    instructions.setVisible(true);
                     islandPane.getStylesheets().add("/style.css");
-                    for(Clan clan : Clan.values()) //FIXME dato che ho fatto disable qui mi basterebbe fare able
+                    for (Clan clan : Clan.values())
                         enableDropOnNode(schoolBoard.tables.get(clan));
-                    for(ImageView student : schoolBoard.studentsHall) {
+                    for (ImageView student : schoolBoard.studentsHall) {
                         student.setDisable(false);
                         makeDraggable(student);
                     }
@@ -262,20 +286,18 @@ public class SchoolBoardController extends PageController implements Initializab
     }
 
     /* This method is for the Chambers and for the Island */
-    private void enableDropOnNode(Node target){
-        target.setOnDragDropped( e -> {
+    private void enableDropOnNode(Node target) {
+        target.setOnDragDropped(e -> {
                     boolean success = false;
                     Dragboard db = e.getDragboard();
-                    if(db.hasString()){
+                    if (db.hasString()) {
                         Clan clan = Clan.valueOf(db.getString());
-                        if(target.getId().contains("table"))
+                        if (target.getId().contains("table"))
                             sendMessage(new MoveStudentToChamberMessage(clan)); //FIXME it adds student to right chamber even if chamber is the wrong color
                         else {
                             ((IslandsPageController) gui.getControllers().get(ISLANDS)).setDroppedStudent(clan);
                             target.getStyleClass().removeIf(style -> style.equals("image-drag-over"));
-                            Platform.runLater(() -> {
-                                gui.setCurrScene(ISLANDS);
-                            });
+                            Platform.runLater(() -> gui.setCurrScene(ISLANDS));
                         }
                         success = true;
                     }
@@ -283,26 +305,26 @@ public class SchoolBoardController extends PageController implements Initializab
                     e.consume();
                 }
         );
-        target.setOnDragOver( e -> {
-            if(e.getGestureSource() != island)
+        target.setOnDragOver(e -> {
+            if (e.getGestureSource() != island)
                 e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 
             e.consume();
         });
 
         target.setOnDragEntered(e -> {
-                System.out.println("onDragEntered");
-                /* show to the user that it is an actual gesture target */
-                if (e.getGestureSource() != target &&
-                        e.getDragboard().hasString()) {
-                    target.getStyleClass().add(target.getId().contains("table") ? "tables-drag-over" : "image-drag-over");
-                }
-                e.consume();
+            System.out.println("onDragEntered");
+            /* show to the user that it is an actual gesture target */
+            if (e.getGestureSource() != target &&
+                    e.getDragboard().hasString()) {
+                target.getStyleClass().add(target.getId().contains("table") ? "tables-drag-over" : "image-drag-over");
+            }
+            e.consume();
         });
 
         target.setOnDragExited(e -> {
-                target.getStyleClass().removeIf(style -> style.equals("tables-drag-over") || style.equals("image-drag-over"));
-                e.consume();
+            target.getStyleClass().removeIf(style -> style.equals("tables-drag-over") || style.equals("image-drag-over"));
+            e.consume();
         });
     }
 
@@ -312,7 +334,7 @@ public class SchoolBoardController extends PageController implements Initializab
             e.setDragDetect(true);
         });
 
-        source.setOnDragDetected( e -> {
+        source.setOnDragDetected(e -> {
             System.out.println("onDragDetected");
 
             source.setStyle("-fx-opacity: 0.7");
@@ -327,27 +349,41 @@ public class SchoolBoardController extends PageController implements Initializab
 
         });
 
-        source.setOnDragDone( e -> {
+        source.setOnDragDone(e -> {
             source.setStyle(null);
             e.consume();
         });
 
     }
 
-    public void disableStudentMoving(){
+    public void disableStudentMoving() {
         //TODO disable all of the dragging
         //penso basti disabilitare gli studenti
-        for(SchoolBoard schoolBoard : schoolBoards) {
-            if(schoolBoard.nickname.equals(this.nickname)){
+        for (SchoolBoard schoolBoard : schoolBoards) {
+            if (schoolBoard.nickname.equals(this.nickname)) {
                 for (ImageView student : schoolBoard.studentsHall)
                     student.setDisable(true);
-                for(Clan clan : Clan.values()) {
+                for (Clan clan : Clan.values()) {
                     schoolBoard.tables.get(clan).getStyleClass().removeIf(style -> style.equals("tables-drag-over"));
                 }
             }
         }
         island.setVisible(false);
         island.setDisable(true);
-        islandPane.getStyleClass().removeIf( style ->  style.equals("image-drag-over"));
+        islandPane.getStyleClass().removeIf(style -> style.equals("image-drag-over"));
+        instructions.setVisible(false);
+    }
+
+    Button doneButton = new Button("Done");
+    public void setCharacter(CharacterID character){
+        switch(character){
+            case MINSTREL -> {
+
+            }
+            case JESTER -> {
+
+            }
+
+        }
     }
 }

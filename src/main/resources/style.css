@@ -19,3 +19,7 @@
     -fx-border-color: red;
     -fx-border-width: 5;
 }
+
+.selected-character-pieces{
+    -fx-border-color: white;
+}

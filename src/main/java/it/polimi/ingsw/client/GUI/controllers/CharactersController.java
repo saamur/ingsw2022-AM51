@@ -4,8 +4,10 @@ import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.constants.ConstantsGUI;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.ActivateCharacterCardMessage;
+import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.charactercards.CharacterID;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.*;
@@ -27,6 +31,7 @@ import static it.polimi.ingsw.constants.ConstantsGUI.*;
  */
 public class CharactersController extends PageController implements Initializable {
 
+    @FXML private Label instructionLabel;
     @FXML private AnchorPane anchorCharacter0;
     @FXML private ImageView character0;
     @FXML private ImageView piece1character0;
@@ -84,6 +89,8 @@ public class CharactersController extends PageController implements Initializabl
 
     private String nickname;
 
+    private Clan singleClanSelected;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         anchors = new ArrayList<>(Arrays.asList(anchorCharacter0, anchorCharacter1, anchorCharacter2));
@@ -96,6 +103,18 @@ public class CharactersController extends PageController implements Initializabl
             for (ImageView piece : list) {
                 piece.setVisible(false);
                 piece.setDisable(true);
+                //Pane pane = new Pane(piece);
+
+                piece.setOnMouseClicked( e -> {
+                            if(singleClanSelected == null) {
+                                piece.getParent().getStylesheets().add("/style.css");
+                                piece.getParent().getStyleClass().add("selected-character-pieces");
+                                singleClanSelected = Clan.valueOf(piece.getId());
+                                applyEffect();
+                            }
+                        }
+
+                );
             }
         }
         buttonsCharacters = new ArrayList<>(Arrays.asList(buttonCharacter0, buttonCharacter1, buttonCharacter2));
@@ -112,6 +131,7 @@ public class CharactersController extends PageController implements Initializabl
         for(Label label : activatedByLabels){
             label.setVisible(false);
         }
+        instructionLabel.setText("You can activate a Character by clicking on it");
     }
 
     /**
@@ -140,16 +160,16 @@ public class CharactersController extends PageController implements Initializabl
      * @param mouseEvent
      */
     public void selectCharacter(MouseEvent mouseEvent) {
-        for(AnchorPane anchor : anchors){
+        for(ImageView character : characters){
             System.out.println("Ho selezionato: " + mouseEvent.getSource());
-            if(anchor == mouseEvent.getSource()){
-                buttonsCharacters.get(anchors.indexOf(anchor)).setVisible(true);
-                buttonsCharacters.get(anchors.indexOf(anchor)).setDisable(false);
-                descriptionLabels.get(anchors.indexOf(anchor)).setVisible(true);
+            if(character == mouseEvent.getSource()){
+                buttonsCharacters.get(characters.indexOf(character)).setVisible(true);
+                buttonsCharacters.get(characters.indexOf(character)).setDisable(false);
+                descriptionLabels.get(characters.indexOf(character)).setVisible(true);
             } else {
-                buttonsCharacters.get(anchors.indexOf(anchor)).setVisible(false);
-                buttonsCharacters.get(anchors.indexOf(anchor)).setDisable(true);
-                descriptionLabels.get(anchors.indexOf(anchor)).setVisible(false);
+                buttonsCharacters.get(characters.indexOf(character)).setVisible(false);
+                buttonsCharacters.get(characters.indexOf(character)).setDisable(true);
+                descriptionLabels.get(characters.indexOf(character)).setVisible(false);
             }
         }
     }
@@ -166,7 +186,6 @@ public class CharactersController extends PageController implements Initializabl
     }
 
     public void back(ActionEvent actionEvent) {
-        selectedCharacterIndex = 4;
         gui.setCurrScene(GAMEBOARD);
     }
 
@@ -186,7 +205,8 @@ public class CharactersController extends PageController implements Initializabl
                         System.out.println("Posiziono uno studente: "+ clan);
                         charactersPieces.get(characterIndex).get(numOfStudents).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
                         charactersPieces.get(characterIndex).get(numOfStudents).setVisible(true);
-                        charactersPieces.get(characterIndex).get(numOfStudents).setDisable(false);
+                        System.out.println(charactersPieces.get(characterIndex).get(numOfStudents).isVisible());
+                        charactersPieces.get(characterIndex).get(numOfStudents).setId(clan.name());
                         students.put(clan, students.get(clan) - 1);
                         numOfStudents++;
                     }
@@ -203,29 +223,70 @@ public class CharactersController extends PageController implements Initializabl
 
     }
 
-    public void setActivatedCharacter(CharacterID activatedCharacter, String nicknameCurrPlayer){
+    public void setActivatedCharacter(CharacterID activatedCharacter, String nicknameCurrPlayer, boolean puntualEffectApplied){
         this.activatedCharacter = activatedCharacter;
-        if(activatedCharacter != null){
-            System.out.println("Old style: " + anchors.get(selectedCharacterIndex).getStyleClass());
+
+        for(AnchorPane anchor : anchors)
+            anchor.getStyleClass().removeIf(style -> style.equals("activated-character-card"));
+        for(Label label : activatedByLabels)
+            label.setText("");
+        for(ImageView character : characters)
+            for(ImageView piece : charactersPieces.get(characters.indexOf(character))) {
+                piece.setDisable(true);
+                piece.getParent().getStyleClass().removeIf( style -> style.equals("selected-character-pieces"));
+            }
+
+        if(activatedCharacter != null) {
             for(ImageView character : characters){
                 if(character.getId().equals(activatedCharacter.name())){
                     anchors.get(characters.indexOf(character)).getStyleClass().add("activated-character-card");
                     activatedByLabels.get(characters.indexOf(character)).setText("Activated by: " + (nicknameCurrPlayer.equals(this.nickname)? "you" : nicknameCurrPlayer));
                     activatedByLabels.get(characters.indexOf(character)).setVisible(true);
+
+                    if(nicknameCurrPlayer.equals(nickname) && !puntualEffectApplied){
+                        switch(activatedCharacter){
+                            case PRINCESS, MONK -> {
+                                instructionLabel.setText("Choose one of the students from the "+ activatedCharacter.name() + " card");
+                                for(ImageView piece : charactersPieces.get(characters.indexOf(character))){
+                                    if(piece.isVisible())
+                                        piece.setDisable(false);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+
         } else {
-            for(AnchorPane anchor : anchors) {
-                anchor.getStyleClass().removeIf(style -> style.equals("activated-character-card"));
-            }
-            for(Label label : activatedByLabels){
-                label.setText("");
-            }
+            instructionLabel.setText("You can activate a Character by clicking on it");
         }
 
     }
 
     public void setNickname(String nickname){
         this.nickname = nickname;
+    }
+
+    public void applyEffect(){
+        Map<Clan, Integer> students = new EnumMap<>(Clan.class);
+        if(singleClanSelected != null){
+            for(Clan clan : Clan.values()) {
+                if (clan == singleClanSelected)
+                    students.put(clan, 1);
+                else
+                    students.put(clan, 0);
+            }
+        }
+        switch(activatedCharacter){
+            case PRINCESS ->
+                sendMessage(new ApplyCharacterCardEffectMessage2(-1, students, null));
+            case MONK -> {
+                System.out.println(gui.getControllers().get(ISLANDS));
+                ((IslandsPageController) gui.getControllers().get(ISLANDS)).setCharacterMap(students);
+                ((IslandsPageController) gui.getControllers().get(ISLANDS)).setActivatedCharacter(CharacterID.MONK);
+                Platform.runLater(() -> gui.setCurrScene(ISLANDS));
+            }
+        }
+        singleClanSelected = null;
     }
 }

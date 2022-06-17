@@ -115,40 +115,27 @@ public class GUI extends Application implements View{
                 if(gameData.isExpertModeEnabled()) {
                     System.out.println("getActivatedCharacterCard in setGameData:" + gameData.getActiveCharacterCard());
                     ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
-                    ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
-
-                    Platform.runLater(() -> {
-                        switch (gameData.getActiveCharacterCard()) {
-                            case MONK -> {
-                                        /*String[] words = line.split(" ");
-                                        if (words.length == 2) {
-                                            try {
-                                                message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), mapFromStringOfClans(words[0]), null);
-                                            } catch (IllegalArgumentException e) {}
-                                        }*/
-                            }
-                            case HERALD, GRANDMA -> {
-                                ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
-                                setCurrScene(ISLANDS);
-                            }
-                            case JESTER, MINSTREL -> {
+                    ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
+                    if (gameData.getActiveCharacterCard() != null) {
+                        Platform.runLater(() -> {
+                            switch (gameData.getActiveCharacterCard()) {
+                                case HERALD, GRANDMA -> {
+                                    ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
+                                    setCurrScene(ISLANDS);
+                                }
+                                case JESTER, MINSTREL -> {
                                         /*String[] words = line.split("#");
                                         if (words.length == 2) {
                                             try {
                                                 message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
                                             } catch (IllegalArgumentException e) {}
                                         }*/
+                                }
+                                case MUSHROOMPICKER, THIEF ->
+                                    setCurrScene(ACTIVATEEFFECT);
                             }
-                            case MUSHROOMPICKER, THIEF -> {
-                                setCurrScene(ACTIVATEEFFECT);
-                            }
-                            case PRINCESS -> {
-                                        /*try {
-                                            message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(line), null);
-                                        } catch (IllegalArgumentException e) {}*/
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });
@@ -189,38 +176,22 @@ public class GUI extends Application implements View{
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
-                        ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer());
+                        ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
                         if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                             Platform.runLater(() -> {
                                 switch (gameData.getActiveCharacterCard()){
-                                    case MONK -> {
-                                        /*String[] words = line.split(" ");
-                                        if (words.length == 2) {
-                                            try {
-                                                message = new ApplyCharacterCardEffectMessage2(Integer.parseInt(words[1]), mapFromStringOfClans(words[0]), null);
-                                            } catch (IllegalArgumentException e) {}
-                                        }*/
-                                    }
                                     case HERALD, GRANDMA -> {
                                         ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
                                         setCurrScene(ISLANDS);
                                     }
-                                    case JESTER, MINSTREL -> {
-                                        /*String[] words = line.split("#");
-                                        if (words.length == 2) {
-                                            try {
-                                                message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
-                                            } catch (IllegalArgumentException e) {}
-                                        }*/
+                                    case JESTER -> {
+                                        //choose from card
+                                        //message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
                                     }
-                                    case MUSHROOMPICKER, THIEF -> {
+                                    case MINSTREL ->
+                                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.MINSTREL);
+                                    case MUSHROOMPICKER, THIEF ->
                                         setCurrScene(ACTIVATEEFFECT);
-                                    }
-                                    case PRINCESS -> {
-                                        /*try {
-                                            message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(line), null);
-                                        } catch (IllegalArgumentException e) {}*/
-                                    }
                                 }
                             });
                         }
@@ -323,7 +294,7 @@ public class GUI extends Application implements View{
 
     /**
      * This method changes the currScene to a new one depending on how the game is evolving
-     * @param currScene
+     * @param currScene the new scene to show
      */
     public void setCurrScene(String currScene){
         this.currScene = currScene;//mappa delle Scene

@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * ProhibitionCharacterCard class models the character cards
+ * The ProhibitionCharacterCard class models the character cards
  * whose effect is to add prohibition cards on islands
  *
  */

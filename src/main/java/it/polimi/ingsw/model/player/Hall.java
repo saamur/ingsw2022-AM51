@@ -8,7 +8,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Hall class models the hall of the school board with its students
+ * The Hall class models the hall of the school board with its students
  *
  */
 public class Hall implements Serializable, StudentContainer {
@@ -31,7 +31,7 @@ public class Hall implements Serializable, StudentContainer {
     }
 
     /**
-     * method addStudent adds a student of the Clan clan in the students variable
+     * The method addStudent adds a student of the Clan clan in the students variable
      * @param clan  the clan of the student to add
      * @return      true if the student was added
      */
@@ -64,7 +64,7 @@ public class Hall implements Serializable, StudentContainer {
     }
 
     /**
-     * method removeStudent removes a student of the Clan c in the students variable
+     * The method removeStudent removes a student of the Clan c in the students variable
      * @param clan  the clan of the student to remove
      * @return      true if the student was removed
      */

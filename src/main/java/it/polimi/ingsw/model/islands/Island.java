@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Island class models the islands of the game, with the attributes and the methods
+ * The Island class models the islands of the game, with the attributes and the methods
  * needed for their management and merging
  *
  */
@@ -88,7 +88,7 @@ public class Island implements Serializable, StudentContainer {
     }
 
     /**
-     * method addStudent adds a student of the Clan c in the students variable
+     * The method addStudent adds a student of the Clan c in the students variable
      * @param c the clan of the student to add
      * @return  true if the student was added
      */
@@ -98,14 +98,14 @@ public class Island implements Serializable, StudentContainer {
     }
 
     /**
-     * method addProhibitionCard increases numProhibitionCards variable
+     * The method addProhibitionCard increases numProhibitionCards variable
      */
     public void addProhibitionCard() {
         numProhibitionCards++;
     }
 
     /**
-     * method removeProhibitionCard decreases numProhibitionCards if it's greater then zero
+     * The method removeProhibitionCard decreases numProhibitionCards if it's greater then zero
      */
     public void removeProhibitionCard() {
         if(numProhibitionCards > 0)
@@ -113,7 +113,7 @@ public class Island implements Serializable, StudentContainer {
     }
 
     /**
-     * method merge adds all variables of the parameter to those of the current object
+     * The method merge adds all variables of the parameter to those of the current object
      * @param mergingIsland the island to merge to this
      */
     public void merge (Island mergingIsland) {

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * IslandManager class manages the islands of the game, the position of Mother Nature and the merging of islands
+ * The IslandManager class manages the islands of the game, the position of Mother Nature and the merging of islands
  *
  */
 public class IslandManager implements Serializable {
@@ -55,7 +55,7 @@ public class IslandManager implements Serializable {
     }
 
     /**
-     * method getIsland returns the island in the position of the parameter,
+     * The method getIsland returns the island in the position of the parameter,
      * null if the index is out of bounds
      * @param index the index of the desired Island
      * @return      the Island in position index of the List islands
@@ -67,7 +67,7 @@ public class IslandManager implements Serializable {
     }
 
     /**
-     * method getNumberOfIslands returns the number of the islands currently present
+     * The method getNumberOfIslands returns the number of the islands currently present
      * @return  the number of the islands
      */
     public int getNumberOfIslands() {
@@ -75,7 +75,7 @@ public class IslandManager implements Serializable {
     }
 
     /**
-     * method distanceFromMotherNature calculates the steps needed by Mother Nature to reach the island given by parameter
+     * The method distanceFromMotherNature calculates the steps needed by Mother Nature to reach the island given by parameter
      * @param isl   the Island for which the method calculates the distance
      * @return      the number of steps needed by Mother Nature to reach the island isl
      */
@@ -92,7 +92,7 @@ public class IslandManager implements Serializable {
     }
 
     /**
-     * method conquerIsland changes the controllingPlayer of isl to p,
+     * The method conquerIsland changes the controllingPlayer of isl to p,
      * moves the towers of the old and the new controllingPlayer as necessary
      * and merges isl with neighbour islands if required
      * @param p     the new controllingPlayer of isl
@@ -124,7 +124,7 @@ public class IslandManager implements Serializable {
     }
 
     /**
-     * method checkMerge checks if the neighbouring islands of the one given by parameter are controlled by the same player,
+     * The method checkMerge checks if the neighbouring islands of the one given by parameter are controlled by the same player,
      * in that case they get merged
      * @param isl   the island that could be merged with its neighbouring islands
      */
@@ -163,6 +163,7 @@ public class IslandManager implements Serializable {
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);
     }
+
     public void removePropertyChangeListener(){
         PropertyChangeListener[] propertyChangeListeners = pcs.getPropertyChangeListeners();
         for (PropertyChangeListener l : propertyChangeListeners)

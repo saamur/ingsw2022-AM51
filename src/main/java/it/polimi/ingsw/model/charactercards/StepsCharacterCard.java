@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.model.player.Player;
 
 /**
- * StepsCharacterCard class models the character cards
+ * The StepsCharacterCard class models the character cards
  * that have an impact on the calculus of the maximum number of steps that Mother Nature can take
  *
  */

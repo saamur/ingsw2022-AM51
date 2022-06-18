@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.charactercards;
 
 /**
- * CharacterID is an enumeration with the list of the game's characters
+ * The CharacterID is an enumeration with the list of the game's characters
  * and their initial cost as a constant
  *
  */

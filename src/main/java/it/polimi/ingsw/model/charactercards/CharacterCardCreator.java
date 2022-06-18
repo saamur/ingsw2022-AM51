@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Bag;
 import java.io.Serializable;
 
 /**
- * CharacterCardCreator class contains the method needed to create
+ * The CharacterCardCreator class contains the method needed to create
  * CharacterCard objects with the correct concrete subclass
  *
  */
@@ -14,7 +14,7 @@ public class CharacterCardCreator implements Serializable {     //todo Serializa
     public CharacterCardCreator(){}
 
     /**
-     * method createCharacterCard instantiates a CharacterCard object with the given CharacterID
+     * The method createCharacterCard instantiates a CharacterCard object with the given CharacterID
      * using the correct concrete subclass
      * @param characterID   the CharacterID of the CharacterCard to create
      * @param bag           the Bag from which the students will be taken (if needed)

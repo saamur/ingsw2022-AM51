@@ -199,13 +199,11 @@ public class CharactersController extends PageController implements Initializabl
         if (characterIndex >= 0 && characterIndex < 3) {
             if(characterCardData.students() != null){
                 int numOfStudents = 0;
-                Map<Clan, Integer> students = characterCardData.students();
+                Map<Clan, Integer> students = new EnumMap<>(characterCardData.students());
                 for (Clan clan : Clan.values()) {
                     while (students.get(clan) > 0) {
-                        System.out.println("Posiziono uno studente: "+ clan);
                         charactersPieces.get(characterIndex).get(numOfStudents).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
                         charactersPieces.get(characterIndex).get(numOfStudents).setVisible(true);
-                        System.out.println(charactersPieces.get(characterIndex).get(numOfStudents).isVisible());
                         charactersPieces.get(characterIndex).get(numOfStudents).setId(clan.name());
                         students.put(clan, students.get(clan) - 1);
                         numOfStudents++;
@@ -281,7 +279,6 @@ public class CharactersController extends PageController implements Initializabl
             case PRINCESS ->
                 sendMessage(new ApplyCharacterCardEffectMessage2(-1, students, null));
             case MONK -> {
-                System.out.println(gui.getControllers().get(ISLANDS));
                 ((IslandsPageController) gui.getControllers().get(ISLANDS)).setCharacterMap(students);
                 ((IslandsPageController) gui.getControllers().get(ISLANDS)).setActivatedCharacter(CharacterID.MONK);
                 Platform.runLater(() -> gui.setCurrScene(ISLANDS));

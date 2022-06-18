@@ -50,8 +50,8 @@ public class IslandsPageController extends PageController implements Initializab
     private List<AnchorPane> anchorIslands;
     private List<AnchorPane> tempAnchor;
 
-    private Map<AnchorPane, ImageView> prohibitionCards = new HashMap<>();
-    private Map<Clan, Map<AnchorPane, ImageView>> clanColors = new EnumMap<>(Clan.class);
+    private final Map<AnchorPane, ImageView> prohibitionCards = new HashMap<>();
+    private final Map<Clan, Map<AnchorPane, ImageView>> clanColors = new EnumMap<>(Clan.class);
 
     @FXML private AnchorPane anchorIsland0;
     @FXML private AnchorPane anchorIsland1;
@@ -91,7 +91,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView pink9;
     @FXML private ImageView pink10;
     @FXML private ImageView pink11;
-    private Map<AnchorPane, ImageView> pink = new HashMap<>();
+    private final Map<AnchorPane, ImageView> pink = new HashMap<>();
 
     @FXML private ImageView green0;
     @FXML private ImageView green1;
@@ -105,7 +105,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView green9;
     @FXML private ImageView green10;
     @FXML private ImageView green11;
-    private Map<AnchorPane, ImageView> green = new HashMap<>();
+    private final Map<AnchorPane, ImageView> green = new HashMap<>();
 
     @FXML private ImageView blue0;
     @FXML private ImageView blue1;
@@ -119,7 +119,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView blue9;
     @FXML private ImageView blue10;
     @FXML private ImageView blue11;
-    private Map<AnchorPane, ImageView> blue = new HashMap<>();
+    private final Map<AnchorPane, ImageView> blue = new HashMap<>();
 
     @FXML private ImageView red0;
     @FXML private ImageView red1;
@@ -133,7 +133,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView red9;
     @FXML private ImageView red10;
     @FXML private ImageView red11;
-    private Map<AnchorPane, ImageView> red = new HashMap<>();
+    private final Map<AnchorPane, ImageView> red = new HashMap<>();
 
     @FXML private ImageView yellow0;
     @FXML private ImageView yellow1;
@@ -147,7 +147,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView yellow9;
     @FXML private ImageView yellow10;
     @FXML private ImageView yellow11;
-    private Map<AnchorPane, ImageView> yellow = new HashMap<>();
+    private final Map<AnchorPane, ImageView> yellow = new HashMap<>();
 
     @FXML private ImageView tower0;
     @FXML private ImageView tower1;
@@ -161,7 +161,7 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView tower9;
     @FXML private ImageView tower10;
     @FXML private ImageView tower11;
-    private Map< AnchorPane, ImageView> towers = new HashMap<>();
+    private final Map< AnchorPane, ImageView> towers = new HashMap<>();
 
     @FXML private ImageView motherNature0;
     @FXML private ImageView motherNature1;
@@ -175,14 +175,14 @@ public class IslandsPageController extends PageController implements Initializab
     @FXML private ImageView motherNature9;
     @FXML private ImageView motherNature10;
     @FXML private ImageView motherNature11;
-    private Map<AnchorPane, ImageView> motherNature = new HashMap<>();
+    private final Map<AnchorPane, ImageView> motherNature = new HashMap<>();
 
     @FXML private Button back;
 
     private int motherNaturePosition;
     private List<IslandData> modelIslands;
 
-    private ObjectProperty<Clan> droppedStudent = new SimpleObjectProperty<>(null);
+    private final ObjectProperty<Clan> droppedStudent = new SimpleObjectProperty<>(null);
     @FXML private ImageView droppedStudentImage;
     @FXML private Label droppedStudentLabel;
     @FXML private AnchorPane droppedStudentAnchor;
@@ -276,6 +276,10 @@ public class IslandsPageController extends PageController implements Initializab
         moveMotherNature.setDisable(true);
     }
 
+    /**
+     * This method changes the scene to the precedent one, usually the game board
+     * @param event
+     */
     public void back(ActionEvent event) {
         if(previousScene != null && gui.getTurnState()!=null && !gui.getTurnState().equals(TurnState.MOTHER_MOVING))
             gui.setCurrScene(previousScene);
@@ -284,7 +288,13 @@ public class IslandsPageController extends PageController implements Initializab
         previousScene = null;
     }
 
-
+    /**
+     * This method is called when a mouse click is detected on an island. It has different effects.
+     * Usually if an island is clicked it will open the corresponding singleIslandPage that describes all of the items contained on the island.
+     * If the TurnState is MotherMoving and the "Move Mother Nature" button has been clicked, it will send a message to the ServerHandler saying the chosen Island to move Mother Nature to.
+     * If a character has been activated, it sends different informations to the ServerHandler according to the information that is needed to apply the character effect
+     * @param mouseEvent
+     */
     public void selectIsland(MouseEvent mouseEvent) {
         System.out.println("selected island" + mouseEvent.getSource());
         System.out.println("tempAnchor size: " + tempAnchor.size());
@@ -333,7 +343,7 @@ public class IslandsPageController extends PageController implements Initializab
         }
     }
 
-
+    //TODO JavaDocs
     public void updateMotherNaturePosition(int motherNaturePositionUpdate){
         if(motherNaturePositionUpdate < modelIslands.size()) { //FIXME arriva update della posizione di MN prima del merge, e poi madre natura viene persa
             if(motherNaturePosition < tempAnchor.size())
@@ -347,7 +357,7 @@ public class IslandsPageController extends PageController implements Initializab
      * This method browses all of the modelIslands, if the number of islands does not correspond to the one saved it disables the following island, deleting the corresponding images and anchors from the various lists.
      * Then procedes to call {@link #prepareIsland(AnchorPane, IslandData)}  prepareIsland}
      * @param islandManager the IslandManagerData sent via an UpdateIslands message
-     */
+     */ //FIXME JavaDocs
     public synchronized void updateIslands(IslandManagerData islandManager){ //FIXME opening game with 10 islands, 11th island is visible, it should't be
         for(AnchorPane anchor : anchorIslands) {
             anchor.setLayoutX(ConstantsGUI.getIslandX(anchor));
@@ -393,6 +403,7 @@ public class IslandsPageController extends PageController implements Initializab
         updateMotherNaturePosition(islandManager.getMotherNaturePosition());
     }
 
+    //TODO JavaDocs
     private void prepareIsland(AnchorPane anchor, IslandData modelIsland){
         System.out.println("Sto preparando l'isola: " + anchor + " con indice nel model: " + modelIsland.islandIndex());
         prohibitionCards.get(anchor).setVisible(modelIsland.numProhibitionCards() > 0); //should work
@@ -429,12 +440,13 @@ public class IslandsPageController extends PageController implements Initializab
 
     }
 
+    //TODO JavaDOcs
     public void setDroppedStudent(Clan clan){
         droppedStudent.set(clan);
         previousScene = SCHOOLBOARDS;
     }
 
-
+    //TODO JavaDocs
     private void makeDraggable(Node node) {
         node.setOnMouseDragged(e -> e.setDragDetect(true));
 
@@ -497,6 +509,7 @@ public class IslandsPageController extends PageController implements Initializab
 
     private Card currCard;
 
+    //TODO JavaDocs
     public void setMotherMovingLabels(Card currCard){
         this.currCard = currCard;
         moveMotherNature.setVisible(true);
@@ -508,11 +521,13 @@ public class IslandsPageController extends PageController implements Initializab
         instructions.setText("By clicking the button and then clicking on an Island\nyou will move Mother Nature there\nYou have " + maxSteps + " step" + (maxSteps > 1 ? "s" : ""));
     }
 
+    //TODO JavaDOCS
     public void moveMotherNature(ActionEvent actionEvent) {
         moveMotherNature.setStyle(CLICKED_BUTTON);
         enabledMoveMotherNature = true;
     }
 
+    //TODO JavaDocs
     public void movedMotherNature(boolean successfulMove){
         if(successfulMove){
             moveMotherNature.setVisible(false);
@@ -562,14 +577,11 @@ public class IslandsPageController extends PageController implements Initializab
                 //TODO magari non dare la possibilità di fare back
             } else if (character == CharacterID.POSTMAN) {
                 postmanActivated = true;
-            } else if (character == CharacterID.MONK){
-
             }
-
         }
-
     }
 
+    //TODO JavaDocs
     public void setCharacterMap(Map<Clan, Integer> map){
         this.characterMap = new EnumMap<>(map);
     }

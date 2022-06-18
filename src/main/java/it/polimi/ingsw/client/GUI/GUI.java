@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUI.controllers.*;
 import it.polimi.ingsw.client.View;
+import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.modeldata.PlayerData;
@@ -27,6 +28,7 @@ import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
+//TODO JavaDocs
 public class GUI extends Application implements View{
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -123,13 +125,21 @@ public class GUI extends Application implements View{
                                     ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
                                     setCurrScene(ISLANDS);
                                 }
-                                case JESTER, MINSTREL -> {
-                                        /*String[] words = line.split("#");
-                                        if (words.length == 2) {
-                                            try {
-                                                message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
-                                            } catch (IllegalArgumentException e) {}
-                                        }*/
+                                case JESTER -> {
+                                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
+                                    Map<Clan, Integer> students = null;
+                                    for (CharacterCardData character : gameData.getCharacterCardData())
+                                        if (character.characterID() == CharacterID.JESTER)
+                                            students = character.students();
+                                    System.out.println("Students from GUI: " + students);
+
+                                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.JESTER, gameData.getCurrPlayer(), students);
+                                    setCurrScene(SCHOOLBOARDS);
+                                }
+                                case MINSTREL -> {
+                                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
+                                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.MINSTREL, gameData.getCurrPlayer(), null);
+                                    setCurrScene(SCHOOLBOARDS);
                                 }
                                 case MUSHROOMPICKER, THIEF ->
                                     setCurrScene(ACTIVATEEFFECT);
@@ -177,23 +187,42 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
-                        if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
-                            Platform.runLater(() -> {
-                                switch (gameData.getActiveCharacterCard()){
-                                    case HERALD, GRANDMA -> {
-                                        ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
-                                        setCurrScene(ISLANDS);
+                        if(gameData.getCurrPlayer().equals(this.nickname)) {
+                            if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
+                                Platform.runLater(() -> {
+                                    switch (gameData.getActiveCharacterCard()) {
+                                        case HERALD, GRANDMA -> {
+                                            ((IslandsPageController) controllers.get(ISLANDS)).setActivatedCharacter(gameData.getActiveCharacterCard());
+                                            setCurrScene(ISLANDS);
+                                        }
+                                        case JESTER -> {
+                                            ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
+                                            Map<Clan, Integer> students = null;
+                                            for (CharacterCardData character : gameData.getCharacterCardData())
+                                                if (character.characterID() == CharacterID.JESTER)
+                                                    students = character.students();
+
+                                            ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.JESTER, gameData.getCurrPlayer(), students);
+                                            setCurrScene(SCHOOLBOARDS);
+                                        }
+                                        case MINSTREL -> {
+                                            ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
+                                            ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.MINSTREL, gameData.getCurrPlayer(), null);
+                                            setCurrScene(SCHOOLBOARDS);
+                                        }
+                                        case MUSHROOMPICKER, THIEF -> setCurrScene(ACTIVATEEFFECT);
                                     }
-                                    case JESTER -> {
-                                        //choose from card
-                                        //message = new ApplyCharacterCardEffectMessage2(-1, mapFromStringOfClans(words[0]), mapFromStringOfClans(words[1]));
+                                });
+                            } else if (gameData.getActiveCharacterCard() != null && gameData.isActiveCharacterPunctualEffectApplied()) {
+                                switch (gameData.getActiveCharacterCard()) {
+                                    case MINSTREL, JESTER -> {
+                                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableCharactersActions();
+                                        chooseScene();
+                                        return;
                                     }
-                                    case MINSTREL ->
-                                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.MINSTREL);
-                                    case MUSHROOMPICKER, THIEF ->
-                                        setCurrScene(ACTIVATEEFFECT);
+
                                 }
-                            });
+                            }
                         }
                         if (gameData.getGameState().equals(GameState.PLANNING))
                             ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());

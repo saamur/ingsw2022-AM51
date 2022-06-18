@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.player.Player;
 import java.io.Serializable;
 
 /**
- * Turn class contains the main logic for the managing of the turns and their phases,
+ * The Turn class contains the main logic for the managing of the turns and their phases,
  * with the attributes and methods needed; it's tightly connected with the Game class
  *
  * @see Game
@@ -40,7 +40,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method defaultPlayerProfessor calculates the Player that has to own the professor of the Clan given by parameter
+     * The method defaultPlayerProfessor calculates the Player that has to own the professor of the Clan given by parameter
      * @param players   all the players of the game
      * @param clan      the Clan of the professor to calculate its owner
      * @return          the Player that has to own the professor of the Clan clan, null in case of a tie
@@ -62,7 +62,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method indexUniqueMax calculates the index of the position in the array given by parameter
+     * The method indexUniqueMax calculates the index of the position in the array given by parameter
      * where is contained the greater value, if this is unique
      * @param array the array on which calculate that index
      * @return the index of the array given by parameter where is contained the greater value, if this is unique, -1 otherwise
@@ -90,7 +90,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method moveStudentToIsland, if turnState is STUDENT_MOVING, tries to move a student
+     * The method moveStudentToIsland, if turnState is STUDENT_MOVING, tries to move a student
      * from the Hall of currPlayer to an Island.
      * If the maximum number of students moved has been reached turnState is updated to MOTHER_MOVING
      * @param clan      the Clan of the student to move
@@ -114,7 +114,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method moveStudentToChamber, if turnState is STUDENT_MOVING, tries to move a student
+     * The method moveStudentToChamber, if turnState is STUDENT_MOVING, tries to move a student
      * from the Hall to the Chamber of currPlayer.
      * If the maximum number of students moved has been reached turnState is updated to MOTHER_MOVING
      * The ownership of the professors get updated
@@ -146,7 +146,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method updateProfessors updates the ownership of the professors
+     * The method updateProfessors updates the ownership of the professors
      * @param players   the players of the game
      */
     public void updateProfessors (Player[] players) {
@@ -169,7 +169,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method getMaxStepsMotherNature calculates the maximum number of steps that Mother Nature can do in this turn
+     * The method getMaxStepsMotherNature calculates the maximum number of steps that Mother Nature can do in this turn
      * @return  the maximum number of steps that Mother Nature can do in this turn
      */
     public int getMaxStepsMotherNature() {
@@ -184,7 +184,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method updateInfluence calculates the influences of the players on a given Island
+     * The method updateInfluence calculates the influences of the players on a given Island
      * and gives its control to the player with the maximum influence, if it exists
      * @param islandManager the islandManager of the game
      * @param island        the island on to which the method updates the control
@@ -219,7 +219,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method chooseCloud, if turnState is CLOUD_CHOOSING, picks the students on the given cloud
+     * The method chooseCloud, if turnState is CLOUD_CHOOSING, picks the students on the given cloud
      * and puts them in the Hall of the currPlayer, then sets turnState to END_TURN
      * @param cloud the Cloud from which the students will be taken
      * @throws WrongTurnPhaseException  when it is called not during the cloud choosing phase
@@ -266,7 +266,7 @@ public class Turn implements Serializable {
     }
 
     /**
-     * method characterPunctualEffectApplied saves in the variable characterPunctualEffectApplied that the effect of the Character
+     * The method characterPunctualEffectApplied saves in the variable characterPunctualEffectApplied that the effect of the Character
      * has been applied
      */
     public void characterPunctualEffectApplied() {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 /**
- * Card class is an enumeration with the list of the assistant cards of the game
+ * The Card class is an enumeration with the list of the assistant cards of the game
  * and their constants
  *
  */

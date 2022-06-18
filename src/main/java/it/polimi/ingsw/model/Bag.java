@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Bag class models the game's bag from which the students are drawn
+ * The Bag class models the game's bag from which the students are drawn
  *
  */
 public class Bag implements Serializable, StudentContainer {
@@ -31,7 +31,7 @@ public class Bag implements Serializable, StudentContainer {
     }
 
     /**
-     * method draw selects a random student contained in the Bag, it removes it and returns its Clan
+     * The method draw selects a random student contained in the Bag, it removes it and returns its Clan
      * @return the Clan of a random student formerly in the Bag
      */
     public Clan draw() {
@@ -63,7 +63,7 @@ public class Bag implements Serializable, StudentContainer {
     }
 
     /**
-     * method draw selects random students in the Bag and returns them
+     * The method draw selects random students in the Bag and returns them
      * @param n the number of random students to draw
      * @return  the random students that have been drawn
      */
@@ -84,7 +84,7 @@ public class Bag implements Serializable, StudentContainer {
     }
 
     /**
-     * method isEmpty returns true if the Bag doesn't contain any student
+     * The method isEmpty returns true if the Bag doesn't contain any student
      * @return  whether the Bag is empty or not
      */
     public boolean isEmpty() {

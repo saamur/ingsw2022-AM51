@@ -10,7 +10,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * InfluenceCharacterCard class models the character cards
+ * The InfluenceCharacterCard class models the character cards
  * that have an impact on the calculus of the influence of an island
  *
  */

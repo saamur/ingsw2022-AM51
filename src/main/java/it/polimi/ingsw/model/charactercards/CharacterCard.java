@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * CharacterCard abstract class models the character cards of the game and their effects
+ * The CharacterCard abstract class models the character cards of the game and their effects
  *
  */
 public abstract class CharacterCard implements Serializable {
@@ -34,7 +34,7 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method isAvailable establishes if the card can be activated
+     * The method isAvailable establishes if the card can be activated
      * @return  whether the card can be activated
      */
     public boolean isAvailable() {
@@ -46,14 +46,14 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method increaseCost increases the cost of this CharacterCard by 1
+     * The method increaseCost increases the cost of this CharacterCard by 1
      */
     public void updateCost() {
         alreadyUsed = true;
     }
 
     /**
-     * method effectInfluence calculates an array that will be added to the array of influences of the basic rule
+     * The method effectInfluence calculates an array that will be added to the array of influences of the basic rule
      * that represents the effect that this CharacterCard has on the calculation of the influence on an Island
      * @param players       all the players of the game
      * @param currPlayer    the current Player
@@ -67,7 +67,7 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method effectStepsMotherNature calculates the number of additional steps
+     * The method effectStepsMotherNature calculates the number of additional steps
      * on the movement of Mother Nature that this CharacterCard allows
      * @return  the number of additional steps that this CharacterCard allows
      */
@@ -76,7 +76,7 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method effectPlayerProfessor calculates the Player that has to own the professor of the Clan given by parameter
+     * The method effectPlayerProfessor calculates the Player that has to own the professor of the Clan given by parameter
      * accordingly with the effect on this of this CharacterCard
      * @param players   all the players of the game
      * @param clan      the Clan of the professor to calculate its owner
@@ -87,7 +87,7 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method applyInitialEffect applies the initial effect of this CharacterCard
+     * The method applyInitialEffect applies the initial effect of this CharacterCard
      * @param turn      the current Turn
      * @param players   all the Players of this game
      * @return          whether the effect was applied correctly
@@ -97,7 +97,7 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method applyEffect applies the effect of this CharacterCard
+     * The method applyEffect applies the effect of this CharacterCard
      * on the Island with the specified index
      * @param game      the Game
      * @param island    the Island on which the effect has to be applied
@@ -108,7 +108,7 @@ public abstract class CharacterCard implements Serializable {
     }
 
     /**
-     * method applyEffect applies the effect of this CharacterCard with the given parameters
+     * The method applyEffect applies the effect of this CharacterCard with the given parameters
      * @param game          the Game
      * @param destination   the destination of the students moved (if necessary)
      * @param students1     the students to move to the destination (if necessary)

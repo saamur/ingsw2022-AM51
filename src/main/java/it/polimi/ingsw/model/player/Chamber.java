@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Chamber class models the chamber of the school board, with the students, professors and coins
+ * The Chamber class models the chamber of the school board, with the students, professors and coins
  * and the methods needed for their management
  *
  */
@@ -97,7 +97,7 @@ public class Chamber implements Serializable, StudentContainer {
     }
 
     /**
-     * method addStudent adds a student of the Clan clan in the students variable
+     * The method addStudent adds a student of the Clan clan in the students variable
      * @param clan  the clan of the student to add
      * @return      true if the student was added
      */
@@ -110,7 +110,7 @@ public class Chamber implements Serializable, StudentContainer {
     }
 
     /**
-     * method hasProfessor returns true if this Chamber contains the professor of the Clan given by parameter
+     * The method hasProfessor returns true if this Chamber contains the professor of the Clan given by parameter
      * @param clan  the Clan of the professor
      * @return      whether this Chamber contains the professor of the Clan clan
      */
@@ -119,7 +119,7 @@ public class Chamber implements Serializable, StudentContainer {
     }
 
     /**
-     * method setProfessor sets the professor of the Clan given by parameter to the boolean value given by parameter
+     * The method setProfessor sets the professor of the Clan given by parameter to the boolean value given by parameter
      * @param clan  the Clan of the professor to change
      * @param value the value to which to set the professor of Clan clan
      */
@@ -128,7 +128,7 @@ public class Chamber implements Serializable, StudentContainer {
     }
 
     /**
-     * method getNumStudents returns the number of the student of the Clan giver by parameter contained in this Chamber
+     * The method getNumStudents returns the number of the student of the Clan giver by parameter contained in this Chamber
      * @param clan  the Clan of the students to get the number
      * @return      the number of the students contained in this Chamber of Clan clan
      */
@@ -137,7 +137,7 @@ public class Chamber implements Serializable, StudentContainer {
     }
 
     /**
-     * method updateCoins increases the variable coins after an addition of students accordingly to the rules of the game
+     * The method updateCoins increases the variable coins after an addition of students accordingly to the rules of the game
      */
     private void updateCoins() {
         for (Clan c : Clan.values()) {

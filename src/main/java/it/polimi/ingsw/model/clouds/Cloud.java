@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Cloud class models the clouds of the game, with the attributes and the methods
+ * The Cloud class models the clouds of the game, with the attributes and the methods
  * needed for their management
  *
  */
@@ -24,7 +24,7 @@ public class Cloud implements Serializable {
     }
 
     /**
-     * method isEmpty returns true if the Cloud doesn't contain any student
+     * The method isEmpty returns true if the Cloud doesn't contain any student
      * @return  whether the Cloud doesn't contain any student
      */
     public boolean isEmpty() {
@@ -46,7 +46,7 @@ public class Cloud implements Serializable {
     }
 
     /**
-     * method pick returns the students contained in the Cloud, sets picked to true and empties the students array
+     * The method pick returns the students contained in the Cloud, sets picked to true and empties the students array
      * @return  the students contained in the Cloud
      */
     public Map<Clan, Integer> pick() {
@@ -66,7 +66,7 @@ public class Cloud implements Serializable {
     }
 
     /**
-     * method fill sets picked to false and puts the students given by parameter in the Cloud
+     * The method fill sets picked to false and puts the students given by parameter in the Cloud
      * @param stud  the students with which the Cloud is filled
      */
     public void fill (Map<Clan, Integer> stud) {

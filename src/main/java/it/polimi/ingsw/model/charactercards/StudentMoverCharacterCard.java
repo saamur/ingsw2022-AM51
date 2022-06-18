@@ -11,7 +11,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * StudentMoverCharacterCard class models the character cards
+ * The StudentMoverCharacterCard class models the character cards
  * that move students between objects
  *
  */

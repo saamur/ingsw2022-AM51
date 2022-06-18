@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * TurnState class is an enumeration with the list of the phases of a turn
+ * The TurnState class is an enumeration with the list of the phases of a turn
  *
  */
 public enum TurnState {

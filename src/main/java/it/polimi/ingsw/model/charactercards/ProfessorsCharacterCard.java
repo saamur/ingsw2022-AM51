@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * ProfessorsCharacterCard class models the character cards
+ * The ProfessorsCharacterCard class models the character cards
  * that have an impact on the rules that govern the ownership of the professors
  *
  */

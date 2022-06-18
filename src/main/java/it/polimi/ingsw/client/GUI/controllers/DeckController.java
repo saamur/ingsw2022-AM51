@@ -127,6 +127,10 @@ public class DeckController extends PageController implements Initializable {
 
     }
 
+    /**
+     * Sets the image corresponding to the card chosen by the user as green
+     * @param card card chosen by the client
+     */
     private void setThisPlayerCard (Card card) {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-1);
@@ -197,12 +201,19 @@ public class DeckController extends PageController implements Initializable {
         gui.setCurrScene(GAMEBOARD);
     }
 
+    /**
+     * Sets the nickname of the client
+     * @param nickname nickname chosen by the client
+     */
     public void setNickname(String nickname){
         this.nickname = nickname;
     }
 
+    /**
+     * Sets the current player of the game phase
+     * @param currPlayer
+     */
     public void setCurrPlayer(String currPlayer){
-        //FIXME se si è secodni non lo aggiorna
         if (!this.nickname.equals(currPlayer)){
             chooseAssistantLabel.setText(currPlayer + " is choosing");
         } else {

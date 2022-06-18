@@ -39,32 +39,50 @@ public class GameBoardController extends PageController implements Initializable
         characters = Arrays.asList(character1, character2, character3); //TODO spero che non lo visualizzi
     }
 
-
-    //Fixme togliere una plancia se ci sono solo due giocatori
-    //FIXME aggiungere charactercards
-    //FIXME aggiungere nuvole
-
+    /**
+     * This method is called when a Mouse click is done on the islands' anchor pane
+     * @param click
+     */
     public void selectIslands(MouseEvent click){
         gui.setCurrScene(ISLANDS);
     }
 
+    /**
+     * This method is called when a Mouse click is done on the cards' anchor pane
+     * @param event
+     */
     public void selectDeck(MouseEvent event){
         gui.setCurrScene(DECK);
     }
 
+    /**
+     * This method is called when a Mouse click is done on the school boards' anchor pane
+     * @param event
+     */
     public void selectSchoolBoards(MouseEvent event){
         gui.setCurrScene(SCHOOLBOARDS);
     }
 
+    /**
+     * This method is called when a Mouse click is done on the characters' anchor pane
+     * @param mouseEvent
+     */
     public void selectCharacterCards(MouseEvent mouseEvent) {
         gui.setCurrScene(CHARACTERS);
     }
 
+    /**
+     * This method is called when a Mouse click is done on the clouds' anchor pane
+     * @param mouseEvent
+     */
     public void viewClouds(MouseEvent mouseEvent) {
         gui.setCurrScene(CLOUDS);
     }
 
-
+    /**
+     * This method creates the gameBoard scene according to the game data
+     * @param gameData
+     */
     public void setGameData(GameData gameData){
         Platform.runLater(new Runnable() {
             @Override
@@ -82,9 +100,13 @@ public class GameBoardController extends PageController implements Initializable
         });
     }
 
-
+    /**
+     * Sets the info Label's text to the text inserted as a parameter
+     * @param text instructions describing what is happening in the game
+     * @see Label
+     */
     public void setInfoLabel(String text){
-        info.setText(text);
+        info.setText(text); //FIXME do only if currPlayer.equals(nickname)
     }
 
 }

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-
 public class GameSelectionController extends PageController implements Initializable {
 
     public Label noGameSelectedLabel;
@@ -161,7 +160,10 @@ public class GameSelectionController extends PageController implements Initializ
         numPlayers.setValueFactory(valueFactory);
     }
 
-
+    /**
+     * Sets the game's list from the availableGamesMessage and displays them in the relative tables
+     * @see AvailableGamesMessage
+     */
     public void getGames(){
         newGamesList = availableGamesMessage.openingNewGameDataList();
         savedGamesList = availableGamesMessage.savedGameData();
@@ -172,7 +174,10 @@ public class GameSelectionController extends PageController implements Initializ
         restoredGames.getItems().setAll(restoredGamesList);
     }
 
-    @FXML
+    /**
+     * It's called when a game is selected and according to the type of game, it opens the game or restores an old one
+     * @param event
+     */
     public void enterGame(ActionEvent event) {
         noGameSelectedLabel.setVisible(false);
         Object source = event.getSource();
@@ -208,6 +213,10 @@ public class GameSelectionController extends PageController implements Initializ
         }
     }
 
+    /**
+     * Accepts the input from the nicknameTextField if it is not empty and sends the chosen nickname to the ServerHandler
+     * @param event
+     */
     public void createNickname(ActionEvent event){
         if(nickname == null) {
             if (nicknameTextField.getText().isEmpty()) {
@@ -222,6 +231,11 @@ public class GameSelectionController extends PageController implements Initializ
 
     }
 
+    /**
+     * Method is called after the "create Game" button is clicked, it sends the message to the ServerHandler that a new game has been opened
+     * @see NewGameMessage
+     * @param event
+     */
     public void createNewGame(ActionEvent event){
         if(nickname != null){
             boolean expert = expertMode.isSelected();
@@ -233,6 +247,13 @@ public class GameSelectionController extends PageController implements Initializ
 
     }
 
+    /**
+     * This method is called when there is a problem regarding the nickname, it displays the error message next to the nicknameTextField
+     * The problems can be: <ul>
+     *     <li>"no nickname inserted": the user has tried opening a game or creating a new one without inserting a nickname first</li>
+     *     <li>"The nickname has already been inserted": the user has tried to insert a username after having chosen one already</li>
+     * </ul>
+     */
     public void errorNickname(){
         if(nickname == null){
             chosenNicknameLabel.setTextFill(Color.web("#a11515"));
@@ -244,13 +265,15 @@ public class GameSelectionController extends PageController implements Initializ
         }
     }
 
-
-
     public void setAvailableGameMessage(AvailableGamesMessage availableGamesMessage){
         this.availableGamesMessage = availableGamesMessage;
         getGames();
     }
 
+    /**
+     * After the Server has confirmed that the nickname can be chosen, a message saying "Nickname chosen!" will appear
+     * @param nickname nickname chosen by the user
+     */
     public void setNickname(String nickname){
         if(nickname != null) {
             this.nickname = nickname;

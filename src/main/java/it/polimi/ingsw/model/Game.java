@@ -40,7 +40,6 @@ public class Game implements GameInterface {
         };
     }
 
-
     private GameState gameState;
 
     private final IslandManager islandManager;

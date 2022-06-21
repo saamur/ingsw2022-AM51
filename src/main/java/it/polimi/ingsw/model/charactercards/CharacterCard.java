@@ -29,20 +29,12 @@ public abstract class CharacterCard implements Serializable {
         pcs = new PropertyChangeSupport(this);
     }
 
-    public CharacterID getCharacterID() {
-        return characterID;
-    }
-
     /**
      * The method isAvailable establishes if the card can be activated
      * @return  whether the card can be activated
      */
     public boolean isAvailable() {
         return true;
-    }
-
-    public int getCost() {
-        return alreadyUsed ? characterID.getInitialCost() + 1 : characterID.getInitialCost();
     }
 
     /**
@@ -117,6 +109,14 @@ public abstract class CharacterCard implements Serializable {
      */
     public boolean applyEffect (Game game, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2){
         return false;
+    }
+
+    public CharacterID getCharacterID() {
+        return characterID;
+    }
+
+    public int getCost() {
+        return alreadyUsed ? characterID.getInitialCost() + 1 : characterID.getInitialCost();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){

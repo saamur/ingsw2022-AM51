@@ -41,9 +41,6 @@ public class Cloud implements Serializable {
         return this.picked;
     }
 
-    public Map<Clan, Integer> getStudents(){
-        return new EnumMap<>(students);
-    }
 
     /**
      * The method pick returns the students contained in the Cloud, sets picked to true and empties the students array
@@ -73,5 +70,10 @@ public class Cloud implements Serializable {
         students = stud;
         picked = false;
     }
+
+    public Map<Clan, Integer> getStudents(){
+        return new EnumMap<>(students);
+    }
+
 
 }

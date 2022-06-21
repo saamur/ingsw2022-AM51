@@ -426,7 +426,8 @@ public class IslandsPageController extends PageController implements Initializab
         island.setFitWidth(ConstantsGUI.getIslandWidth(modelIsland.numberOfIslands()));
         island.setFitHeight(ConstantsGUI.getIslandHeight(modelIsland.numberOfIslands()));
 
-        if(modelIsland.numberOfIslands() > 1){ //FIXME le isole si muovono anche quando vengono spostati gli studenti
+        int numOfIslands = modelIsland.numberOfIslands();
+        if(numOfIslands > 1){ //FIXME le isole si muovono anche quando vengono spostati gli studenti
             if (anchor.getLayoutX() < 0)
                 anchor.setLayoutX(0);
             else if (anchor.getLayoutX() + island.getFitWidth() > window.getLayoutX() + window.getPrefWidth())
@@ -436,6 +437,22 @@ public class IslandsPageController extends PageController implements Initializab
                 anchor.setLayoutY(0);
             else if (anchor.getLayoutY() + island.getFitHeight() > window.getLayoutY() + window.getPrefHeight())
                 anchor.setLayoutY(window.getLayoutY() + window.getPrefHeight() - island.getFitHeight());
+        }
+
+        for(Node child : anchor.getChildren()) {
+            if (child.getId().contains("students")) {
+                child.setLayoutX(ConstantsGUI.getStudentsX(numOfIslands));
+                child.setLayoutY(ConstantsGUI.getStudentsY(numOfIslands));
+            } else if (child.getId().contains("prohibition")) {
+                child.setLayoutX(ConstantsGUI.getProhibitionX(numOfIslands));
+                child.setLayoutY(ConstantsGUI.getProhibitionY(numOfIslands));
+            } else if (child.getId().contains("motherNature")) {
+                child.setLayoutX(ConstantsGUI.getMotherNatureX(numOfIslands));
+                child.setLayoutY(ConstantsGUI.getMotherNatureY(numOfIslands));
+            } else if (child.getId().contains("tower")) {
+                child.setLayoutX(ConstantsGUI.getTowerX(numOfIslands));
+                child.setLayoutY(ConstantsGUI.getTowerY(numOfIslands));
+            }
         }
 
     }

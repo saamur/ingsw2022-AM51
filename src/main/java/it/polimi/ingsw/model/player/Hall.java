@@ -19,10 +19,6 @@ public class Hall implements Serializable, StudentContainer {
         this.students = new EnumMap<>(students);
     }
 
-    public Map<Clan, Integer> getStudents() {
-        return new EnumMap<>(students);
-    }
-
     @Override
     public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
         for (Clan c : Clan.values())
@@ -74,6 +70,10 @@ public class Hall implements Serializable, StudentContainer {
             stud.put(c, c == clan ? 1 : 0);
         Map<Clan, Integer> removedStud = removeStudents(stud);
         return stud.equals(removedStud);
+    }
+
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
     }
 
 }

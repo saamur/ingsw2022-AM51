@@ -32,42 +32,6 @@ public class Player implements Serializable {
 
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public TowerColor getColorOfTowers() {
-        return colorOfTowers;
-    }
-
-    public int getNumberOfTowers() {
-        return numberOfTowers;
-    }
-
-    public Card getCurrCard() {
-        return currCard;
-    }
-
-    public Hall getHall() {
-        return hall;
-    }
-
-    public Chamber getChamber() {
-        return chamber;
-    }
-
-    public Deck getDeck() {
-        return deck;
-    }
-
-    /**
-     * The method getCoins returns the number of coins in the object chamber
-     * @return  the number of coins in the object chamber
-     */
-    public int getCoins() {
-        return chamber.getCoins();
-    }
-
     /**
      * The method pay decreases the coins in chamber by the number given by parameter
      * @param amount    the number of coins to remove from chamber
@@ -112,5 +76,40 @@ public class Player implements Serializable {
         numberOfTowers -= n;
     }
 
+    /**
+     * The method getCoins returns the number of coins in the object chamber
+     * @return  the number of coins in the object chamber
+     */
+    public int getCoins() {
+        return chamber.getCoins();
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public TowerColor getColorOfTowers() {
+        return colorOfTowers;
+    }
+
+    public int getNumberOfTowers() {
+        return numberOfTowers;
+    }
+
+    public Card getCurrCard() {
+        return currCard;
+    }
+
+    public Hall getHall() {
+        return hall;
+    }
+
+    public Chamber getChamber() {
+        return chamber;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
     
 }

@@ -342,4 +342,49 @@ public class ConstantsGUI {
     public static int getIslandY(AnchorPane anchor){
         return ORIGINAL_ISLANDS_Y_COORDINATES.get(anchor.getId());
     }
+
+    //TODO dimensioni studenti proporzionali
+
+    private static int COORDINATES_STUDENTS_X = 35;
+    private static int COORDINATES_STUDENTS_Y = 71;
+    private static int COORDINATES_MOTHERNATURE_X = 70;
+    private static int COORDINATES_MOTHERNATURE_Y =25;
+    private static int COORDINATES_PROHIBITION_X = 53;
+    private static int COORDINATES_PROHIBITION_Y = 44;
+    private static int COORDINATES_TOWERS_X = 46;
+    private static int COORDINATES_TOWERS_Y = 37;
+
+    //todo anche Prohibition and towers and MN
+
+    public static double getStudentsX(int numOfIslands){
+        return (COORDINATES_STUDENTS_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
+    }
+
+    public static double getStudentsY(int numOfIslands){
+        return (COORDINATES_STUDENTS_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
+    }
+
+    public static double getMotherNatureX(int numOfIslands){
+        return (COORDINATES_MOTHERNATURE_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
+    }
+
+    public static double getMotherNatureY(int numOfIslands){
+        return (COORDINATES_MOTHERNATURE_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
+    }
+
+    public static double getProhibitionX(int numOfIslands){
+        return (COORDINATES_PROHIBITION_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
+    }
+
+    public static double getProhibitionY(int numOfIslands){
+        return (COORDINATES_PROHIBITION_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
+    }
+
+    public static double getTowerX(int numOfIslands){
+        return (COORDINATES_TOWERS_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
+    }
+
+    public static double getTowerY(int numOfIslands){
+        return (COORDINATES_TOWERS_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
+    }
 }

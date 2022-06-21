@@ -71,9 +71,9 @@ public class GameBoardController extends PageController implements Initializable
      * @param mouseEvent
      */
     public void selectCharacterCards(MouseEvent mouseEvent) {
-        if(activatedCharacter == CharacterID.THIEF || activatedCharacter == CharacterID.MUSHROOMPICKER)
+        /*if(activatedCharacter == CharacterID.THIEF || activatedCharacter == CharacterID.MUSHROOMPICKER)
             gui.setCurrScene(ACTIVATEEFFECT);
-        else
+        else*/
             gui.setCurrScene(CHARACTERS);
     }
 

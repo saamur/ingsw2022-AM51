@@ -188,9 +188,9 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
-                        ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                         if(gameData.getCurrPlayer().equals(this.nickname)) {
                             if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
+                                ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                                 Platform.runLater(() -> {
                                     switch (gameData.getActiveCharacterCard()) {
                                         case HERALD, GRANDMA -> {
@@ -216,6 +216,7 @@ public class GUI extends Application implements View{
                                     }
                                 });
                             } else if (gameData.getActiveCharacterCard() != null && gameData.isActiveCharacterPunctualEffectApplied()) {
+                                ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(null);
                                 switch (gameData.getActiveCharacterCard()) {
                                     case MINSTREL, JESTER -> {
                                         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableCharactersActions();
@@ -257,21 +258,28 @@ public class GUI extends Application implements View{
                     setCurrScene(SCHOOLBOARDS);
                     if(gameData.getCurrPlayer().equals(this.nickname))
                         ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's time for you to move your students");
+                    else
+                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                 }
                 else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING)) {
                     ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
                         for(PlayerData player : gameData.getPlayerData()) {
                             if(gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
                                 ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
-                                System.out.println("Ora label dovrebbe vedersi");
                                 ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to move Mother Nature");
-
+                            } else {
+                                ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                             }
                         }
                         setCurrScene(ISLANDS);
                     }
-                else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
+                else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN)) {
+                    if(gameData.getCurrPlayer().equals(this.nickname))
+                        ((GameBoardController) controllers.get(CLOUDS)).setInfoLabel("You have to choose a cloud");
+                    else
+                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                     setCurrScene(CLOUDS);
+                }
             }/* else if (gameData.getGameState().equals(GameState.GAME_OVER)){
                 ((GameOverController) controllers.get(GAMEOVER)).setWinners(gameData);
                 setCurrScene(GAMEOVER);

@@ -116,7 +116,7 @@ public class GameConstants {
         DESCRIPTION_CHARACTERS.put(HERALD, "Choose an Island and resolve the Island as if Mother Nature had ended her movement there.\nMother Nature will still move and the Island where she ends her movement will also be resolved\n");
         DESCRIPTION_CHARACTERS.put(POSTMAN, "You may move Mother Nature up to 2 additional Island than is indicated by the Assistant card you've played\n");
         DESCRIPTION_CHARACTERS.put(GRANDMA, "Place a No Entry tile on an Island of your choice.\nThe first time that Mother Nature ends her movement there, put the Prohibition Card back onto this card and DO NOT calculate influence on that Island, or place any Towers \n");
-        DESCRIPTION_CHARACTERS.put(CENTAUR, "When resolving a Conquering on an Island do not count towards influence\n");
+        DESCRIPTION_CHARACTERS.put(CENTAUR, "When resolving a Conquering on an Island the towers do not count towards influence\n");
         DESCRIPTION_CHARACTERS.put(JESTER, "You may take up to 3 Students from this card and replace them with the same number of Students from your Hall\n");
         DESCRIPTION_CHARACTERS.put(KNIGHT, "During the influence calculation this turn, you count as having 2 more influence\n");
         DESCRIPTION_CHARACTERS.put(MUSHROOMPICKER, "Choose a color of Student: during the influence calculation this turn, that color adds no influence\n");

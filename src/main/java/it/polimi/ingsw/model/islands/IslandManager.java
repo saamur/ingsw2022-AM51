@@ -46,14 +46,6 @@ public class IslandManager implements Serializable {
 
     }
 
-    public Island getMotherNaturePosition() {
-        return motherNaturePosition;
-    }
-
-    public List<Island> getIslands() {
-        return new ArrayList<>(islands);
-    }
-
     /**
      * The method getIsland returns the island in the position of the parameter,
      * null if the index is out of bounds
@@ -158,6 +150,14 @@ public class IslandManager implements Serializable {
         //I used the boolean variable merge so that if a double merge happens only one fire will be sent
         if(merged)
             pcs.firePropertyChange("merge", null, IslandManagerData.createIslandManagerData(this)); //Come new value gli metto tutto islandManager
+    }
+
+    public List<Island> getIslands() {
+        return new ArrayList<>(islands);
+    }
+
+    public Island getMotherNaturePosition() {
+        return motherNaturePosition;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){

@@ -17,10 +17,6 @@ public class Deck implements Serializable {
         cards = new ArrayList<>(Arrays.asList(Card.values()));
     }
 
-    public List<Card> getCards() {
-        return new ArrayList<>(cards);
-    }
-
     /**
      * The method removeCard removes the card given by parameter from the List cards
      * @param c the card to remove from the deck
@@ -36,6 +32,10 @@ public class Deck implements Serializable {
      */
     public boolean isEmpty() {
         return cards.isEmpty();
+    }
+
+    public List<Card> getCards() {
+        return new ArrayList<>(cards);
     }
 
 }

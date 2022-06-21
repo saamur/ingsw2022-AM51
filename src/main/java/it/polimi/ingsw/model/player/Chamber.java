@@ -35,26 +35,6 @@ public class Chamber implements Serializable, StudentContainer {
             coinsGiven.put(c, 0);
     }
 
-    public Map<Clan, Integer> getStudents() {
-        return new EnumMap<>(students);
-    }
-
-    public Map<Clan, Boolean> getProfessors() {
-        return new EnumMap<>(professors);
-    }
-
-    public int getCoins() {
-        return coins;
-    }
-
-    public Map<Clan, Integer> getCoinsGiven() {
-        return new EnumMap<>(coinsGiven);
-    }
-
-    public void setCoins(int coins) {
-        this.coins = coins;
-    }
-
     @Override
     public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
 
@@ -146,6 +126,26 @@ public class Chamber implements Serializable, StudentContainer {
                 coinsGiven.put(c, students.get(c)/3);
             }
         }
+    }
+
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
+    }
+
+    public Map<Clan, Boolean> getProfessors() {
+        return new EnumMap<>(professors);
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public Map<Clan, Integer> getCoinsGiven() {
+        return new EnumMap<>(coinsGiven);
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 
 }

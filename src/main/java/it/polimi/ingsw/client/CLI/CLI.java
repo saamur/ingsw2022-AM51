@@ -24,7 +24,7 @@ public class CLI implements View, Runnable {
     private String nickname;
     private AvailableGamesMessage availableGamesMessage;
     private boolean gameChosen;
-    private boolean gameOver;
+    private volatile boolean gameOver;
 
     private GameData gameData;
 
@@ -131,8 +131,8 @@ public class CLI implements View, Runnable {
 
     @Override
     public void handleGenericMessage(String message) {
-        System.out.println("handleGenericMessage: " + message);
-        //todo
+        if(!gameOver)
+            System.out.println("handleGenericMessage: " + message);
     }
 
 

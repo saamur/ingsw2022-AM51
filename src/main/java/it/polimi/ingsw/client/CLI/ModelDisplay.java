@@ -110,36 +110,36 @@ public class ModelDisplay {
     public static void displayModel (GameData gameData, String nickname) {
         AnsiConsole.systemInstall();
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-
-        System.out.println(gameData);
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
         for(PlayerData p : gameData.getPlayerData()){
             if(p.getNickname().equals(nickname)) {
-                System.out.println(p.getNickname() + "'s School" + " (you) ");
+                System.out.println(p.getNickname() + "'s Board" + " (you) ");
             }
             else
-                System.out.println(p.getNickname() + "'s School");
+                System.out.println(p.getNickname() + "'s Board");
+            System.out.println("\n");
             if(p.getCurrCard() != null){
                 System.out.println("Played Card: " + p.getCurrCard().name());
             }
+            System.out.println("\n");
             displayHall(p.getHallData());
             displayChamber(p.getChamberData());
             displayTowersPlayer(p);
             if(gameData.isExpertModeEnabled())
                 displayCoins(p);
         }
-        System.out.println("\n\n\n");
+        System.out.println("\n");
 
 
         displayIslands(gameData.getIslandManager(), (gameData.isExpertModeEnabled() &&  Arrays.stream(gameData.getCharacterCardData()).anyMatch(characterCardData -> characterCardData.characterID() == CharacterID.GRANDMA)));
 
-        System.out.println("\n\n\n");
+        System.out.println("\n");
 
         displayClouds(gameData.getCloudManager());
 
+        System.out.println();
 
-        System.out.println("\n\n\n");
         if(gameData.isExpertModeEnabled()) {
             displayAvailableCharacters(gameData.getCharacterCardData(), gameData.getActiveCharacterCard());
             System.out.println("\n\n");
@@ -225,8 +225,6 @@ public class ModelDisplay {
                 System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.NO_PROFESSOR_SYMBOL + CliGraphicConstants.ANSI_RESET);
             System.out.println("\n");
         }
-        System.out.println("\n" + CliGraphicConstants.ANSI_RESET);
-
     }
 
     /**
@@ -243,7 +241,7 @@ public class ModelDisplay {
         System.out.println("\n");
         updateIsland(islandManagerData, 0, Math.min(islandManagerData.getIslands().size(), CliGraphicConstants.MAX_VISUAL), bool);
 
-        System.out.println("\n");
+        System.out.println();
         if(islandManagerData.getIslands().size() > 6) {
             updateIsland(islandManagerData, 6, islandManagerData.getIslands().size(), bool);
         }
@@ -340,7 +338,7 @@ public class ModelDisplay {
 
 
     private static void displayTowersPlayer (PlayerData playerData){
-        System.out.print("\n TOWERS: ");
+        System.out.print("TOWERS: ");
 
 
         if(playerData.getColorOfTowers().equals(TowerColor.WHITE)) {
@@ -352,7 +350,7 @@ public class ModelDisplay {
         else if(playerData.getColorOfTowers().equals(TowerColor.BLACK)){
             System.out.println(TowerColor.BLACK.name());
             for(int i = 0; i < playerData.getNumberOfTowers(); i++){
-                System.out.print(" " + CliGraphicConstants.TOWER_SYMBOL);//todo trovare un modo per rappresentare le torri nere differenziandole dalle bianche
+                System.out.print(" " + CliGraphicConstants.TOWER_SYMBOL);
             }
         }
         else if(playerData.getColorOfTowers().equals(TowerColor.GRAY)){

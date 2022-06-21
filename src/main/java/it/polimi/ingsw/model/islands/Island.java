@@ -32,34 +32,6 @@ public class Island implements Serializable, StudentContainer {
         numProhibitionCards = 0;
     }
 
-    public int getNumberOfIslands() {
-        return numberOfIslands;
-    }
-
-    public Map<Clan, Integer> getStudents() {
-        return new EnumMap<>(students);
-    }
-
-    public Player getControllingPlayer() {
-        return controllingPlayer;
-    }
-
-    public void setControllingPlayer(Player controllingPlayer) {
-        this.controllingPlayer = controllingPlayer;
-    }
-
-    public int getNumberOfTowers() {
-        return numberOfTowers;
-    }
-
-    public void setNumberOfTowers(int numberOfTowers) {
-        this.numberOfTowers = numberOfTowers;
-    }
-
-    public int getNumProhibitionCards() {
-        return numProhibitionCards;
-    }
-
     @Override
     public Map<Clan, Integer> addStudents(Map<Clan, Integer> stud) {
         for (Clan c : Clan.values())
@@ -123,6 +95,34 @@ public class Island implements Serializable, StudentContainer {
         this.numberOfTowers += mergingIsland.numberOfTowers;
         this.numProhibitionCards += mergingIsland.numProhibitionCards;
 
+    }
+
+    public int getNumberOfIslands() {
+        return numberOfIslands;
+    }
+
+    public Map<Clan, Integer> getStudents() {
+        return new EnumMap<>(students);
+    }
+
+    public Player getControllingPlayer() {
+        return controllingPlayer;
+    }
+
+    public int getNumberOfTowers() {
+        return numberOfTowers;
+    }
+
+    public int getNumProhibitionCards() {
+        return numProhibitionCards;
+    }
+
+    public void setControllingPlayer(Player controllingPlayer) {
+        this.controllingPlayer = controllingPlayer;
+    }
+
+    public void setNumberOfTowers(int numberOfTowers) {
+        this.numberOfTowers = numberOfTowers;
     }
 
 }

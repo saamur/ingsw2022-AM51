@@ -200,6 +200,7 @@ public class CloudController extends PageController implements Initializable {
         for (Clan clan : Clan.values()) {
             while (studentsData.get(clan) > 0) {
                 students.get(cloudIndex).get(i).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                students.get(cloudIndex).get(i).setVisible(true);
                 studentsData.put(clan, studentsData.get(clan) - 1);
                 i++;
             }

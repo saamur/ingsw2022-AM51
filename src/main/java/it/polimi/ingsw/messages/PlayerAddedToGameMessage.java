@@ -1,5 +1,10 @@
 package it.polimi.ingsw.messages;
 
+/**
+ * PlayerAddedToGameMessage the message that confirms that a player has been added to the game
+ * @param message
+ */
+
 public record PlayerAddedToGameMessage(String message) implements Message {
 
     @Override

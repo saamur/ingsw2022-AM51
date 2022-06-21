@@ -120,6 +120,9 @@ public class ModelDisplay {
             }
             else
                 System.out.println(p.getNickname() + "'s School");
+            if(p.getCurrCard() != null){
+                System.out.println("Played Card: " + p.getCurrCard().name());
+            }
             displayHall(p.getHallData());
             displayChamber(p.getChamberData());
             displayTowersPlayer(p);

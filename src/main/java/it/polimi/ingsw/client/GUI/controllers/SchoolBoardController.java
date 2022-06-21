@@ -63,7 +63,7 @@ public class SchoolBoardController extends PageController implements Initializab
         this.nickname = nickname;
     }
 
-    public void initialSetUp(PlayerData[] playersData) {
+    public void initialSetUp(PlayerData[] playersData, boolean expertMode) {
 
         schoolBoards = new SchoolBoard[playersData.length];
 
@@ -244,23 +244,26 @@ public class SchoolBoardController extends PageController implements Initializab
 
             anchorPane.getChildren().addAll(schoolBoards[i].towers);
 
-            //TODO if(expert) -> creo monete
-            ImageView coin = new ImageView(new Image(getClass().getResource(COIN_IMAGE).toExternalForm()));
-            coin.setFitWidth(ConstantsGUI.getCoinWidth());
-            coin.setFitHeight(getCoinHeight());
-            coin.setX(ConstantsGUI.getCoinX());
-            coin.setY(ConstantsGUI.getCoinY());
-            anchorPane.getChildren().add(coin);
             Label label = new Label();
             label.setLayoutX(130);
             label.setLayoutY(439);
             schoolBoards[i].coins = label;
             anchorPane.getChildren().add(label);
+            if (expertMode) {
+                ImageView coin = new ImageView(new Image(getClass().getResource(COIN_IMAGE).toExternalForm()));
+                coin.setFitWidth(ConstantsGUI.getCoinWidth());
+                coin.setFitHeight(getCoinHeight());
+                coin.setX(ConstantsGUI.getCoinX());
+                coin.setY(ConstantsGUI.getCoinY());
+                anchorPane.getChildren().add(coin);
+            }
+            else {
+                label.setVisible(false);
+                label.setDisable(true);
+            }
 
             Tab tab = new Tab(nickname.equals(playersData[i].getNickname()) ? "YOU" : playersData[i].getNickname(), anchorPane);
             tabPane.getTabs().add(tab);
-
-            //todo monete
 
         }
 
@@ -272,9 +275,9 @@ public class SchoolBoardController extends PageController implements Initializab
         gui.setCurrScene(GAMEBOARD);
     }
 
-    public void setSchoolBoards(PlayerData[] playersData) {
+    public void setSchoolBoards(PlayerData[] playersData, boolean expertMode) {
 
-        initialSetUp(playersData);
+        initialSetUp(playersData, expertMode);
 
         for (PlayerData p : playersData)
             setSchoolBoard(p);

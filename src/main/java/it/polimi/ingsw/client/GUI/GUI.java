@@ -111,7 +111,7 @@ public class GUI extends Application implements View{
             synchronized (gameData) {
                 ((GameBoardController) controllers.get(GAMEBOARD)).setGameData(gameData);
                 ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
-                ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData());
+                ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData(), gameData.isExpertModeEnabled());
                 ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager(), gameData.isExpertModeEnabled());
                 ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                 if(gameData.isExpertModeEnabled()) {

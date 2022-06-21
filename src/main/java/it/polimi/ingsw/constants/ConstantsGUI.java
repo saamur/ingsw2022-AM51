@@ -343,8 +343,6 @@ public class ConstantsGUI {
         return ORIGINAL_ISLANDS_Y_COORDINATES.get(anchor.getId());
     }
 
-    //TODO dimensioni studenti proporzionali
-
     private static int COORDINATES_STUDENTS_X = 35;
     private static int COORDINATES_STUDENTS_Y = 71;
     private static int COORDINATES_MOTHERNATURE_X = 70;
@@ -353,8 +351,6 @@ public class ConstantsGUI {
     private static int COORDINATES_PROHIBITION_Y = 44;
     private static int COORDINATES_TOWERS_X = 46;
     private static int COORDINATES_TOWERS_Y = 37;
-
-    //todo anche Prohibition and towers and MN
 
     public static double getStudentsX(int numOfIslands){
         return (COORDINATES_STUDENTS_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);

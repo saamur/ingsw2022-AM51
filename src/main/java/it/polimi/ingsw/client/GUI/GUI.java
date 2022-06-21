@@ -186,6 +186,7 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
+                        //TODO add updateLabel(gameData.getGamePhase)
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
                         if(gameData.getCurrPlayer().equals(this.nickname)) {
@@ -275,15 +276,12 @@ public class GUI extends Application implements View{
                     }
                 else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN)) {
                     if(gameData.getCurrPlayer().equals(this.nickname))
-                        ((GameBoardController) controllers.get(CLOUDS)).setInfoLabel("You have to choose a cloud");
+                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to choose a cloud");
                     else
                         ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                     setCurrScene(CLOUDS);
                 }
-            }/* else if (gameData.getGameState().equals(GameState.GAME_OVER)){
-                ((GameOverController) controllers.get(GAMEOVER)).setWinners(gameData);
-                setCurrScene(GAMEOVER);
-            }*/
+            }
         });
     }
 

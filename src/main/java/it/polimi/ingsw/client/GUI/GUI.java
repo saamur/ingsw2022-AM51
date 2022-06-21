@@ -7,10 +7,8 @@ import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
-import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage1;
-import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
-import it.polimi.ingsw.messages.gamemessages.SetClanCharacterMessage;
 import it.polimi.ingsw.messages.updatemessages.*;
+import it.polimi.ingsw.client.modeldata.GamePhaseData;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TurnState;
@@ -79,9 +77,7 @@ public class GUI extends Application implements View{
 
     @Override
     public void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
-        if(!currScene.equals(GAMESELECTION)){
-            //FIXME non dovrebbe succedere
-        } else {
+        if(currScene.equals(GAMESELECTION)){
             ((GameSelectionController) controllers.get(GAMESELECTION)).setAvailableGameMessage(availableGamesMessage); //qui non ho aggiunto login alla mappa
         }
     }
@@ -186,14 +182,14 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
-                        //TODO add updateLabel(gameData.getGamePhase)
+                        updateLabel( ((UpdateGamePhase) updateMessage).gamePhaseData());
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
                         if(!gameData.isActiveCharacterPunctualEffectApplied())
                             ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                         else
                             ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(null);
-                        if(gameData.getCurrPlayer().equals(this.nickname)) {
+                        if(nickname.equals(gameData.getCurrPlayer())) {
                             if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                                 Platform.runLater(() -> {
                                     switch (gameData.getActiveCharacterCard()) {
@@ -254,35 +250,21 @@ public class GUI extends Application implements View{
             if (gameData.getGameState().equals(GameState.PLANNING)) {
                 ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
                 setCurrScene(DECK);
-                if(gameData.getCurrPlayer().equals(this.nickname))
-                    ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to choose a Card");
-
             } else if(gameData.getGameState().equals(GameState.ACTION)){
                 if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING)) {
                     ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCurrPlayer(gameData.getCurrPlayer());
                     setCurrScene(SCHOOLBOARDS);
-                    if(gameData.getCurrPlayer().equals(this.nickname))
-                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's time for you to move your students");
-                    else
-                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                 }
                 else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING)) {
                     ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
                         for(PlayerData player : gameData.getPlayerData()) {
                             if(gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
                                 ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
-                                ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to move Mother Nature");
-                            } else {
-                                ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                             }
                         }
                         setCurrScene(ISLANDS);
                     }
                 else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN)) {
-                    if(gameData.getCurrPlayer().equals(this.nickname))
-                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("You have to choose a cloud");
-                    else
-                        ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel("It's " + gameData.getCurrPlayer() + "'s turn");
                     setCurrScene(CLOUDS);
                 }
             }
@@ -351,8 +333,32 @@ public class GUI extends Application implements View{
         setScenes(); //In this case resets the stages
     }
 
-    public GameState getGamePhase(){
-        return this.gameData.getGameState();
+    public void updateLabel(GamePhaseData gamePhase){
+        String currPlayer;
+        String info = null;
+        boolean isCurrPlayer = nickname.equals(gamePhase.currPlayerNickname());
+        if(!isCurrPlayer){
+            currPlayer = "It's " + gamePhase.currPlayerNickname() + "'s turn ";
+        } else {
+            currPlayer = "It's your turn ";
+        }
+        switch(gamePhase.gameState()){
+            case PLANNING -> info = "to choose a card";
+            case ACTION -> {
+                switch(gamePhase.turnState()){
+                    case STUDENT_MOVING -> {
+                        String adj = (isCurrPlayer) ? "your" : "their";
+                        info = "to move " + adj + " students";
+                    }
+                    case MOTHER_MOVING ->
+                        info = "to move Mother Nature";
+                    case CLOUD_CHOOSING ->
+                        info = "to choose a Cloud";
+                }
+            }
+        }
+        if(info!=null)
+            ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel(currPlayer + info);
     }
 
     public TurnState getTurnState(){

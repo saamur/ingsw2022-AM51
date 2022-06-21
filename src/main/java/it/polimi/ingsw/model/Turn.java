@@ -168,20 +168,6 @@ public class Turn implements Serializable {
 
     }
 
-    /**
-     * The method getMaxStepsMotherNature calculates the maximum number of steps that Mother Nature can do in this turn
-     * @return  the maximum number of steps that Mother Nature can do in this turn
-     */
-    public int getMaxStepsMotherNature() {
-
-        int maxSteps = currPlayer.getCurrCard().getMaxStepsMotherNature();
-
-        if (activatedCharacterCard != null)
-            maxSteps += activatedCharacterCard.effectStepsMotherNature();
-
-        return maxSteps;
-
-    }
 
     /**
      * The method updateInfluence calculates the influences of the players on a given Island
@@ -236,41 +222,55 @@ public class Turn implements Serializable {
 
     }
 
-    public TurnState getTurnState() {
-        return turnState;
-    }
-
-    public void setTurnState(TurnState turnState) {
-        this.turnState = turnState;
-    }
-
-
-    public CharacterCard getActivatedCharacterCard() {
-        return activatedCharacterCard;
-    }
-
-    public void setActivatedCharacterCard(CharacterCard activatedCharacterCard) {
-        this.activatedCharacterCard = activatedCharacterCard;
-    }
-
-    public boolean isCharacterPunctualEffectApplied() {
-        return characterPunctualEffectApplied;
-    }
-
-    public void setCharacterClan(Clan characterClan) {
-        this.characterClan = characterClan;
-    }
-
-    public Clan getCharacterClan() {
-        return characterClan;
-    }
-
     /**
      * The method characterPunctualEffectApplied saves in the variable characterPunctualEffectApplied that the effect of the Character
      * has been applied
      */
     public void characterPunctualEffectApplied() {
         characterPunctualEffectApplied = true;
+    }
+
+    /**
+     * The method getMaxStepsMotherNature calculates the maximum number of steps that Mother Nature can do in this turn
+     * @return  the maximum number of steps that Mother Nature can do in this turn
+     */
+    public int getMaxStepsMotherNature() {
+
+        int maxSteps = currPlayer.getCurrCard().getMaxStepsMotherNature();
+
+        if (activatedCharacterCard != null)
+            maxSteps += activatedCharacterCard.effectStepsMotherNature();
+
+        return maxSteps;
+
+    }
+
+    public boolean isCharacterPunctualEffectApplied() {
+        return characterPunctualEffectApplied;
+    }
+
+    public TurnState getTurnState() {
+        return turnState;
+    }
+
+    public CharacterCard getActivatedCharacterCard() {
+        return activatedCharacterCard;
+    }
+
+    public Clan getCharacterClan() {
+        return characterClan;
+    }
+
+    public void setTurnState(TurnState turnState) {
+        this.turnState = turnState;
+    }
+
+    public void setActivatedCharacterCard(CharacterCard activatedCharacterCard) {
+        this.activatedCharacterCard = activatedCharacterCard;
+    }
+
+    public void setCharacterClan(Clan characterClan) {
+        this.characterClan = characterClan;
     }
 
 }

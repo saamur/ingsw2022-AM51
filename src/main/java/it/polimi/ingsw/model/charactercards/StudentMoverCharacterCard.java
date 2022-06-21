@@ -112,7 +112,6 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         return new EnumMap<>(stud);
     }
 
-
     @Override
     public Map<Clan, Integer> removeStudents(Map<Clan, Integer> stud) {
 
@@ -128,18 +127,16 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
                 students.put(c, 0);
             }
         }
-
         return removedStudents;
+    }
 
+    private interface StudentMover {
+        boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
     //added for tests
     public Map<Clan, Integer> getStudents() {
         return new EnumMap<>(students);
-    }
-
-    private interface StudentMover {
-        boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
 }

@@ -25,10 +25,7 @@ public class Bag implements Serializable, StudentContainer {
         random = new Random();
     }
 
-    //for testing
-    public Map<Clan, Integer> getStudents(){
-        return new EnumMap<>(students);
-    }
+
 
     /**
      * The method draw selects a random student contained in the Bag, it removes it and returns its Clan
@@ -110,5 +107,10 @@ public class Bag implements Serializable, StudentContainer {
         for (Clan c : Clan.values())
             totStudents += stud.get(c);
         return draw(totStudents);
+    }
+
+    //for testing
+    public Map<Clan, Integer> getStudents(){
+        return new EnumMap<>(students);
     }
 }

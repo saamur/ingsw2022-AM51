@@ -109,20 +109,6 @@ public class Game implements GameInterface {
 
     }
 
-     // added for tests
-
-
-    public int getIndexCurrFirstPlayer() {
-        return indexCurrFirstPlayer;
-    }
-
-    public int getIndexCurrPlayer() {
-        return indexCurrPlayer;
-    }
-
-    public int getIndexNextFirstPlayer() {
-        return indexNextFirstPlayer;
-    }
 
     /**
      * The method addPlayer adds a Player to the Game if there isn't already another with the same nickname
@@ -722,6 +708,29 @@ public class Game implements GameInterface {
         return null;
     }
 
+
+
+    @Override
+    public boolean isExpertModeEnabled() {
+        return expertModeEnabled;
+    }
+
+    @Override
+    public boolean isLastRound(){ //FIXME Added for GameData
+        return lastRound;
+    }
+
+
+
+
+    @Override
+    public boolean isActivatedCharacterCardPunctualEffectApplied() {
+        if (turn == null)
+            return false;
+        return turn.isCharacterPunctualEffectApplied();
+    }
+
+
     @Override
     public GameState getGameState() {
         return gameState;
@@ -769,40 +778,18 @@ public class Game implements GameInterface {
         return cloudManager;
     }
 
-    @Override
-    public boolean isExpertModeEnabled() {
-        return expertModeEnabled;
+    public int getIndexCurrFirstPlayer() {
+        return indexCurrFirstPlayer;
     }
 
-    @Override
-    public boolean isLastRound(){ //FIXME Added for GameData
-        return lastRound;
+    public int getIndexCurrPlayer() {
+        return indexCurrPlayer;
     }
 
-    @Override
-    public void setListeners(PropertyChangeListener listener){
-        islandManager.addPropertyChangeListener(listener);
-        pcs.addPropertyChangeListener( listener);
-        if(expertModeEnabled)
-            for (CharacterCard c : availableCharacterCards)
-                c.addPropertyChangeListener(listener);
-
-
+    public int getIndexNextFirstPlayer() {
+        return indexNextFirstPlayer;
     }
 
-    @Override
-    public void removeListeners(){
-
-        PropertyChangeListener[] propertyChangeListeners = pcs.getPropertyChangeListeners();
-        for (PropertyChangeListener l : propertyChangeListeners)
-            pcs.removePropertyChangeListener(l);
-
-        islandManager.removePropertyChangeListener();
-        if(expertModeEnabled)
-            for (CharacterCard c : availableCharacterCards)
-                c.removePropertyChangeListener();
-
-    }
 
     @Override
     public GameData getGameData() {
@@ -844,11 +831,31 @@ public class Game implements GameInterface {
         return turn.getActivatedCharacterCard().getCharacterID();
     }
 
+
     @Override
-    public boolean isActivatedCharacterCardPunctualEffectApplied() {
-        if (turn == null)
-            return false;
-        return turn.isCharacterPunctualEffectApplied();
+    public void setListeners(PropertyChangeListener listener){
+        islandManager.addPropertyChangeListener(listener);
+        pcs.addPropertyChangeListener( listener);
+        if(expertModeEnabled)
+            for (CharacterCard c : availableCharacterCards)
+                c.addPropertyChangeListener(listener);
+
+
     }
+
+    @Override
+    public void removeListeners(){
+
+        PropertyChangeListener[] propertyChangeListeners = pcs.getPropertyChangeListeners();
+        for (PropertyChangeListener l : propertyChangeListeners)
+            pcs.removePropertyChangeListener(l);
+
+        islandManager.removePropertyChangeListener();
+        if(expertModeEnabled)
+            for (CharacterCard c : availableCharacterCards)
+                c.removePropertyChangeListener();
+
+    }
+
 
 }

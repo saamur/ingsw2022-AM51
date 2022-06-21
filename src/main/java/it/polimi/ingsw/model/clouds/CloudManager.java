@@ -31,9 +31,6 @@ public class CloudManager implements Serializable {
             c.fill(bag.draw(numStudentsPerCloud));
     }
 
-    public Cloud[] getClouds() {
-        return clouds.clone();
-    }
 
     /**
      * The method getCloud returns the island in the position of the parameter,
@@ -46,5 +43,10 @@ public class CloudManager implements Serializable {
             return null;
         return clouds[index];
     }
+
+    public Cloud[] getClouds() {
+        return clouds.clone();
+    }
+
 
 }

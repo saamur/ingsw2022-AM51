@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
+import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
@@ -91,6 +92,33 @@ public class Lobby {
 
     }
 
+    private synchronized void broadcastAvailableGames () {
+
+        List<String> playingClients = new ArrayList<>();
+
+        for(Controller c : runningGameControllers)
+            playingClients.addAll(c.getPlayersNicknames());
+
+        for(Controller c : openingNewGameControllers)
+            playingClients.addAll(c.getPlayersNicknames());
+
+        for(Controller c : openingRestoredGameControllers)
+            playingClients.addAll(c.getPlayersNicknames());
+
+        List<ClientHandler> clientHandlers = new ArrayList<>(clientNicknames.keySet());
+
+        clientHandlers = clientHandlers.stream().filter(c -> !playingClients.contains(clientNicknames.get(c))).toList();
+
+        for (ClientHandler c : clientHandlers) {
+            try {
+                c.sendObject(createAvailableGamesMessage(clientNicknames.get(c)));
+            } catch (IOException e) {
+
+            }
+        }
+
+    }
+
     /**
      * the method createNewGameController tries to create a new game with the given parameters and the controller bound to it
      * @param nickname      the nickname of the player that wants to create the game
@@ -104,6 +132,7 @@ public class Lobby {
             GameInterface game = new Game(numOfPlayers, nickname, expertMode);
             controller = new NewGameController(game);
             openingNewGameControllers.add(controller);
+            broadcastAvailableGames();
         } catch (NumberOfPlayerNotSupportedException e) {
             controller = null;
         }
@@ -145,6 +174,7 @@ public class Lobby {
         RestoredGameController controller = new RestoredGameController(game, savedGameData.localDateTime());
         openingRestoredGameControllers.add(controller);
         controller.addPlayer(nickname);
+        broadcastAvailableGames();
         return controller;
     }
 
@@ -189,6 +219,7 @@ public class Lobby {
         runningGameControllers.add(controller);
         openingNewGameControllers.remove(controller);
         openingRestoredGameControllers.remove(controller);
+        broadcastAvailableGames();
     }
 
     /**

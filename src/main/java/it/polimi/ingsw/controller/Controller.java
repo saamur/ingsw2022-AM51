@@ -54,9 +54,7 @@ public abstract class Controller implements PropertyChangeListener {
         return started;
     }
 
-    public List<String> getPlayersNicknames () {
-        return game.getPlayersNicknames();
-    }
+    public abstract List<String> getPlayersNicknames ();
 
     /**
      * The addPlayer method adds a player with the given nickname to the game managed by this controller

@@ -24,6 +24,13 @@ public class RestoredGameController extends Controller {
     }
 
     @Override
+    public List<String> getPlayersNicknames() {
+        List<String> nicknames = game.getPlayersNicknames();
+        nicknames.removeAll(missingPlayers);
+        return nicknames;
+    }
+
+    @Override
     public void addPlayer(String nickname) {
         missingPlayers.remove(nickname);
         if (missingPlayers.isEmpty()) {

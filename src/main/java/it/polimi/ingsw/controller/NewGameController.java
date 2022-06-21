@@ -6,6 +6,8 @@ import it.polimi.ingsw.messages.GameStartedMessage;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.GameState;
 
+import java.util.List;
+
 /**
  * The NewGameController class is the concrete implementation of the abstract class Controller for the newly created games
  *
@@ -15,6 +17,11 @@ public class NewGameController extends Controller {
 
     public NewGameController(GameInterface game) {
         super(game);
+    }
+
+    @Override
+    public List<String> getPlayersNicknames () {
+        return game.getPlayersNicknames();
     }
 
     @Override

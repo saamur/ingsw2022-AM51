@@ -188,9 +188,9 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
-                        ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                         if(gameData.getCurrPlayer().equals(this.nickname)) {
                             if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
+                                ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                                 Platform.runLater(() -> {
                                     switch (gameData.getActiveCharacterCard()) {
                                         case HERALD, GRANDMA -> {
@@ -216,6 +216,7 @@ public class GUI extends Application implements View{
                                     }
                                 });
                             } else if (gameData.getActiveCharacterCard() != null && gameData.isActiveCharacterPunctualEffectApplied()) {
+                                ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(null);
                                 switch (gameData.getActiveCharacterCard()) {
                                     case MINSTREL, JESTER -> {
                                         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableCharactersActions();

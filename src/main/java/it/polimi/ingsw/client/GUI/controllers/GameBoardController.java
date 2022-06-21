@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.client.modeldata.GameData;
+import it.polimi.ingsw.model.charactercards.CharacterID;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +34,8 @@ public class GameBoardController extends PageController implements Initializable
     private ImageView character3;
 
     private List<ImageView> characters;
+
+    CharacterID activatedCharacter;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,7 +71,10 @@ public class GameBoardController extends PageController implements Initializable
      * @param mouseEvent
      */
     public void selectCharacterCards(MouseEvent mouseEvent) {
-        gui.setCurrScene(CHARACTERS);
+        if(activatedCharacter == CharacterID.THIEF || activatedCharacter == CharacterID.MUSHROOMPICKER)
+            gui.setCurrScene(ACTIVATEEFFECT);
+        else
+            gui.setCurrScene(CHARACTERS);
     }
 
     /**
@@ -107,6 +113,10 @@ public class GameBoardController extends PageController implements Initializable
      */
     public void setInfoLabel(String text){
         info.setText(text); //FIXME do only if currPlayer.equals(nickname)
+    }
+
+    public void setActivatedCharacter(CharacterID character){
+        this.activatedCharacter = character;
     }
 
 }

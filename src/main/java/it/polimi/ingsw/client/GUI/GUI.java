@@ -118,6 +118,7 @@ public class GUI extends Application implements View{
                     System.out.println("getActivatedCharacterCard in setGameData:" + gameData.getActiveCharacterCard());
                     ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
                     ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
+                    ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                     if (gameData.getActiveCharacterCard() != null) {
                         Platform.runLater(() -> {
                             switch (gameData.getActiveCharacterCard()) {
@@ -187,6 +188,7 @@ public class GUI extends Application implements View{
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
+                        ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
                         if(gameData.getCurrPlayer().equals(this.nickname)) {
                             if (gameData.getActiveCharacterCard() != null && !gameData.isActiveCharacterPunctualEffectApplied()) {
                                 Platform.runLater(() -> {

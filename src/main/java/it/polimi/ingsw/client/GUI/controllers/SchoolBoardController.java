@@ -63,89 +63,185 @@ public class SchoolBoardController extends PageController implements Initializab
         this.nickname = nickname;
     }
 
+    public SchoolBoard initialSchoolBoardSetting(AnchorPane anchorPane, PlayerData playerData, int numOfPlayers) {
+        SchoolBoard schoolBoard = new SchoolBoard(numOfPlayers);
+        schoolBoard.nickname = playerData.getNickname();
+
+        ImageView school = new ImageView(new Image(getClass().getResource("/png/Plancia_DEF.png").toExternalForm()));
+        school.setX(SCHOOL_COORDINATE_X);
+        school.setY(SCHOOL_COORDINATE_Y);
+        school.setFitHeight(SCHOOL_HEIGHT);
+        school.setFitWidth(SCHOOL_WIDTH);
+
+
+        anchorPane.getChildren().add(school);
+
+        for (Clan clan : Clan.values()) {
+            for (int j = 0; j < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; j++) {
+                Pane pane = new Pane();
+                ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                student.setFitWidth(ConstantsGUI.getStudentSize());
+                student.setFitHeight(ConstantsGUI.getStudentSize());
+
+                pane.setLayoutX(ConstantsGUI.getFirstStudentX() + j * ConstantsGUI.getHorizontalDistanceStudents());
+                pane.setLayoutY(ConstantsGUI.getFirstStudentY(clan));
+                pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
+
+                schoolBoard.studentsChamber.get(clan)[j] = student;
+
+                student.setDisable(true);
+                pane.getChildren().add(student);
+                anchorPane.getChildren().add(pane);
+            }
+            ImageView professor = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathProfessor(clan)).toExternalForm()));
+            professor.setFitWidth(ConstantsGUI.getProfessorSize());
+            professor.setFitHeight(ConstantsGUI.getProfessorSize());
+            professor.setX(ConstantsGUI.getProfessorX());
+            professor.setY(ConstantsGUI.getProfessorY(clan));
+            professor.setRotate(270);
+            schoolBoard.professors.put(clan, professor);
+            //anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
+            anchorPane.getChildren().add(professor);
+
+            if (playerData.getNickname().equals(nickname)) {
+                Pane table = new Pane();
+                table.setId(clan.name() + "' table");
+                table.setMaxWidth(ConstantsGUI.getTableWidth());
+                table.setMinWidth(ConstantsGUI.getTableWidth());
+                table.setMaxHeight(ConstantsGUI.getTableHeight());
+                table.setMinHeight(ConstantsGUI.getTableHeight());
+                table.setLayoutX(ConstantsGUI.getTableX());
+                table.setLayoutY(ConstantsGUI.getTableY(clan));
+                table.getStylesheets().add("/style.css");
+                table.getStyleClass().add("tables");
+                table.setStyle("-my-background: " + ConstantsGUI.getColorClan(clan));
+                schoolBoard.tables.put(clan, table);
+                anchorPane.getChildren().add(table);
+
+
+            }
+
+        }
+
+        for (int j = 0; j < GameConstants.getNumInitialStudentsHall(numOfPlayers); j++) {
+            Pane pane = new Pane();
+            ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
+            student.setFitWidth(ConstantsGUI.getStudentSize());
+            student.setFitHeight(ConstantsGUI.getStudentSize());
+            pane.setLayoutX(ConstantsGUI.getHallFirstStudentX() - (j % 2) * ConstantsGUI.getHallStudentHorizontalDistance());
+            pane.setLayoutY(ConstantsGUI.getHallFirstStudentY() - (j / 2) * ConstantsGUI.getHallStudentVerticalDistance());
+            pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
+
+            schoolBoard.studentsHall[j] = student;
+            student.setDisable(true);
+            pane.getChildren().add(student);
+            anchorPane.getChildren().add(pane);
+        }
+
+        for (int j = 0; j < GameConstants.getNumInitialTowers(numOfPlayers); j++) {
+            ImageView tower = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(playerData.getColorOfTowers())).toExternalForm()));
+            tower.setFitWidth(ConstantsGUI.getTowerWidth());
+            tower.setFitHeight(ConstantsGUI.getTowerHeight());
+            tower.setX(ConstantsGUI.getFirstTowerX() + (j % 2) * ConstantsGUI.getTowerHorizontalDistance());
+            tower.setY(ConstantsGUI.getFirstTowerY() + (j / 2) * ConstantsGUI.getTowerVerticalDistance());
+            schoolBoard.towers[j] = tower;
+        }
+
+        anchorPane.getChildren().addAll(schoolBoard.towers);
+        return schoolBoard;
+    }
+
+
+    public void studentMovingSetUp(AnchorPane anchorPane){
+        islandPane = new Pane();
+        island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
+        island.setPreserveRatio(true);
+        island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
+        island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
+        islandPane.getChildren().add(island);
+        island.fitHeightProperty().bind(islandPane.heightProperty());
+        islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
+        islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
+        islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
+        island.setVisible(false);
+        islandPane.setId("islandPane");
+        islandPane.getStylesheets().add("/style.css");
+        anchorPane.getChildren().add(islandPane);
+    }
+
+    public void characterSetUp(AnchorPane anchorPane){
+        jesterStudentsPane = new Pane();
+        jesterStudentsPane.setLayoutX(400);
+        jesterStudentsPane.setLayoutY(407);
+        jesterStudentsPane.setPrefSize(200, 100);
+        jesterStudentsPane.setStyle("-fx-border-color: WHITE; -fx-border-width: 5");
+        jesterStudentsPane.setVisible(false);
+        jesterStudentsPane.setDisable(true);
+        anchorPane.getChildren().add(jesterStudentsPane);
+        jesterStudentsLabel = new Label("Jester students:");
+        jesterStudentsLabel.setLayoutX(6);
+        jesterStudentsLabel.setLayoutY(2);
+        jesterStudentsPane.getChildren().add(jesterStudentsLabel);
+
+        jesterStudentsImages = new ArrayList<>();
+        for(int j=0; j<6; j++){
+            ImageView image = new ImageView();
+            Pane pane = new Pane();
+            image.setFitWidth(35);
+            image.setFitHeight(35);
+            pane.setPrefSize(35, 35);
+            pane.setLayoutX(14 + j/2 * 66);
+            pane.setLayoutY((j%2 ==0 ? 16 : 56));
+            pane.getChildren().add(image);
+            jesterStudentsPane.getChildren().add(pane);
+            jesterStudentsImages.add(image);
+            image.setDisable(true);
+        }
+
+        anchorPane.getChildren().add(doneButton);
+        doneButton.setLayoutX(750);
+        doneButton.setLayoutY(10);
+        doneButton.setOnAction( e -> {
+            System.out.println("DONE!");
+            int numChosenStudents1 = 0;
+            int numChosenStudents2 = 0;
+
+            for(Clan c : Clan.values()){
+                numChosenStudents1 += students1.get(c);
+                numChosenStudents2 += students2.get(c);
+            }
+            if(numChosenStudents1 == numChosenStudents2) {
+                sendMessage(new ApplyCharacterCardEffectMessage2(-1, students1, students2));
+                doneButton.setOpacity(0.5);
+                doneButton.setDisable(true);
+            } else{
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Wrong parameters");
+                    alert.setHeaderText("There are not enough students chosen");
+                    alert.setContentText("The number of students chosen from the source does not correspond to the number chosen at the destination");
+                    alert.showAndWait();
+                });
+            }
+        });
+        doneButton.setVisible(false);
+        doneButton.setDisable(true);
+
+    }
+
     public void initialSetUp(PlayerData[] playersData, boolean expertMode) {
 
         schoolBoards = new SchoolBoard[playersData.length];
 
         for (int i = 0; i < playersData.length; i++) {
 
-            schoolBoards[i] = new SchoolBoard(playersData.length);
-            schoolBoards[i].nickname = playersData[i].getNickname();
-
-            ImageView school = new ImageView(new Image(getClass().getResource("/png/Plancia_DEF.png").toExternalForm()));
-            school.setX(SCHOOL_COORDINATE_X);
-            school.setY(SCHOOL_COORDINATE_Y);
-            school.setFitHeight(SCHOOL_HEIGHT);
-            school.setFitWidth(SCHOOL_WIDTH);
-
             AnchorPane anchorPane = new AnchorPane();
 
-            anchorPane.getChildren().add(school);
-
-            for (Clan clan : Clan.values()) {
-                for (int j = 0; j < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; j++) {
-                    Pane pane = new Pane();
-                    ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
-                    student.setFitWidth(ConstantsGUI.getStudentSize());
-                    student.setFitHeight(ConstantsGUI.getStudentSize());
-                    //student.setX(ConstantsGUI.getFirstStudentX() + j * ConstantsGUI.getHorizontalDistanceStudents());
-                    //student.setY(ConstantsGUI.getFirstStudentY(clan));
-
-                    pane.setLayoutX(ConstantsGUI.getFirstStudentX() + j * ConstantsGUI.getHorizontalDistanceStudents());
-                    pane.setLayoutY(ConstantsGUI.getFirstStudentY(clan));
-                    pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
-
-                    schoolBoards[i].studentsChamber.get(clan)[j] = student;
-
-                    student.setDisable(true);
-                    pane.getChildren().add(student);
-                    anchorPane.getChildren().add(pane);
-                }
-                ImageView professor = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathProfessor(clan)).toExternalForm()));
-                professor.setFitWidth(ConstantsGUI.getProfessorSize());
-                professor.setFitHeight(ConstantsGUI.getProfessorSize());
-                professor.setX(ConstantsGUI.getProfessorX());
-                professor.setY(ConstantsGUI.getProfessorY(clan));
-                professor.setRotate(270);
-                schoolBoards[i].professors.put(clan, professor);
-                //anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
-                anchorPane.getChildren().add(professor);
-
-                if (playersData[i].getNickname().equals(nickname)) {
-                    Pane table = new Pane();
-                    table.setId(clan.name() + "' table");
-                    table.setMaxWidth(ConstantsGUI.getTableWidth());
-                    table.setMinWidth(ConstantsGUI.getTableWidth());
-                    table.setMaxHeight(ConstantsGUI.getTableHeight());
-                    table.setMinHeight(ConstantsGUI.getTableHeight());
-                    table.setLayoutX(ConstantsGUI.getTableX());
-                    table.setLayoutY(ConstantsGUI.getTableY(clan));
-                    table.getStylesheets().add("/style.css");
-                    table.getStyleClass().add("tables");
-                    table.setStyle("-my-background: " + ConstantsGUI.getColorClan(clan));
-                    schoolBoards[i].tables.put(clan, table);
-                    anchorPane.getChildren().add(table);
-
-
-                }
-
-            }
+            schoolBoards[i] = initialSchoolBoardSetting(anchorPane, playersData[i], playersData.length);
 
             if (playersData[i].getNickname().equals(nickname)) {
-                islandPane = new Pane();
-                island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
-                island.setPreserveRatio(true);
-                island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
-                island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
-                islandPane.getChildren().add(island);
-                island.fitHeightProperty().bind(islandPane.heightProperty());
-                islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
-                islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
-                islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
-                island.setVisible(false);
-                islandPane.setId("islandPane");
-                islandPane.getStylesheets().add("/style.css");
-                anchorPane.getChildren().add(islandPane);
+
+                studentMovingSetUp(anchorPane);
 
                 instructions.setPrefWidth(baseAnchor.getPrefWidth());
                 instructions.setWrapText(true);
@@ -156,93 +252,11 @@ public class SchoolBoardController extends PageController implements Initializab
                 instructions.setLayoutY(5);
                 instructions.setVisible(false);
 
-
-                jesterStudentsPane = new Pane();
-                jesterStudentsPane.setLayoutX(400);
-                jesterStudentsPane.setLayoutY(407);
-                jesterStudentsPane.setPrefSize(200, 100);
-                jesterStudentsPane.setStyle("-fx-border-color: WHITE; -fx-border-width: 5");
-                jesterStudentsPane.setVisible(false);
-                jesterStudentsPane.setDisable(true);
-                anchorPane.getChildren().add(jesterStudentsPane);
-                jesterStudentsLabel = new Label("Jester students:");
-                jesterStudentsLabel.setLayoutX(6);
-                jesterStudentsLabel.setLayoutY(2);
-                jesterStudentsPane.getChildren().add(jesterStudentsLabel);
-
-                jesterStudentsImages = new ArrayList<>();
-                for(int j=0; j<6; j++){
-                    ImageView image = new ImageView();
-                    Pane pane = new Pane();
-                    image.setFitWidth(35);
-                    image.setFitHeight(35);
-                    pane.setPrefSize(35, 35);
-                    pane.setLayoutX(14 + j/2 * 66);
-                    pane.setLayoutY((j%2 ==0 ? 16 : 56));
-                    pane.getChildren().add(image);
-                    jesterStudentsPane.getChildren().add(pane);
-                    jesterStudentsImages.add(image);
-                    image.setDisable(true);
-                }
-
-                anchorPane.getChildren().add(doneButton);
-                doneButton.setLayoutX(750);
-                doneButton.setLayoutY(10);
-                doneButton.setOnAction( e -> {
-                    System.out.println("DONE!");
-                    int numChosenStudents1 = 0;
-                    int numChosenStudents2 = 0;
-
-                    for(Clan c : Clan.values()){
-                        numChosenStudents1 += students1.get(c);
-                        numChosenStudents2 += students2.get(c);
-                    }
-                    if(numChosenStudents1 == numChosenStudents2) {
-                        sendMessage(new ApplyCharacterCardEffectMessage2(-1, students1, students2));
-                        doneButton.setOpacity(0.5);
-                        doneButton.setDisable(true);
-                    } else{
-                        Platform.runLater(() -> {
-                            Alert alert = new Alert(Alert.AlertType.WARNING);
-                            alert.setTitle("Wrong parameters");
-                            alert.setHeaderText("There are not enough students chosen");
-                            alert.setContentText("The number of students chosen from the source does not correspond to the number chosen at the destination");
-                            alert.showAndWait();
-                        });
-                    }
-                });
-                doneButton.setVisible(false);
-                doneButton.setDisable(true);
-
+                if(expertMode)
+                    characterSetUp(anchorPane);
             }
 
-            for (int j = 0; j < GameConstants.getNumInitialStudentsHall(playersData.length); j++) {
-                Pane pane = new Pane();
-                ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
-                student.setFitWidth(ConstantsGUI.getStudentSize());
-                student.setFitHeight(ConstantsGUI.getStudentSize());
-                pane.setLayoutX(ConstantsGUI.getHallFirstStudentX() - (j % 2) * ConstantsGUI.getHallStudentHorizontalDistance());
-                pane.setLayoutY(ConstantsGUI.getHallFirstStudentY() - (j / 2) * ConstantsGUI.getHallStudentVerticalDistance());
-                pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
 
-                schoolBoards[i].studentsHall[j] = student;
-                student.setDisable(true);
-                pane.getChildren().add(student);
-                anchorPane.getChildren().add(pane);
-            }
-
-            //anchorPane.getChildren().addAll(schoolBoards[i].studentsHall);
-
-            for (int j = 0; j < GameConstants.getNumInitialTowers(playersData.length); j++) {
-                ImageView tower = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(playersData[i].getColorOfTowers())).toExternalForm()));
-                tower.setFitWidth(ConstantsGUI.getTowerWidth());
-                tower.setFitHeight(ConstantsGUI.getTowerHeight());
-                tower.setX(ConstantsGUI.getFirstTowerX() + (j % 2) * ConstantsGUI.getTowerHorizontalDistance());
-                tower.setY(ConstantsGUI.getFirstTowerY() + (j / 2) * ConstantsGUI.getTowerVerticalDistance());
-                schoolBoards[i].towers[j] = tower;
-            }
-
-            anchorPane.getChildren().addAll(schoolBoards[i].towers);
 
             Label label = new Label();
             label.setLayoutX(130);

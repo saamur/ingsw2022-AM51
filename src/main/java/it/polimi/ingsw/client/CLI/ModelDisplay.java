@@ -118,11 +118,11 @@ public class ModelDisplay {
             }
             else
                 System.out.println(p.getNickname() + "'s Board");
-            System.out.println("\n");
+            System.out.println();
             if(p.getCurrCard() != null){
                 System.out.println("Played Card: " + p.getCurrCard().name());
             }
-            System.out.println("\n");
+            System.out.println();
             displayHall(p.getHallData());
             displayChamber(p.getChamberData());
             displayTowersPlayer(p);

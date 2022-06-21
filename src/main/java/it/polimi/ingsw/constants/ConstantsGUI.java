@@ -261,20 +261,20 @@ public class ConstantsGUI {
     }
 
     //FIXME provare a fare proporzionale
-    private static final double ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO = (double) 105;//115/181;
-    private static final double ISLAND_X_SCHOOL_HEIGHT_RATIO = (double) 600;//600/362;
-    private static final double ISLAND_Y_SCHOOL_HEIGHT_RATIO = (double) 407;//437/181;
+    private static final double ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO = 105;
+    private static final double ISLAND_X_SCHOOL_HEIGHT_RATIO =  600;
+    private static final double ISLAND_Y_SCHOOL_HEIGHT_RATIO =  407;
 
     public static double getIslandHeightSchoolBoards () {
-        return ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO /* * SCHOOL_HEIGHT*/;
+        return ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO;
     }
 
     public static double getIslandXSchoolBoards () {
-        return /*SCHOOL_COORDINATE_X + SCHOOL_HEIGHT * */ ISLAND_X_SCHOOL_HEIGHT_RATIO ;
+        return ISLAND_X_SCHOOL_HEIGHT_RATIO ;
     }
 
     public static double getIslandYSchoolBoards () {
-        return /*SCHOOL_COORDINATE_Y + SCHOOL_HEIGHT * */ ISLAND_Y_SCHOOL_HEIGHT_RATIO;
+        return ISLAND_Y_SCHOOL_HEIGHT_RATIO;
     }
 
     private static final Map<Clan, String> COLOR_CLAN;
@@ -343,14 +343,14 @@ public class ConstantsGUI {
         return ORIGINAL_ISLANDS_Y_COORDINATES.get(anchor.getId());
     }
 
-    private static int COORDINATES_STUDENTS_X = 35;
-    private static int COORDINATES_STUDENTS_Y = 71;
-    private static int COORDINATES_MOTHERNATURE_X = 70;
-    private static int COORDINATES_MOTHERNATURE_Y =25;
-    private static int COORDINATES_PROHIBITION_X = 53;
-    private static int COORDINATES_PROHIBITION_Y = 44;
-    private static int COORDINATES_TOWERS_X = 46;
-    private static int COORDINATES_TOWERS_Y = 37;
+    private static final int COORDINATES_STUDENTS_X = 35;
+    private static final int COORDINATES_STUDENTS_Y = 71;
+    private static final int COORDINATES_MOTHERNATURE_X = 70;
+    private static final int COORDINATES_MOTHERNATURE_Y =25;
+    private static final int COORDINATES_PROHIBITION_X = 53;
+    private static final int COORDINATES_PROHIBITION_Y = 44;
+    private static final int COORDINATES_TOWERS_X = 46;
+    private static final int COORDINATES_TOWERS_Y = 37;
 
     public static double getStudentsX(int numOfIslands){
         return (COORDINATES_STUDENTS_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);

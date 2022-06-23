@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.modeldata.*;
 import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.constants.GameConstants;
+import it.polimi.ingsw.controller.OpeningNewGameData;
+import it.polimi.ingsw.controller.OpeningRestoredGameData;
+import it.polimi.ingsw.controller.SavedGameData;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;
@@ -26,19 +29,19 @@ public class ModelDisplay {
             System.out.println("   ID   | num of Players |  expert mode | nicknames ");
         else
             System.out.println("no game has been created ");
-        for(int i = 0; i < availableGamesMessage.openingNewGameDataList().size(); i++) {
+        for(OpeningNewGameData openingNewGameData : availableGamesMessage.openingNewGameDataList()) {
             System.out.print("   ");
-            System.out.print(availableGamesMessage.openingNewGameDataList().get(i).id());
-            if(availableGamesMessage.openingNewGameDataList().get(i).id() < 10){
+            System.out.print(openingNewGameData.id());
+            if(openingNewGameData.id() < 10){
                 System.out.print(" ");
             }
             System.out.print("   |");
-            System.out.print("       " + availableGamesMessage.openingNewGameDataList().get(i).numOfPlayers() + "        |");
-            System.out.print("     " + availableGamesMessage.openingNewGameDataList().get(i).expertMode());
-            if(availableGamesMessage.openingNewGameDataList().get(i).expertMode())
+            System.out.print("       " + openingNewGameData.numOfPlayers() + "        |");
+            System.out.print("     " + openingNewGameData.expertMode());
+            if(openingNewGameData.expertMode())
                 System.out.print(" ");
             System.out.print("    | ");
-            for (String nickname : availableGamesMessage.openingNewGameDataList().get(i).nicknames())
+            for (String nickname : openingNewGameData.nicknames())
                 System.out.print(nickname + " ");
 
             System.out.println();
@@ -51,22 +54,24 @@ public class ModelDisplay {
         }
         else
             System.out.println("no opening restored games");
-        for(int i = 0; i < availableGamesMessage.openingRestoredGameDataList().size(); i++){
+        for(OpeningRestoredGameData a : availableGamesMessage.openingRestoredGameDataList()){
             System.out.print("   ");
-            System.out.print(availableGamesMessage.openingRestoredGameDataList().get(i).id());
-            if(availableGamesMessage.openingRestoredGameDataList().get(i).id() < 10){
+            System.out.print(a.id());
+            if(a.id() < 10){
                 System.out.print(" ");
             }
             System.out.print("   |");
-            System.out.print("       " + availableGamesMessage.openingRestoredGameDataList().get(i).numOfPlayers() + "        |");
-            System.out.print("     " + availableGamesMessage.openingRestoredGameDataList().get(i).expertMode());
-            if(availableGamesMessage.openingRestoredGameDataList().get(i).expertMode())
+            System.out.print("       " + a.numOfPlayers() + "        |");
+            System.out.print("     " + a.expertMode());
+            if(a.expertMode())
                 System.out.print(" ");
             System.out.print("    |");
-            for(int j = 0; j < availableGamesMessage.openingRestoredGameDataList().get(i).missingNicknames().size(); j++){
-                System.out.print(availableGamesMessage.openingRestoredGameDataList().get(i).missingNicknames().get(j) + " ");
+            for(String nickname : a.missingNicknames()){
+                System.out.print(nickname + " ");
             }
+            System.out.println();
         }
+
         System.out.println("\n\n");
 
         System.out.println("SAVED GAMES: ");
@@ -445,7 +450,7 @@ public class ModelDisplay {
             for (int j = 0; j < characterCardData.numProhibitionCards(); j++){
                 System.out.print(CliGraphicConstants.ANSI_RED + CliGraphicConstants.PROHIBITION_CARD_SYMBOL + " " + CliGraphicConstants.ANSI_RESET);
             }
-            for(int j = 0; j < 4 - characterCardData.numProhibitionCards(); j++){
+            for(int j = 0; j < CliGraphicConstants.MAX_NUM_OF_PROHIBITION_CARD - characterCardData.numProhibitionCards(); j++){
                 System.out.print("  ");
             }
             System.out.print("      |");
@@ -458,7 +463,7 @@ public class ModelDisplay {
                     System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENT_SYMBOL + CliGraphicConstants.ANSI_RESET + " ");
                 }
             }
-            for (int k = 1; k < ((characterCardData.characterID().toString().length() + 8) - ((characterCardData.students().values().stream().mapToInt(i -> i).sum()) * 2)) - 1; k++) {
+            for (int k = 1; k < ((characterCardData.characterID().toString().length() + 8) - ((characterCardData.students().values().stream().mapToInt(i -> i).sum()) * 2)) - 1; k++) { //todo capire se va messo l'8 nelle costanti
                 System.out.print(" ");
             }
             System.out.print("|");

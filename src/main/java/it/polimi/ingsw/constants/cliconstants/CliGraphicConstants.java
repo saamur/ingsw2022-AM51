@@ -49,6 +49,8 @@ public class CliGraphicConstants {
 
     public static final int DOUBLE_DIGITS = 10;
 
+    public static final int MAX_NUM_OF_PROHIBITION_CARD = 4;
+
     public static final String LOSER = """
             ▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓    ▓▓      ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓▓▓▓▓
              ▓  ▓   ▓▓  ▓▓  ▓▓  ▓▓    ▓▓      ▓▓  ▓▓  ▓▓        ▓▓ \s
@@ -57,13 +59,23 @@ public class CliGraphicConstants {
               ▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓▓▓▓▓    ▓▓ \s
             """;
 
-    public static final String WINNER = """
+    public static final String WINNER2 = """
             ▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓   ▓▓                 ▓▓  ▓▓▓▓▓▓  ▓▓▓     ▓▓
              ▓  ▓   ▓▓  ▓▓  ▓▓  ▓▓    ▓▓     ▓▓▓       ▓▓   ▓▓  ▓▓  ▓▓ ▓▓   ▓▓
               ▓▓    ▓▓  ▓▓  ▓▓  ▓▓     ▓▓   ▓▓  ▓▓   ▓▓     ▓▓  ▓▓  ▓▓  ▓▓  ▓▓
               ▓▓    ▓▓  ▓▓  ▓▓  ▓▓      ▓▓ ▓▓    ▓▓ ▓▓      ▓▓  ▓▓  ▓▓   ▓▓ ▓▓
               ▓▓    ▓▓▓▓▓▓  ▓▓▓▓▓▓       ▓▓▓      ▓▓▓       ▓▓▓▓▓▓  ▓▓     ▓▓▓
             """;
+
+    public static final String WINNER = """
+            ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗ ██████╗ ███╗   ██╗   \s
+            ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██╔═══██╗████╗  ██║   \s
+             ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║   ██║██╔██╗ ██║   \s
+              ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║   ██║██║╚██╗██║   \s
+               ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║ ╚████║   \s
+               ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═══╝ \s
+               """;
+
 
     public static final String ERIANTYS = """
             ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓▓▓▓▓  ▓▓▓    ▓▓  ▓▓▓▓▓▓  ▓▓  ▓▓  ▓▓▓▓▓▓

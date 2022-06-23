@@ -14,7 +14,10 @@ import java.util.List;
  */
 public class NewGameController extends Controller {
 
-
+    /**
+     * Constructs a Controller with the new Game given by parameter
+     * @param game  the new Game to bound to this Controller
+     */
     public NewGameController(GameInterface game) {
         super(game);
     }

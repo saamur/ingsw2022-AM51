@@ -28,9 +28,12 @@ public abstract class Controller implements PropertyChangeListener {
     protected boolean started;
     private boolean closing;
 
-    //The class Controller is listened by the ClientHandlerClass
     protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    /**
+     * Constructs a Controller with the given Game
+     * @param game  the Game to be bound to the Controller
+     */
     public Controller(GameInterface game) {
         synchronized (Controller.class) {
             id = counter;

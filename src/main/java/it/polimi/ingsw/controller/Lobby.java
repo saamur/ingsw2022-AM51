@@ -28,6 +28,9 @@ public class Lobby {
     private final List<NewGameController> openingNewGameControllers;
     private final List<RestoredGameController> openingRestoredGameControllers;
 
+    /**
+     * Constructs an empty Lobby
+     */
     private Lobby () {
         clientNicknames = new HashMap<>();
         runningGameControllers = new ArrayList<>();

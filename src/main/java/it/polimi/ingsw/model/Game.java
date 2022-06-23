@@ -108,7 +108,6 @@ public class Game implements GameInterface {
 
     }
 
-
     /**
      * The method addPlayer adds a Player to the Game if there isn't already another with the same nickname
      * @param nickname  the nickname that will be assigned to the new Player
@@ -171,7 +170,6 @@ public class Game implements GameInterface {
         if (bag.isEmpty())
             lastRound = true;
     }
-
 
     /**
      * The method sets currCard of the currentPlayer to card if the game phase is correct,
@@ -239,7 +237,7 @@ public class Game implements GameInterface {
      * The method createOrderActionPhase fills the attribute playersOrderActionPhase and the attribute nextFirstPlayer
      * based on the cards chosen by the Players in this round
      */
-    private void createOrderActionPhase() {             //TODO needs deep testing
+    private void createOrderActionPhase() {
 
         List<Player> order = new ArrayList<>();
 
@@ -445,6 +443,7 @@ public class Game implements GameInterface {
      * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
      * @throws WrongTurnPhaseException      when it is called not during the end turn phase
      */
+
     @Override
     public void endTurn(String playerNickname) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, WrongTurnPhaseException {
 
@@ -472,6 +471,7 @@ public class Game implements GameInterface {
      * The method calculateWin sets the winners variable with the List of the winning Players
      * and sets gameState to GAME_OVER
      */
+
     private void calculateWin() {
 
         gameState = GameState.GAME_OVER;
@@ -512,7 +512,6 @@ public class Game implements GameInterface {
 
     }
 
-
     /**
      * The method activateCharacterCard, if the move is valid,
      * activates the CharacterCard with that CharacterID for the current turn
@@ -527,6 +526,7 @@ public class Game implements GameInterface {
      *                                          another character card has been activated in this turn or the Player
      *                                          does not have enough coins to pay for it
      */
+
     @Override
     public void activateCharacterCard (String playerNickname, CharacterID characterID) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
@@ -563,6 +563,7 @@ public class Game implements GameInterface {
      *                                          applied or the move is not valid
      * @throws NotValidIndexException           when there is no Island with the given index
      */
+
     @Override
     public void applyCharacterCardEffect (String playerNickname, int islandIndex) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException, NotValidIndexException {
 
@@ -599,6 +600,7 @@ public class Game implements GameInterface {
      * @throws NotValidMoveException            when there is no activated character card, or the Clan for the effect
      *                                          of the character card has already been set
      */
+
     @Override
     public void setClanCharacter (String playerNickname, Clan clan) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
@@ -632,6 +634,7 @@ public class Game implements GameInterface {
      * @throws NotValidMoveException            when there is no activated character card, its effect has already been
      *                                          applied or the move is not valid
      */
+
     @Override
     public void applyCharacterCardEffect (String playerNickname, int islandIndex, Map<Clan, Integer> students1, Map<Clan, Integer> students2) throws ExpertModeNotEnabledException, WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {
 
@@ -671,6 +674,7 @@ public class Game implements GameInterface {
     /**
      * The method reassignProhibitionCard find the characterCard that can accept prohibition cards and adds it to it
      */
+
     private void reassignProhibitionCard() {
         for (CharacterCard card : availableCharacterCards) {
             if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
@@ -682,12 +686,12 @@ public class Game implements GameInterface {
         }
     }
 
-
     /**
      * The method playerFromNickname finds the Player with the given nickname and returns it
      * @param nickname  the nickname of the Player to find
      * @return          the Player with the given nickname, if present, null otherwise
      */
+
     private Player playerFromNickname (String nickname) {
         for (Player p : players)
             if(p.getNickname().equals(nickname))
@@ -700,14 +704,13 @@ public class Game implements GameInterface {
      * @param characterID   the CharacterID of the CharacterCard to find
      * @return              the CharacterCard with the given CharacterID, if available, null otherwise
      */
+
     private CharacterCard characterCardFromID(CharacterID characterID) {
         for (CharacterCard c : availableCharacterCards)
             if (c.getCharacterID() == characterID)
                 return c;
         return null;
     }
-
-
 
     @Override
     public boolean isExpertModeEnabled() {
@@ -719,16 +722,12 @@ public class Game implements GameInterface {
         return lastRound;
     }
 
-
-
-
     @Override
     public boolean isActivatedCharacterCardPunctualEffectApplied() {
         if (turn == null)
             return false;
         return turn.isCharacterPunctualEffectApplied();
     }
-
 
     @Override
     public GameState getGameState() {
@@ -772,6 +771,7 @@ public class Game implements GameInterface {
     public List<Player> getWinners() {
         return winners;
     }
+
     //added for tests
     public CloudManager getCloudManager() {
         return cloudManager;
@@ -788,7 +788,6 @@ public class Game implements GameInterface {
     public int getIndexNextFirstPlayer() {
         return indexNextFirstPlayer;
     }
-
 
     @Override
     public GameData getGameData() {
@@ -830,7 +829,6 @@ public class Game implements GameInterface {
         return turn.getActivatedCharacterCard().getCharacterID();
     }
 
-
     @Override
     public void setListeners(PropertyChangeListener listener){
         islandManager.addPropertyChangeListener(listener);
@@ -855,6 +853,4 @@ public class Game implements GameInterface {
                 c.removePropertyChangeListener();
 
     }
-
-
 }

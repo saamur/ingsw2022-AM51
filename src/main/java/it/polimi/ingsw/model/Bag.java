@@ -11,6 +11,7 @@ import java.util.Random;
  * The Bag class models the game's bag from which the students are drawn
  *
  */
+
 public class Bag implements Serializable, StudentContainer {
 
     private final Map<Clan, Integer> students;
@@ -25,12 +26,11 @@ public class Bag implements Serializable, StudentContainer {
         random = new Random();
     }
 
-
-
     /**
      * The method draw selects a random student contained in the Bag, it removes it and returns its Clan
      * @return the Clan of a random student formerly in the Bag
      */
+
     public Clan draw() {
 
         if (isEmpty())
@@ -64,6 +64,7 @@ public class Bag implements Serializable, StudentContainer {
      * @param n the number of random students to draw
      * @return  the random students that have been drawn
      */
+
     public Map<Clan, Integer> draw(int n) {
 
         Map<Clan, Integer> stud = new EnumMap<>(Clan.class);
@@ -84,6 +85,7 @@ public class Bag implements Serializable, StudentContainer {
      * The method isEmpty returns true if the Bag doesn't contain any student
      * @return  whether the Bag is empty or not
      */
+
     public boolean isEmpty() {
 
         for (Clan c : Clan.values())

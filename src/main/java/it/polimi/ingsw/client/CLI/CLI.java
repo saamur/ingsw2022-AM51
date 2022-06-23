@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
 import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
@@ -37,13 +38,17 @@ public class CLI implements View, Runnable {
         ServerHandler serverHandler = null;
 
         do{
-            System.out.println("Insert IP:");
+            System.out.println("Insert IP, press enter for default (" + ConnectionConstants.DEFAULT_IP + "):");
             String address = stdIn.nextLine();
-            System.out.println("Insert port:");
+            if ("".equals(address))
+                address = ConnectionConstants.DEFAULT_IP;
+
+            System.out.println("Insert server port, press enter for default (" + ConnectionConstants.DEFAULT_PORT + "):");
+            String line = stdIn.nextLine();
             try {
-                int port = Integer.parseInt(stdIn.nextLine());
+                int port = "".equals(line) ? ConnectionConstants.DEFAULT_PORT : Integer.parseInt(line);
                 serverHandler = new ServerHandler(address, port, this);
-            } catch (IllegalArgumentException e) {
+            }  catch (IllegalArgumentException e) {
                 System.out.println("This is not a number");
             } catch (IOException e){
                 System.out.println("The server could not be reached.\nCheck if the parameters are correct or if the server is running\n");

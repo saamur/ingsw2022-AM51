@@ -17,6 +17,7 @@ import java.io.Serializable;
  * @see Game
  *
  */
+
 public class Turn implements Serializable {
 
     private final Player currPlayer;
@@ -45,6 +46,7 @@ public class Turn implements Serializable {
      * @param clan      the Clan of the professor to calculate its owner
      * @return          the Player that has to own the professor of the Clan clan, null in case of a tie
      */
+
     public static Player defaultPlayerProfessor (Player[] players, Clan clan) {
 
         int[] clanStud = new int[players.length];
@@ -67,6 +69,7 @@ public class Turn implements Serializable {
      * @param array the array on which calculate that index
      * @return the index of the array given by parameter where is contained the greater value, if this is unique, -1 otherwise
      */
+
     private static int indexUniqueMax (int[] array) {
 
         int posMax = 0;
@@ -98,6 +101,7 @@ public class Turn implements Serializable {
      * @throws WrongTurnPhaseException  when it is called not during the student moving phase
      * @throws NotValidMoveException    when there is no student of the given clan in the hall of the current Player
      */
+
     public void moveStudentToIsland(Clan clan, Island island) throws WrongTurnPhaseException, NotValidMoveException {
 
         if (turnState != TurnState.STUDENT_MOVING) throw new WrongTurnPhaseException("The turn is not in the student moving phase");
@@ -124,6 +128,7 @@ public class Turn implements Serializable {
      * @throws NotValidMoveException    when there is no student of the given clan in the hall of the current Player
      *                                  or the chamber has already the maximum number of students of the given clan
      */
+
     public void moveStudentToChamber(Clan clan, Player[] players) throws WrongTurnPhaseException, NotValidMoveException {
 
         if (turnState != TurnState.STUDENT_MOVING) throw new WrongTurnPhaseException("The turn is not in the student moving phase");
@@ -149,6 +154,7 @@ public class Turn implements Serializable {
      * The method updateProfessors updates the ownership of the professors
      * @param players   the players of the game
      */
+
     public void updateProfessors (Player[] players) {
 
         for (Clan c : Clan.values()) {
@@ -168,7 +174,6 @@ public class Turn implements Serializable {
 
     }
 
-
     /**
      * The method updateInfluence calculates the influences of the players on a given Island
      * and gives its control to the player with the maximum influence, if it exists
@@ -176,6 +181,7 @@ public class Turn implements Serializable {
      * @param island        the island on to which the method updates the control
      * @param players       all the players of the game
      */
+
     public void updateInfluence (IslandManager islandManager, Island island, Player[] players) {
 
         int[] influences = new int[players.length];
@@ -211,6 +217,7 @@ public class Turn implements Serializable {
      * @throws WrongTurnPhaseException  when it is called not during the cloud choosing phase
      * @throws NotValidMoveException    when the given cloud has already been picked
      */
+
     public void chooseCloud (Cloud cloud) throws WrongTurnPhaseException, NotValidMoveException {
 
         if (turnState != TurnState.CLOUD_CHOOSING) throw new WrongTurnPhaseException("The turn is not in the cloud choosing phase");
@@ -226,6 +233,7 @@ public class Turn implements Serializable {
      * The method characterPunctualEffectApplied saves in the variable characterPunctualEffectApplied that the effect of the Character
      * has been applied
      */
+
     public void characterPunctualEffectApplied() {
         characterPunctualEffectApplied = true;
     }
@@ -234,6 +242,7 @@ public class Turn implements Serializable {
      * The method getMaxStepsMotherNature calculates the maximum number of steps that Mother Nature can do in this turn
      * @return  the maximum number of steps that Mother Nature can do in this turn
      */
+
     public int getMaxStepsMotherNature() {
 
         int maxSteps = currPlayer.getCurrCard().getMaxStepsMotherNature();
@@ -272,5 +281,4 @@ public class Turn implements Serializable {
     public void setCharacterClan(Clan characterClan) {
         this.characterClan = characterClan;
     }
-
 }

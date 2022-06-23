@@ -41,6 +41,7 @@ public class ModelDisplay {
             for (String nickname : availableGamesMessage.openingNewGameDataList().get(i).nicknames())
                 System.out.print(nickname + " ");
 
+            System.out.println();
         }
         System.out.println("\n\n");
 
@@ -234,8 +235,6 @@ public class ModelDisplay {
      *             cards is GRANDMA in order to display the presence of prohibition cards on the islands
      */
 
-
-
     private static void displayIslands (IslandManagerData islandManagerData, boolean bool) {
         System.out.println(CliGraphicConstants.ANSI_RESET + "ISLANDS");
         System.out.println("\n");
@@ -256,8 +255,6 @@ public class ModelDisplay {
      * @param end ending index for island counting
      * @param bool
      */
-
-
 
     private static void updateIsland(IslandManagerData islandManagerData, int init, int end, boolean bool) {
         System.out.print("                      |");
@@ -334,9 +331,6 @@ public class ModelDisplay {
      * @param playerData
      */
 
-
-
-
     private static void displayTowersPlayer (PlayerData playerData){
         System.out.print("TOWERS: ");
 
@@ -367,7 +361,6 @@ public class ModelDisplay {
      * his method shows the clouds' data
      * @param cloudManagerData
      */
-
 
     private static void displayClouds (CloudManagerData cloudManagerData){
         for(int j = 0; j < cloudManagerData.clouds().length; j++) {
@@ -474,14 +467,10 @@ public class ModelDisplay {
 
     }
 
-
-
-
     /**
      * support method used for graphical representation of the available character cards
      * @param characterCardData
      */
-
 
     private static void displayCharacterCard (CharacterCardData characterCardData) {
         for (int j = 0; j < characterCardData.characterID().toString().length() / 2; j++) {
@@ -504,7 +493,6 @@ public class ModelDisplay {
         updateDeck(CliGraphicConstants.MAX_VISUAL_DECK, playerData, Card.values().length);
 
     }
-
 
     /**
      * support method used for graphical representation of the deck

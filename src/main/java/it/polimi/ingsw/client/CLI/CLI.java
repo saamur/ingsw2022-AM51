@@ -57,8 +57,6 @@ public class CLI implements View, Runnable {
 
     }
 
-
-
     @Override
     public void run() {
 
@@ -83,7 +81,6 @@ public class CLI implements View, Runnable {
 
     }
 
-
     @Override
     public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
@@ -92,14 +89,12 @@ public class CLI implements View, Runnable {
             displayEverything();
     }
 
-
     @Override
     public synchronized void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
         this.availableGamesMessage = availableGamesMessage;
         if (nickname != null)
             displayEverything();
     }
-
 
     @Override
     public synchronized void playerAddedToGame(String message) {
@@ -108,16 +103,12 @@ public class CLI implements View, Runnable {
         displayEverything();
     }
 
-
-
     @Override
     public synchronized void setGameData (GameData gameData) {
         this.gameData = gameData;
         gameChosen = true;
         displayEverything();
     }
-
-
 
     @Override
     public synchronized void updateGameData (UpdateMessage updateMessage) {
@@ -127,21 +118,16 @@ public class CLI implements View, Runnable {
         }
     }
 
-
-
     @Override
     public void handleGenericMessage(String message) {
         if(!gameOver)
-            System.out.println("handleGenericMessage: " + message);
+            System.out.println(message);
     }
-
 
     @Override
     public void handleErrorMessage(String message) {
-        System.out.println("handleErrorMessage: " + message);
-        //todo
+        System.out.println(CliGraphicConstants.ANSI_RED + message);
     }
-
 
     @Override
     public synchronized void handleGameOver(List<String> winnersNickname) {
@@ -149,8 +135,6 @@ public class CLI implements View, Runnable {
         gameOver = true;
         displayEverything();
     }
-
-
 
     @Override
     public synchronized void handlePlayerDisconnected(String playerDisconnectedNickname) {
@@ -160,7 +144,7 @@ public class CLI implements View, Runnable {
     }
 
     /**
-     * the method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
+     * The method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
      */
 
     public synchronized void displayEverything() {

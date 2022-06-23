@@ -16,8 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerHandler implements Runnable, PropertyChangeListener {
 
-    private static final boolean DEBUGGING = false;
-
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
@@ -43,32 +41,23 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
             try {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 o = in.readObject();
-//                if (!(o instanceof String))
-//                   System.out.println("Message received: " + o);
 
                 if ("ping".equals(o)) {
                     sendObject("pong");
                 }
                 else if (o instanceof NicknameAcceptedMessage) {
-                    //new Thread(() -> view.setNickname(((NicknameAcceptedMessage) o).nickname())).start();
                     view.setNickname(((NicknameAcceptedMessage) o).nickname());
                 }
                 else if (o instanceof AvailableGamesMessage) {
-                    //new Thread(() -> view.setAvailableGamesMessage ((AvailableGamesMessage) o)).start();
                     view.setAvailableGamesMessage ((AvailableGamesMessage) o);
-                    //todo print things
                 }
                 else if (o instanceof PlayerAddedToGameMessage) {
-                    //new Thread(() -> view.playerAddedToGame(((PlayerAddedToGameMessage) o).message())).start();
                     view.playerAddedToGame(((PlayerAddedToGameMessage) o).message());
                 }
                 else if (o instanceof GameStartedMessage) {
-                    //new Thread(() -> view.setGameData(((GameStartedMessage) o).gameData())).start();
                     view.setGameData(((GameStartedMessage) o).gameData());
-                    //todo make game start
                 }
                 else if (o instanceof GameOverMessage) {
-                    //new Thread(() -> view.handleGameOver(((GameOverMessage) o).winnersNickname())).start();
                     view.handleGameOver(((GameOverMessage) o).winnersNickname());
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -79,23 +68,17 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                     }, ConnectionConstants.DISCONNECTION_AFTER_GAME_OVER);
                 }
                 else if (o instanceof PlayerDisconnectedMessage) {
-                    //new Thread(() -> view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname())).start();
                     view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
                     System.out.println(((Message) o).getMessage());
                     break;
                 }
                 else if (o instanceof UpdateMessage) {
-                    if (DEBUGGING)
-                        System.out.println("UpdateMessage: " + ((Message) o).getMessage());         //FIXME debug
-                    //new Thread(() -> view.updateGameData((UpdateMessage) o)).start();
                     view.updateGameData((UpdateMessage) o);
                 }
                 else if (o instanceof GenericMessage) {
-                    //new Thread(() -> view.handleGenericMessage(((GenericMessage) o).message())).start();
                     view.handleGenericMessage(((GenericMessage) o).message());
                 }
                 else if (o instanceof ErrorMessage) {
-                    //new Thread(() -> view.handleErrorMessage(((ErrorMessage) o).error())).start();
                     view.handleErrorMessage(((ErrorMessage) o).error());
                 }
                 else if (o instanceof Message) {
@@ -123,8 +106,6 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
 
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
-        if(DEBUGGING && !(o instanceof String))
-            System.out.println("Sent Message : "+ o);
     }
 
     @Override

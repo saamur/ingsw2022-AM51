@@ -92,22 +92,24 @@ public class Lobby {
 
     }
 
+    /**
+     * The broadcastAvailableGames method sends to all the clients that have not already chosen a game a message
+     * with all the available games
+     */
     private synchronized void broadcastAvailableGames () {
 
-        List<String> playingClients = new ArrayList<>();
+        List<String> clientsInController = new ArrayList<>();
 
         for(Controller c : runningGameControllers)
-            playingClients.addAll(c.getPlayersNicknames());
+            clientsInController.addAll(c.getPlayersNicknames());
 
         for(Controller c : openingNewGameControllers)
-            playingClients.addAll(c.getPlayersNicknames());
+            clientsInController.addAll(c.getPlayersNicknames());
 
         for(Controller c : openingRestoredGameControllers)
-            playingClients.addAll(c.getPlayersNicknames());
+            clientsInController.addAll(c.getPlayersNicknames());
 
-        List<ClientHandler> clientHandlers = new ArrayList<>(clientNicknames.keySet());
-
-        clientHandlers = clientHandlers.stream().filter(c -> !playingClients.contains(clientNicknames.get(c))).toList();
+        List<ClientHandler> clientHandlers = clientNicknames.keySet().stream().filter(c -> !clientsInController.contains(clientNicknames.get(c))).toList();
 
         for (ClientHandler c : clientHandlers) {
             try {
@@ -230,6 +232,8 @@ public class Lobby {
         runningGameControllers.remove(controller);
         openingNewGameControllers.remove(controller);
         openingRestoredGameControllers.remove(controller);
+        if(!controller.isStarted())
+            broadcastAvailableGames();
     }
 
 }

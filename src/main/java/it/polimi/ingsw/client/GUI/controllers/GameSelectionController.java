@@ -90,8 +90,8 @@ public class GameSelectionController extends PageController implements Initializ
                             playersInfo = playersInfo.concat(", " + newValue.nicknames().get(i));
                         }
                     }
-
-                    labelNewGames.setText(playersInfo);
+                    String finalPlayersInfo = playersInfo;
+                    Platform.runLater(() -> labelNewGames.setText(finalPlayersInfo));
                 });
 
         fileName.setCellValueFactory(

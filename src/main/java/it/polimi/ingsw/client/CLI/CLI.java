@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.constants.ConnectionConstants;
 import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;
 import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
@@ -37,13 +38,17 @@ public class CLI implements View, Runnable {
         ServerHandler serverHandler = null;
 
         do{
-            System.out.println("Insert IP:");
+            System.out.println("Insert IP, press enter for default (" + ConnectionConstants.DEFAULT_IP + "):");
             String address = stdIn.nextLine();
-            System.out.println("Insert port:");
+            if ("".equals(address))
+                address = ConnectionConstants.DEFAULT_IP;
+
+            System.out.println("Insert server port, press enter for default (" + ConnectionConstants.DEFAULT_PORT + "):");
+            String line = stdIn.nextLine();
             try {
-                int port = Integer.parseInt(stdIn.nextLine());
+                int port = "".equals(line) ? ConnectionConstants.DEFAULT_PORT : Integer.parseInt(line);
                 serverHandler = new ServerHandler(address, port, this);
-            } catch (IllegalArgumentException e) {
+            }  catch (IllegalArgumentException e) {
                 System.out.println("This is not a number");
             } catch (IOException e){
                 System.out.println("The server could not be reached.\nCheck if the parameters are correct or if the server is running\n");
@@ -56,8 +61,6 @@ public class CLI implements View, Runnable {
         displayEverything();
 
     }
-
-
 
     @Override
     public void run() {
@@ -83,7 +86,6 @@ public class CLI implements View, Runnable {
 
     }
 
-
     @Override
     public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
@@ -92,14 +94,12 @@ public class CLI implements View, Runnable {
             displayEverything();
     }
 
-
     @Override
     public synchronized void setAvailableGamesMessage(AvailableGamesMessage availableGamesMessage) {
         this.availableGamesMessage = availableGamesMessage;
         if (nickname != null)
             displayEverything();
     }
-
 
     @Override
     public synchronized void playerAddedToGame(String message) {
@@ -108,16 +108,12 @@ public class CLI implements View, Runnable {
         displayEverything();
     }
 
-
-
     @Override
     public synchronized void setGameData (GameData gameData) {
         this.gameData = gameData;
         gameChosen = true;
         displayEverything();
     }
-
-
 
     @Override
     public synchronized void updateGameData (UpdateMessage updateMessage) {
@@ -127,21 +123,16 @@ public class CLI implements View, Runnable {
         }
     }
 
-
-
     @Override
     public void handleGenericMessage(String message) {
         if(!gameOver)
-            System.out.println("handleGenericMessage: " + message);
+            System.out.println(message);
     }
-
 
     @Override
     public void handleErrorMessage(String message) {
-        System.out.println("handleErrorMessage: " + message);
-        //todo
+        System.out.println(CliGraphicConstants.ANSI_RED + message);
     }
-
 
     @Override
     public synchronized void handleGameOver(List<String> winnersNickname) {
@@ -149,8 +140,6 @@ public class CLI implements View, Runnable {
         gameOver = true;
         displayEverything();
     }
-
-
 
     @Override
     public synchronized void handlePlayerDisconnected(String playerDisconnectedNickname) {
@@ -160,7 +149,7 @@ public class CLI implements View, Runnable {
     }
 
     /**
-     * the method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
+     * The method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
      */
 
     public synchronized void displayEverything() {

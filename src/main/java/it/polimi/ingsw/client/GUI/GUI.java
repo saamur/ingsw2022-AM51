@@ -183,7 +183,7 @@ public class GUI extends Application implements View{
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         updateLabel( ((UpdateGamePhase) updateMessage).gamePhaseData());
-                        ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState());
+                        ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState(), nickname.equals(gameData.getCurrPlayer()));
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
                         if(!gameData.isActiveCharacterPunctualEffectApplied())
                             ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
@@ -264,9 +264,8 @@ public class GUI extends Application implements View{
                         }
                         setCurrScene(ISLANDS);
                     }
-                else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN)) {
+                else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
                     setCurrScene(CLOUDS);
-                }
             }
         });
     }
@@ -298,11 +297,10 @@ public class GUI extends Application implements View{
         Platform.runLater(() -> {
             ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
             setCurrScene(DISCONNECTION);
-            //FIXME reconnection button disabled
             gameData = null;
             try{
                 setScenes();
-                //FIXME reconnect button reabled
+                Platform.runLater(() -> setCurrScene(DISCONNECTION));
             } catch (IOException e){
                 //FIXME problem with loading images
                 e.printStackTrace();
@@ -336,6 +334,7 @@ public class GUI extends Application implements View{
     public void updateLabel(GamePhaseData gamePhase){
         String currPlayer;
         String info = null;
+        String studentMovingInfo = "";
         boolean isCurrPlayer = nickname.equals(gamePhase.currPlayerNickname());
         if(!isCurrPlayer){
             currPlayer = "It's " + gamePhase.currPlayerNickname() + "'s turn ";
@@ -349,6 +348,7 @@ public class GUI extends Application implements View{
                     case STUDENT_MOVING -> {
                         String adj = (isCurrPlayer) ? "your" : "their";
                         info = "to move " + adj + " students";
+                        studentMovingInfo = currPlayer;
                     }
                     case MOTHER_MOVING ->
                         info = "to move Mother Nature";
@@ -359,6 +359,7 @@ public class GUI extends Application implements View{
         }
         if(info!=null)
             ((GameBoardController) controllers.get(GAMEBOARD)).setInfoLabel(currPlayer + info);
+        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).changeTurnLabel(studentMovingInfo);
     }
 
     public TurnState getTurnState(){

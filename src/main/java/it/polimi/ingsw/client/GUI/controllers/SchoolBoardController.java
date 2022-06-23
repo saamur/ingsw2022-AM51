@@ -51,7 +51,8 @@ public class SchoolBoardController extends PageController implements Initializab
     private Pane jesterStudentsPane;
     private Label jesterStudentsLabel;
     private List<ImageView> jesterStudentsImages;
-    Label instructions = new Label();
+    private Label instructions = new Label();
+    @FXML private Label turnLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -663,5 +664,9 @@ public class SchoolBoardController extends PageController implements Initializab
                 }
             }
         }
+    }
+
+    public void changeTurnLabel(String message){
+        turnLabel.setText(message);
     }
 }

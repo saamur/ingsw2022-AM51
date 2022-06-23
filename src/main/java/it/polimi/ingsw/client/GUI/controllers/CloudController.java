@@ -67,6 +67,8 @@ public class CloudController extends PageController implements Initializable {
     @FXML
     Label errorLabel; //TODO create
 
+    boolean isClientTurn;
+
     int numOfClouds;
     int numOfStudentsPerCloud;
     CloudData[] modelClouds;
@@ -172,18 +174,23 @@ public class CloudController extends PageController implements Initializable {
         if(cloud.picked()){
             clouds.get(cloud.cloudIndex()).setOpacity(0.5);
             availableClouds[cloud.cloudIndex()] = false;
-            endTurnButton.setVisible(true);
-            endTurnButton.setDisable(false);
+            if(isClientTurn) {
+                endTurnButton.setVisible(true);
+                endTurnButton.setDisable(false);
+            }
         }
     }
 
-    public void updateTurnState(TurnState turnState){
+    public void updateTurnState(TurnState turnState, boolean isTheirTurn){
+        this.isClientTurn = isTheirTurn;
         if(turnState == TurnState.CLOUD_CHOOSING || turnState == TurnState.END_TURN){
-            if(expertModeEnabled) {
-                activateCharacterButton.setVisible(true);
-                activateCharacterButton.setDisable(false);
+            if(isClientTurn) {
+                if (expertModeEnabled) {
+                    activateCharacterButton.setVisible(true);
+                    activateCharacterButton.setDisable(false);
+                }
+                chooseCloudLabel.setVisible(true);
             }
-            chooseCloudLabel.setVisible(true);
         } else {
             endTurnButton.setVisible(false);
             endTurnButton.setDisable(true);
@@ -218,6 +225,7 @@ public class CloudController extends PageController implements Initializable {
         //TODO
     }
 
+
     public void lastRound(){
         for(AnchorPane cloud : clouds){
             for(Node child : cloud.getChildren()) {
@@ -228,8 +236,10 @@ public class CloudController extends PageController implements Initializable {
             cloud.setDisable(true);
         }
         //FIXME show only if currPlayer
-        endTurnButton.setVisible(true);
-        endTurnButton.setDisable(false);
-        chooseCloudLabel.setVisible(false);
+        if(isClientTurn) {
+            endTurnButton.setVisible(true);
+            endTurnButton.setDisable(false);
+            chooseCloudLabel.setVisible(false);
+        }
     }
 }

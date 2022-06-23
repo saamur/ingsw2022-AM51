@@ -7,8 +7,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="445.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.DisconnectionController">
    <children>
-      <Button layoutX="185.0" layoutY="233.0" mnemonicParsing="false" onAction="#goToConnection" text="Reconnect" />
-      <Label fx:id="disconnectionLabel" layoutX="164.0" layoutY="128.0" text="---- has disconnected" />
+      <Button fx:id="button" layoutX="185.0" layoutY="233.0" mnemonicParsing="false" onAction="#goToConnection" text="Reconnect" />
+      <Label fx:id="disconnectionLabel" layoutX="164.0" layoutY="128.0" />
+      <Label fx:id="waitingLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="148.0" prefWidth="445.0" text="Please wait a little to be able to reconnect again..."/>
       <Label layoutX="139.0" layoutY="61.0" text="Game Interrupted">
          <font>
             <Font size="21.0" />

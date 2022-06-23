@@ -8,34 +8,27 @@ import java.util.Scanner;
 public class Client {
 
     public static void main(String[] args){
-        if(args.length != 0) {
-            System.out.println("Welcome to the Eriantys board game!");
-            System.out.println("First of all choose if you want to use the cli or the gui");
+        if(args.length == 1) {
 
-
-            Scanner scanner = new Scanner(System.in);
-            String choice = scanner.nextLine().toUpperCase();
-
-            if ("CLI".equals(choice)) {
+            if ("CLI".equalsIgnoreCase(args[0])) {
                 CLI cli = new CLI();
                 Thread cliThread = new Thread(cli);
                 cliThread.start();
-            } else if ("GUI".equals(choice)) {
+            } else if ("GUI".equalsIgnoreCase(args[0])) {
                 GUI gui = new GUI();
                 gui.launchGUI();
                 System.exit(0);
             } else {
-                System.out.println("This choice is not valid");
+                System.out.println("This argument is not valid");
                 System.out.println("The game will close");
                 System.exit(-1);
             }
-        } else {
-            GUI gui = new GUI();
-            gui.launchGUI();
-            System.exit(0);
         }
-
-
+        else {
+            System.out.println("An argument is needed");
+            System.out.println("The game will close");
+            System.exit(-1);
+        }
 
     }
 

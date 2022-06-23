@@ -134,7 +134,6 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
-    //added for tests
     public Map<Clan, Integer> getStudents() {
         return new EnumMap<>(students);
     }

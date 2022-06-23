@@ -764,30 +764,6 @@ public class Game implements GameInterface {
         return null;
     }
 
-    public IslandManager getIslandManager() {
-        return islandManager;
-    }
-
-    public List<Player> getWinners() {
-        return winners;
-    }
-
-    //added for tests
-    public CloudManager getCloudManager() {
-        return cloudManager;
-    }
-
-    public int getIndexCurrFirstPlayer() {
-        return indexCurrFirstPlayer;
-    }
-
-    public int getIndexCurrPlayer() {
-        return indexCurrPlayer;
-    }
-
-    public int getIndexNextFirstPlayer() {
-        return indexNextFirstPlayer;
-    }
 
     @Override
     public GameData getGameData() {
@@ -853,4 +829,31 @@ public class Game implements GameInterface {
                 c.removePropertyChangeListener();
 
     }
+
+    //for testing
+
+    public int getIndexNextFirstPlayer() {
+        return indexNextFirstPlayer;
+    }
+
+    public int getIndexCurrPlayer() {
+        return indexCurrPlayer;
+    }
+
+    public int getIndexCurrFirstPlayer() {
+        return indexCurrFirstPlayer;
+    }
+
+    public CloudManager getCloudManager() {
+        return cloudManager;
+    }
+
+    public List<Player> getWinners() {
+        return winners;
+    }
+
+    public IslandManager getIslandManager() {
+        return islandManager;
+    }
+
 }

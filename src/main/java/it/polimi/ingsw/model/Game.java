@@ -62,7 +62,14 @@ public class Game implements GameInterface {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-
+    /**
+     * Constructs a new Game setting all the necessary accordingly to the game rules
+     * and adds the first Player with the given nickname
+     * @param numPlayers            the number of players of this Game
+     * @param nicknameFirstPlayer   the nickname of the first player
+     * @param expertModeEnabled     true to create a Game with expert mode, false otherwise
+     * @throws NumberOfPlayerNotSupportedException  when the given number of players is not supported
+     */
     public Game (int numPlayers, String nicknameFirstPlayer, boolean expertModeEnabled) throws NumberOfPlayerNotSupportedException {
 
         if (!GameConstants.supportsNumberOfPlayers(numPlayers))
@@ -82,7 +89,6 @@ public class Game implements GameInterface {
         this.expertModeEnabled = expertModeEnabled;
 
         if (expertModeEnabled) {
-            CharacterCardCreator creator = new CharacterCardCreator();
             Random random = new Random();
             availableCharacterCards = new CharacterCard[3];
             int i = 0;
@@ -95,7 +101,7 @@ public class Game implements GameInterface {
                         break;
                     }
                 if (ok) {
-                    availableCharacterCards[i] = creator.createCharacterCard(c, bag);
+                    availableCharacterCards[i] = CharacterCardCreator.createCharacterCard(c, bag);
                     i++;
                 }
             }
@@ -180,7 +186,7 @@ public class Game implements GameInterface {
      * @throws WrongGamePhaseException      when it is called not during planning
      * @throws NonExistingPlayerException   when there is no Player with the given nickname
      * @throws WrongPlayerException         when it is not the turn of the player with the given nickname
-     * @throws NotValidMoveException                 when the card choice is not valid
+     * @throws NotValidMoveException        when the card choice is not valid
      */
     @Override
     public void chosenCard (String playerNickname, Card card) throws WrongGamePhaseException, NonExistingPlayerException, WrongPlayerException, NotValidMoveException {

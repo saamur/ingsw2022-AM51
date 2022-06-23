@@ -17,6 +17,9 @@ public class Bag implements Serializable, StudentContainer {
     private final Map<Clan, Integer> students;
     private final Random random;
 
+    /**
+     * Constructs a Bag with the initial number of students for every Clan
+     */
     public Bag () {
 
         students = new EnumMap<>(Clan.class);

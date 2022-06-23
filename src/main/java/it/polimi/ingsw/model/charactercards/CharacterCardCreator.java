@@ -2,16 +2,12 @@ package it.polimi.ingsw.model.charactercards;
 
 import it.polimi.ingsw.model.Bag;
 
-import java.io.Serializable;
-
 /**
  * The CharacterCardCreator class contains the method needed to create
  * CharacterCard objects with the correct concrete subclass
  *
  */
-public class CharacterCardCreator implements Serializable {     //todo Serializable shouldn't be necessary
-
-    public CharacterCardCreator(){}
+public class CharacterCardCreator {
 
     /**
      * The method createCharacterCard instantiates a CharacterCard object with the given CharacterID
@@ -20,7 +16,7 @@ public class CharacterCardCreator implements Serializable {     //todo Serializa
      * @param bag           the Bag from which the students will be taken (if needed)
      * @return              the created object
      */
-    public CharacterCard createCharacterCard(CharacterID characterID, Bag bag) {
+    public static CharacterCard createCharacterCard(CharacterID characterID, Bag bag) {
 
         return switch (characterID) {
             case MONK, JESTER, MINSTREL, PRINCESS, THIEF -> new StudentMoverCharacterCard(characterID, bag);

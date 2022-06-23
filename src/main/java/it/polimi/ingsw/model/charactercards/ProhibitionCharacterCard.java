@@ -14,6 +14,10 @@ public class ProhibitionCharacterCard extends CharacterCard {
 
     private int numProhibitionCards;
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID and with the initial number of prohibition cards
+     * @param characterID   the CharacterID of the character to construct
+     */
     public ProhibitionCharacterCard(CharacterID characterID) {
         super(characterID);
         numProhibitionCards = GameConstants.getNumInitialProhibitionCardsCharacterCard(characterID);

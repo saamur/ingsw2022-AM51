@@ -11,6 +11,10 @@ import it.polimi.ingsw.model.player.Player;
  */
 public class StepsCharacterCard extends CharacterCard {
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID
+     * @param characterID   the CharacterID of the character to construct
+     */
     public StepsCharacterCard(CharacterID characterID) {
         super(characterID);
     }

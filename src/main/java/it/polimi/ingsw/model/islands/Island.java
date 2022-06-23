@@ -21,6 +21,9 @@ public class Island implements Serializable, StudentContainer {
     private int numberOfTowers;
     private int numProhibitionCards;
 
+    /**
+     * Constructs a single empty Island
+     */
     public Island () {
         numberOfIslands = 1;
         students = new EnumMap<>(Clan.class);

@@ -86,6 +86,10 @@ public class InfluenceCharacterCard extends CharacterCard {
 
     }
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID
+     * @param characterID   the CharacterID of the character to construct
+     */
     public InfluenceCharacterCard(CharacterID characterID) {
         super(characterID);
     }

@@ -22,6 +22,10 @@ public abstract class CharacterCard implements Serializable {
     private boolean alreadyUsed;
     protected final PropertyChangeSupport pcs;
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID
+     * @param characterID   the CharacterID of the character to construct
+     */
     public CharacterCard (CharacterID characterID) {
         this.characterID = characterID;
         alreadyUsed = false;

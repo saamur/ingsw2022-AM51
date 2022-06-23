@@ -14,6 +14,10 @@ public class CloudManager implements Serializable {
     private final Cloud[] clouds;
     private final int numStudentsPerCloud;
 
+    /**
+     * Contructs the CloudManager with its Clouds
+     * @param numPlayers    the number of the players of the game
+     */
     public CloudManager(int numPlayers) {
         clouds = new Cloud[numPlayers];
         for (int i = 0; i < clouds.length; i++)

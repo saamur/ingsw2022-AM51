@@ -5,7 +5,6 @@ import it.polimi.ingsw.constants.cliconstants.CliGraphicConstants;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.controller.OpeningNewGameData;
 import it.polimi.ingsw.controller.OpeningRestoredGameData;
-import it.polimi.ingsw.controller.SavedGameData;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameState;

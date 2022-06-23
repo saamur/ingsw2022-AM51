@@ -4,9 +4,6 @@ import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.islands.Island;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  * The ProhibitionCharacterCard class models the character cards
  * whose effect is to add prohibition cards on islands

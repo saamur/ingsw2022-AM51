@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.player.Player;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeListenerProxy;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Map;

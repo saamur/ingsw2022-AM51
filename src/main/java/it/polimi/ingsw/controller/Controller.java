@@ -70,11 +70,6 @@ public abstract class Controller implements PropertyChangeListener {
      */
     public synchronized Message messageOnGame (String nickname, GameMessage message) {
 
-//        System.out.println("message on game");
-//        System.out.println(game.getGameState());
-//        System.out.println(game.getPlayersNicknames());
-//        System.out.println(started);
-
         if (!started)
             return new ErrorMessage("You cannot make this move now");
 

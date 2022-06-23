@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.islands;
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.player.Player;

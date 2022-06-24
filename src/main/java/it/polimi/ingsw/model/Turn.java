@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.exceptions.NotValidMoveException;
@@ -29,9 +30,14 @@ public class Turn implements Serializable {
     private boolean characterPunctualEffectApplied;
     private Clan characterClan;
 
+    /**
+     * Constructs a Turn in the STUDENT_MOVING phase with no active character
+     * @param currPlayer    the Player that owns this Turn
+     * @param numPlayers    the number of players of the Game
+     */
     public Turn (Player currPlayer, int numPlayers) {
         this.currPlayer = currPlayer;
-        numStudentsToMove = numPlayers == 2 ? 3 : 4;
+        numStudentsToMove = GameConstants.getNumStudentsPerCloud(numPlayers);
         turnState = TurnState.STUDENT_MOVING;
         studentMoved = 0;
 

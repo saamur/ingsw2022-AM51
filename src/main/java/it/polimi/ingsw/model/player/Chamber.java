@@ -20,6 +20,9 @@ public class Chamber implements Serializable, StudentContainer {
     private int coins;
     private final Map<Clan, Integer> coinsGiven;
 
+    /**
+     * Constructs an empty Chamber with one coin
+     */
     public Chamber() {
         students = new EnumMap<>(Clan.class);
         for (Clan c : Clan.values())

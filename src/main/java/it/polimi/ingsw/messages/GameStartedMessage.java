@@ -3,9 +3,9 @@ package it.polimi.ingsw.messages;
 import it.polimi.ingsw.client.modeldata.GameData;
 
 /**
- * GameStartedMessage receives the message notifying the start of the game
+ * The GameStartedMessage record is the message that notifies the start of the game. It contains a GameData object
+ * that contains all the data of the played Game
  */
-
 public record GameStartedMessage(GameData gameData) implements Message {
 
     @Override

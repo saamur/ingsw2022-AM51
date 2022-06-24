@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
-import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
@@ -29,6 +28,9 @@ public class Lobby {
     private final List<NewGameController> openingNewGameControllers;
     private final List<RestoredGameController> openingRestoredGameControllers;
 
+    /**
+     * Constructs an empty Lobby
+     */
     private Lobby () {
         clientNicknames = new HashMap<>();
         runningGameControllers = new ArrayList<>();

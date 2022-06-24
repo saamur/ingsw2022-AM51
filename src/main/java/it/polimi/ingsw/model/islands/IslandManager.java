@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.islands;
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.player.Player;
@@ -26,6 +25,10 @@ public class IslandManager implements Serializable {
     private Island motherNaturePosition;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    /**
+     * Constructs an IslandManager with its Islands, places Mother Nature on a random Island and adds an initial
+     * student to all Islands except the one with Mother Nature and the one in front of it, accordingly to the game rules
+     */
     public IslandManager() {
 
         islands = new ArrayList<>();

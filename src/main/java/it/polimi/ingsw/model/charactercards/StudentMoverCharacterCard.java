@@ -95,6 +95,11 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
 
     private final Map<Clan, Integer> students;
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID and with the initial students drawn from the given Bag
+     * @param characterID   the CharacterID of the character to construct
+     * @param bag           the Bag from which to draw the students
+     */
     public StudentMoverCharacterCard (CharacterID characterID, Bag bag) {
         super(characterID);
         students = bag.draw(GameConstants.getNumInitialStudentsStudentMoverCharacterCard(characterID));
@@ -134,7 +139,6 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
         boolean move(Game game, StudentContainer source, StudentContainer destination, Map<Clan, Integer> students1, Map<Clan, Integer> students2);
     }
 
-    //added for tests
     public Map<Clan, Integer> getStudents() {
         return new EnumMap<>(students);
     }

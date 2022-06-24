@@ -52,6 +52,10 @@ public class ProfessorsCharacterCard extends CharacterCard {
 
     }
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID
+     * @param characterID   the CharacterID of the character to construct
+     */
     public ProfessorsCharacterCard(CharacterID characterID) {
         super(characterID);
     }

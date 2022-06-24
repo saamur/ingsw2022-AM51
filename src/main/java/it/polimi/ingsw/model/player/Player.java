@@ -20,6 +20,13 @@ public class Player implements Serializable {
     private final Deck deck;
     private Card currCard;
 
+    /**
+     * Constructs a Player with the given parameters
+     * @param nickname      the nickname of the Player
+     * @param colorOfTowers the color of the towers of the player
+     * @param numPlayers    the number of players in the game
+     * @param bag           the Bag from which to draw the initial students
+     */
     public Player (String nickname, TowerColor colorOfTowers, int numPlayers, Bag bag) {
 
         this.nickname = nickname;

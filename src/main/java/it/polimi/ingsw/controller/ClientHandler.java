@@ -28,6 +28,11 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
     private boolean initialization;
     private Controller controller;
 
+    /**
+     * Constructs a ClientHandler with the given Socket
+     * @param socket        the Socket opened with the Client
+     * @throws IOException  when an error with the Socket occurs during construction
+     */
     public ClientHandler (Socket socket) throws IOException {
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());

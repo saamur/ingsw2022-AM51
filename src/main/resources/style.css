@@ -23,3 +23,14 @@
 .selected-character-pieces{
     -fx-border-color: white;
 }
+
+.anchorpane-islands {
+    -fx-background-image:url('/png/islands-background.png');
+    -fx-background-position: center center;
+}
+
+.anchorpane-clouds {
+    -fx-background-image:url('/png/clouds-background.png');
+    -fx-background-size: 1000 auto;
+    -fx-background-position: center center;
+}

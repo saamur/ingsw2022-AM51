@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.charactercards.CharacterID;
 import it.polimi.ingsw.model.player.TowerColor;
 import javafx.scene.layout.AnchorPane;
 
-import java.awt.*;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;

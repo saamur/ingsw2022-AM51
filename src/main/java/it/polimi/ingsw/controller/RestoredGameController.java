@@ -17,6 +17,11 @@ public class RestoredGameController extends Controller {
     private final List<String> missingPlayers;
     private final LocalDateTime localDateTime;
 
+    /**
+     * Constructs a Controller for the restored Game given by parameter
+     * @param game          the restored Game to bound to this Controller
+     * @param localDateTime the time when the Game was saved
+     */
     public RestoredGameController(GameInterface game, LocalDateTime localDateTime) {
         super(game);
         missingPlayers = game.getPlayersNicknames();

@@ -16,6 +16,9 @@ public class Cloud implements Serializable {
     private Map<Clan, Integer> students;
     private boolean picked;
 
+    /**
+     * Constructs an empty Cloud
+     */
     public Cloud () {
         students = new EnumMap<>(Clan.class);
         for (Clan c : Clan.values())

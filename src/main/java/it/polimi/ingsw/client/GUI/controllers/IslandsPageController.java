@@ -434,6 +434,7 @@ public class IslandsPageController extends PageController implements Initializab
             else if (anchor.getLayoutY() + island.getFitHeight() > window.getLayoutY() + window.getPrefHeight())
                 anchor.setLayoutY(window.getLayoutY() + window.getPrefHeight() - island.getFitHeight());
         }
+
         for(Node child : anchor.getChildren()) {
             if (child.getId().contains("students")) {
                 child.setLayoutX(ConstantsGUI.getStudentsX(numOfIslands));

@@ -28,9 +28,12 @@ public abstract class Controller implements PropertyChangeListener {
     protected boolean started;
     private boolean closing;
 
-    //The class Controller is listened by the ClientHandlerClass
     protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    /**
+     * Constructs a Controller with the given Game
+     * @param game  the Game to be bound to the Controller
+     */
     public Controller(GameInterface game) {
         synchronized (Controller.class) {
             id = counter;
@@ -69,11 +72,6 @@ public abstract class Controller implements PropertyChangeListener {
      * @return          the answer to be sent to the client bound to the player that performed the move
      */
     public synchronized Message messageOnGame (String nickname, GameMessage message) {
-
-//        System.out.println("message on game");
-//        System.out.println(game.getGameState());
-//        System.out.println(game.getPlayersNicknames());
-//        System.out.println(started);
 
         if (!started)
             return new ErrorMessage("You cannot make this move now");

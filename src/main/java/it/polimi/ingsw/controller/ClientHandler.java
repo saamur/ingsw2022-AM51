@@ -59,7 +59,6 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
 
         while (connected) {
             try {
-                System.out.println(controller);
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 Object o = in.readObject();
                 if(!(o instanceof String))

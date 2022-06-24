@@ -387,7 +387,7 @@ public class Game implements GameInterface {
      * If the Island does contain a prohibition card it is removed and reassigned to the corresponding characterCard
      * @param island    the Island on which the controlling Player is updated
      */
-    public void checkInfluence (Island island) {             //FIXME we have to find a better name
+    public void checkInfluence (Island island) {
 
         if (island.getNumProhibitionCards() > 0) {
             island.removeProhibitionCard();
@@ -685,7 +685,7 @@ public class Game implements GameInterface {
 
     private void reassignProhibitionCard() {
         for (CharacterCard card : availableCharacterCards) {
-            if (card.getCharacterID() == CharacterID.GRANDMA) {                 //FIXME better with instanceof?
+            if (card.getCharacterID() == CharacterID.GRANDMA) {
                 ProhibitionCharacterCard c = (ProhibitionCharacterCard) card;
                 c.addProhibitionCard();
                 pcs.firePropertyChange("modifiedCharacter", null, CharacterCardData.createCharacterCardData(c));
@@ -726,7 +726,7 @@ public class Game implements GameInterface {
     }
 
     @Override
-    public boolean isLastRound(){ //FIXME Added for GameData
+    public boolean isLastRound(){
         return lastRound;
     }
 

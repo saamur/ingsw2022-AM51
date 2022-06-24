@@ -87,7 +87,7 @@ public class Lobby {
 
         List<SavedGameData> savedGameDataList = new ArrayList<>(SavedGameManager.getSavedGameList().stream()
                 .filter(d -> d.nicknames().contains(nickname))
-                //.filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //fixme optional, remove it?
+                //.filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //for excluding the games with players that are currently playing in another game as well
                 .toList());
 
         return new AvailableGamesMessage(openingNewGameDataList, openingRestoredGameDataList, savedGameDataList);

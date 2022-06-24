@@ -31,7 +31,6 @@ public class DisconnectionController extends PageController implements Initializ
      * @param nickname nickname of the player that has disconnected
      */
     public void setDisconnectedPlayer(String nickname){
-        System.out.println("Disconnection controller prima: " + this);
         disconnectionLabel.setText(nickname + " has disconnected");
         waitingLabel.setVisible(true);
         button.setOpacity(0.5);
@@ -48,11 +47,9 @@ public class DisconnectionController extends PageController implements Initializ
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Disconnection controller dopo: " + this);
-        System.out.println("inizializzo Disconnection");
-            waitingLabel.setVisible(false);
-            button.setOpacity(1);
-            button.setDisable(false);
+        waitingLabel.setVisible(false);
+        button.setOpacity(1);
+        button.setDisable(false);
 
     }
 }

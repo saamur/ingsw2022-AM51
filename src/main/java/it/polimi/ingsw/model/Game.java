@@ -393,7 +393,12 @@ public class Game implements GameInterface {
 
         if (island.getNumProhibitionCards() > 0) {
             island.removeProhibitionCard();
-            pcs.firePropertyChange("modifiedIsland", null, island);
+            for (int i = 0; i < islandManager.getNumberOfIslands(); i++) {
+                if (island == islandManager.getIsland(i)) {
+                    pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(island, i));
+                    break;
+                }
+            }
             reassignProhibitionCard();
             return;
         }

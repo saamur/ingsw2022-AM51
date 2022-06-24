@@ -13,7 +13,6 @@ import java.beans.PropertyChangeSupport;
  *
  */
 public class ProhibitionCharacterCard extends CharacterCard {
-    //FIXME posso aggiungere PCS? costruttore dovrebbe essere senza parametri
 
     private int numProhibitionCards;
 

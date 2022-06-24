@@ -260,7 +260,6 @@ public class ConstantsGUI {
         return SCHOOL_COORDINATE_Y + COIN_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
     }
 
-    //FIXME provare a fare proporzionale
     private static final double ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO = 105;
     private static final double ISLAND_X_SCHOOL_HEIGHT_RATIO =  600;
     private static final double ISLAND_Y_SCHOOL_HEIGHT_RATIO =  407;

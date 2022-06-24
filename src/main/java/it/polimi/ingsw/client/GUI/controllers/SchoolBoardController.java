@@ -32,9 +32,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 
-//FIXME USE computed_size
-//FIXME add currPlayer (who's turn is it?)
-//FIXME togliere coins se non è expert
+
+/**
+ * SchoolBoardController displays the players's School Boards on GUI
+ */
 //TODO JavaDocs
 public class SchoolBoardController extends PageController implements Initializable {
 
@@ -284,8 +285,6 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
-    //mettere nomi giocatori sulle tab
-    //mettere giocatori nelle plance?
     public void back(ActionEvent event) {
         gui.setCurrScene(GAMEBOARD);
     }
@@ -389,7 +388,7 @@ public class SchoolBoardController extends PageController implements Initializab
                     if (db.hasString()) {
                         Clan clan = Clan.valueOf(db.getString());
                         if (target.getId().contains("table"))
-                            sendMessage(new MoveStudentToChamberMessage(clan)); //FIXME it adds student to right chamber even if chamber is the wrong color
+                            sendMessage(new MoveStudentToChamberMessage(clan));
                         else {
                             ((IslandsPageController) gui.getControllers().get(ISLANDS)).setDroppedStudent(clan);
                             target.getStyleClass().removeIf(style -> style.equals("image-drag-over"));
@@ -543,8 +542,6 @@ public class SchoolBoardController extends PageController implements Initializab
      * Disables the ability to drag and drop students to the chamber and to the islands
      */
     public void disableStudentMoving() {
-        //TODO disable all of the dragging
-        //penso basti disabilitare gli studenti
         for (SchoolBoard schoolBoard : schoolBoards) {
             if (schoolBoard.nickname.equals(this.nickname)) {
                 for (ImageView student : schoolBoard.studentsHall)
@@ -615,7 +612,7 @@ public class SchoolBoardController extends PageController implements Initializab
                                 jesterStudentsImages.get(i).setId(c.name());
                                 System.out.println("jesterStudentImages clan: " + jesterStudentsImages.get(i).getId());
                                 makeClickable(jesterStudentsImages.get(i));
-                                jesterStudentsImages.get(i).setDisable(false); //FIXME ricordarsi di disabilitarlo dopo
+                                jesterStudentsImages.get(i).setDisable(false);
                                 numStudents--;
                                 i++;
                             }

@@ -11,8 +11,8 @@ import java.util.ResourceBundle;
 
 public class GameOverController extends PageController implements Initializable {
 
-    @FXML Text winner1;
-    @FXML Text winner2;
+    @FXML private Text winner1;
+    @FXML private Text winner2;
 
 
     @Override

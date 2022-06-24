@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//TODO have added test to general charactercard package
 public class StepsCharacterCardTest extends CharacterCardTest {
 
     @BeforeEach

@@ -136,7 +136,7 @@ public abstract class Controller implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Message update = null;
-        switch(evt.getPropertyName()){ //FIXME aggiungere codice ai case, per ora solo temporaneo
+        switch(evt.getPropertyName()){
             case "MotherNature" -> {
                 int islandIndex = (Integer) evt.getNewValue();
                 update = new UpdateMotherNaturePosition(islandIndex);
@@ -159,7 +159,7 @@ public abstract class Controller implements PropertyChangeListener {
             }
             case "modifiedIsland" -> {
                 IslandData modifiedIsland = (IslandData) evt.getNewValue();
-                update = new UpdateIsland(modifiedIsland); //TODO Control all modifiedIsland fire are created with islandIndex and not island object
+                update = new UpdateIsland(modifiedIsland);
             }
             case "modifiedCharacter" -> {
                 CharacterCardData characterCard = (CharacterCardData) evt.getNewValue();

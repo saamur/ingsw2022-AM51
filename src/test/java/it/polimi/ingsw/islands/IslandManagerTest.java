@@ -82,6 +82,5 @@ public class IslandManagerTest {
         assertNull(islandManager.getIsland(islandIndex));
 
     }
-    //TODO have not tested getIslands e getNumberOfIslands
 
 }

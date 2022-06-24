@@ -129,8 +129,6 @@ public class Game implements GameInterface {
 
         if (indexCurrPlayer == players.length-1)
             start();
-
-        //TODO fire?
     }
 
     /**
@@ -430,7 +428,7 @@ public class Game implements GameInterface {
         if (cloud == null) throw new NotValidIndexException("There is no cloud with the given index");
 
         turn.chooseCloud(cloud);
-        pcs.firePropertyChange("chosenCloud", null, CloudData.createCloudData(cloud, cloudIndex)); //TODO Non sono sicura sia giusto scritto così
+        pcs.firePropertyChange("chosenCloud", null, CloudData.createCloudData(cloud, cloudIndex));
         pcs.firePropertyChange("modifiedPlayer", null, PlayerData.createPlayerData(player));
     }
 
@@ -464,7 +462,6 @@ public class Game implements GameInterface {
         }
         else
             turn = new Turn(getCurrPlayer(), players.length);
-        //TODO fire?
     }
 
     /**

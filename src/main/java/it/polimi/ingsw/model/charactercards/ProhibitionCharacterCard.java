@@ -10,7 +10,6 @@ import it.polimi.ingsw.model.islands.Island;
  *
  */
 public class ProhibitionCharacterCard extends CharacterCard {
-    //FIXME posso aggiungere PCS? costruttore dovrebbe essere senza parametri
 
     private int numProhibitionCards;
 

@@ -18,12 +18,12 @@ import static it.polimi.ingsw.constants.ConstantsGUI.GAMESELECTION;
  */
 public class ConnectionController extends PageController {
 
-    @FXML TextField port;
-    @FXML TextField address;
+    @FXML private TextField port;
+    @FXML private TextField address;
 
     /**
      * Method connect creates a socket and a ServerHandler class so that the GUI can communicate with the server.
-     * @param event
+     * @param event @see ActionEvent
      * @see ServerHandler
      */
     public void connect(ActionEvent event){
@@ -54,9 +54,8 @@ public class ConnectionController extends PageController {
         }
         if(serverHandler != null) {
             try {
-                gui.setCurrScene(GAMESELECTION); //TODO test if disconnecting and reconnecting the data is erased
+                gui.setCurrScene(GAMESELECTION);
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 

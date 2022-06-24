@@ -25,62 +25,57 @@ import java.util.*;
 import static it.polimi.ingsw.constants.ConstantsGUI.CHARACTERS;
 import static it.polimi.ingsw.constants.ConstantsGUI.GAMEBOARD;
 
+/**
+ * CloudController displays the Clouds on GUI
+ */
 public class CloudController extends PageController implements Initializable {
     @FXML
-    AnchorPane anchorCloud0;
+    private AnchorPane anchorCloud0;
     @FXML
-    AnchorPane anchorCloud1;
+    private AnchorPane anchorCloud1;
     @FXML
-    AnchorPane anchorCloud2;
+    private AnchorPane anchorCloud2;
 
     @FXML
-    ImageView student1cloud0;
+    private ImageView student1cloud0;
     @FXML
-    ImageView student2cloud0;
+    private ImageView student2cloud0;
     @FXML
-    ImageView student3cloud0;
+    private ImageView student3cloud0;
     @FXML
-    ImageView student4cloud0;
-    List<ImageView> studentsCloud0;
+    private ImageView student4cloud0;
 
 
     @FXML
-    ImageView student1cloud1;
+    private ImageView student1cloud1;
     @FXML
-    ImageView student2cloud1;
+    private ImageView student2cloud1;
     @FXML
-    ImageView student3cloud1;
+    private ImageView student3cloud1;
     @FXML
-    ImageView student4cloud1;
-    List<ImageView> studentsCloud1;
+    private ImageView student4cloud1;
 
     @FXML
-    ImageView student1cloud2;
+    private ImageView student1cloud2;
     @FXML
-    ImageView student2cloud2;
+    private ImageView student2cloud2;
     @FXML
-    ImageView student3cloud2;
+    private ImageView student3cloud2;
     @FXML
-    ImageView student4cloud2;
-    List<ImageView> studentsCloud2;
+    private ImageView student4cloud2;
 
-    @FXML
-    Label errorLabel; //TODO create
+    private boolean isClientTurn;
 
-    boolean isClientTurn;
-
-    int numOfClouds;
-    int numOfStudentsPerCloud;
-    CloudData[] modelClouds;
+    private int numOfClouds;
+    private CloudData[] modelClouds;
 
 
-    List<AnchorPane> clouds = new ArrayList<>();
-    Map<Integer, List<ImageView>> students = new HashMap<>();
-    Boolean[] availableClouds = new Boolean[3];
+    private List<AnchorPane> clouds = new ArrayList<>();
+    private final Map<Integer, List<ImageView>> students = new HashMap<>();
 
-    @FXML Button endTurnButton;
-    @FXML Button activateCharacterButton; //FIXME potrebbe non servire se gli faccio vedere SEMPRE la GameBoard
-    @FXML Label chooseCloudLabel;
+    @FXML private Button endTurnButton;
+    @FXML private Button activateCharacterButton;
+    @FXML private Label chooseCloudLabel;
 
     private boolean expertModeEnabled;
 
@@ -95,22 +90,26 @@ public class CloudController extends PageController implements Initializable {
         chooseCloudLabel.setVisible(false);
     }
 
-
+    /**
+     * Method is connected to the "Go Back" Button in the fxml file, it opens the GameBoard scene
+     * @see ActionEvent
+     */
     public void back(ActionEvent event) {
         gui.setCurrScene(GAMEBOARD);
     }
 
-    public void setClouds(CloudManagerData cloudManagerData, boolean expertModeEnabled) { //FIXME potrebbe esserci un problema dopo disconnetto e riconnetto
+    /**
+     * Displays the clouds according to the information received by CloudManagerData
+     * @param cloudManagerData the CloudManagerData received from the ServerHandler
+     * @param expertModeEnabled true if expert mode is enabled
+     */
+    public void setClouds(CloudManagerData cloudManagerData, boolean expertModeEnabled) {
         this.modelClouds = cloudManagerData.clouds();
         numOfClouds = modelClouds.length;
-        for (int i = 0; i < numOfClouds; i++) {
-            availableClouds[i] = true;
-        }
-        numOfStudentsPerCloud = GameConstants.getNumStudentsPerCloud(numOfClouds);
-        studentsCloud0 = new ArrayList<>(Arrays.asList(student1cloud0, student2cloud0, student3cloud0));
-        studentsCloud1 = new ArrayList<>(Arrays.asList(student1cloud1, student2cloud1, student3cloud1));
+        int numOfStudentsPerCloud = GameConstants.getNumStudentsPerCloud(numOfClouds);
+        List<ImageView> studentsCloud0 = new ArrayList<>(Arrays.asList(student1cloud0, student2cloud0, student3cloud0));
+        List<ImageView> studentsCloud1 = new ArrayList<>(Arrays.asList(student1cloud1, student2cloud1, student3cloud1));
 
-        //FIXME better way??
         if (numOfClouds < 3) {
             clouds.remove(2);
             anchorCloud2.setDisable(true);
@@ -123,7 +122,7 @@ public class CloudController extends PageController implements Initializable {
                 student4cloud2.setVisible(false);
             }
         } else {
-            studentsCloud2 = new ArrayList<>(Arrays.asList(student1cloud2, student2cloud2, student3cloud2, student4cloud2));
+            List<ImageView> studentsCloud2 = new ArrayList<>(Arrays.asList(student1cloud2, student2cloud2, student3cloud2, student4cloud2));
             studentsCloud0.add(student4cloud0);
             studentsCloud1.add(student4cloud1);
             students.put(2, studentsCloud2);
@@ -135,8 +134,7 @@ public class CloudController extends PageController implements Initializable {
         for (int i = 0; i < modelClouds.length; i++) {
             if(modelClouds[i].picked()){
                 clouds.get(i).setOpacity(0.5);
-                availableClouds[i] = false;
-                for(int j=0; j<numOfStudentsPerCloud; j++)
+                for(int j = 0; j< numOfStudentsPerCloud; j++)
                     students.get(i).get(j).setVisible(false);
             } else
                 modifyCloud(i, modelClouds[i]);
@@ -145,35 +143,41 @@ public class CloudController extends PageController implements Initializable {
         this.expertModeEnabled = expertModeEnabled;
     }
 
+    /**
+     * Method is called when the client clicks on a cloud.
+     * @param event @see MouseEvent
+     */
     public void selectCloud(MouseEvent event) {
-        //FIXME if CLOUD CHOOSING
         for (int i = 0; i < numOfClouds; i++) {
             if (clouds.get(i).getChildren().contains((Node) event.getSource())) {
-                if (availableClouds[i]) {
-                    sendMessage(new ChosenCloudMessage(i));
-                } else {
-                    errorLabel.setText("This cloud has already been chosen, choose another cloud");
-                }
-                break;
+                sendMessage(new ChosenCloudMessage(i));
             }
         }
     }
 
+    /**
+     * Method is called when the client receives an UpdateCloudManager. It calls the method {@link #modifyCloud(int, CloudData) modifyCloud(int, CloudData)} to display the Clouds correctly.
+     * @param cloudManager the data that needs to be updated
+     * @see it.polimi.ingsw.messages.updatemessages.UpdateCloudManager
+     */
     public void updateClouds(CloudManagerData cloudManager) {
         CloudData[] newClouds = cloudManager.clouds();
         for (int i = 0; i < newClouds.length; i++) {
             if (!newClouds[i].equals(modelClouds[i])) {
                 modifyCloud(i, newClouds[i]);
             }
-            availableClouds[i] = true;
             clouds.get(i).setOpacity(1);
         }
     }
 
+    /**
+     * This method is called when the client receives an UpdateCloud message, after a cloud has been picked
+     * @param cloud the cloud that has been chosen
+     * @see it.polimi.ingsw.messages.updatemessages.UpdateCloud
+     */
     public void updateCloud(CloudData cloud){
         if(cloud.picked()){
             clouds.get(cloud.cloudIndex()).setOpacity(0.5);
-            availableClouds[cloud.cloudIndex()] = false;
             if(isClientTurn) {
                 endTurnButton.setVisible(true);
                 endTurnButton.setDisable(false);
@@ -181,6 +185,12 @@ public class CloudController extends PageController implements Initializable {
         }
     }
 
+    /**
+     * This method is called every time the TurnState changes, this way the scene can display the "Activate Character Card" button or "End Turn" if the TurnState is END_TURN
+     * @param turnState the current TurnState
+     * @param isTheirTurn true if it's the turn of the client
+     * @see TurnState
+     */
     public void updateTurnState(TurnState turnState, boolean isTheirTurn){
         this.isClientTurn = isTheirTurn;
         if(turnState == TurnState.CLOUD_CHOOSING || turnState == TurnState.END_TURN){
@@ -201,6 +211,11 @@ public class CloudController extends PageController implements Initializable {
         }
     }
 
+    /**
+     * This method manages the students on the chosen Clouds and displays the students according to the CloudData
+     * @param cloudIndex index of the Cloud that has to be modified
+     * @param cloudData data of the Cloud from the model
+     */
     public void modifyCloud(int cloudIndex, CloudData cloudData) {
         int i = 0; //index of student that has to be set
         Map<Clan, Integer> studentsData = cloudData.students();
@@ -214,18 +229,26 @@ public class CloudController extends PageController implements Initializable {
         }
     }
 
-    //FIXME togliere endturn per i non currPlayers
+    /**
+     * Fires a change to the ServerHandler containing an EndTurnMessage()
+     * @param actionEvent @see ActionEvent
+     * @see EndTurnMessage
+     */
     public void endTurn(ActionEvent actionEvent) {
         sendMessage(new EndTurnMessage());
     }
 
+    /**
+     * If the "Activate Character Card" Button is clicked, this method is called. It opens the Characters' scene.
+     * @param actionEvent @see ActionEvent
+     */
     public void activateCharacterCard(ActionEvent actionEvent) {
-        //((CharactersController) gui.getControllers().get(CHARACTERS)).setPreviousScene(CLOUDS);
         gui.setCurrScene(CHARACTERS);
-        //TODO
     }
 
-
+    /**
+     * This method is used for the last round. It makes it possible to end the turn without choosing a cloud.
+     */
     public void lastRound(){
         for(AnchorPane cloud : clouds){
             for(Node child : cloud.getChildren()) {
@@ -235,7 +258,6 @@ public class CloudController extends PageController implements Initializable {
             cloud.setVisible(false);
             cloud.setDisable(true);
         }
-        //FIXME show only if currPlayer
         if(isClientTurn) {
             endTurnButton.setVisible(true);
             endTurnButton.setDisable(false);

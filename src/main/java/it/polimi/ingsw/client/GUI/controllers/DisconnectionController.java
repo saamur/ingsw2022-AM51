@@ -17,12 +17,12 @@ import static it.polimi.ingsw.constants.ConstantsGUI.CONNECTION;
 public class DisconnectionController extends PageController implements Initializable {
 
     @FXML
-    Label disconnectionLabel;
+    private Label disconnectionLabel;
 
     @FXML
-    Button button;
+    private Button button;
 
-    @FXML Label waitingLabel;
+    @FXML private Label waitingLabel;
 
 
     /**

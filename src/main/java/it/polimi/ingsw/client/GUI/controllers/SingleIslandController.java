@@ -23,29 +23,29 @@ import static it.polimi.ingsw.model.Clan.*;
  * Class SingleIslandController manages and populates the scene showing a single island, which corresponds to the file singleIsland.fxml.
  */
 public class SingleIslandController extends PageController implements Initializable {
-    @FXML
-    ImageView island;
 
-    @FXML ImageView yellow;
-    @FXML ImageView blue;
-    @FXML ImageView green;
-    @FXML ImageView red;
-    @FXML ImageView pink;
-    @FXML ImageView motherNature;
-    @FXML ImageView tower;
-    @FXML ImageView prohibitionCard;
+    @FXML private ImageView island;
 
-    @FXML Label prohibitionCardLabel;
+    @FXML private ImageView yellow;
+    @FXML private ImageView blue;
+    @FXML private ImageView green;
+    @FXML private ImageView red;
+    @FXML private ImageView pink;
+    @FXML private ImageView motherNature;
+    @FXML private ImageView tower;
+    @FXML private ImageView prohibitionCard;
 
-    @FXML Label yellowLabel;
-    @FXML Label blueLabel;
-    @FXML Label greenLabel;
-    @FXML Label redLabel;
-    @FXML Label pinkLabel;
-    @FXML Label towerLabel;
+    @FXML private Label prohibitionCardLabel;
 
-    Map<Clan, ImageView> clanColors = new EnumMap<>(Clan.class);
-    Map<Clan, Label> clanLabels = new EnumMap<>(Clan.class);
+    @FXML private Label yellowLabel;
+    @FXML private Label blueLabel;
+    @FXML private Label greenLabel;
+    @FXML private Label redLabel;
+    @FXML private Label pinkLabel;
+    @FXML private Label towerLabel;
+
+    private final Map<Clan, ImageView> clanColors = new EnumMap<>(Clan.class);
+    private final Map<Clan, Label> clanLabels = new EnumMap<>(Clan.class);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +69,6 @@ public class SingleIslandController extends PageController implements Initializa
      * @param event
      */
     public void back(ActionEvent event){
-        System.out.println("The back button has been clicked");
         gui.setCurrScene(ISLANDS);
         resetIsland();
     }
@@ -81,7 +80,6 @@ public class SingleIslandController extends PageController implements Initializa
      * @param hasMotherNature it's true if motherNature is on this island or false if not
      */
     public void setIsland(IslandData modelIsland, String imageURL, boolean hasMotherNature){
-        //TODO display towers/mothernature and students
         Map<Clan, Integer> students = modelIsland.students();
         island.setImage(new Image(imageURL));
         for(Clan clan : Clan.values()) {
@@ -102,7 +100,6 @@ public class SingleIslandController extends PageController implements Initializa
             tower.setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(modelIsland.towerColor())).toExternalForm()));
             towerLabel.setText("x" + modelIsland.numberOfTowers());
         }
-        System.out.println("The island has been set");
     }
 
     /**
@@ -118,7 +115,6 @@ public class SingleIslandController extends PageController implements Initializa
         towerLabel.setText("");
         prohibitionCard.setVisible(false);
         prohibitionCardLabel.setText("");
-        System.out.println("The island has been reset");
     }
 
 

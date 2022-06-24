@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.*;
 
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
-//TODO JavaDocs
 
 /**
  * This class is used to manage the character's Scene.
@@ -40,9 +39,8 @@ public class CharactersController extends PageController implements Initializabl
     @FXML private ImageView piece6character0;
     @FXML private Label descriptionLabel0;
     @FXML private Label costLabel0;
-    List<ImageView> piecesCharacter0;
     @FXML private Button buttonCharacter0;
-    @FXML Label activatedByLabel0;
+    @FXML private Label activatedByLabel0;
 
     @FXML private AnchorPane anchorCharacter1;
     @FXML private ImageView character1;
@@ -54,9 +52,8 @@ public class CharactersController extends PageController implements Initializabl
     @FXML private ImageView piece6character1;
     @FXML private Label descriptionLabel1;
     @FXML private Label costLabel1;
-    List<ImageView> piecesCharacter1;
     @FXML private Button buttonCharacter1;
-    @FXML Label activatedByLabel1;
+    @FXML private Label activatedByLabel1;
 
     @FXML private AnchorPane anchorCharacter2;
     @FXML private ImageView character2;
@@ -68,9 +65,8 @@ public class CharactersController extends PageController implements Initializabl
     @FXML private ImageView piece6character2;
     @FXML private Label descriptionLabel2;
     @FXML private Label costLabel2;
-    List<ImageView> piecesCharacter2;
     @FXML private Button buttonCharacter2;
-    @FXML Label activatedByLabel2;
+    @FXML private Label activatedByLabel2;
 
     private List<ImageView> characters;
     private List<List<ImageView>> charactersPieces;
@@ -80,9 +76,6 @@ public class CharactersController extends PageController implements Initializabl
     private List<Label> costLabels;
     private List<Label> activatedByLabels;
 
-    private int selectedCharacterIndex;
-
-    private CharacterCardData[] availableCharacterCards;
     private CharacterID activatedCharacter;
 
     private String nickname;
@@ -92,9 +85,9 @@ public class CharactersController extends PageController implements Initializabl
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         anchors = new ArrayList<>(Arrays.asList(anchorCharacter0, anchorCharacter1, anchorCharacter2));
-        piecesCharacter0 = new ArrayList<>(Arrays.asList(piece1character0, piece2character0, piece3character0, piece4character0, piece5character0, piece6character0));
-        piecesCharacter1 = new ArrayList<>(Arrays.asList(piece1character1, piece2character1, piece3character1, piece4character1, piece5character1, piece6character1));
-        piecesCharacter2 = new ArrayList<>(Arrays.asList(piece1character2, piece2character2, piece3character2, piece4character2, piece5character2, piece6character2));
+        List<ImageView> piecesCharacter0 = new ArrayList<>(Arrays.asList(piece1character0, piece2character0, piece3character0, piece4character0, piece5character0, piece6character0));
+        List<ImageView> piecesCharacter1 = new ArrayList<>(Arrays.asList(piece1character1, piece2character1, piece3character1, piece4character1, piece5character1, piece6character1));
+        List<ImageView> piecesCharacter2 = new ArrayList<>(Arrays.asList(piece1character2, piece2character2, piece3character2, piece4character2, piece5character2, piece6character2));
         charactersPieces = new ArrayList<>(Arrays.asList(piecesCharacter0, piecesCharacter1, piecesCharacter2));
         characters = Arrays.asList(character0, character1, character2);
         for(List<ImageView> list : charactersPieces) {
@@ -137,12 +130,11 @@ public class CharactersController extends PageController implements Initializabl
      * @param characterCards the CharacterCardData of the 3 avaible characterCards
      */
     public void setCharacterCards(CharacterCardData[] characterCards){
-        availableCharacterCards = characterCards;
         for(int i=0; i<characterCards.length; i++){
             characters.get(i).setImage(new Image(getClass().getResource(CHARACTERS_IMAGES.get(characterCards[i].characterID())).toExternalForm()));
             characters.get(i).setId(characterCards[i].characterID().name());
             if(characterCards[i].characterID() == CharacterID.GRANDMA){
-                for(int j=0; j<4; j++) { //TODO test GRANDMA
+                for(int j=0; j<4; j++) {
                     charactersPieces.get(i).get(j).setImage(new Image(getClass().getResource("/png/deny_island_icon.png").toExternalForm()));
                 }
             }
@@ -155,7 +147,7 @@ public class CharactersController extends PageController implements Initializabl
 
     /**
      * This method is called when a character card is clicked on. It shows the description of the CharacterCard and the button to activate it. It disables and renders not visible all of the other CharacterCards
-     * @param mouseEvent
+     * @see MouseEvent
      */
     public void selectCharacter(MouseEvent mouseEvent) {
         for(ImageView character : characters){
@@ -172,21 +164,32 @@ public class CharactersController extends PageController implements Initializabl
         }
     }
 
-
+    /**
+     * When an "Activate" button is clicked this method is called. It sends an ActivateCharacterCardMessage to ServerHandler
+     * @see ActivateCharacterCardMessage
+     * @see ActionEvent
+     */
     public void activate(ActionEvent actionEvent) {
-        System.out.println("Ho \"selezionato\":" + actionEvent.getSource());
         for(Button button : buttonsCharacters) {
             if (button == actionEvent.getSource()) {
-                selectedCharacterIndex = buttonsCharacters.indexOf(button);
-                sendMessage(new ActivateCharacterCardMessage(CharacterID.valueOf(characters.get(selectedCharacterIndex).getId())));
+                sendMessage(new ActivateCharacterCardMessage(CharacterID.valueOf(characters.get(buttonsCharacters.indexOf(button)).getId())));
             }
         }
     }
 
+    /**
+     * This method is associated to the "Go to Gameboard" button. It changes the currScene in GUI to gameBoard.fxml
+     * @see ActionEvent
+     */
     public void back(ActionEvent actionEvent) {
         gui.setCurrScene(GAMEBOARD);
     }
 
+    /**
+     * Updates the pieces and the cost related to the character cards
+     * @param characterCardData the information that needs to be updated
+     * @see CharacterCardData
+     */
     public void updateCharacterCard(CharacterCardData characterCardData){
         int characterIndex = 4;
         for(ImageView character : characters){
@@ -219,6 +222,12 @@ public class CharactersController extends PageController implements Initializabl
 
     }
 
+    /**
+     * It sets the style of the Anchor corresponding to the activated character. If a character is activated it will highlight the corresponding anchor pane.
+     * @param activatedCharacter the character card that has been activated. If the punctual effect has not been applied the client can be redirected to certain scenes according to the character that has been activated.
+     * @param nicknameCurrPlayer the nickname of the player that has activated the card
+     * @param puntualEffectApplied if the punctual effect has been applied.
+     */
     public void setActivatedCharacter(CharacterID activatedCharacter, String nicknameCurrPlayer, boolean puntualEffectApplied){
         this.activatedCharacter = activatedCharacter;
 
@@ -263,6 +272,13 @@ public class CharactersController extends PageController implements Initializabl
         this.nickname = nickname;
     }
 
+    /**
+     * This method is used for the PRINCESS and the MONK characters.
+     * For the Princess it sends fire to the ServerHandler that a student has been chosen.
+     * For the Monk it redirects the client to the Islands page so that an island can be selected using {@link IslandsPageController#setCharacterMap(Map) setCharacterMap()}.
+     * @see ApplyCharacterCardEffectMessage2
+     *
+     */
     public void applyEffect(){
         Map<Clan, Integer> students = new EnumMap<>(Clan.class);
         if(singleClanSelected != null){

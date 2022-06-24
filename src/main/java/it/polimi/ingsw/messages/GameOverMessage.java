@@ -13,7 +13,7 @@ public record GameOverMessage(List<String> winnersNickname) implements Message {
     public String getMessage(){
         StringBuilder winners = new StringBuilder();
         winners.append("The winners are: ");
-        for(String w : winnersNickname){ //FIXME maybe need to add ','
+        for(String w : winnersNickname){
             winners.append(w);
             winners.append(" ");
         }

@@ -16,6 +16,8 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -33,9 +35,9 @@ import java.util.*;
 import static it.polimi.ingsw.constants.ConstantsGUI.*;
 import static it.polimi.ingsw.model.Clan.*;
 
-//TODO add droppedStudent to FXML
-//TODO add labels to island for the numbers
-//FIXME fix merge proportions
+/**
+ * IslandsPageController displays all of the Islands from the Game Board on GUI
+ */
 public class IslandsPageController extends PageController implements Initializable {
 
     private final String CLICKED_BUTTON = "-fx-opacity: 0.5";
@@ -250,7 +252,7 @@ public class IslandsPageController extends PageController implements Initializab
         droppedStudentLabel.setVisible(false);
         instructions.setVisible(false);
 
-        droppedStudent.addListener((observable, oldValue, newValue) -> { //TODO test if it works
+        droppedStudent.addListener((observable, oldValue, newValue) -> {
                     if (observable.getValue() != null) {
                         System.out.println("Dovrebbe essere null: " + observable.getValue());
                         droppedStudentAnchor.getStyleClass().add("image-view-selection");
@@ -295,15 +297,10 @@ public class IslandsPageController extends PageController implements Initializab
      * @param mouseEvent
      */
     public void selectIsland(MouseEvent mouseEvent) {
-        System.out.println("selected island" + mouseEvent.getSource());
-        System.out.println("tempAnchor size: " + tempAnchor.size());
         for (int i = 0; i < tempAnchor.size(); i++) {
-            System.out.println("elemento di TempAnchor: " + tempAnchor.get(i));
-            if (/*tempAnchor.get(i).getChildren().contains((Node) mouseEvent.getSource()) ||*/ tempAnchor.get(i).equals(mouseEvent.getSource())) { //Trova l'anchorpane padre dell'oggetto su cui viene fatto click
-                System.out.println("è stata selezionata isola numero " + tempAnchor.get(i).getId() + " che corrisponde all'isola di indice " + modelIslands.get(i).islandIndex() + " nel model e: " + i + " nel controller"); //TODO delete
+            if (tempAnchor.get(i).equals(mouseEvent.getSource())) {
                 if(enabledMoveMotherNature) {
                     sendMessage(new MoveMotherNatureMessage(i));
-                    System.out.println("inviato messaggio, spostare MN su: " + i);
                 } else if (enableCharacter){
                     switch(activatedCharacter){
                         case HERALD, GRANDMA ->
@@ -337,14 +334,16 @@ public class IslandsPageController extends PageController implements Initializab
                     ((SingleIslandController) gui.getControllers().get(SINGLEISLAND)).setIsland(modelIslands.get(i), imagePath, i == motherNaturePosition);
                     gui.setCurrScene(SINGLEISLAND);
                 }
-                System.out.println("MoveMotherNatureButton: " + (enabledMoveMotherNature? "clicked" : "not clicked"));
             }
         }
     }
 
-    //TODO JavaDocs
+    /**
+     * UpdateMotherPosition receives the current position of Mother Nature in the model and sets as visible only the corresponing image of mother nature, and as not visible all of the other ones
+     * @param motherNaturePositionUpdate the position of mother nature in the model
+     */
     public void updateMotherNaturePosition(int motherNaturePositionUpdate){
-        if(motherNaturePositionUpdate < modelIslands.size()) { //FIXME arriva update della posizione di MN prima del merge, e poi madre natura viene persa
+        if(motherNaturePositionUpdate < modelIslands.size()) {
             if(motherNaturePosition < tempAnchor.size())
                 motherNature.get(tempAnchor.get(motherNaturePosition)).setVisible(false);
             this.motherNaturePosition = motherNaturePositionUpdate;
@@ -353,11 +352,11 @@ public class IslandsPageController extends PageController implements Initializab
     }
 
     /**
-     * This method browses all of the modelIslands, if the number of islands does not correspond to the one saved it disables the following island, deleting the corresponding images and anchors from the various lists.
+     * This method browses all the modelIslands, if the number of islands does not correspond to the one saved it disables the following island..
      * Then procedes to call {@link #prepareIsland(AnchorPane, IslandData)}  prepareIsland}
      * @param islandManager the IslandManagerData sent via an UpdateIslands message
-     */ //FIXME JavaDocs
-    public synchronized void updateIslands(IslandManagerData islandManager){ //FIXME opening game with 10 islands, 11th island is visible, it should't be
+     */
+    public synchronized void updateIslands(IslandManagerData islandManager){
         for(AnchorPane anchor : anchorIslands) {
             anchor.setLayoutX(ConstantsGUI.getIslandX(anchor));
             anchor.setLayoutY(ConstantsGUI.getIslandY(anchor));
@@ -379,7 +378,6 @@ public class IslandsPageController extends PageController implements Initializab
             if(modelIslands.get(i).numberOfIslands() != 1){
                 int j = 1;
                 while(j<modelIslands.get(i).numberOfIslands()){
-                    System.out.println("L'isola che sta facendo merging è: " + i);
                     double removedIslandX = tempAnchor.get(i + 1).getLayoutX();
                     double removedIslandY = tempAnchor.get(i + 1).getLayoutY();
                     tempAnchor.get(i + 1).setDisable(true);
@@ -388,13 +386,9 @@ public class IslandsPageController extends PageController implements Initializab
                         child.setVisible(false);
                         child.setDisable(true);
                     }
-                    //remove(i + 1);
                     tempAnchor.remove(i + 1);
-                    System.out.println("Ho rimosso l'isola: " + (i+1));
                     moveMergedIsland(tempAnchor.get(i), j, removedIslandX, removedIslandY);
-                    j++; /*numOfIslands.get(i+1)*/ //This way j comprehends the num of islands corresponding to the removed island
-                    System.out.println("il numero di isole ora è a: " + j);
-                    //FIXME non fa vedere la pedina dell'ultima isola, fixed?
+                    j++;
                 }
             }
             prepareIsland(tempAnchor.get(i), modelIslands.get(i));
@@ -402,9 +396,12 @@ public class IslandsPageController extends PageController implements Initializab
         updateMotherNaturePosition(islandManager.getMotherNaturePosition());
     }
 
-    //TODO JavaDocs
+    /**
+     * This method displays the students, the prohibition cards and the towers according to the IslandData
+     * @param anchor anchor that contains the island that has to be modified
+     * @param modelIsland the data of the corresponding island from the model
+     */
     private void prepareIsland(AnchorPane anchor, IslandData modelIsland){
-        System.out.println("Sto preparando l'isola: " + anchor + " con indice nel model: " + modelIsland.islandIndex());
         prohibitionCards.get(anchor).setVisible(modelIsland.numProhibitionCards() > 0); //should work
         Map<Clan, Integer> studentsPresent = modelIsland.students();
         for(Clan clan : Clan.values())
@@ -426,7 +423,7 @@ public class IslandsPageController extends PageController implements Initializab
         island.setFitHeight(ConstantsGUI.getIslandHeight(modelIsland.numberOfIslands()));
 
         int numOfIslands = modelIsland.numberOfIslands();
-        if(numOfIslands > 1){ //FIXME le isole si muovono anche quando vengono spostati gli studenti
+        if(numOfIslands > 1){
             if (anchor.getLayoutX() < 0)
                 anchor.setLayoutX(0);
             else if (anchor.getLayoutX() + island.getFitWidth() > window.getLayoutX() + window.getPrefWidth())
@@ -456,13 +453,20 @@ public class IslandsPageController extends PageController implements Initializab
 
     }
 
-    //TODO JavaDOcs
+    /**
+     * Method sets the attribute droppedStudent that is used to drag and drop students during the STUDENT_MOVING TurnState
+     * @param clan the student that will be dragged and dropped
+     * @see TurnState
+     */
     public void setDroppedStudent(Clan clan){
         droppedStudent.set(clan);
         previousScene = SCHOOLBOARDS;
     }
 
-    //TODO JavaDocs
+    /**
+     * This method enables certain properties on the droppedStudentImage so that it can be dragged on an Island
+     * @param node @see Node
+     */
     private void makeDraggable(Node node) {
         node.setOnMouseDragged(e -> e.setDragDetect(true));
 
@@ -496,7 +500,7 @@ public class IslandsPageController extends PageController implements Initializab
             });
         }
 
-        node.setOnMouseReleased( e -> e.consume()); //TODO delete?
+        node.setOnMouseReleased(Event::consume);
 
     }
 
@@ -518,32 +522,38 @@ public class IslandsPageController extends PageController implements Initializab
                 - ConstantsGUI.getIslandHeight(numSubIslands+1) / 2;
         anchor.setLayoutX(newX);
         anchor.setLayoutY(newY);
-        //FIXME muovere studenti
-        System.out.println("Vecchia posizione isola "+ anchor + " che ha fatto merge: X: " + oldX + " Y: " + oldY + "(XremovedIsland: " + removedIslandX + " YremovedIsland: " + removedIslandY);
-        System.out.println("Posizione dell'isola che ha fatto merge: X: " + newX + " Y: " + newY);
     }
 
     private Card currCard;
 
-    //TODO JavaDocs
+    /**
+     * Method makes visible the labels and the Buttons used to describe how to move Mother Nature
+     * @param currCard
+     */
     public void setMotherMovingLabels(Card currCard){
         this.currCard = currCard;
         moveMotherNature.setVisible(true);
         moveMotherNature.setDisable(false);
         instructions.setVisible(true);
-        int maxSteps = currCard.getMaxStepsMotherNature(); //FIXME modificare per characters
+        int maxSteps = currCard.getMaxStepsMotherNature();
         if(postmanActivated)
             maxSteps += 2;
         instructions.setText("By clicking the button and then clicking on an Island\nyou will move Mother Nature there\nYou have " + maxSteps + " step" + (maxSteps > 1 ? "s" : ""));
     }
 
-    //TODO JavaDOCS
+    /**
+     * Method is called when the "Move Mother Nature" is clicked
+     * @param actionEvent @see ActionEvent
+     */
     public void moveMotherNature(ActionEvent actionEvent) {
         moveMotherNature.setStyle(CLICKED_BUTTON);
         enabledMoveMotherNature = true;
     }
 
-    //TODO JavaDocs
+    /**
+     * Method is called when the Server sends a successful or unsuccessful attempt to move mother nature
+     * @param successfulMove
+     */
     public void movedMotherNature(boolean successfulMove){
         if(successfulMove){
             moveMotherNature.setVisible(false);
@@ -557,7 +567,7 @@ public class IslandsPageController extends PageController implements Initializab
             instructions.setText("You are only allowed " + steps + " steps");
         }
         moveMotherNature.setStyle(null);
-        enabledMoveMotherNature = false; //FIXME deve cliccare di nuovo sul bottone per muovere madre natura
+        enabledMoveMotherNature = false;
     }
 
     @Override
@@ -589,15 +599,18 @@ public class IslandsPageController extends PageController implements Initializab
                 chooseIsland.setDisable(false);
                 instructions.setVisible(true);
                 instructions.setText("By clicking on \"Choose Island\" and then clicking on an Island,\n you will use the character effect on this island\n");
-                moveMotherNature.setVisible(false); //You have activated a card, you will finish the activation and then will be able to move Mother nature
-                //TODO magari non dare la possibilità di fare back
+                moveMotherNature.setVisible(false);
             } else if (character == CharacterID.POSTMAN) {
                 postmanActivated = true;
             }
         }
     }
 
-    //TODO JavaDocs
+    /**
+     * This method sets characterMap which is a map containing the students chosen because of a character card that has been activated, specifically the MONK card
+     * @param map the map containing the students
+     * @see CharacterID
+     */
     public void setCharacterMap(Map<Clan, Integer> map){
         this.characterMap = new EnumMap<>(map);
     }

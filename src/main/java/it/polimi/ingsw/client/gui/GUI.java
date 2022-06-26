@@ -309,6 +309,11 @@ public class GUI extends Application implements View{
         });
     }
 
+    @Override
+    public void handleServerDisconnected() {
+
+    }
+
     public void setServerHandler(ServerHandler serverHandler){
         this.serverHandler = serverHandler;
     }

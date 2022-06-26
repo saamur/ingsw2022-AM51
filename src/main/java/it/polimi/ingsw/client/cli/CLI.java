@@ -149,6 +149,13 @@ public class CLI implements View, Runnable {
         gameOver = true;
     }
 
+    @Override
+    public void handleServerDisconnected() {
+        System.out.println("The server has disconnected");
+        if (gameData != null && !gameOver)
+            System.out.println("but the game has been saved");
+    }
+
     /**
      * The method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
      */

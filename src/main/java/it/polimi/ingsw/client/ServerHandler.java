@@ -89,7 +89,7 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                System.out.println("The server has disconnected");
+                view.handleServerDisconnected();
                 connected.set(false);
             }
         }

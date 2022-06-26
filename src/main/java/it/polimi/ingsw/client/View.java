@@ -68,10 +68,16 @@ public interface View {
     void handleGameOver(List<String> winnersNickname);
 
     /**
-     * the method handlePlayerDisconnected notifies that a player is disconnected from the game
+     * the method handlePlayerDisconnected notifies that a player has disconnected from the game
      * @param playerDisconnectedNickname nickname of the disconnected player
      */
 
     void handlePlayerDisconnected(String playerDisconnectedNickname);
+
+    /**
+     * the method handleServerDisconnected notifies that the server has disconnected
+     */
+
+    void handleServerDisconnected();
 
 }

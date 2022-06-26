@@ -194,7 +194,9 @@ public class Lobby {
      */
     public synchronized void registerNickname (ClientHandler clientHandler, String nickname) throws NicknameNotAvailableException {
 
-        if (clientNicknames.containsValue(nickname))
+        if (nickname.contains(" "))
+            throw new NicknameNotAvailableException("The nickname can't contain spaces");
+        else if (clientNicknames.containsValue(nickname))
             throw new NicknameNotAvailableException("This nickname is not available");
 
         clientNicknames.put(clientHandler, nickname);

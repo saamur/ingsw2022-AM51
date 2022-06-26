@@ -41,10 +41,9 @@ public abstract class CharacterTurnTest {
 
         islandManager = new IslandManager();
 
-        CharacterCardCreator characterCardCreator = new CharacterCardCreator();
         characterCards = new CharacterCard[CharacterID.values().length];
         for (int i = 0; i < characterCards.length; i++)
-            characterCards[i] = characterCardCreator.createCharacterCard(CharacterID.values()[i], bag);
+            characterCards[i] = CharacterCardCreator.createCharacterCard(CharacterID.values()[i], bag);
     }
 
     protected void professorsInitialization() {

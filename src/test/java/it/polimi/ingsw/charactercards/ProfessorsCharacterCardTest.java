@@ -29,7 +29,6 @@ class ProfessorsCharacterCardTest {
     int numOfPlayers = 3;
     Player[] players = new Player[numOfPlayers];
     Bag bag;
-    CharacterCardCreator creator = new CharacterCardCreator();
     CharacterCard generalCard;
 
 
@@ -41,7 +40,7 @@ class ProfessorsCharacterCardTest {
         players[2] = new Player("Samu", TowerColor.GRAY, numOfPlayers, bag);
 
 
-        generalCard = creator.createCharacterCard(CharacterID.FARMER, bag);
+        generalCard = CharacterCardCreator.createCharacterCard(CharacterID.FARMER, bag);
         Map<Clan, Integer> addingStudentsFirstPlayer = TestUtil.studentMapCreator(1, 8, 2, 0, 0);
         Map<Clan, Integer> addingStudentsSecondPlayer = TestUtil.studentMapCreator(2, 8, 3, 4, 0);
         Map<Clan, Integer> addingStudentsThirdPlayer = TestUtil.studentMapCreator(3, 0, 0, 5, 0);

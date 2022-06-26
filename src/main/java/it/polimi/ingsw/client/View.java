@@ -47,15 +47,15 @@ public interface View {
     void addPropertyChangeListener (PropertyChangeListener propertyChangeListener);
 
     /**
-     * the method handle a generic message
-     * @param message
+     * the method handles a generic message
+     * @param message   the message to be handled
      */
 
     void handleGenericMessage(String message);
 
     /**
-     * the method handle an error message
-     * @param message
+     * the method handles an error message
+     * @param message   the error to be handled
      */
 
     void handleErrorMessage(String message);

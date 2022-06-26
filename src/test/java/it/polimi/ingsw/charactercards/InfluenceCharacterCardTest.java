@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InfluenceCharacterCardTest{
     Bag bag;
-    CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     List<CharacterCard> influenceCards = new ArrayList<>();
 
     /**
@@ -40,10 +39,10 @@ public class InfluenceCharacterCardTest{
     @BeforeEach
     public void initialization(){
         bag = new Bag();
-        influenceCards.add(characterCardCreator.createCharacterCard(CharacterID.HERALD, bag));
-        influenceCards.add(characterCardCreator.createCharacterCard(CharacterID.CENTAUR, bag));
-        influenceCards.add(characterCardCreator.createCharacterCard(CharacterID.KNIGHT, bag));
-        influenceCards.add(characterCardCreator.createCharacterCard(CharacterID.MUSHROOMPICKER, bag));
+        influenceCards.add(CharacterCardCreator.createCharacterCard(CharacterID.HERALD, bag));
+        influenceCards.add(CharacterCardCreator.createCharacterCard(CharacterID.CENTAUR, bag));
+        influenceCards.add(CharacterCardCreator.createCharacterCard(CharacterID.KNIGHT, bag));
+        influenceCards.add(CharacterCardCreator.createCharacterCard(CharacterID.MUSHROOMPICKER, bag));
 
     }
 

@@ -486,10 +486,7 @@ public class SchoolBoardController extends PageController implements Initializab
      * @param source @see Node
      */
     private void makeDraggable(Node source) {
-        source.setOnMouseDragged(e -> {
-
-            e.setDragDetect(true);
-        });
+        source.setOnMouseDragged(e -> e.setDragDetect(true));
 
         source.setOnDragDetected(e -> {
             source.setStyle("-fx-opacity: 0.7");

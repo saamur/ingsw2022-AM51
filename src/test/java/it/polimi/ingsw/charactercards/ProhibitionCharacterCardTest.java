@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProhibitionCharacterCardTest {
     Player[] players = new Player[3];
     Bag bag;
-    CharacterCardCreator creator = new CharacterCardCreator();
     CharacterCard generalCard;
     int numOfPlayers = 3;
 
@@ -32,7 +31,7 @@ class ProhibitionCharacterCardTest {
         players[1] = new Player("Giulia", TowerColor.WHITE, numOfPlayers, bag);
         players[2] = new Player("Samu", TowerColor.GRAY, numOfPlayers, bag);
 
-        generalCard = creator.createCharacterCard(CharacterID.GRANDMA, bag);
+        generalCard = CharacterCardCreator.createCharacterCard(CharacterID.GRANDMA, bag);
 
         Map<Clan, Integer> addingStudentsFirstPlayer = TestUtil.studentMapCreator(1, 8, 2, 0, 0);
         Map<Clan, Integer> addingStudentsSecondPlayer = TestUtil.studentMapCreator(2, 8, 3, 4, 0);

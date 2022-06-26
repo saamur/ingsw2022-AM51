@@ -281,7 +281,7 @@ public class IslandsPageController extends PageController implements Initializab
      * @param event
      */
     public void back(ActionEvent event) {
-        if(previousScene != null && gui.getTurnState()!=null && !gui.getTurnState().equals(TurnState.MOTHER_MOVING))
+        if(previousScene != null && !(gui.getTurnState() == TurnState.MOTHER_MOVING))
             gui.setCurrScene(previousScene);
         else
             gui.setCurrScene(GAMEBOARD);

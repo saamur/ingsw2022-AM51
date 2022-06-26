@@ -56,9 +56,6 @@ public class GameSelectionController extends PageController implements Initializ
     @FXML private CheckBox expertMode;
     @FXML private Spinner<Integer> numPlayers;
 
-    private List<OpeningNewGameData> newGamesList;
-    private List<SavedGameData> savedGamesList;
-    private List<OpeningRestoredGameData> restoredGamesList;
     private AvailableGamesMessage availableGamesMessage = new AvailableGamesMessage(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 
@@ -167,9 +164,9 @@ public class GameSelectionController extends PageController implements Initializ
      * @see AvailableGamesMessage
      */
     public void getGames(){
-        newGamesList = availableGamesMessage.openingNewGameDataList();
-        savedGamesList = availableGamesMessage.savedGameData();
-        restoredGamesList = availableGamesMessage.openingRestoredGameDataList();
+        List<OpeningNewGameData> newGamesList = availableGamesMessage.openingNewGameDataList();
+        List<SavedGameData> savedGamesList = availableGamesMessage.savedGameData();
+        List<OpeningRestoredGameData> restoredGamesList = availableGamesMessage.openingRestoredGameDataList();
 
         newGames.getItems().setAll(newGamesList);
         savedGames.getItems().setAll(savedGamesList);

@@ -111,7 +111,6 @@ public class GUI extends Application implements View{
                 ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager(), gameData.isExpertModeEnabled());
                 ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                 if(gameData.isExpertModeEnabled()) {
-                    System.out.println("getActivatedCharacterCard in setGameData:" + gameData.getActiveCharacterCard());
                     ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
                     ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
                     ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());
@@ -128,7 +127,6 @@ public class GUI extends Application implements View{
                                     for (CharacterCardData character : gameData.getCharacterCardData())
                                         if (character.characterID() == CharacterID.JESTER)
                                             students = character.students();
-                                    System.out.println("Students from GUI: " + students);
 
                                     ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCharacter(CharacterID.JESTER, gameData.getCurrPlayer(), students);
                                     setCurrScene(SCHOOLBOARDS);

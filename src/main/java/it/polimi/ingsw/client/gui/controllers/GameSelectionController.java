@@ -175,7 +175,7 @@ public class GameSelectionController extends PageController implements Initializ
 
     /**
      * It's called when a game is selected and according to the type of game, it opens the game or restores an old one
-     * @param event
+     * @see ActionEvent
      */
     public void enterGame(ActionEvent event) {
         noGameSelectedLabel.setVisible(false);
@@ -214,7 +214,7 @@ public class GameSelectionController extends PageController implements Initializ
 
     /**
      * Accepts the input from the nicknameTextField if it is not empty and sends the chosen nickname to the ServerHandler
-     * @param event
+     * @see ActionEvent
      */
     public void createNickname(ActionEvent event){
         if(nickname == null) {
@@ -233,7 +233,7 @@ public class GameSelectionController extends PageController implements Initializ
     /**
      * Method is called after the "create Game" button is clicked, it sends the message to the ServerHandler that a new game has been opened
      * @see NewGameMessage
-     * @param event
+     * @see ActionEvent
      */
     public void createNewGame(ActionEvent event){
         if(nickname != null){
@@ -283,7 +283,6 @@ public class GameSelectionController extends PageController implements Initializ
 
         }
     }
-
 
     @Override
     public void handleErrorMessage(String error) {

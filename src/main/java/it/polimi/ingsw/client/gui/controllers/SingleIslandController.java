@@ -66,7 +66,7 @@ public class SingleIslandController extends PageController implements Initializa
 
     /**
      * The method back is called when the Button "Go back" is clicked. After setting the GUI's currScene to ISLANDS, the island is reset so that next time the SINGLEISLAND scene is opened it will not have any data regarding other islands.
-     * @param event
+     * @see ActionEvent
      */
     public void back(ActionEvent event){
         gui.setCurrScene(ISLANDS);

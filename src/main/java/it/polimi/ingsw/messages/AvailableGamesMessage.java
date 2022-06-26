@@ -6,6 +6,9 @@ import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 
 import java.util.List;
 
+/**
+ * The AvaiableGamesMessage is the message sent by the server to communicate the different games that can be opened or joined
+ */
 public record AvailableGamesMessage(List<OpeningNewGameData> openingNewGameDataList,
                                     List<OpeningRestoredGameData> openingRestoredGameDataList,
                                     List<SavedGameData> savedGameData) implements Message {

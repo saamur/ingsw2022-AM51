@@ -151,7 +151,6 @@ public class CharactersController extends PageController implements Initializabl
      */
     public void selectCharacter(MouseEvent mouseEvent) {
         for(ImageView character : characters){
-            System.out.println("Ho selezionato: " + mouseEvent.getSource());
             if(character == mouseEvent.getSource()){
                 buttonsCharacters.get(characters.indexOf(character)).setVisible(true);
                 buttonsCharacters.get(characters.indexOf(character)).setDisable(false);

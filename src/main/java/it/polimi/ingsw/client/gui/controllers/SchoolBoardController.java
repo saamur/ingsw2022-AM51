@@ -339,7 +339,7 @@ public class SchoolBoardController extends PageController implements Initializab
     /**
      * It does the setting up of the school boards according to the playersData received as a parameter. It calls {@link #initialSetUp(PlayerData[], boolean)} and {@link #setSchoolBoard(PlayerData)}
      * @param playersData array containing the playersData from the model
-     * @param expertMode
+     * @param expertMode true if expert mode is enabled
      */
     public void setSchoolBoards(PlayerData[] playersData, boolean expertMode) {
 
@@ -422,7 +422,7 @@ public class SchoolBoardController extends PageController implements Initializab
                     island.setVisible(true);
                     island.setDisable(false);
                     islandPane.setDisable(false);
-                    instructions.setText("It is now your turn to move the students\nYou can drag and drop the students on the hall or on the island image");
+                    instructions.setText("It is now your turn to move the students\nYou can drag and drop the students on the chamber or on the island image");
                     instructions.setVisible(true);
                     islandPane.getStylesheets().add("/style.css");
                     for (Clan clan : Clan.values())
@@ -513,7 +513,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
     /**
      * This method disables the ability to drag the node and enables the ability to show a border when a click is detected on the node
-     * @param node
+     * @see Node
      */
     private void makeClickable(Node node){
         node.setOnMouseClicked( e -> {

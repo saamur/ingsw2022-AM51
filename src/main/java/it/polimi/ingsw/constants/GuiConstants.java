@@ -13,7 +13,11 @@ import static it.polimi.ingsw.model.Clan.*;
 import static it.polimi.ingsw.model.charactercards.CharacterID.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 
+/**
+ * GuiConstants contains the important constants for the GUI
+ */
 public class GuiConstants {
+
     public static final String CHARACTERS = "characterCards.fxml";
     public static final String CONNECTION = "connection.fxml";
     public static final String CLOUDS = "clouds.fxml";
@@ -27,9 +31,6 @@ public class GuiConstants {
     public static final String WAITINGROOM = "waitingRoom.fxml";
     public static final String ACTIVATEEFFECT = "activateEffect.fxml";
     public static final String GAMEOVER = "gameOver.fxml";
-
-
-
 
 
 
@@ -74,6 +75,7 @@ public class GuiConstants {
         TOWERS_IMAGES.put(GRAY, "/png/towers/gray_tower.png");
     }
 
+
     public static String getImagePathStudent (Clan clan) {
         return STUDENT_IMAGES.get(clan);
     }
@@ -88,7 +90,7 @@ public class GuiConstants {
 
 
 
-
+    //SchoolBoardController constants
     public static final double SCHOOL_COORDINATE_X = 0;
     public static final double SCHOOL_COORDINATE_Y = 45;
     public static final double SCHOOL_HEIGHT = 362;
@@ -259,6 +261,7 @@ public class GuiConstants {
         return SCHOOL_COORDINATE_Y + COIN_Y_SCHOOL_HEIGHT_RATIO * SCHOOL_HEIGHT;
     }
 
+    //Constants regarding island image in SchoolBoardController
     private static final double ISLAND_HEIGHT_WIDTH_SCHOOL_HEIGHT_RATIO = 105;
     private static final double ISLAND_X_SCHOOL_HEIGHT_RATIO =  600;
     private static final double ISLAND_Y_SCHOOL_HEIGHT_RATIO =  407;
@@ -290,15 +293,27 @@ public class GuiConstants {
         return COLOR_CLAN.get(clan);
     }
 
+
+    //Size of islands' images in IslandsPageController
     private static final double SINGLE_ISLAND_WIDTH_CONSTANT = 160;
     private static final double SINGLE_ISLAND_HEIGHT_CONSTANT = 160;
     private static final Map<String, Integer> ORIGINAL_ISLANDS_X_COORDINATES = new HashMap<>();
     private static final Map<String, Integer> ORIGINAL_ISLANDS_Y_COORDINATES = new HashMap<>();
 
+    /**
+     * Method returns the width of the island according to the number of islands it is composed of
+     * @param numSubIslands number of sub islands
+     * @return width of the island
+     */
     public static double getIslandWidth(int numSubIslands) {
         return (1 + (double)(numSubIslands-1)/2) * SINGLE_ISLAND_WIDTH_CONSTANT;
     }
 
+    /**
+     * Method returns the height of the island according to the number of islands it is composed of
+     * @param numSubIslands number of sub islands
+     * @return height of the island
+     */
     public static double getIslandHeight(int numSubIslands){
         return (1 + (double)(numSubIslands-1)/2) * SINGLE_ISLAND_HEIGHT_CONSTANT;
     }
@@ -333,10 +348,18 @@ public class GuiConstants {
         ORIGINAL_ISLANDS_Y_COORDINATES.put("anchorIsland11", 157);
     }
 
+    /**
+     * Returns the X coordinate of the anchorPane
+     * @param anchor the anchorPane containing the image of the Island
+     */
     public static int getIslandX(AnchorPane anchor){
         return ORIGINAL_ISLANDS_X_COORDINATES.get(anchor.getId());
     }
 
+    /**
+     * Method returns the Y coordinate of the anchorPane
+     * @param anchor anchorPane containing the image of the island
+     */
     public static int getIslandY(AnchorPane anchor){
         return ORIGINAL_ISLANDS_Y_COORDINATES.get(anchor.getId());
     }
@@ -350,34 +373,66 @@ public class GuiConstants {
     private static final int COORDINATES_TOWERS_X = 46;
     private static final int COORDINATES_TOWERS_Y = 37;
 
+    /**
+     * Method returns the X coordinate of the anchorPane containing the Students on the island
+     * @param numOfIslands number of sub Islands
+     */
     public static double getStudentsX(int numOfIslands){
         return (COORDINATES_STUDENTS_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
     }
 
+    /**
+     * Method returns the Y coordinate of the anchorPane containing the Students on the island
+     * @param numOfIslands number of sub Islands
+     */
     public static double getStudentsY(int numOfIslands){
         return (COORDINATES_STUDENTS_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
     }
 
+    /**
+     * Method returns the X coordinate of the ImageView corresponding to MotherNature
+     * @param numOfIslands number of sub Islands
+     */
     public static double getMotherNatureX(int numOfIslands){
         return (COORDINATES_MOTHERNATURE_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
     }
 
+    /**
+     * Method returns the Y coordinate of the ImageView corresponding to MotherNature
+     * @param numOfIslands number of sub Islands
+     */
     public static double getMotherNatureY(int numOfIslands){
         return (COORDINATES_MOTHERNATURE_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
     }
 
+    /**
+     * Method returns the X coordinate of the ImageView corresponding to the ProhibitionCard
+     * @param numOfIslands number of sub Islands
+     */
     public static double getProhibitionX(int numOfIslands){
         return (COORDINATES_PROHIBITION_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
     }
 
+    /**
+     * Method returns the Y coordinate of the ImageView corresponding to the ProhibitionCard
+     * @param numOfIslands number of sub Islands
+     */
     public static double getProhibitionY(int numOfIslands){
         return (COORDINATES_PROHIBITION_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
     }
 
+    /**
+     * Method returns the X coordinate of the ImageView corresponding to the Tower
+     * @param numOfIslands number of sub Islands
+     */
     public static double getTowerX(int numOfIslands){
         return (COORDINATES_TOWERS_X/SINGLE_ISLAND_WIDTH_CONSTANT) * getIslandWidth(numOfIslands);
     }
 
+    /**
+     * Method returns the Y coordinate of the ImageView corresponding to the ProhibitionCard
+     * @param numOfIslands number of sub Islands
+     */
     public static double getTowerY(int numOfIslands){
         return (COORDINATES_TOWERS_Y/SINGLE_ISLAND_HEIGHT_CONSTANT) * getIslandHeight(numOfIslands);
     }

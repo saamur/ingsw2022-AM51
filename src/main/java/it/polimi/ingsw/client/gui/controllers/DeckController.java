@@ -180,21 +180,17 @@ public class DeckController extends PageController implements Initializable {
 
     /**
      * The method selectCard is called whenever an ImageView containing a card is selected.
-     * It creates a message ChosenCardMessage that is sent to the ServerHandler via a firePropertyChange method.
-     * @param mouseEvent
+     * It creates a message ChosenCardMessage that is sent to the ServerHandler via a firePropertyChange method
      * @see ChosenCardMessage
      *
      */
     public void selectCard(MouseEvent mouseEvent) {
-        System.out.println("The card: " + mouseEvent.getSource() + "has been chosen");
         Card currCard = Card.valueOf(((ImageView) mouseEvent.getSource()).getId().toUpperCase(Locale.ROOT));
         sendMessage(new ChosenCardMessage(currCard));
-        System.out.println("Card to be accepted: " + currCard);
     }
 
     /**
      * The method is called when a specific button is clicked. It sets the currScene to GameBoard.fxml where the player can see the entire Game Board
-     * @param actionEvent
      */
     public void goToGameBoard(ActionEvent actionEvent) {
         gui.setCurrScene(GAMEBOARD);

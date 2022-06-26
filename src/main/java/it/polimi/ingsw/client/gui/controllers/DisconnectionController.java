@@ -28,10 +28,10 @@ public class DisconnectionController extends PageController implements Initializ
     /**
      * This method is called by the GUI when the method {@link GUI#handlePlayerDisconnected(String) handlePlayerDisconnected} the ServerHandler.
      * This way the client is notified of the disconnection of other players.
-     * @param nickname nickname of the player that has disconnected
+     * @param subject string of the element that has disconnected, "The server" or a player's nickname
      */
-    public void setDisconnectedPlayer(String nickname){
-        disconnectionLabel.setText(nickname + " has disconnected");
+    public void setDisconnection(String subject){
+        disconnectionLabel.setText(subject + " has disconnected");
         waitingLabel.setVisible(true);
         button.setOpacity(0.5);
         button.setDisable(true);
@@ -50,6 +50,5 @@ public class DisconnectionController extends PageController implements Initializ
         waitingLabel.setVisible(false);
         button.setOpacity(1);
         button.setDisable(false);
-
     }
 }

@@ -253,7 +253,6 @@ public class IslandsPageController extends PageController implements Initializab
 
         droppedStudent.addListener((observable, oldValue, newValue) -> {
                     if (observable.getValue() != null) {
-                        System.out.println("Dovrebbe essere null: " + observable.getValue());
                         droppedStudentAnchor.getStyleClass().add("image-view-selection");
                         droppedStudentAnchor.setVisible(true);
                         droppedStudentAnchor.setDisable(false);
@@ -278,7 +277,7 @@ public class IslandsPageController extends PageController implements Initializab
 
     /**
      * This method changes the scene to the precedent one, usually the game board
-     * @param event
+     * @see ActionEvent
      */
     public void back(ActionEvent event) {
         if(previousScene != null && !(gui.getTurnState() == TurnState.MOTHER_MOVING))
@@ -293,7 +292,7 @@ public class IslandsPageController extends PageController implements Initializab
      * Usually if an island is clicked it will open the corresponding singleIslandPage that describes all of the items contained on the island.
      * If the TurnState is MotherMoving and the "Move Mother Nature" button has been clicked, it will send a message to the ServerHandler saying the chosen Island to move Mother Nature to.
      * If a character has been activated, it sends different informations to the ServerHandler according to the information that is needed to apply the character effect
-     * @param mouseEvent
+     * @see MouseEvent
      */
     public void selectIsland(MouseEvent mouseEvent) {
         for (int i = 0; i < tempAnchor.size(); i++) {
@@ -527,7 +526,7 @@ public class IslandsPageController extends PageController implements Initializab
 
     /**
      * Method makes visible the labels and the Buttons used to describe how to move Mother Nature
-     * @param currCard
+     * @param currCard the current Card of the current player
      */
     public void setMotherMovingLabels(Card currCard){
         this.currCard = currCard;
@@ -551,7 +550,7 @@ public class IslandsPageController extends PageController implements Initializab
 
     /**
      * Method is called when the Server sends a successful or unsuccessful attempt to move mother nature
-     * @param successfulMove
+     * @param successfulMove true if the server accepted the 
      */
     public void movedMotherNature(boolean successfulMove){
         if(successfulMove){

@@ -26,7 +26,9 @@ import java.util.*;
 
 import static it.polimi.ingsw.constants.GuiConstants.*;
 
-//TODO JavaDocs
+/**
+ * GUI is the class that manages the Graphical User Interface of Eryantis
+ */
 public class GUI extends Application implements View{
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -89,6 +91,10 @@ public class GUI extends Application implements View{
         }
     }
 
+    /**
+     * Method loads the scenes from the FXML files and saves the scenes and the controllers to the correct map
+     * @throws IOException
+     */
     public void setScenes() throws IOException {
         List<String> fileNames = new ArrayList<>(Arrays.asList(CONNECTION, GAMESELECTION, WAITINGROOM, GAMEBOARD, SCHOOLBOARDS, ISLANDS, CLOUDS, SINGLEISLAND, DECK, CHARACTERS, DISCONNECTION, ACTIVATEEFFECT , GAMEOVER));
         for (String file : fileNames){
@@ -296,8 +302,22 @@ public class GUI extends Application implements View{
 
     @Override
     public void handlePlayerDisconnected(String playerDisconnectedNickname) {
+        handleDisconnection(playerDisconnectedNickname);
+    }
+
+    @Override
+    public void handleServerDisconnected() {
+        handleDisconnection("The server");
+
+    }
+
+    /**
+     * Method is called when either a client or a server is disconnected. It loads all of the scenes again, and when that is completed it gives the user to choose to reconnect to the server
+     * @param subject the String corresponding to the element that has disconnected
+     */
+    private void handleDisconnection(String subject){
         Platform.runLater(() -> {
-            ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnectedPlayer(playerDisconnectedNickname);
+            ((DisconnectionController) controllers.get(DISCONNECTION)).setDisconnection(subject);
             setCurrScene(DISCONNECTION);
             gameData = null;
             try{
@@ -307,11 +327,6 @@ public class GUI extends Application implements View{
             }
             gameChosen = false;
         });
-    }
-
-    @Override
-    public void handleServerDisconnected() {
-
     }
 
     public void setServerHandler(ServerHandler serverHandler){
@@ -330,12 +345,20 @@ public class GUI extends Application implements View{
         stage.show();
     }
 
+    /**
+     * Method gives the user the choice to disconnect from the server handler. This is possible only when the user has already joined a game and is waiting for other players to join it too
+     * @throws IOException
+     */
     public void disconnect() throws IOException{
         serverHandler.disconnect();
         gameData = null;
         setScenes(); //In this case resets the stages
     }
 
+    /**
+     * Method updates the TurnLabel in the GameBoard scene. It informs the user of whose turn it is and what the current player is supposed to do
+     * @param gamePhase the GamePhaseData containing all the relevant information on the turn
+     */
     public void updateLabel(GamePhaseData gamePhase){
         String currPlayer;
         String info = null;

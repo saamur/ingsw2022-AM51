@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.CONNECTION;
+import static it.polimi.ingsw.constants.GuiConstants.CONNECTION;
 
 /**
  * The class DisconnectionController handles the disconnection.fxml file that corresponds to the disconnection page that appears when another player has disconnected.

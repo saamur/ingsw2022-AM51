@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.SocketException;
 
 
-import static it.polimi.ingsw.constants.ConstantsGUI.GAMESELECTION;
+import static it.polimi.ingsw.constants.GuiConstants.GAMESELECTION;
 
 /**
  * The class ConnectionController handles the events from the scene connection.fxml

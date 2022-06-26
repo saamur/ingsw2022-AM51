@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 
 import it.polimi.ingsw.client.modeldata.IslandData;
-import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.constants.GuiConstants;
 import it.polimi.ingsw.model.Clan;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +16,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.ISLANDS;
+import static it.polimi.ingsw.constants.GuiConstants.ISLANDS;
 import static it.polimi.ingsw.model.Clan.*;
 
 /**
@@ -97,7 +97,7 @@ public class SingleIslandController extends PageController implements Initializa
         motherNature.setVisible(hasMotherNature);
         if(modelIsland.numberOfTowers() != 0){
             tower.setVisible(true);
-            tower.setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(modelIsland.towerColor())).toExternalForm()));
+            tower.setImage(new Image(getClass().getResource(GuiConstants.getImagePathTower(modelIsland.towerColor())).toExternalForm()));
             towerLabel.setText("x" + modelIsland.numberOfTowers());
         }
     }

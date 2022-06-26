@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
 /**
  * GameBoardController displays a concise view of the GameBoard on GUI

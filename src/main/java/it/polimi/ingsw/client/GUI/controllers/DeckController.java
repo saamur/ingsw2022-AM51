@@ -19,7 +19,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.GAMEBOARD;
+import static it.polimi.ingsw.constants.GuiConstants.GAMEBOARD;
 import static it.polimi.ingsw.model.player.Card.*;
 
 /**

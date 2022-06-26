@@ -13,7 +13,7 @@ import static it.polimi.ingsw.model.Clan.*;
 import static it.polimi.ingsw.model.charactercards.CharacterID.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 
-public class ConstantsGUI {
+public class GuiConstants {
     public static final String CHARACTERS = "characterCards.fxml";
     public static final String CONNECTION = "connection.fxml";
     public static final String CLOUDS = "clouds.fxml";

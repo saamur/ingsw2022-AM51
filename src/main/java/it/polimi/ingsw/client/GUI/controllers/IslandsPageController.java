@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.modeldata.IslandData;
 import it.polimi.ingsw.client.modeldata.IslandManagerData;
-import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.constants.GuiConstants;
 import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage1;
 import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
 import it.polimi.ingsw.messages.gamemessages.MoveMotherNatureMessage;
@@ -17,7 +17,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -32,7 +31,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 import static it.polimi.ingsw.model.Clan.*;
 
 /**
@@ -258,7 +257,7 @@ public class IslandsPageController extends PageController implements Initializab
                         droppedStudentAnchor.getStyleClass().add("image-view-selection");
                         droppedStudentAnchor.setVisible(true);
                         droppedStudentAnchor.setDisable(false);
-                        droppedStudentImage.setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(newValue)).toExternalForm()));
+                        droppedStudentImage.setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(newValue)).toExternalForm()));
                         droppedStudentImage.setVisible(true);
                         droppedStudentLabel.setVisible(true);
                         instructions.setVisible(true);
@@ -358,8 +357,8 @@ public class IslandsPageController extends PageController implements Initializab
      */
     public synchronized void updateIslands(IslandManagerData islandManager){
         for(AnchorPane anchor : anchorIslands) {
-            anchor.setLayoutX(ConstantsGUI.getIslandX(anchor));
-            anchor.setLayoutY(ConstantsGUI.getIslandY(anchor));
+            anchor.setLayoutX(GuiConstants.getIslandX(anchor));
+            anchor.setLayoutY(GuiConstants.getIslandY(anchor));
             motherNature.get(anchor).setVisible(false);
             towers.get(anchor).setVisible(false);
             prohibitionCards.get(anchor).setVisible(false);
@@ -409,7 +408,7 @@ public class IslandsPageController extends PageController implements Initializab
 
         TowerColor towerColor = modelIsland.towerColor();
         if(towerColor != null){
-            towers.get(anchor).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(towerColor)).toExternalForm()));
+            towers.get(anchor).setImage(new Image(getClass().getResource(GuiConstants.getImagePathTower(towerColor)).toExternalForm()));
             towers.get(anchor).setVisible(true);
         } else {
             towers.get(anchor).setVisible(false);
@@ -419,8 +418,8 @@ public class IslandsPageController extends PageController implements Initializab
             if(child.getId().contains("island"))
                 island = (ImageView) child;
 
-        island.setFitWidth(ConstantsGUI.getIslandWidth(modelIsland.numberOfIslands()));
-        island.setFitHeight(ConstantsGUI.getIslandHeight(modelIsland.numberOfIslands()));
+        island.setFitWidth(GuiConstants.getIslandWidth(modelIsland.numberOfIslands()));
+        island.setFitHeight(GuiConstants.getIslandHeight(modelIsland.numberOfIslands()));
 
         int numOfIslands = modelIsland.numberOfIslands();
         if(numOfIslands > 1){
@@ -437,17 +436,17 @@ public class IslandsPageController extends PageController implements Initializab
 
         for(Node child : anchor.getChildren()) {
             if (child.getId().contains("students")) {
-                child.setLayoutX(ConstantsGUI.getStudentsX(numOfIslands));
-                child.setLayoutY(ConstantsGUI.getStudentsY(numOfIslands));
+                child.setLayoutX(GuiConstants.getStudentsX(numOfIslands));
+                child.setLayoutY(GuiConstants.getStudentsY(numOfIslands));
             } else if (child.getId().contains("prohibition")) {
-                child.setLayoutX(ConstantsGUI.getProhibitionX(numOfIslands));
-                child.setLayoutY(ConstantsGUI.getProhibitionY(numOfIslands));
+                child.setLayoutX(GuiConstants.getProhibitionX(numOfIslands));
+                child.setLayoutY(GuiConstants.getProhibitionY(numOfIslands));
             } else if (child.getId().contains("motherNature")) {
-                child.setLayoutX(ConstantsGUI.getMotherNatureX(numOfIslands));
-                child.setLayoutY(ConstantsGUI.getMotherNatureY(numOfIslands));
+                child.setLayoutX(GuiConstants.getMotherNatureX(numOfIslands));
+                child.setLayoutY(GuiConstants.getMotherNatureY(numOfIslands));
             } else if (child.getId().contains("tower")) {
-                child.setLayoutX(ConstantsGUI.getTowerX(numOfIslands));
-                child.setLayoutY(ConstantsGUI.getTowerY(numOfIslands));
+                child.setLayoutX(GuiConstants.getTowerX(numOfIslands));
+                child.setLayoutY(GuiConstants.getTowerY(numOfIslands));
             }
         }
 
@@ -514,12 +513,12 @@ public class IslandsPageController extends PageController implements Initializab
     public void moveMergedIsland(AnchorPane anchor, int numSubIslands, double removedIslandX, double removedIslandY){ //FIXM PROBLEM with more than 2 islands
         double oldX = anchor.getLayoutX();
         double oldY = anchor.getLayoutY();
-        double newX = ( (oldX + ConstantsGUI.getIslandWidth(numSubIslands)/2) * numSubIslands
-                + removedIslandX + ConstantsGUI.getIslandWidth(1)/2 ) / (numSubIslands + 1)
-                - ConstantsGUI.getIslandWidth(numSubIslands+1) / 2;
-        double newY = ( (oldY + ConstantsGUI.getIslandHeight(numSubIslands)/2) * numSubIslands
-                + removedIslandY + ConstantsGUI.getIslandHeight(1)/2 ) / (numSubIslands + 1)
-                - ConstantsGUI.getIslandHeight(numSubIslands+1) / 2;
+        double newX = ( (oldX + GuiConstants.getIslandWidth(numSubIslands)/2) * numSubIslands
+                + removedIslandX + GuiConstants.getIslandWidth(1)/2 ) / (numSubIslands + 1)
+                - GuiConstants.getIslandWidth(numSubIslands+1) / 2;
+        double newY = ( (oldY + GuiConstants.getIslandHeight(numSubIslands)/2) * numSubIslands
+                + removedIslandY + GuiConstants.getIslandHeight(1)/2 ) / (numSubIslands + 1)
+                - GuiConstants.getIslandHeight(numSubIslands+1) / 2;
         anchor.setLayoutX(newX);
         anchor.setLayoutY(newY);
     }

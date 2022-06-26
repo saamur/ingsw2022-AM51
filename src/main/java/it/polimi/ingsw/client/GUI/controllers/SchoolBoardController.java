@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.constants.GuiConstants;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToChamberMessage;
@@ -29,7 +29,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
 
 /**
@@ -108,10 +108,10 @@ public class SchoolBoardController extends PageController implements Initializab
             anchorPane.getChildren().add(label);
             if (expertMode) {
                 ImageView coin = new ImageView(new Image(getClass().getResource(COIN_IMAGE).toExternalForm()));
-                coin.setFitWidth(ConstantsGUI.getCoinWidth());
+                coin.setFitWidth(GuiConstants.getCoinWidth());
                 coin.setFitHeight(getCoinHeight());
-                coin.setX(ConstantsGUI.getCoinX());
-                coin.setY(ConstantsGUI.getCoinY());
+                coin.setX(GuiConstants.getCoinX());
+                coin.setY(GuiConstants.getCoinY());
                 anchorPane.getChildren().add(coin);
             }
             else {
@@ -150,13 +150,13 @@ public class SchoolBoardController extends PageController implements Initializab
         for (Clan clan : Clan.values()) {
             for (int j = 0; j < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; j++) {
                 Pane pane = new Pane();
-                ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
-                student.setFitWidth(ConstantsGUI.getStudentSize());
-                student.setFitHeight(ConstantsGUI.getStudentSize());
+                ImageView student = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathStudent(clan)).toExternalForm()));
+                student.setFitWidth(GuiConstants.getStudentSize());
+                student.setFitHeight(GuiConstants.getStudentSize());
 
-                pane.setLayoutX(ConstantsGUI.getFirstStudentX() + j * ConstantsGUI.getHorizontalDistanceStudents());
-                pane.setLayoutY(ConstantsGUI.getFirstStudentY(clan));
-                pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
+                pane.setLayoutX(GuiConstants.getFirstStudentX() + j * GuiConstants.getHorizontalDistanceStudents());
+                pane.setLayoutY(GuiConstants.getFirstStudentY(clan));
+                pane.setPrefSize(GuiConstants.getStudentSize(), GuiConstants.getStudentSize());
 
                 schoolBoard.studentsChamber.get(clan)[j] = student;
 
@@ -164,11 +164,11 @@ public class SchoolBoardController extends PageController implements Initializab
                 pane.getChildren().add(student);
                 anchorPane.getChildren().add(pane);
             }
-            ImageView professor = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathProfessor(clan)).toExternalForm()));
-            professor.setFitWidth(ConstantsGUI.getProfessorSize());
-            professor.setFitHeight(ConstantsGUI.getProfessorSize());
-            professor.setX(ConstantsGUI.getProfessorX());
-            professor.setY(ConstantsGUI.getProfessorY(clan));
+            ImageView professor = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathProfessor(clan)).toExternalForm()));
+            professor.setFitWidth(GuiConstants.getProfessorSize());
+            professor.setFitHeight(GuiConstants.getProfessorSize());
+            professor.setX(GuiConstants.getProfessorX());
+            professor.setY(GuiConstants.getProfessorY(clan));
             professor.setRotate(270);
             schoolBoard.professors.put(clan, professor);
             //anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
@@ -177,15 +177,15 @@ public class SchoolBoardController extends PageController implements Initializab
             if (playerData.getNickname().equals(nickname)) {
                 Pane table = new Pane();
                 table.setId(clan.name() + "' table");
-                table.setMaxWidth(ConstantsGUI.getTableWidth());
-                table.setMinWidth(ConstantsGUI.getTableWidth());
-                table.setMaxHeight(ConstantsGUI.getTableHeight());
-                table.setMinHeight(ConstantsGUI.getTableHeight());
-                table.setLayoutX(ConstantsGUI.getTableX());
-                table.setLayoutY(ConstantsGUI.getTableY(clan));
+                table.setMaxWidth(GuiConstants.getTableWidth());
+                table.setMinWidth(GuiConstants.getTableWidth());
+                table.setMaxHeight(GuiConstants.getTableHeight());
+                table.setMinHeight(GuiConstants.getTableHeight());
+                table.setLayoutX(GuiConstants.getTableX());
+                table.setLayoutY(GuiConstants.getTableY(clan));
                 table.getStylesheets().add("/style.css");
                 table.getStyleClass().add("tables");
-                table.setStyle("-my-background: " + ConstantsGUI.getColorClan(clan));
+                table.setStyle("-my-background: " + GuiConstants.getColorClan(clan));
                 schoolBoard.tables.put(clan, table);
                 anchorPane.getChildren().add(table);
 
@@ -196,12 +196,12 @@ public class SchoolBoardController extends PageController implements Initializab
 
         for (int j = 0; j < GameConstants.getNumInitialStudentsHall(numOfPlayers); j++) {
             Pane pane = new Pane();
-            ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
-            student.setFitWidth(ConstantsGUI.getStudentSize());
-            student.setFitHeight(ConstantsGUI.getStudentSize());
-            pane.setLayoutX(ConstantsGUI.getHallFirstStudentX() - (j % 2) * ConstantsGUI.getHallStudentHorizontalDistance());
-            pane.setLayoutY(ConstantsGUI.getHallFirstStudentY() - (j / 2) * ConstantsGUI.getHallStudentVerticalDistance());
-            pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
+            ImageView student = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
+            student.setFitWidth(GuiConstants.getStudentSize());
+            student.setFitHeight(GuiConstants.getStudentSize());
+            pane.setLayoutX(GuiConstants.getHallFirstStudentX() - (j % 2) * GuiConstants.getHallStudentHorizontalDistance());
+            pane.setLayoutY(GuiConstants.getHallFirstStudentY() - (j / 2) * GuiConstants.getHallStudentVerticalDistance());
+            pane.setPrefSize(GuiConstants.getStudentSize(), GuiConstants.getStudentSize());
 
             schoolBoard.studentsHall[j] = student;
             student.setDisable(true);
@@ -210,11 +210,11 @@ public class SchoolBoardController extends PageController implements Initializab
         }
 
         for (int j = 0; j < GameConstants.getNumInitialTowers(numOfPlayers); j++) {
-            ImageView tower = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(playerData.getColorOfTowers())).toExternalForm()));
-            tower.setFitWidth(ConstantsGUI.getTowerWidth());
-            tower.setFitHeight(ConstantsGUI.getTowerHeight());
-            tower.setX(ConstantsGUI.getFirstTowerX() + (j % 2) * ConstantsGUI.getTowerHorizontalDistance());
-            tower.setY(ConstantsGUI.getFirstTowerY() + (j / 2) * ConstantsGUI.getTowerVerticalDistance());
+            ImageView tower = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathTower(playerData.getColorOfTowers())).toExternalForm()));
+            tower.setFitWidth(GuiConstants.getTowerWidth());
+            tower.setFitHeight(GuiConstants.getTowerHeight());
+            tower.setX(GuiConstants.getFirstTowerX() + (j % 2) * GuiConstants.getTowerHorizontalDistance());
+            tower.setY(GuiConstants.getFirstTowerY() + (j / 2) * GuiConstants.getTowerVerticalDistance());
             schoolBoard.towers[j] = tower;
         }
 
@@ -230,13 +230,13 @@ public class SchoolBoardController extends PageController implements Initializab
         islandPane = new Pane();
         island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
         island.setPreserveRatio(true);
-        island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
-        island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
+        island.setFitHeight(GuiConstants.getIslandHeightSchoolBoards());
+        island.setFitWidth(GuiConstants.getIslandHeightSchoolBoards());
         islandPane.getChildren().add(island);
         island.fitHeightProperty().bind(islandPane.heightProperty());
-        islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
-        islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
-        islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
+        islandPane.setLayoutX(GuiConstants.getIslandXSchoolBoards());
+        islandPane.setLayoutY(GuiConstants.getIslandYSchoolBoards());
+        islandPane.setPrefSize(GuiConstants.getIslandHeightSchoolBoards(), GuiConstants.getIslandHeightSchoolBoards());
         island.setVisible(false);
         islandPane.setId("islandPane");
         islandPane.getStylesheets().add("/style.css");
@@ -370,7 +370,7 @@ public class SchoolBoardController extends PageController implements Initializab
                 int hallStudentIndex = 0;
                 for (Clan clan : Clan.values()) {
                     for (int numStudentsClan = playerData.getHallData().students().get(clan); numStudentsClan > 0; numStudentsClan--) {
-                        schoolBoard.studentsHall[hallStudentIndex].setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                        schoolBoard.studentsHall[hallStudentIndex].setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(clan)).toExternalForm()));
                         schoolBoard.studentsHall[hallStudentIndex].setId(clan.name());
                         schoolBoard.studentsHall[hallStudentIndex].setVisible(true);
                         hallStudentIndex++;
@@ -656,7 +656,7 @@ public class SchoolBoardController extends PageController implements Initializab
                         for (Clan c : Clan.values()) {
                             int numStudents = students.get(c);
                             while (numStudents > 0) {
-                                jesterStudentsImages.get(i).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(c)).toExternalForm()));
+                                jesterStudentsImages.get(i).setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(c)).toExternalForm()));
                                 jesterStudentsImages.get(i).setVisible(true);
                                 jesterStudentsImages.get(i).setId(c.name());
                                 makeClickable(jesterStudentsImages.get(i));

@@ -24,7 +24,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
 //TODO JavaDocs
 public class GUI extends Application implements View{

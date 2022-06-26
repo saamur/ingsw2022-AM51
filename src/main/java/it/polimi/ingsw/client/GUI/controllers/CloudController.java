@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.modeldata.CloudData;
 import it.polimi.ingsw.client.modeldata.CloudManagerData;
-import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.constants.GuiConstants;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.ChosenCloudMessage;
 import it.polimi.ingsw.messages.gamemessages.EndTurnMessage;
@@ -22,8 +22,8 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.CHARACTERS;
-import static it.polimi.ingsw.constants.ConstantsGUI.GAMEBOARD;
+import static it.polimi.ingsw.constants.GuiConstants.CHARACTERS;
+import static it.polimi.ingsw.constants.GuiConstants.GAMEBOARD;
 
 /**
  * CloudController displays the Clouds on GUI
@@ -221,7 +221,7 @@ public class CloudController extends PageController implements Initializable {
         Map<Clan, Integer> studentsData = cloudData.students();
         for (Clan clan : Clan.values()) {
             while (studentsData.get(clan) > 0) {
-                students.get(cloudIndex).get(i).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                students.get(cloudIndex).get(i).setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(clan)).toExternalForm()));
                 students.get(cloudIndex).get(i).setVisible(true);
                 studentsData.put(clan, studentsData.get(clan) - 1);
                 i++;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.modeldata.CharacterCardData;
-import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.constants.GuiConstants;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.ActivateCharacterCardMessage;
 import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
@@ -21,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
 /**
  * This class is used to manage the character's Scene.
@@ -203,7 +203,7 @@ public class CharactersController extends PageController implements Initializabl
                 Map<Clan, Integer> students = new EnumMap<>(characterCardData.students());
                 for (Clan clan : Clan.values()) {
                     while (students.get(clan) > 0) {
-                        charactersPieces.get(characterIndex).get(numOfStudents).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                        charactersPieces.get(characterIndex).get(numOfStudents).setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(clan)).toExternalForm()));
                         charactersPieces.get(characterIndex).get(numOfStudents).setVisible(true);
                         charactersPieces.get(characterIndex).get(numOfStudents).setId(clan.name());
                         students.put(clan, students.get(clan) - 1);

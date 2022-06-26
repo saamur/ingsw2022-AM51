@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
 /**
  * WaitingRoomController displays the Waiting Room on GUI

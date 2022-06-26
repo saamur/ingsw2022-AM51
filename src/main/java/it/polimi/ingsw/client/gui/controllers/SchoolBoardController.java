@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.gui.controllers;
 
 
 import it.polimi.ingsw.client.modeldata.PlayerData;
@@ -135,8 +135,7 @@ public class SchoolBoardController extends PageController implements Initializab
      * @see PlayerData
      */
     public SchoolBoard initialSchoolBoardSetting(AnchorPane anchorPane, PlayerData playerData, int numOfPlayers) {
-        SchoolBoard schoolBoard = new SchoolBoard(numOfPlayers);
-        schoolBoard.nickname = playerData.getNickname();
+        SchoolBoard schoolBoard = new SchoolBoard(playerData.getNickname(), numOfPlayers);
 
         ImageView school = new ImageView(new Image(getClass().getResource("/png/Plancia_DEF.png").toExternalForm()));
         school.setX(SCHOOL_COORDINATE_X);
@@ -393,15 +392,16 @@ public class SchoolBoardController extends PageController implements Initializab
      */
     private class SchoolBoard {
 
-        String nickname;
-        ImageView[] studentsHall;
-        Map<Clan, ImageView[]> studentsChamber;
-        Map<Clan, Pane> tables;
-        Map<Clan, ImageView> professors;
-        ImageView[] towers;
+        final String nickname;
+        final ImageView[] studentsHall;
+        final Map<Clan, ImageView[]> studentsChamber;
+        final Map<Clan, Pane> tables;
+        final Map<Clan, ImageView> professors;
+        final ImageView[] towers;
         Label coins;
 
-        SchoolBoard(int numPlayers) {
+        SchoolBoard(String name, int numPlayers) {
+            nickname = name;
             professors = new EnumMap<>(Clan.class);
             studentsHall = new ImageView[GameConstants.getNumInitialStudentsHall(numPlayers)];
             studentsChamber = new EnumMap<>(Clan.class);

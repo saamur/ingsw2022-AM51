@@ -1,6 +1,6 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.GUI.controllers.*;
+import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.CharacterCardData;
 import it.polimi.ingsw.client.modeldata.GameData;

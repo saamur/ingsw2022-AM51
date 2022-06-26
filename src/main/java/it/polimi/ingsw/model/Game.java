@@ -482,7 +482,9 @@ public class Game implements GameInterface {
         boolean ok = turn.getActivatedCharacterCard().applyEffect(this, island);
         if (ok) {
             pcs.firePropertyChange("modifiedCharacter", null, CharacterCardData.createCharacterCardData(turn.getActivatedCharacterCard()));
-            pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(island, islandIndex));
+            for (int i = 0; i < islandManager.getNumberOfIslands(); i++)
+                if (island == islandManager.getIsland(i))
+                    pcs.firePropertyChange("modifiedIsland", null, IslandData.createIslandData(island, i));
         }
         else throw new NotValidMoveException("This move is not valid");
 

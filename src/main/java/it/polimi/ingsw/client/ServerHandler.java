@@ -34,7 +34,6 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
     @Override
     public void run() {
 
-
         while (connected.get()) {
 
             Object o;
@@ -69,7 +68,6 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
                 }
                 else if (o instanceof PlayerDisconnectedMessage) {
                     view.handlePlayerDisconnected(((PlayerDisconnectedMessage) o).disconnectedPlayerNickname());
-                    System.out.println(((Message) o).getMessage());
                     break;
                 }
                 else if (o instanceof UpdateMessage) {
@@ -120,4 +118,5 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
     public void disconnect(){
         connected.set(false);
     }
+
 }

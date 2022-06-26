@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.CLI;
+package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.modeldata.GameData;
@@ -144,7 +144,8 @@ public class CLI implements View, Runnable {
     @Override
     public synchronized void handlePlayerDisconnected(String playerDisconnectedNickname) {
         System.out.println(playerDisconnectedNickname + " has disconnected");
-        System.out.println("The game will close");
+        if (gameData != null && !gameOver)
+            System.out.println("The game has been saved");
         gameOver = true;
     }
 

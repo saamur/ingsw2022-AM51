@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.modeldata.CloudData;
 import it.polimi.ingsw.client.modeldata.CloudManagerData;

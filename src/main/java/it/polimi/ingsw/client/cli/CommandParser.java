@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.CLI;
+package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.constants.cliconstants.CliCommandConstants;

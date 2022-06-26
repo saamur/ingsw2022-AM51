@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.StudentContainer;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * The Island class models the islands of the game, with the attributes and the methods
@@ -22,6 +21,9 @@ public class Island implements Serializable, StudentContainer {
     private int numberOfTowers;
     private int numProhibitionCards;
 
+    /**
+     * Constructs a single empty Island
+     */
     public Island () {
         numberOfIslands = 1;
         students = new EnumMap<>(Clan.class);

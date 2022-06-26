@@ -3,8 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
 
-import java.util.Scanner;
-
 public class Client {
 
     public static void main(String[] args){

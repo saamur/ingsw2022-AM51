@@ -4,7 +4,6 @@ import it.polimi.ingsw.exceptions.NonExistingPlayerException;
 import it.polimi.ingsw.exceptions.NotValidMoveException;
 import it.polimi.ingsw.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.exceptions.WrongPlayerException;
-import it.polimi.ingsw.messages.ErrorMessage;
 import it.polimi.ingsw.messages.GenericMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.GameInterface;

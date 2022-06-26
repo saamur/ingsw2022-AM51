@@ -6,10 +6,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.CloudController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="527.0" styleClass="anchorpane-clouds" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.CloudController">
    <children>
       <Button layoutX="453.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Go Back" />
-      <AnchorPane layoutY="46.0" prefHeight="353.0" prefWidth="527.0" style="-fx-background-color: lightblue;">
+      <AnchorPane layoutY="46.0" prefHeight="353.0" prefWidth="527.0">
          <children>
             <AnchorPane fx:id="anchorCloud0" layoutX="125.0" layoutY="65.0">
                <children>
@@ -99,8 +99,8 @@
                </children>
             </AnchorPane>
             <Label fx:id="chooseCloudLabel" layoutX="212.0" layoutY="27.0" text="Choose a Cloud" />
-            <Button fx:id="activateCharacterButton" layoutX="14.0" layoutY="313.0" mnemonicParsing="false" text="Activate CharacterCard" onAction="#activateCharacterCard"/>
-            <Button fx:id="endTurnButton" layoutX="449.0" layoutY="313.0" mnemonicParsing="false" text="End Turn" onAction="#endTurn"/>
+            <Button fx:id="activateCharacterButton" layoutX="14.0" layoutY="313.0" mnemonicParsing="false" onAction="#activateCharacterCard" text="Activate CharacterCard" />
+            <Button fx:id="endTurnButton" layoutX="449.0" layoutY="313.0" mnemonicParsing="false" onAction="#endTurn" text="End Turn" />
          </children>
       </AnchorPane>
    </children>

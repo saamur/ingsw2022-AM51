@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -10,7 +9,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.CONNECTION;
+import static it.polimi.ingsw.constants.GuiConstants.CONNECTION;
 
 /**
  * The class DisconnectionController handles the disconnection.fxml file that corresponds to the disconnection page that appears when another player has disconnected.
@@ -18,12 +17,12 @@ import static it.polimi.ingsw.constants.ConstantsGUI.CONNECTION;
 public class DisconnectionController extends PageController implements Initializable {
 
     @FXML
-    Label disconnectionLabel;
+    private Label disconnectionLabel;
 
     @FXML
-    Button button;
+    private Button button;
 
-    @FXML Label waitingLabel;
+    @FXML private Label waitingLabel;
 
 
     /**
@@ -32,7 +31,6 @@ public class DisconnectionController extends PageController implements Initializ
      * @param nickname nickname of the player that has disconnected
      */
     public void setDisconnectedPlayer(String nickname){
-        System.out.println("Disconnection controller prima: " + this);
         disconnectionLabel.setText(nickname + " has disconnected");
         waitingLabel.setVisible(true);
         button.setOpacity(0.5);
@@ -49,11 +47,9 @@ public class DisconnectionController extends PageController implements Initializ
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Disconnection controller dopo: " + this);
-        System.out.println("inizializzo Disconnection");
-            waitingLabel.setVisible(false);
-            button.setOpacity(1);
-            button.setDisable(false);
+        waitingLabel.setVisible(false);
+        button.setOpacity(1);
+        button.setDisable(false);
 
     }
 }

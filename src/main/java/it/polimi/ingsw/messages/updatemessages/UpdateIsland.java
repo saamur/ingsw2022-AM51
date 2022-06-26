@@ -2,7 +2,6 @@ package it.polimi.ingsw.messages.updatemessages;
 
 import it.polimi.ingsw.client.modeldata.GameData;
 import it.polimi.ingsw.client.modeldata.IslandData;
-import it.polimi.ingsw.model.islands.Island;
 
 public record UpdateIsland(IslandData islandData) implements UpdateMessage {
 

@@ -18,14 +18,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
-//FIXME rapporto schermata
+/**
+ * GameBoardController displays a concise view of the GameBoard on GUI
+ */
 public class GameBoardController extends PageController implements Initializable {
 
     @FXML private Label info;
     @FXML
-    AnchorPane characterCards;
+    private AnchorPane characterCards;
     @FXML
     private ImageView character1;
     @FXML
@@ -35,11 +37,11 @@ public class GameBoardController extends PageController implements Initializable
 
     private List<ImageView> characters;
 
-    CharacterID activatedCharacter;
+    private CharacterID activatedCharacter;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        characters = Arrays.asList(character1, character2, character3); //TODO spero che non lo visualizzi
+        characters = Arrays.asList(character1, character2, character3);
     }
 
     /**
@@ -99,7 +101,7 @@ public class GameBoardController extends PageController implements Initializable
                         characters.get(i).setImage(new Image(getClass().getResource(CHARACTERS_IMAGES.get(characterCards[i].characterID())).toExternalForm()));
                     }
                 } else {
-                    characterCards.setVisible(false); //FIXME SAREBBE MEGLIO ELIMINARLO COMPLETAMENTE
+                    characterCards.setVisible(false);
                     characterCards.setDisable(true);
                 }
             }
@@ -112,9 +114,13 @@ public class GameBoardController extends PageController implements Initializable
      * @see Label
      */
     public void setInfoLabel(String text){
-        info.setText(text); //FIXME do only if currPlayer.equals(nickname)
+        info.setText(text);
     }
 
+    /**
+     * activatedCharacter needs to be set so that if THIEF or MUSHROOMPICKER are activated but their effect is not used the client is able to use the effect.
+     * @param character
+     */
     public void setActivatedCharacter(CharacterID character){
         this.activatedCharacter = character;
     }

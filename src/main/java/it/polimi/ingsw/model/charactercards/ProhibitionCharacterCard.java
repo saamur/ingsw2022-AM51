@@ -4,19 +4,19 @@ import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.islands.Island;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  * The ProhibitionCharacterCard class models the character cards
  * whose effect is to add prohibition cards on islands
  *
  */
 public class ProhibitionCharacterCard extends CharacterCard {
-    //FIXME posso aggiungere PCS? costruttore dovrebbe essere senza parametri
 
     private int numProhibitionCards;
 
+    /**
+     * Constructs a CharacterCard with the given CharacterID and with the initial number of prohibition cards
+     * @param characterID   the CharacterID of the character to construct
+     */
     public ProhibitionCharacterCard(CharacterID characterID) {
         super(characterID);
         numProhibitionCards = GameConstants.getNumInitialProhibitionCardsCharacterCard(characterID);

@@ -15,6 +15,10 @@ public class Hall implements Serializable, StudentContainer {
 
     private final Map<Clan, Integer> students;
 
+    /**
+     * Constructs a Hall with the initial students given by parameter
+     * @param students  the initial students
+     */
     public Hall(Map<Clan, Integer> students) {
         this.students = new EnumMap<>(students);
     }

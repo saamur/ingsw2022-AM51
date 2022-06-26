@@ -19,7 +19,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.GAMEBOARD;
+import static it.polimi.ingsw.constants.GuiConstants.GAMEBOARD;
 import static it.polimi.ingsw.model.player.Card.*;
 
 /**
@@ -27,28 +27,28 @@ import static it.polimi.ingsw.model.player.Card.*;
  */
 public class DeckController extends PageController implements Initializable {
 
-    @FXML Label chooseAssistantLabel;
-    @FXML ImageView cheetah;
-    @FXML ImageView ostrich;
-    @FXML ImageView cat;
-    @FXML ImageView eagle;
-    @FXML ImageView fox;
-    @FXML ImageView lizard;
-    @FXML ImageView octopus;
-    @FXML ImageView dog;
-    @FXML ImageView elephant;
-    @FXML ImageView turtle;
+    @FXML private Label chooseAssistantLabel;
+    @FXML private ImageView cheetah;
+    @FXML private ImageView ostrich;
+    @FXML private ImageView cat;
+    @FXML private ImageView eagle;
+    @FXML private ImageView fox;
+    @FXML private ImageView lizard;
+    @FXML private ImageView octopus;
+    @FXML private ImageView dog;
+    @FXML private ImageView elephant;
+    @FXML private ImageView turtle;
 
-    @FXML Label cheetahLabel;
-    @FXML Label ostrichLabel;
-    @FXML Label catLabel;
-    @FXML Label eagleLabel;
-    @FXML Label foxLabel;
-    @FXML Label lizardLabel;
-    @FXML Label octopusLabel;
-    @FXML Label dogLabel;
-    @FXML Label elephantLabel;
-    @FXML Label turtleLabel;
+    @FXML private Label cheetahLabel;
+    @FXML private Label ostrichLabel;
+    @FXML private Label catLabel;
+    @FXML private Label eagleLabel;
+    @FXML private Label foxLabel;
+    @FXML private Label lizardLabel;
+    @FXML private Label octopusLabel;
+    @FXML private Label dogLabel;
+    @FXML private Label elephantLabel;
+    @FXML private Label turtleLabel;
 
 
     private Map<Card, ImageView> cards;
@@ -57,9 +57,8 @@ public class DeckController extends PageController implements Initializable {
 
     /**
      * The method initialize initializes the attribute cards associating every ImageView to the corresponding Card enum value
-     *
-     * @param url
-     * @param resourceBundle
+     * @param url @see URL
+     * @param resourceBundle @see ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -148,7 +147,7 @@ public class DeckController extends PageController implements Initializable {
                 "chosen by you" :
                 labels.get(card).getText() + " and you"));
         labels.get(card).setVisible(true);
-        chooseAssistantLabel.setText("You have chosen an Assistant"); //FIXME is it centered?
+        chooseAssistantLabel.setText("You have chosen an Assistant");
 
     }
 

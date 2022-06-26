@@ -24,7 +24,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
 //TODO JavaDocs
 public class GUI extends Application implements View{
@@ -179,7 +179,7 @@ public class GUI extends Application implements View{
                         ((IslandsPageController) controllers.get(ISLANDS)).updateMotherNaturePosition(((UpdateMotherNaturePosition) updateMessage).islandIndex());
                     } else if (updateMessage instanceof  UpdatePlayer){
                         ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoard(((UpdatePlayer) updateMessage).modifiedPlayer());
-                    } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){ //FIXME there should be no problems
+                    } else if (updateMessage instanceof UpdateIslandManager || updateMessage instanceof  UpdateIsland){
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         updateLabel( ((UpdateGamePhase) updateMessage).gamePhaseData());
@@ -233,7 +233,7 @@ public class GUI extends Application implements View{
                     }
                 }
             });
-            if(oldGameState != gameData.getGameState() || oldTurnState != gameData.getTurnState()) //TODO verify this is correct
+            if(oldGameState != gameData.getGameState() || oldTurnState != gameData.getTurnState())
                 chooseScene();
         }
     }
@@ -243,9 +243,7 @@ public class GUI extends Application implements View{
      * @see TurnState
      * @see GameState
      */
-    //FIXME mettere 2sec di ritardo per vedere le modifiche?? Ad esempio madre natura che conquista isole
     private void chooseScene(){
-        //FIXME have to double check when this method changes scene and when the controllers do
         Platform.runLater(() -> {
             if (gameData.getGameState().equals(GameState.PLANNING)) {
                 ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
@@ -302,8 +300,6 @@ public class GUI extends Application implements View{
                 setScenes();
                 Platform.runLater(() -> setCurrScene(DISCONNECTION));
             } catch (IOException e){
-                //FIXME problem with loading images
-                e.printStackTrace();
             }
             gameChosen = false;
         });

@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.NewGameController;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
 import it.polimi.ingsw.model.player.Card;
 import org.junit.jupiter.api.AfterEach;
@@ -14,11 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.model.Clan.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ListenersTest {
     final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

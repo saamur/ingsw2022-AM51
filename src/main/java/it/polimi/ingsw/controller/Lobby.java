@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.gamerecords.OpeningNewGameData;
+import it.polimi.ingsw.controller.gamerecords.OpeningRestoredGameData;
+import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;
-import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
@@ -29,6 +31,9 @@ public class Lobby {
     private final List<NewGameController> openingNewGameControllers;
     private final List<RestoredGameController> openingRestoredGameControllers;
 
+    /**
+     * Constructs an empty Lobby
+     */
     private Lobby () {
         clientNicknames = new HashMap<>();
         runningGameControllers = new ArrayList<>();
@@ -85,7 +90,7 @@ public class Lobby {
 
         List<SavedGameData> savedGameDataList = new ArrayList<>(SavedGameManager.getSavedGameList().stream()
                 .filter(d -> d.nicknames().contains(nickname))
-                //.filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //fixme optional, remove it?
+                //.filter(d -> d.nicknames().stream().noneMatch(clientNicknames::containsValue))       //for excluding the games with players that are currently playing in another game as well
                 .toList());
 
         return new AvailableGamesMessage(openingNewGameDataList, openingRestoredGameDataList, savedGameDataList);

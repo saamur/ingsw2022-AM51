@@ -2,11 +2,9 @@ package it.polimi.ingsw.constants;
 
 import it.polimi.ingsw.model.charactercards.CharacterID;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.*;
 
 import static it.polimi.ingsw.model.charactercards.CharacterID.*;
-import static it.polimi.ingsw.model.charactercards.CharacterID.THIEF;
 
 /**
  * GameConstants class contains the main constants used in the Erianys game

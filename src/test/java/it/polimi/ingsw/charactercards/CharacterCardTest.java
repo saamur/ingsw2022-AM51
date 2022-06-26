@@ -18,7 +18,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-//TODO have added test to general charactercard package
 public abstract class CharacterCardTest {
     CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     Bag bag;
@@ -68,7 +67,7 @@ public abstract class CharacterCardTest {
     @Test
     public void effectProfessorTest(){
         Player[] players = createPlayers();
-        players[0].getChamber().addStudent(Clan.DRAGONS); //FIXME is it a problem that I can change (addStudents) a private attribute (Chamber)?
+        players[0].getChamber().addStudent(Clan.DRAGONS);
         players[0].getChamber().addStudent(Clan.DRAGONS);
         players[1].getChamber().addStudent(Clan.DRAGONS);
         players[1].getChamber().addStudent(Clan.DRAGONS);

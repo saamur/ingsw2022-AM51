@@ -152,7 +152,7 @@ public class CLI implements View, Runnable {
      * The method displayEverything shows, depending on the phase of the game in which you are, the relative graphics of the game
      */
 
-    public synchronized void displayEverything() {
+    private synchronized void displayEverything() {
         System.out.println("\n");
 
         if (nickname == null) {

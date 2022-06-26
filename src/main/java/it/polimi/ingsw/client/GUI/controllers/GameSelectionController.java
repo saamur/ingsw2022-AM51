@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
-import it.polimi.ingsw.controller.OpeningNewGameData;
-import it.polimi.ingsw.controller.OpeningRestoredGameData;
-import it.polimi.ingsw.controller.SavedGameData;
+import it.polimi.ingsw.controller.gamerecords.OpeningNewGameData;
+import it.polimi.ingsw.controller.gamerecords.OpeningRestoredGameData;
+import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 import it.polimi.ingsw.messages.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -21,10 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+/**
+ * GameSelectionController displays the scene where the client can choose which game to play on GUI
+ */
 public class GameSelectionController extends PageController implements Initializable {
 
-    public Label noGameSelectedLabel;
+    @FXML private Label noGameSelectedLabel;
     @FXML private TableView<OpeningNewGameData> newGames;
     @FXML private TableColumn<OpeningNewGameData, Integer> idNewGame;
     @FXML private TableColumn<OpeningNewGameData, Integer> numPlayersNewGame;
@@ -54,9 +56,9 @@ public class GameSelectionController extends PageController implements Initializ
     @FXML private CheckBox expertMode;
     @FXML private Spinner<Integer> numPlayers;
 
-    List<OpeningNewGameData> newGamesList;
-    List<SavedGameData> savedGamesList;
-    List<OpeningRestoredGameData> restoredGamesList;
+    private List<OpeningNewGameData> newGamesList;
+    private List<SavedGameData> savedGamesList;
+    private List<OpeningRestoredGameData> restoredGamesList;
     private AvailableGamesMessage availableGamesMessage = new AvailableGamesMessage(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 

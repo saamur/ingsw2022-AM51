@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 
 import it.polimi.ingsw.client.modeldata.PlayerData;
-import it.polimi.ingsw.constants.ConstantsGUI;
+import it.polimi.ingsw.constants.GuiConstants;
 import it.polimi.ingsw.constants.GameConstants;
 import it.polimi.ingsw.messages.gamemessages.ApplyCharacterCardEffectMessage2;
 import it.polimi.ingsw.messages.gamemessages.MoveStudentToChamberMessage;
@@ -28,14 +28,13 @@ import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static it.polimi.ingsw.constants.ConstantsGUI.*;
+import static it.polimi.ingsw.constants.GuiConstants.*;
 
-//FIXME USE computed_size
-//FIXME add currPlayer (who's turn is it?)
-//FIXME togliere coins se non è expert
-//TODO JavaDocs
+
+/**
+ * SchoolBoardController displays the players's School Boards on GUI
+ */
 public class SchoolBoardController extends PageController implements Initializable {
 
     @FXML
@@ -49,9 +48,8 @@ public class SchoolBoardController extends PageController implements Initializab
     private ImageView island;
     private Pane islandPane;
     private Pane jesterStudentsPane;
-    private Label jesterStudentsLabel;
     private List<ImageView> jesterStudentsImages;
-    private Label instructions = new Label();
+    private final Label instructions = new Label();
     @FXML private Label turnLabel;
 
     @Override
@@ -64,172 +62,16 @@ public class SchoolBoardController extends PageController implements Initializab
         this.nickname = nickname;
     }
 
-    public SchoolBoard initialSchoolBoardSetting(AnchorPane anchorPane, PlayerData playerData, int numOfPlayers) {
-        SchoolBoard schoolBoard = new SchoolBoard(numOfPlayers);
-        schoolBoard.nickname = playerData.getNickname();
-
-        ImageView school = new ImageView(new Image(getClass().getResource("/png/Plancia_DEF.png").toExternalForm()));
-        school.setX(SCHOOL_COORDINATE_X);
-        school.setY(SCHOOL_COORDINATE_Y);
-        school.setFitHeight(SCHOOL_HEIGHT);
-        school.setFitWidth(SCHOOL_WIDTH);
-
-
-        anchorPane.getChildren().add(school);
-
-        for (Clan clan : Clan.values()) {
-            for (int j = 0; j < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; j++) {
-                Pane pane = new Pane();
-                ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
-                student.setFitWidth(ConstantsGUI.getStudentSize());
-                student.setFitHeight(ConstantsGUI.getStudentSize());
-
-                pane.setLayoutX(ConstantsGUI.getFirstStudentX() + j * ConstantsGUI.getHorizontalDistanceStudents());
-                pane.setLayoutY(ConstantsGUI.getFirstStudentY(clan));
-                pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
-
-                schoolBoard.studentsChamber.get(clan)[j] = student;
-
-                student.setDisable(true);
-                pane.getChildren().add(student);
-                anchorPane.getChildren().add(pane);
-            }
-            ImageView professor = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathProfessor(clan)).toExternalForm()));
-            professor.setFitWidth(ConstantsGUI.getProfessorSize());
-            professor.setFitHeight(ConstantsGUI.getProfessorSize());
-            professor.setX(ConstantsGUI.getProfessorX());
-            professor.setY(ConstantsGUI.getProfessorY(clan));
-            professor.setRotate(270);
-            schoolBoard.professors.put(clan, professor);
-            //anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
-            anchorPane.getChildren().add(professor);
-
-            if (playerData.getNickname().equals(nickname)) {
-                Pane table = new Pane();
-                table.setId(clan.name() + "' table");
-                table.setMaxWidth(ConstantsGUI.getTableWidth());
-                table.setMinWidth(ConstantsGUI.getTableWidth());
-                table.setMaxHeight(ConstantsGUI.getTableHeight());
-                table.setMinHeight(ConstantsGUI.getTableHeight());
-                table.setLayoutX(ConstantsGUI.getTableX());
-                table.setLayoutY(ConstantsGUI.getTableY(clan));
-                table.getStylesheets().add("/style.css");
-                table.getStyleClass().add("tables");
-                table.setStyle("-my-background: " + ConstantsGUI.getColorClan(clan));
-                schoolBoard.tables.put(clan, table);
-                anchorPane.getChildren().add(table);
-
-
-            }
-
-        }
-
-        for (int j = 0; j < GameConstants.getNumInitialStudentsHall(numOfPlayers); j++) {
-            Pane pane = new Pane();
-            ImageView student = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
-            student.setFitWidth(ConstantsGUI.getStudentSize());
-            student.setFitHeight(ConstantsGUI.getStudentSize());
-            pane.setLayoutX(ConstantsGUI.getHallFirstStudentX() - (j % 2) * ConstantsGUI.getHallStudentHorizontalDistance());
-            pane.setLayoutY(ConstantsGUI.getHallFirstStudentY() - (j / 2) * ConstantsGUI.getHallStudentVerticalDistance());
-            pane.setPrefSize(ConstantsGUI.getStudentSize(), ConstantsGUI.getStudentSize());
-
-            schoolBoard.studentsHall[j] = student;
-            student.setDisable(true);
-            pane.getChildren().add(student);
-            anchorPane.getChildren().add(pane);
-        }
-
-        for (int j = 0; j < GameConstants.getNumInitialTowers(numOfPlayers); j++) {
-            ImageView tower = new ImageView(new Image(getClass().getResource(ConstantsGUI.getImagePathTower(playerData.getColorOfTowers())).toExternalForm()));
-            tower.setFitWidth(ConstantsGUI.getTowerWidth());
-            tower.setFitHeight(ConstantsGUI.getTowerHeight());
-            tower.setX(ConstantsGUI.getFirstTowerX() + (j % 2) * ConstantsGUI.getTowerHorizontalDistance());
-            tower.setY(ConstantsGUI.getFirstTowerY() + (j / 2) * ConstantsGUI.getTowerVerticalDistance());
-            schoolBoard.towers[j] = tower;
-        }
-
-        anchorPane.getChildren().addAll(schoolBoard.towers);
-        return schoolBoard;
-    }
-
-
-    public void studentMovingSetUp(AnchorPane anchorPane){
-        islandPane = new Pane();
-        island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
-        island.setPreserveRatio(true);
-        island.setFitHeight(ConstantsGUI.getIslandHeightSchoolBoards());
-        island.setFitWidth(ConstantsGUI.getIslandHeightSchoolBoards());
-        islandPane.getChildren().add(island);
-        island.fitHeightProperty().bind(islandPane.heightProperty());
-        islandPane.setLayoutX(ConstantsGUI.getIslandXSchoolBoards());
-        islandPane.setLayoutY(ConstantsGUI.getIslandYSchoolBoards());
-        islandPane.setPrefSize(ConstantsGUI.getIslandHeightSchoolBoards(), ConstantsGUI.getIslandHeightSchoolBoards());
-        island.setVisible(false);
-        islandPane.setId("islandPane");
-        islandPane.getStylesheets().add("/style.css");
-        anchorPane.getChildren().add(islandPane);
-    }
-
-    public void characterSetUp(AnchorPane anchorPane){
-        jesterStudentsPane = new Pane();
-        jesterStudentsPane.setLayoutX(400);
-        jesterStudentsPane.setLayoutY(407);
-        jesterStudentsPane.setPrefSize(200, 100);
-        jesterStudentsPane.setStyle("-fx-border-color: WHITE; -fx-border-width: 5");
-        jesterStudentsPane.setVisible(false);
-        jesterStudentsPane.setDisable(true);
-        anchorPane.getChildren().add(jesterStudentsPane);
-        jesterStudentsLabel = new Label("Jester students:");
-        jesterStudentsLabel.setLayoutX(6);
-        jesterStudentsLabel.setLayoutY(2);
-        jesterStudentsPane.getChildren().add(jesterStudentsLabel);
-
-        jesterStudentsImages = new ArrayList<>();
-        for(int j=0; j<6; j++){
-            ImageView image = new ImageView();
-            Pane pane = new Pane();
-            image.setFitWidth(35);
-            image.setFitHeight(35);
-            pane.setPrefSize(35, 35);
-            pane.setLayoutX(14 + j/2 * 66);
-            pane.setLayoutY((j%2 ==0 ? 16 : 56));
-            pane.getChildren().add(image);
-            jesterStudentsPane.getChildren().add(pane);
-            jesterStudentsImages.add(image);
-            image.setDisable(true);
-        }
-
-        anchorPane.getChildren().add(doneButton);
-        doneButton.setLayoutX(750);
-        doneButton.setLayoutY(10);
-        doneButton.setOnAction( e -> {
-            System.out.println("DONE!");
-            int numChosenStudents1 = 0;
-            int numChosenStudents2 = 0;
-
-            for(Clan c : Clan.values()){
-                numChosenStudents1 += students1.get(c);
-                numChosenStudents2 += students2.get(c);
-            }
-            if(numChosenStudents1 == numChosenStudents2) {
-                sendMessage(new ApplyCharacterCardEffectMessage2(-1, students1, students2));
-                doneButton.setOpacity(0.5);
-                doneButton.setDisable(true);
-            } else{
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Wrong parameters");
-                    alert.setHeaderText("There are not enough students chosen");
-                    alert.setContentText("The number of students chosen from the source does not correspond to the number chosen at the destination");
-                    alert.showAndWait();
-                });
-            }
-        });
-        doneButton.setVisible(false);
-        doneButton.setDisable(true);
-
-    }
-
+    /**
+     * This method is called by {@link #setSchoolBoard(PlayerData)}:
+     * <ul>
+     *     <li>It creates the schoolboards calling {@link #initialSchoolBoardSetting(AnchorPane, PlayerData, int) initialSchoolBoardSetting(AnchorPane, PlayerData, int)}.</li>
+     *     <li>It creates the necessary components for the STUDENT_MOVING phase with {@link #studentMovingSetUp(AnchorPane)}</li>
+     *     <li>It sets up the components for the characters if expert mode is enabled via {@link #characterSetUp(AnchorPane)}</li>
+     * </ul>
+     * @param playersData the playersData to populate the schoolboards with.
+     * @param expertMode true if expertmode is enabled
+     */
     public void initialSetUp(PlayerData[] playersData, boolean expertMode) {
 
         schoolBoards = new SchoolBoard[playersData.length];
@@ -266,10 +108,10 @@ public class SchoolBoardController extends PageController implements Initializab
             anchorPane.getChildren().add(label);
             if (expertMode) {
                 ImageView coin = new ImageView(new Image(getClass().getResource(COIN_IMAGE).toExternalForm()));
-                coin.setFitWidth(ConstantsGUI.getCoinWidth());
+                coin.setFitWidth(GuiConstants.getCoinWidth());
                 coin.setFitHeight(getCoinHeight());
-                coin.setX(ConstantsGUI.getCoinX());
-                coin.setY(ConstantsGUI.getCoinY());
+                coin.setX(GuiConstants.getCoinX());
+                coin.setY(GuiConstants.getCoinY());
                 anchorPane.getChildren().add(coin);
             }
             else {
@@ -284,12 +126,222 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
-    //mettere nomi giocatori sulle tab
-    //mettere giocatori nelle plance?
+    /**
+     * Creates a SchoolBoard according to the data that has been received by the GUI from the Server
+     * @param anchorPane the anchorPane which is the parent of every other graphical component
+     * @param playerData the player data from the model
+     * @param numOfPlayers number of players playing
+     * @return the SchoolBoard that has been created
+     * @see PlayerData
+     */
+    public SchoolBoard initialSchoolBoardSetting(AnchorPane anchorPane, PlayerData playerData, int numOfPlayers) {
+        SchoolBoard schoolBoard = new SchoolBoard(numOfPlayers);
+        schoolBoard.nickname = playerData.getNickname();
+
+        ImageView school = new ImageView(new Image(getClass().getResource("/png/Plancia_DEF.png").toExternalForm()));
+        school.setX(SCHOOL_COORDINATE_X);
+        school.setY(SCHOOL_COORDINATE_Y);
+        school.setFitHeight(SCHOOL_HEIGHT);
+        school.setFitWidth(SCHOOL_WIDTH);
+
+
+        anchorPane.getChildren().add(school);
+
+        for (Clan clan : Clan.values()) {
+            for (int j = 0; j < GameConstants.MAX_NUM_STUDENTS_PER_CLAN_CHAMBER; j++) {
+                Pane pane = new Pane();
+                ImageView student = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathStudent(clan)).toExternalForm()));
+                student.setFitWidth(GuiConstants.getStudentSize());
+                student.setFitHeight(GuiConstants.getStudentSize());
+
+                pane.setLayoutX(GuiConstants.getFirstStudentX() + j * GuiConstants.getHorizontalDistanceStudents());
+                pane.setLayoutY(GuiConstants.getFirstStudentY(clan));
+                pane.setPrefSize(GuiConstants.getStudentSize(), GuiConstants.getStudentSize());
+
+                schoolBoard.studentsChamber.get(clan)[j] = student;
+
+                student.setDisable(true);
+                pane.getChildren().add(student);
+                anchorPane.getChildren().add(pane);
+            }
+            ImageView professor = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathProfessor(clan)).toExternalForm()));
+            professor.setFitWidth(GuiConstants.getProfessorSize());
+            professor.setFitHeight(GuiConstants.getProfessorSize());
+            professor.setX(GuiConstants.getProfessorX());
+            professor.setY(GuiConstants.getProfessorY(clan));
+            professor.setRotate(270);
+            schoolBoard.professors.put(clan, professor);
+            //anchorPane.getChildren().addAll(schoolBoards[i].studentsChamber.get(clan));
+            anchorPane.getChildren().add(professor);
+
+            if (playerData.getNickname().equals(nickname)) {
+                Pane table = new Pane();
+                table.setId(clan.name() + "' table");
+                table.setMaxWidth(GuiConstants.getTableWidth());
+                table.setMinWidth(GuiConstants.getTableWidth());
+                table.setMaxHeight(GuiConstants.getTableHeight());
+                table.setMinHeight(GuiConstants.getTableHeight());
+                table.setLayoutX(GuiConstants.getTableX());
+                table.setLayoutY(GuiConstants.getTableY(clan));
+                table.getStylesheets().add("/style.css");
+                table.getStyleClass().add("tables");
+                table.setStyle("-my-background: " + GuiConstants.getColorClan(clan));
+                schoolBoard.tables.put(clan, table);
+                anchorPane.getChildren().add(table);
+
+
+            }
+
+        }
+
+        for (int j = 0; j < GameConstants.getNumInitialStudentsHall(numOfPlayers); j++) {
+            Pane pane = new Pane();
+            ImageView student = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathStudent(Clan.DRAGONS)).toExternalForm()));
+            student.setFitWidth(GuiConstants.getStudentSize());
+            student.setFitHeight(GuiConstants.getStudentSize());
+            pane.setLayoutX(GuiConstants.getHallFirstStudentX() - (j % 2) * GuiConstants.getHallStudentHorizontalDistance());
+            pane.setLayoutY(GuiConstants.getHallFirstStudentY() - (j / 2) * GuiConstants.getHallStudentVerticalDistance());
+            pane.setPrefSize(GuiConstants.getStudentSize(), GuiConstants.getStudentSize());
+
+            schoolBoard.studentsHall[j] = student;
+            student.setDisable(true);
+            pane.getChildren().add(student);
+            anchorPane.getChildren().add(pane);
+        }
+
+        for (int j = 0; j < GameConstants.getNumInitialTowers(numOfPlayers); j++) {
+            ImageView tower = new ImageView(new Image(getClass().getResource(GuiConstants.getImagePathTower(playerData.getColorOfTowers())).toExternalForm()));
+            tower.setFitWidth(GuiConstants.getTowerWidth());
+            tower.setFitHeight(GuiConstants.getTowerHeight());
+            tower.setX(GuiConstants.getFirstTowerX() + (j % 2) * GuiConstants.getTowerHorizontalDistance());
+            tower.setY(GuiConstants.getFirstTowerY() + (j / 2) * GuiConstants.getTowerVerticalDistance());
+            schoolBoard.towers[j] = tower;
+        }
+
+        anchorPane.getChildren().addAll(schoolBoard.towers);
+        return schoolBoard;
+    }
+
+    /**
+     * It creates the island Image on which the students can be dropped on
+     * @param anchorPane the AnchorPane parent to all the components of the scene
+     */
+    public void studentMovingSetUp(AnchorPane anchorPane){
+        islandPane = new Pane();
+        island = new ImageView(new Image(getClass().getResource("/png/islands/island1.png").toExternalForm()));
+        island.setPreserveRatio(true);
+        island.setFitHeight(GuiConstants.getIslandHeightSchoolBoards());
+        island.setFitWidth(GuiConstants.getIslandHeightSchoolBoards());
+        islandPane.getChildren().add(island);
+        island.fitHeightProperty().bind(islandPane.heightProperty());
+        islandPane.setLayoutX(GuiConstants.getIslandXSchoolBoards());
+        islandPane.setLayoutY(GuiConstants.getIslandYSchoolBoards());
+        islandPane.setPrefSize(GuiConstants.getIslandHeightSchoolBoards(), GuiConstants.getIslandHeightSchoolBoards());
+        island.setVisible(false);
+        islandPane.setId("islandPane");
+        islandPane.getStylesheets().add("/style.css");
+        anchorPane.getChildren().add(islandPane);
+    }
+
+    /**
+     * It creates the jesterStudentsPane on which the students from the Jester CharacterCard are displayed.
+     * @param anchorPane parent to which the jesterStudentPane is added
+     */
+    public void characterSetUp(AnchorPane anchorPane){
+        jesterStudentsPane = new Pane();
+        jesterStudentsPane.setLayoutX(400);
+        jesterStudentsPane.setLayoutY(407);
+        jesterStudentsPane.setPrefSize(200, 100);
+        jesterStudentsPane.setStyle("-fx-border-color: WHITE; -fx-border-width: 5");
+        jesterStudentsPane.setVisible(false);
+        jesterStudentsPane.setDisable(true);
+        anchorPane.getChildren().add(jesterStudentsPane);
+        Label jesterStudentsLabel = new Label("Jester students:");
+        jesterStudentsLabel.setLayoutX(6);
+        jesterStudentsLabel.setLayoutY(2);
+        jesterStudentsPane.getChildren().add(jesterStudentsLabel);
+
+        jesterStudentsImages = new ArrayList<>();
+        for(int j=0; j<6; j++){
+            ImageView image = new ImageView();
+            Pane pane = new Pane();
+            image.setFitWidth(35);
+            image.setFitHeight(35);
+            pane.setPrefSize(35, 35);
+            pane.setLayoutX(14 + j/2 * 66);
+            pane.setLayoutY((j%2 ==0 ? 16 : 56));
+            pane.getChildren().add(image);
+            jesterStudentsPane.getChildren().add(pane);
+            jesterStudentsImages.add(image);
+            image.setDisable(true);
+        }
+
+        anchorPane.getChildren().add(doneButton);
+        doneButton.setLayoutX(750);
+        doneButton.setLayoutY(10);
+
+        doneButton.setOnAction( e -> {
+            int numChosenStudents1 = 0;
+            int numChosenStudents2 = 0;
+
+            for(Clan c : Clan.values()){
+                numChosenStudents1 += students1.get(c);
+                numChosenStudents2 += students2.get(c);
+            }
+            if(numChosenStudents1 == numChosenStudents2) {
+                sendMessage(new ApplyCharacterCardEffectMessage2(-1, students1, students2));
+                doneButton.setOpacity(1);
+            } else{
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Wrong parameters");
+                    alert.setHeaderText("There are not enough students chosen");
+                    alert.getDialogPane().setContent(new Label("The number of students chosen from the source does not correspond to the number chosen at the destination"));
+                    alert.showAndWait();
+                });
+            }
+            students1 = new EnumMap<>(Clan.class);
+            students2 = new EnumMap<>(Clan.class);
+            for(Clan c : Clan.values()){
+                students1.put(c, 0);
+                students2.put(c, 0);
+            }
+            for(ImageView image : jesterStudentsImages)
+                image.getParent().getStyleClass().removeIf(style -> style.equals("selected-character-pieces"));
+            for (SchoolBoard schoolBoard : schoolBoards) { //this way the style is reset after done is clicked
+                if (schoolBoard.nickname.equals(this.nickname)) {
+                    for (ImageView student : schoolBoard.studentsHall)
+                        student.getParent().getStyleClass().removeIf(style -> style.equals("selected-character-pieces"));
+                    for(Clan c: Clan.values()) {
+                        for(ImageView student : schoolBoard.studentsChamber.get(c))
+                            student.getParent().getStyleClass().removeIf(style -> style.equals("selected-character-pieces"));
+                    }
+                }
+            }
+            for(Clan c: Clan.values())
+                numClicks.put(c, 0);
+        });
+        doneButton.setVisible(false);
+        doneButton.setDisable(true);
+
+        numClicks = new EnumMap<>(Clan.class);
+        for(Clan c: Clan.values())
+            numClicks.put(c, 0);
+    }
+
+    /**
+     * Takes the user back to the GameBoard when the "Go to GameBoard" button is clicked
+     * @see ActionEvent
+     */
     public void back(ActionEvent event) {
         gui.setCurrScene(GAMEBOARD);
     }
 
+    /**
+     * It does the setting up of the school boards according to the playersData received as a parameter. It calls {@link #initialSetUp(PlayerData[], boolean)} and {@link #setSchoolBoard(PlayerData)}
+     * @param playersData array containing the playersData from the model
+     * @param expertMode
+     */
     public void setSchoolBoards(PlayerData[] playersData, boolean expertMode) {
 
         initialSetUp(playersData, expertMode);
@@ -299,6 +351,10 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
+    /**
+     * Method displays a schoolboard according to the playerData
+     * @param playerData the data of the player from the model
+     */
     public void setSchoolBoard(PlayerData playerData) {
 
         for (SchoolBoard schoolBoard : schoolBoards) {
@@ -314,7 +370,7 @@ public class SchoolBoardController extends PageController implements Initializab
                 int hallStudentIndex = 0;
                 for (Clan clan : Clan.values()) {
                     for (int numStudentsClan = playerData.getHallData().students().get(clan); numStudentsClan > 0; numStudentsClan--) {
-                        schoolBoard.studentsHall[hallStudentIndex].setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(clan)).toExternalForm()));
+                        schoolBoard.studentsHall[hallStudentIndex].setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(clan)).toExternalForm()));
                         schoolBoard.studentsHall[hallStudentIndex].setId(clan.name());
                         schoolBoard.studentsHall[hallStudentIndex].setVisible(true);
                         hallStudentIndex++;
@@ -332,6 +388,9 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
+    /**
+     * This class represents the SchoolBoards' rendering in the GUI
+     */
     private class SchoolBoard {
 
         String nickname;
@@ -389,7 +448,7 @@ public class SchoolBoardController extends PageController implements Initializab
                     if (db.hasString()) {
                         Clan clan = Clan.valueOf(db.getString());
                         if (target.getId().contains("table"))
-                            sendMessage(new MoveStudentToChamberMessage(clan)); //FIXME it adds student to right chamber even if chamber is the wrong color
+                            sendMessage(new MoveStudentToChamberMessage(clan));
                         else {
                             ((IslandsPageController) gui.getControllers().get(ISLANDS)).setDroppedStudent(clan);
                             target.getStyleClass().removeIf(style -> style.equals("image-drag-over"));
@@ -409,8 +468,6 @@ public class SchoolBoardController extends PageController implements Initializab
         });
 
         target.setOnDragEntered(e -> {
-            System.out.println("onDragEntered");
-            /* show to the user that it is an actual gesture target */
             if (e.getGestureSource() != target &&
                     e.getDragboard().hasString()) {
                 target.getStyleClass().add(target.getId().contains("table") ? "tables-drag-over" : "image-drag-over");
@@ -426,19 +483,16 @@ public class SchoolBoardController extends PageController implements Initializab
 
     /**
      * This method enables dragging on a node, and disables clicking on it
-     * @param source
+     * @param source @see Node
      */
     private void makeDraggable(Node source) {
         source.setOnMouseDragged(e -> {
-            System.out.println("onMouseDragged");
+
             e.setDragDetect(true);
         });
 
         source.setOnDragDetected(e -> {
-            System.out.println("onDragDetected");
-
             source.setStyle("-fx-opacity: 0.7");
-            System.out.println("Da DragDetected: " + source.getStyle());
 
             Dragboard db = source.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
@@ -458,12 +512,13 @@ public class SchoolBoardController extends PageController implements Initializab
 
     }
 
+    private Map<Clan, Integer> numClicks;
+
     /**
      * This method disables the ability to drag the node and enables the ability to show a border when a click is detected on the node
      * @param node
      */
     private void makeClickable(Node node){
-        AtomicInteger numClicks = new AtomicInteger();
         node.setOnMouseClicked( e -> {
                     boolean isSource;
                     int chosenStudents1 = 0;
@@ -473,49 +528,48 @@ public class SchoolBoardController extends PageController implements Initializab
                         chosenStudents2 += students2.get(c);
                     }
 
-                    //from Hall
-                    if(node instanceof ImageView) //it could be from Hall or Card
+                    if(node instanceof ImageView)
                         isSource = jesterStudentsImages.contains(node);
                     else
                         isSource = true;
 
 
-                    if((isSource && chosenStudents1 < numMaxStudentsExchanged) || ((!isSource) && chosenStudents2 < numMaxStudentsExchanged) ){
+                    if((isSource && chosenStudents1 < numMaxStudentsExchanged) || ((!isSource) && chosenStudents2 < numMaxStudentsExchanged)){
                         Clan clan = null;
-                        numClicks.getAndIncrement();
-                        if(node instanceof ImageView) { //it could be from Hall or Card
-                            if(!jesterStudentsImages.contains(node)){ //from Hall
+                        if(node instanceof ImageView) {
+                            if(!jesterStudentsImages.contains(node)){
                                 isSource = false;
                             }
-                            node.getParent().getStylesheets().add("/style.css");
-                            node.getParent().getStyleClass().add("selected-character-pieces");
-                            clan = (Clan.valueOf(node.getId()));
+                            if( ! node.getParent().getStyleClass().contains("selected-character-pieces")) {
+                                node.getParent().getStylesheets().add("/style.css");
+                                node.getParent().getStyleClass().add("selected-character-pieces");
+                                clan = (Clan.valueOf(node.getId()));
+                            }
 
                         } else if (node instanceof Pane && node.getId().contains("table")){
                             for(Clan c: Clan.values()){
                                 if(node.getId().contains(c.name())){
+                                    numClicks.put(c, numClicks.get(c)+1);
                                     for(SchoolBoard schoolBoard: schoolBoards) {
                                         if(schoolBoard.nickname.equals(this.nickname)) {
-                                            if(schoolBoard.studentsChamber.get(c)[numClicks.get()-1].isVisible()){
-                                                schoolBoard.studentsChamber.get(c)[numClicks.get()-1].setDisable(false);
-                                                schoolBoard.studentsChamber.get(c)[numClicks.get()-1].getParent().getStylesheets().add("/style.css");
-                                                schoolBoard.studentsChamber.get(c)[numClicks.get()-1].getParent().getStyleClass().add("selected-character-pieces");
-                                                clan = c;
-                                                System.out.println(c);
+                                            if(schoolBoard.studentsChamber.get(c)[numClicks.get(c)-1].isVisible()){
+                                                schoolBoard.studentsChamber.get(c)[numClicks.get(c)-1].setDisable(false);
+                                                if(! schoolBoard.studentsChamber.get(c)[numClicks.get(c)-1].getParent().getStylesheets().contains("selected-character-pieces")) {
+                                                    schoolBoard.studentsChamber.get(c)[numClicks.get(c) - 1].getParent().getStylesheets().add("/style.css");
+                                                    schoolBoard.studentsChamber.get(c)[numClicks.get(c) - 1].getParent().getStyleClass().add("selected-character-pieces");
+                                                    clan = c;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                        System.out.println(clan);
                         if(clan != null){
                             if(isSource){
                                 students1.put(clan, students1.get(clan) + 1);
-                                System.out.println(students1);
                             } else {
                                 students2.put(clan, students2.get(clan) + 1);
-                                System.out.println(students2);
                             }
                         }
                     } else {
@@ -543,8 +597,6 @@ public class SchoolBoardController extends PageController implements Initializab
      * Disables the ability to drag and drop students to the chamber and to the islands
      */
     public void disableStudentMoving() {
-        //TODO disable all of the dragging
-        //penso basti disabilitare gli studenti
         for (SchoolBoard schoolBoard : schoolBoards) {
             if (schoolBoard.nickname.equals(this.nickname)) {
                 for (ImageView student : schoolBoard.studentsHall)
@@ -560,7 +612,7 @@ public class SchoolBoardController extends PageController implements Initializab
         instructions.setVisible(false);
     }
 
-    private Button doneButton = new Button("Done");
+    private final Button doneButton = new Button("Done");
     private Map<Clan, Integer> students1;
     private Map<Clan, Integer> students2;
     private int numMaxStudentsExchanged;
@@ -579,7 +631,6 @@ public class SchoolBoardController extends PageController implements Initializab
             students1.put(c, 0);
             students2.put(c, 0);
         }
-        System.out.println(students);
         if(player.equals(nickname)) {
             for (SchoolBoard schoolBoard : schoolBoards) {
                 if (schoolBoard.nickname.equals(this.nickname)) {
@@ -595,27 +646,21 @@ public class SchoolBoardController extends PageController implements Initializab
             }
             doneButton.setVisible(true);
             doneButton.setDisable(false);
-            System.out.println("Fuori dallo switch, character= " + character);
             switch (character) {
                 case MINSTREL -> numMaxStudentsExchanged = 2;
                 case JESTER -> {
-                    System.out.println("Sono nello switch");
                     int i = 0;
                     jesterStudentsPane.setVisible(true);
                     jesterStudentsPane.setDisable(false);
-                    System.out.println("jesterStudentsPane visible: " + jesterStudentsPane.isVisible());
                     while (i < students.size()) {
-                        //System.out.println("i: " + i);
                         for (Clan c : Clan.values()) {
-                            //System.out.println("clan: " + c);
                             int numStudents = students.get(c);
                             while (numStudents > 0) {
-                                jesterStudentsImages.get(i).setImage(new Image(getClass().getResource(ConstantsGUI.getImagePathStudent(c)).toExternalForm()));
+                                jesterStudentsImages.get(i).setImage(new Image(getClass().getResource(GuiConstants.getImagePathStudent(c)).toExternalForm()));
                                 jesterStudentsImages.get(i).setVisible(true);
                                 jesterStudentsImages.get(i).setId(c.name());
-                                System.out.println("jesterStudentImages clan: " + jesterStudentsImages.get(i).getId());
                                 makeClickable(jesterStudentsImages.get(i));
-                                jesterStudentsImages.get(i).setDisable(false); //FIXME ricordarsi di disabilitarlo dopo
+                                jesterStudentsImages.get(i).setDisable(false);
                                 numStudents--;
                                 i++;
                             }
@@ -631,10 +676,9 @@ public class SchoolBoardController extends PageController implements Initializab
     }
 
     /**
-     * Disables all of the visual effects related to the characters
+     * Disables all the visual effects related to the characters
      */
     public void disableCharactersActions(){
-        System.out.println("Solo dopo aver cliccato done");
         doneButton.setDisable(true);
         doneButton.setVisible(false);
 
@@ -666,6 +710,10 @@ public class SchoolBoardController extends PageController implements Initializab
         }
     }
 
+    /**
+     * Method sets the text in the turnLabel Label so that the client knows who's turn it is during the STUDENT_MOVING phase
+     * @param message the message to assign to the turnLabel
+     */
     public void changeTurnLabel(String message){
         turnLabel.setText(message);
     }

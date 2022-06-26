@@ -8,6 +8,7 @@ import java.util.Map;
  *
  */
 public interface StudentContainer {
+
     /**
      * The method addStudents adds, if possible, all the students contained in the parameter,
      * if not, for every Clan, it adds all the students it can;

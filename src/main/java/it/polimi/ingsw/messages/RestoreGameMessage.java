@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.controller.SavedGameData;
+import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 
 /**
  * RestoreGameMessage receives a message to restore a previously saved game

@@ -13,6 +13,9 @@ public class Deck implements Serializable {
 
     private final List<Card> cards;
 
+    /**
+     * Constructs a Deck with all the cards
+     */
     public Deck() {
         cards = new ArrayList<>(Arrays.asList(Card.values()));
     }

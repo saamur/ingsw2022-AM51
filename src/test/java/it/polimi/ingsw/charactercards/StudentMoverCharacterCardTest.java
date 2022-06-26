@@ -25,7 +25,6 @@ class StudentMoverCharacterCardTest {
 
     Game game;
     Bag bag;
-    CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     List<CharacterCard> studentMoverCards = new ArrayList<>();
 
     /**
@@ -38,11 +37,11 @@ class StudentMoverCharacterCardTest {
     @BeforeEach
     public void initialization(){
         bag = new Bag();
-        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.MONK, bag));
-        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.JESTER, bag));
-        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.MINSTREL, bag));
-        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.PRINCESS, bag));
-        studentMoverCards.add(characterCardCreator.createCharacterCard(CharacterID.THIEF, bag));
+        studentMoverCards.add(CharacterCardCreator.createCharacterCard(CharacterID.MONK, bag));
+        studentMoverCards.add(CharacterCardCreator.createCharacterCard(CharacterID.JESTER, bag));
+        studentMoverCards.add(CharacterCardCreator.createCharacterCard(CharacterID.MINSTREL, bag));
+        studentMoverCards.add(CharacterCardCreator.createCharacterCard(CharacterID.PRINCESS, bag));
+        studentMoverCards.add(CharacterCardCreator.createCharacterCard(CharacterID.THIEF, bag));
 
     }
 

@@ -154,10 +154,16 @@ public class GUI extends Application implements View{
     @Override
     public void updateGameData(UpdateMessage updateMessage) {
         if(gameData != null){
-            GameState oldGameState =  gameData.getGameState();
-            TurnState oldTurnState = gameData.getTurnState();
+            GameState oldGameState;
+            TurnState oldTurnState;
+            GameState currentGameState;
+            TurnState currentTurnState;
             synchronized (gameData) {
+                oldGameState =  gameData.getGameState();
+                oldTurnState = gameData.getTurnState();
                 updateMessage.updateGameData(gameData);
+                currentGameState =  gameData.getGameState();
+                currentTurnState = gameData.getTurnState();
             }
             Platform.runLater(() -> {
                 synchronized (gameData) {
@@ -233,7 +239,7 @@ public class GUI extends Application implements View{
                     }
                 }
             });
-            if(oldGameState != gameData.getGameState() || oldTurnState != gameData.getTurnState())
+            if(oldGameState != currentGameState || oldTurnState != currentTurnState)
                 chooseScene();
         }
     }
@@ -245,25 +251,25 @@ public class GUI extends Application implements View{
      */
     private void chooseScene(){
         Platform.runLater(() -> {
-            if (gameData.getGameState().equals(GameState.PLANNING)) {
-                ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
-                setCurrScene(DECK);
-            } else if(gameData.getGameState().equals(GameState.ACTION)){
-                if(gameData.getTurnState().equals(TurnState.STUDENT_MOVING)) {
-                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCurrPlayer(gameData.getCurrPlayer());
-                    setCurrScene(SCHOOLBOARDS);
-                }
-                else if(gameData.getTurnState().equals(TurnState.MOTHER_MOVING)) {
-                    ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
-                        for(PlayerData player : gameData.getPlayerData()) {
-                            if(gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
+            synchronized (gameData) {
+                if (gameData.getGameState().equals(GameState.PLANNING)) {
+                    ((DeckController) controllers.get(DECK)).setCurrPlayer(gameData.getCurrPlayer());
+                    setCurrScene(DECK);
+                } else if (gameData.getGameState().equals(GameState.ACTION)) {
+                    if (gameData.getTurnState().equals(TurnState.STUDENT_MOVING)) {
+                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setCurrPlayer(gameData.getCurrPlayer());
+                        setCurrScene(SCHOOLBOARDS);
+                    } else if (gameData.getTurnState().equals(TurnState.MOTHER_MOVING)) {
+                        ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).disableStudentMoving();
+                        for (PlayerData player : gameData.getPlayerData()) {
+                            if (gameData.getCurrPlayer().equals(this.nickname) && player.getNickname().equals(this.nickname)) {
                                 ((IslandsPageController) controllers.get(ISLANDS)).setMotherMovingLabels(player.getCurrCard());
                             }
                         }
                         setCurrScene(ISLANDS);
-                    }
-                else if(gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
-                    setCurrScene(CLOUDS);
+                    } else if (gameData.getTurnState().equals(TurnState.CLOUD_CHOOSING) || gameData.getTurnState().equals(TurnState.END_TURN))
+                        setCurrScene(CLOUDS);
+                }
             }
         });
     }
@@ -359,10 +365,11 @@ public class GUI extends Application implements View{
     }
 
     public TurnState getTurnState(){
-        if(this.gameData.getTurnState() == null)
-            return null;
-        else
-            return this.gameData.getTurnState();
+        TurnState turnState;
+        synchronized (gameData) {
+            turnState = gameData.getTurnState();
+        }
+        return turnState;
     }
 
 }

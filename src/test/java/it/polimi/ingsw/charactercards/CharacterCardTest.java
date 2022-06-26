@@ -2,10 +2,9 @@ package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.charactercards.CharacterCard;
 import it.polimi.ingsw.model.islands.Island;
 import it.polimi.ingsw.model.islands.IslandManager;
-import it.polimi.ingsw.model.charactercards.CharacterCard;
-import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.Test;
@@ -16,10 +15,8 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public abstract class CharacterCardTest {
-    CharacterCardCreator characterCardCreator = new CharacterCardCreator();
     Bag bag;
     CharacterCard characterCard;
 

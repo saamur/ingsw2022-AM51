@@ -1,6 +1,7 @@
 package it.polimi.ingsw.charactercards;
 
 import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.charactercards.CharacterCardCreator;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ public class StepsCharacterCardTest extends CharacterCardTest {
     @BeforeEach
     public void initialization(){
         bag = new Bag();
-        characterCard = characterCardCreator.createCharacterCard(CharacterID.POSTMAN, bag);
+        characterCard = CharacterCardCreator.createCharacterCard(CharacterID.POSTMAN, bag);
     }
 
 

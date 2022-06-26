@@ -131,7 +131,7 @@ public class CLI implements View, Runnable {
 
     @Override
     public void handleErrorMessage(String message) {
-        System.out.println(CliGraphicConstants.ANSI_RED + message);
+        System.out.println(CliGraphicConstants.ANSI_RED + message + CliGraphicConstants.ANSI_RESET);
     }
 
     @Override

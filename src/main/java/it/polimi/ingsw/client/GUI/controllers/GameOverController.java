@@ -19,6 +19,10 @@ public class GameOverController extends PageController implements Initializable 
     public void initialize(URL url, ResourceBundle resourceBundle){
     }
 
+    /**
+     * this method is called when the game is over and set the winners of the game
+     * @param winners
+     */
     public void setWinners(List<String> winners){
         winner1.setText(winners.get(0));
         if(winners.size() > 1){

@@ -39,10 +39,10 @@ public class ActivateEffectController extends PageController implements Initiali
     }
 
 
-
-    public void setNickname(String nickname){
-        this.nickname = nickname;
-    }
+    /**
+     * Method is called when the client clicks on a clan
+     * @param mouseEvent @see MouseEvent
+     */
 
     public void selectClan(javafx.scene.input.MouseEvent mouseEvent) {
         System.out.println(mouseEvent.getSource() + " has been chosen");
@@ -50,6 +50,11 @@ public class ActivateEffectController extends PageController implements Initiali
         sendMessage(new SetClanCharacterMessage(clan));
     }
 
+
+    /**
+     * Method is connected to the "Go Back" Button in the fxml file, it opens the GameBoard scene
+     * @param actionEvent @see ActionEvent
+     */
     public void back(ActionEvent actionEvent) {
         gui.setCurrScene(GAMEBOARD);
     }

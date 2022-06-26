@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.gamerecords;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

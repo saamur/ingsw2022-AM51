@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 import it.polimi.ingsw.model.GameInterface;
 
 import java.io.*;

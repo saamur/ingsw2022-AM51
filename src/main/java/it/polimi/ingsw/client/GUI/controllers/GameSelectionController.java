@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
-import it.polimi.ingsw.controller.OpeningNewGameData;
-import it.polimi.ingsw.controller.OpeningRestoredGameData;
-import it.polimi.ingsw.controller.SavedGameData;
+import it.polimi.ingsw.controller.gamerecords.OpeningNewGameData;
+import it.polimi.ingsw.controller.gamerecords.OpeningRestoredGameData;
+import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 import it.polimi.ingsw.messages.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;

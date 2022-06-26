@@ -1,5 +1,8 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.gamerecords.OpeningNewGameData;
+import it.polimi.ingsw.controller.gamerecords.OpeningRestoredGameData;
+import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 import it.polimi.ingsw.exceptions.NicknameNotAvailableException;
 import it.polimi.ingsw.exceptions.NumberOfPlayerNotSupportedException;
 import it.polimi.ingsw.messages.AvailableGamesMessage;

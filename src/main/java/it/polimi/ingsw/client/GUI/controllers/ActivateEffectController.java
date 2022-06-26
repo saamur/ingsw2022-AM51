@@ -26,8 +26,6 @@ public class ActivateEffectController extends PageController implements Initiali
     @FXML private Button goToGameBoard;
 
 
-    private String nickname;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         Map<Clan, ImageView> clans = new EnumMap<>(Clan.class);

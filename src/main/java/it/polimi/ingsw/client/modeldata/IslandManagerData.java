@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * contains the information about all the islands in the game and the position of mother nature
+ */
+
 public final class IslandManagerData implements Serializable {
 
     private final List<IslandData> islands;

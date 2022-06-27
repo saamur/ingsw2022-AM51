@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * contains all the data of the game
+ */
+
 public class GameData implements Serializable {
 
     private IslandManagerData islandManager;

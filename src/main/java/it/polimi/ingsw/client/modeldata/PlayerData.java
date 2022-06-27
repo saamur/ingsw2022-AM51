@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * contains all the data of the player
+ */
+
 public final class PlayerData implements Serializable {
 
     private final String nickname;

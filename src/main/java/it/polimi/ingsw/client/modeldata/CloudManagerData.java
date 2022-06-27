@@ -6,6 +6,11 @@ import it.polimi.ingsw.model.clouds.CloudManager;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ * contains the data of the clouds in the game
+ * @param clouds clouds in the game
+ */
+
 public record CloudManagerData(CloudData[] clouds) implements Serializable {
     public static CloudManagerData createCloudManagerData(CloudManager cloudManager){
         Cloud[] clouds = cloudManager.getClouds();

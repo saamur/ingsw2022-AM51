@@ -19,7 +19,7 @@ public class ModelDisplay {
 
     /**
      * the method displayAvailableGames shows the list of the new available games, the restored games and the saved games that the player can resume
-     * @param availableGamesMessage
+     * @param availableGamesMessage message that contains all the available games
      */
 
     public static void displayAvailableGames (AvailableGamesMessage availableGamesMessage) {
@@ -170,7 +170,7 @@ public class ModelDisplay {
 
     /**
      * this method shows the details of a player's hall
-     * @param hallData
+     * @param hallData data of the player's hall
      */
 
     private static void displayHall (HallData hallData) {
@@ -205,7 +205,7 @@ public class ModelDisplay {
 
     /**
      * this method shows the details of a player's chamber
-     * @param chamberData
+     * @param chamberData data of the player's chamber
      */
 
     private static void displayChamber (ChamberData chamberData){
@@ -234,7 +234,7 @@ public class ModelDisplay {
 
     /**
      * this method shows the islands
-     * @param islandManagerData
+     * @param islandManagerData data of the islands in the game
      * @param bool boolean parameter it is used to notify if the game is in expert mode and if one of the character
      *             cards is GRANDMA in order to display the presence of prohibition cards on the islands
      */
@@ -254,10 +254,11 @@ public class ModelDisplay {
 
     /**
      * support method used for graphical representation of islands
-     * @param islandManagerData
+     * @param islandManagerData data of the islands in the game
      * @param init starting index for island counting
      * @param end ending index for island counting
-     * @param bool
+     * @param bool boolean parameter it is used to notify if the game is in expert mode and if one of the character
+     *      *             cards is GRANDMA in order to display the presence of prohibition cards on the islands
      */
 
     private static void updateIsland(IslandManagerData islandManagerData, int init, int end, boolean bool) {
@@ -332,7 +333,7 @@ public class ModelDisplay {
 
     /**
      * this method shows the details of a player's towers
-     * @param playerData
+     * @param playerData data of the player whose number of towers will be represented
      */
 
     private static void displayTowersPlayer (PlayerData playerData){
@@ -363,7 +364,7 @@ public class ModelDisplay {
 
     /**
      * his method shows the clouds' data
-     * @param cloudManagerData
+     * @param cloudManagerData data of the clouds
      */
 
     private static void displayClouds (CloudManagerData cloudManagerData){
@@ -440,7 +441,7 @@ public class ModelDisplay {
 
     /**
      * support method used for graphical representation of the available character cards
-     * @param characterCardData
+     * @param characterCardData data of the character card
      */
 
     private static void printCharacter(CharacterCardData characterCardData){
@@ -462,7 +463,7 @@ public class ModelDisplay {
                     System.out.print(CliGraphicConstants.getColorStudent(c) + CliGraphicConstants.STUDENT_SYMBOL + CliGraphicConstants.ANSI_RESET + " ");
                 }
             }
-            for (int k = 1; k < ((characterCardData.characterID().toString().length() + 8) - ((characterCardData.students().values().stream().mapToInt(i -> i).sum()) * 2)) - 1; k++) { //todo capire se va messo l'8 nelle costanti
+            for (int k = 1; k < ((characterCardData.characterID().toString().length() + 8) - ((characterCardData.students().values().stream().mapToInt(i -> i).sum()) * 2)) - 1; k++) {
                 System.out.print(" ");
             }
             System.out.print("|");
@@ -473,7 +474,7 @@ public class ModelDisplay {
 
     /**
      * support method used for graphical representation of the available character cards
-     * @param characterCardData
+     * @param characterCardData data of the character card
      */
 
     private static void displayCharacterCard (CharacterCardData characterCardData) {
@@ -488,7 +489,7 @@ public class ModelDisplay {
 
     /**
      * this method display the cards available in the player's deck
-     * @param playerData
+     * @param playerData data of the player whose deck is to be represented
      */
 
     public static void displayDeck (PlayerData playerData) {
@@ -500,8 +501,8 @@ public class ModelDisplay {
 
     /**
      * support method used for graphical representation of the deck
-     * @param init
-     * @param playerData
+     * @param init initial index to count the cards
+     * @param playerData data of the player whose deck is to be represented
      * @param d parameter introduced for display limits
      */
 
@@ -548,7 +549,7 @@ public class ModelDisplay {
 
     /**
      * this method shows the coins owned by a player
-     * @param playerData
+     * @param playerData data of the player whose number of coins is to be represented
      */
 
     private static void displayCoins(PlayerData playerData){

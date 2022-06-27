@@ -7,6 +7,16 @@ import it.polimi.ingsw.model.charactercards.CharacterID;
 
 import java.io.Serializable;
 
+/**
+ * contains the information about the phase of the game
+ * @param gameState state of the game
+ * @param turnState state of the turn
+ * @param currPlayerNickname nickname of the current player
+ * @param lastRound flag that says if it is the last round or not
+ * @param activatedCharacter active character card
+ * @param activatedCharacterPunctualEffectApplied flag that says if the effect of the active character card has been applied or not
+ */
+
 public record GamePhaseData(GameState gameState,
                             TurnState turnState,
                             String currPlayerNickname,

@@ -11,6 +11,14 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * contains all the data of a specific character card
+ * @param characterID ID of the character card
+ * @param cost cost of the character card
+ * @param numProhibitionCards number of prohibition card on the character
+ * @param students students on the card
+ */
+
 public record CharacterCardData(CharacterID characterID,
                                 int cost,
                                 int numProhibitionCards,

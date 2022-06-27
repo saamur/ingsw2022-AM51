@@ -8,6 +8,16 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * contains the information of an Island
+ * @param numberOfIslands number of islands that compose it
+ * @param students students on the island
+ * @param towerColor color of the tower on the island
+ * @param numberOfTowers number of towers present on the island
+ * @param numProhibitionCards number of prohibition card on the island
+ * @param islandIndex index of the island
+ */
+
 public record IslandData(int numberOfIslands,
                          Map<Clan, Integer> students,
                          TowerColor towerColor,

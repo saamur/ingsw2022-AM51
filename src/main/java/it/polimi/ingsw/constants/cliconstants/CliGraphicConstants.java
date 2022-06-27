@@ -4,7 +4,10 @@ import it.polimi.ingsw.model.Clan;
 
 import java.util.EnumMap;
 import java.util.Map;
-
+/**
+ * The CliGraphicConstants contains the important constants for the graphical part of the CLI
+ *
+ */
 public class CliGraphicConstants {
 
     public static final String ANSI_RED = "\033[31m";
@@ -25,9 +28,7 @@ public class CliGraphicConstants {
     public static final char PROHIBITION_CARD_SYMBOL = 'X';
     public static final char STUDENTS_PRESENT = '▓';
     public static final char STUDENTS_NOT_PRESENT = '░';
-//"◙"
-//"○"
-// ○
+
 
     public static final int MAX_NAME_CARD_LENGTH = 8;
 

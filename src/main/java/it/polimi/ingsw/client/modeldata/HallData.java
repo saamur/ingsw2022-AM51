@@ -7,6 +7,11 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * contains the information of the hall
+ * @param students students in the hall
+ */
+
 public record HallData(Map<Clan, Integer> students) implements Serializable {
     public static HallData createHallData (Hall hall){
         return new HallData(hall.getStudents());

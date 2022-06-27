@@ -7,6 +7,13 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * the record contains all the data of a chamber
+ * @param students students contains in the chamber
+ * @param professors presence of professors in the chamber
+ * @param coins number of coins
+ * @param coinsGiven number of coins obtained
+ */
 public record ChamberData(Map<Clan, Integer> students,
                           Map<Clan, Boolean> professors,
                           int coins,

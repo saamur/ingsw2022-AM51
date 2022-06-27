@@ -12,8 +12,22 @@ import it.polimi.ingsw.model.player.Card;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * The CommandParser class contains the necessary methods to parse the commands inserted by a user playing with the cli
+ * and convert them in the corresponding messages
+ *
+ */
 public class CommandParser {
 
+    /**
+     * The parseCommand methods parses the given line and returns the corresponding Message
+     * @param line                  the command inserted by the player
+     * @param gameData              the data of the game to which the player belongs to, null if not available yet
+     * @param nickname              the nickname of the player, null if not available yet
+     * @param gameChosen            whether the player has chosen a game or not
+     * @param availableGamesMessage the message containing the available games for this player, null if not available yet
+     * @return                      the Message that correspond to the inserted command, null if it is not valid
+     */
     public static Message parseCommand (String line, GameData gameData, String nickname, boolean gameChosen, AvailableGamesMessage availableGamesMessage) {
 
         Message message = null;
@@ -134,6 +148,13 @@ public class CommandParser {
 
     }
 
+    /**
+     * The parseCharacterCommand parses the given line according to the given characterID and creates
+     * the corresponding message
+     * @param line          the command inserted by the player
+     * @param characterID   the CharacterID of the active character
+     * @return              the Message that correspond to the inserted command, null if it is not valid
+     */
     private static Message parseCharacterCommand (String line, CharacterID characterID) {
 
         Message message = null;
@@ -176,6 +197,13 @@ public class CommandParser {
 
     }
 
+    /**
+     * The method mapFromStringOfClans creates, given a string of clans separated by a space, a map that for each clan
+     * contains the number of times the clan was present in the string
+     * @param line  the stringe to parse
+     * @return      a map that for each clan contains the number of times the clan was present in the string
+     * @throws IllegalArgumentException when the string contains no words, or at least one word does not correspond to any clan
+     */
     private static Map<Clan, Integer> mapFromStringOfClans (String line) throws IllegalArgumentException {
 
         Map<Clan, Integer> map = new EnumMap<>(Clan.class);

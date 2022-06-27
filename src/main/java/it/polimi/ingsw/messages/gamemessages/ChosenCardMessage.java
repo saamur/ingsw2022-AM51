@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.player.Card;
 
 /**
- * ChosenCardMessage gets a message to choose a card
+ * The ChosenCardMessage record models a message to choose a card
  * @param card the chosen card
  */
 public record ChosenCardMessage(Card card) implements GameMessage {

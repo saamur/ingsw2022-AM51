@@ -9,7 +9,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * EndTurnMessage gets the message that notify the end of a player's turn
+ * The EndTurnMessage record models the message that notify the end of a player's turn
  */
 public record EndTurnMessage() implements GameMessage {
 

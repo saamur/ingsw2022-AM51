@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * SetClanCharacterMessage receives a message containing the choice of a student's clan to use on a character card
+ * The SetClanCharacterMessage record models a message containing the choice of a student's clan to use on a character card
  * @param clan clan of the student to be used
  */
 

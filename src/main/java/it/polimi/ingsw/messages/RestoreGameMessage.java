@@ -3,7 +3,7 @@ package it.polimi.ingsw.messages;
 import it.polimi.ingsw.controller.gamerecords.SavedGameData;
 
 /**
- * RestoreGameMessage receives a message to restore a previously saved game
+ * The RestoreGameMessage record is sent by a client for asking the server to restore a previously saved game
  * @param savedGameData data of the game to restore
  */
 

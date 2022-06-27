@@ -3,7 +3,7 @@ package it.polimi.ingsw.messages;
 import java.util.List;
 
 /**
- * GameOverMessage receives the message announcing the winners of the game
+ * The GameOverMessage record models the message announcing the winners of the game
  * @param winnersNickname nicknames of the winners
  */
 

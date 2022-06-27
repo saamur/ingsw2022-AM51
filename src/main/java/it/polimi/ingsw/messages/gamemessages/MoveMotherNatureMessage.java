@@ -6,7 +6,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * MoveMotherNatureMessage receive a message to move mother nature in a chosen island
+ * The MoveMotherNatureMessage record models a message to move mother nature on a chosen island
  * @param islandIndex the index of the island on which to place mother nature
  */
 

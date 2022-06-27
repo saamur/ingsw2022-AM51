@@ -6,7 +6,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * ChosenCloudMessage gets a message to choose a cloud
+ * The ChosenCloudMessage record models a message to choose a cloud
  * @param cloudIndex index of the chosen cloud
  */
 public record ChosenCloudMessage(int cloudIndex) implements GameMessage {

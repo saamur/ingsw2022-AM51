@@ -1,10 +1,8 @@
 package it.polimi.ingsw.messages;
 
 /**
- * PlayerAddedToGameMessage the message that confirms that a player has been added to the game
- * @param message
+ * The PlayerAddedToGameMessage class models the message that confirms that a player has been added to the game
  */
-
 public record PlayerAddedToGameMessage(String message) implements Message {
 
     @Override

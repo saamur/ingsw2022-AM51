@@ -73,9 +73,10 @@ public abstract class CharacterCard implements Serializable {
     /**
      * The method effectPlayerProfessor calculates the Player that has to own the professor of the Clan given by parameter
      * accordingly with the effect on this of this CharacterCard
-     * @param players   all the players of the game
-     * @param clan      the Clan of the professor to calculate its owner
-     * @return          the Player that has to own the professor of the Clan clan, null in case of a tie
+     * @param players       all the players of the game
+     * @param currPlayer    the player currently playing
+     * @param clan          the Clan of the professor to calculate its owner
+     * @return              the Player that has to own the professor of the Clan clan, null in case of a tie
      */
     public Player effectPlayerProfessor (Player[] players, Player currPlayer, Clan clan) {
         return Turn.defaultPlayerProfessor(players, clan);

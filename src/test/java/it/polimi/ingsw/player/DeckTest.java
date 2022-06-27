@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Class DeckTest tests Deck.
- * @link Deck
+ * @see Deck
  */
 public class DeckTest {
     Deck deck;

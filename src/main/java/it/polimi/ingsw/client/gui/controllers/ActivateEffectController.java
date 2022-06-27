@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 
 import java.net.URL;
@@ -39,10 +40,9 @@ public class ActivateEffectController extends PageController implements Initiali
 
     /**
      * Method is called when the client clicks on a clan
-     * @param mouseEvent @see MouseEvent
+     * @see MouseEvent
      */
-
-    public void selectClan(javafx.scene.input.MouseEvent mouseEvent) {
+    public void selectClan(MouseEvent mouseEvent) {
         System.out.println(mouseEvent.getSource() + " has been chosen");
         Clan clan = Clan.valueOf(((javafx.scene.image.ImageView) mouseEvent.getSource()).getId().toUpperCase(Locale.ROOT));
         sendMessage(new SetClanCharacterMessage(clan));

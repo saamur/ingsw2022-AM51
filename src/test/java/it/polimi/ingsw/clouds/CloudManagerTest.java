@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * CloudManagerTest tests the class CloudManager
- * @link CloudManager
+ * @see CloudManager
  */
 public class CloudManagerTest {
     CloudManager cloudManager;

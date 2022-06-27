@@ -14,6 +14,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The class ServerHandler handles the connection, the pings and the communication with the server
+ *
+ */
 public class ServerHandler implements Runnable, PropertyChangeListener {
 
     private final Socket socket;
@@ -23,6 +27,13 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
     private final View view;
     private final AtomicBoolean connected;
 
+    /**
+     * Creates a ServerHandler with a connection to the given address and port
+     * @param address   the IP address of the server
+     * @param port      the port of the server
+     * @param view      the View that needs the connection, on which the actions corresponding to the messages received will be performed
+     * @throws IOException  when it is not possible to establish the connection with the server for any reason
+     */
     public ServerHandler (String address, int port, View view) throws IOException {
         this.socket = new Socket(address, port);
         out = new ObjectOutputStream(socket.getOutputStream());
@@ -102,6 +113,11 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
 
     }
 
+    /**
+     * The method sendObject sends the given object through the socket to the server
+     * @param o the object that will be sent through the net
+     * @throws IOException  if any error occurs with the socket
+     */
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
     }
@@ -115,6 +131,9 @@ public class ServerHandler implements Runnable, PropertyChangeListener {
         }
     }
 
+    /**
+     * The method disconnect breaks the connection with the server
+     */
     public void disconnect(){
         connected.set(false);
     }

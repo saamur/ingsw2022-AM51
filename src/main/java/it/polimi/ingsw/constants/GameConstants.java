@@ -7,7 +7,7 @@ import java.util.*;
 import static it.polimi.ingsw.model.charactercards.CharacterID.*;
 
 /**
- * GameConstants class contains the main constants used in the Erianys game
+ * The GameConstants class contains the main constants used in the Erianys game
  *
  */
 public class GameConstants {

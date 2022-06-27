@@ -5,7 +5,12 @@ import it.polimi.ingsw.model.charactercards.CharacterID;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * The CliCommandConstants contains the textual commands needed to play to Eriantys with the CLI
+ *
+ */
 public class CliCommandConstants {
+
     public static final String JOINGAME_COMMAND = "joingame";
     public static final String RESTOREGAME_COMMAND = "restoregame";
     public static final String CREATENEWGAME_COMMAND = "createnewgame";
@@ -13,7 +18,7 @@ public class CliCommandConstants {
     public static final String ISLAND_COMMAND = "island";
     public static final String ENDTURN_COMMAND = "endturn";
     public static final String ACTIVATECHARACTER_COMMAND = "activatecharacter";
-    public static final Map<CharacterID, String> CHARACTERS_EFFECTS_COMMANDS;
+    private static final Map<CharacterID, String> CHARACTERS_EFFECTS_COMMANDS;
 
     static {
         CHARACTERS_EFFECTS_COMMANDS = new EnumMap<>(CharacterID.class);

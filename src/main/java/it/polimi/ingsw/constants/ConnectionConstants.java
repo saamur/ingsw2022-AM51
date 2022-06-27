@@ -1,5 +1,10 @@
 package it.polimi.ingsw.constants;
 
+/**
+ * The ConnectionConstants class contains the necessary constants to establish and maintain the connection
+ * between the server and the clients
+ *
+ */
 public class ConnectionConstants {
 
     public static final int PING_TIME = 5000;

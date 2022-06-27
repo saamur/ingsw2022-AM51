@@ -115,6 +115,7 @@ public class GUI extends Application implements View{
                 ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                 ((SchoolBoardController) controllers.get(SCHOOLBOARDS)).setSchoolBoards(gameData.getPlayerData(), gameData.isExpertModeEnabled());
                 ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager(), gameData.isExpertModeEnabled());
+                ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState(), nickname.equals(gameData.getCurrPlayer()), gameData.isLastRound());
                 ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                 if(gameData.isExpertModeEnabled()) {
                     ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
@@ -174,10 +175,7 @@ public class GUI extends Application implements View{
                     if (updateMessage instanceof UpdateChosenCard) {
                         ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
                     }else if (updateMessage instanceof UpdateCloudManager) {
-                        if(!gameData.isLastRound())
-                            ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
-                        else
-                            ((CloudController) controllers.get(CLOUDS)).lastRound();
+                        ((CloudController) controllers.get(CLOUDS)).updateClouds(gameData.getCloudManager());
                     } else if(updateMessage instanceof UpdateCharacterCard){
                         ((CharactersController) controllers.get(CHARACTERS)).updateCharacterCard(((UpdateCharacterCard) updateMessage).characterCard());
                         }else if (updateMessage instanceof UpdateCloud){
@@ -193,7 +191,7 @@ public class GUI extends Application implements View{
                         ((IslandsPageController) controllers.get(ISLANDS)).updateIslands(gameData.getIslandManager());
                     } else if (updateMessage instanceof UpdateGamePhase) {
                         updateLabel( ((UpdateGamePhase) updateMessage).gamePhaseData());
-                        ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState(), nickname.equals(gameData.getCurrPlayer()));
+                        ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState(), nickname.equals(gameData.getCurrPlayer()), gameData.isLastRound());
                         ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());
                         if(!gameData.isActiveCharacterPunctualEffectApplied())
                             ((GameBoardController) controllers.get(GAMEBOARD)).setActivatedCharacter(gameData.getActiveCharacterCard());

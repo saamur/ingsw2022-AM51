@@ -178,10 +178,6 @@ public class CloudController extends PageController implements Initializable {
     public void updateCloud(CloudData cloud){
         if(cloud.picked()){
             clouds.get(cloud.cloudIndex()).setOpacity(0.5);
-            if(isClientTurn) {
-                endTurnButton.setVisible(true);
-                endTurnButton.setDisable(false);
-            }
         }
     }
 
@@ -191,13 +187,17 @@ public class CloudController extends PageController implements Initializable {
      * @param isTheirTurn true if it's the turn of the client
      * @see TurnState
      */
-    public void updateTurnState(TurnState turnState, boolean isTheirTurn){
+    public void updateTurnState(TurnState turnState, boolean isTheirTurn, boolean isLastRound){
         this.isClientTurn = isTheirTurn;
         if(turnState == TurnState.CLOUD_CHOOSING || turnState == TurnState.END_TURN){
             if(isClientTurn) {
                 if (expertModeEnabled) {
                     activateCharacterButton.setVisible(true);
                     activateCharacterButton.setDisable(false);
+                }
+                if(turnState == TurnState.END_TURN){
+                    endTurnButton.setVisible(true);
+                    endTurnButton.setDisable(false);
                 }
                 chooseCloudLabel.setVisible(true);
             }
@@ -206,9 +206,10 @@ public class CloudController extends PageController implements Initializable {
             endTurnButton.setDisable(true);
             activateCharacterButton.setVisible(false);
             activateCharacterButton.setDisable(true);
-            endTurnButton.setDisable(true);
             chooseCloudLabel.setVisible(false);
         }
+        if(isLastRound)
+            lastRound();
     }
 
     /**
@@ -249,7 +250,7 @@ public class CloudController extends PageController implements Initializable {
     /**
      * This method is used for the last round. It makes it possible to end the turn without choosing a cloud.
      */
-    public void lastRound(){
+    private void lastRound(){
         for(AnchorPane cloud : clouds){
             for(Node child : cloud.getChildren()) {
                 child.setVisible(false);

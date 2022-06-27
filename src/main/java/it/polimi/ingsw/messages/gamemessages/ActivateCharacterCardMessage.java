@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.charactercards.CharacterID;
 
 /**
- * ActivateCharacterCardMessage gets a message to activate a character card
+ * The ActivateCharacterCardMessage record models the message to activate a character card
  * @param characterCardID ID of the card to activate
  */
 public record ActivateCharacterCardMessage(CharacterID characterCardID) implements GameMessage {

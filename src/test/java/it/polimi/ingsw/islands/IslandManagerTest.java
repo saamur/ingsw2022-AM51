@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Class tests IslandManager.
  *
- * @link IslandManager
+ * @see IslandManager
  */
 public class IslandManagerTest {
     IslandManager islandManager;

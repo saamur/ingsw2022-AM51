@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 /**
- * NicknameAcceptedMessage is the message sent by the Server to a client when the nickname chosen by the client has been accepted
+ * The NicknameAcceptedMessage record is the message sent by the server to a client when the nickname chosen by the client has been accepted
  */
 public record NicknameAcceptedMessage(String nickname) implements Message {
 

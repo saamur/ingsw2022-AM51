@@ -6,7 +6,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * ApplyCharacterCardEffectMessage gets the message to activate the effect of an active card on a chosen island
+ * The ApplyCharacterCardEffectMessage record models the message to activate the effect of an active card on a chosen island
  * @param islandIndex index of the island where to activate the effect
  */
 

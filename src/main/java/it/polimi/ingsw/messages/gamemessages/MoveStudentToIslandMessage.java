@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * MoveStudentToIslandMessage receive a message to move a student to a chosen island
+ * The MoveStudentToIslandMessage record models a message to move a student on a chosen island
  * @param clan clan of the student to be moved
  * @param islandIndex the index of the island on which to place the student
  */

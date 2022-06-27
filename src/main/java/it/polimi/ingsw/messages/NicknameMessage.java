@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 /**
- * NicknameMessage receive the nickname of the player
+ * The NicknameMessage record is sent by the client to the server and contains the nickname chosen by the player
  * @param nickname nickname chosen by the player
  */
 

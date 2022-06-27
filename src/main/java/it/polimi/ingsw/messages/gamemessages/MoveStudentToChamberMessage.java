@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Clan;
 import it.polimi.ingsw.model.GameInterface;
 
 /**
- * MoveStudentToChamberMessage receive a message to move a student in the chamber
+ * The MoveStudentToChamberMessage record models a message to move a student in the chamber
  * @param clan clan of the student to be moved
  */
 

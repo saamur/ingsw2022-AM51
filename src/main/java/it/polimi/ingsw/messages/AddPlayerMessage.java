@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 /**
- * The AddPlayerMessage is the message sent to the server to add a player in the game
+ * The AddPlayerMessage record is the message sent to the server to add a player in the game
  * @param gameID the ID that identifies the game in which to add the player
  */
 public record AddPlayerMessage(int gameID) implements Message {

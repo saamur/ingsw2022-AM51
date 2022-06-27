@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * PlayerTest tests Player.
  *
- * @link Player
+ * @see Player
  */
 public class PlayerTest {
     Player player1;

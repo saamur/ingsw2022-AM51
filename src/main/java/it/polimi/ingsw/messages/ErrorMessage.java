@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 /**
- * gets an error message
+ * The ErrorMessage record models an error message sent from the server to the clients
  * @param error specifies the error
  */
 public record ErrorMessage(String error) implements Message {

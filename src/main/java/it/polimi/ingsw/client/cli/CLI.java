@@ -19,7 +19,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-
+/**
+ * The CLI class contains the necessary methods needed to play to Eriantys with the Command Line Interface
+ *
+ */
 public class CLI implements View, Runnable {
 
     private String nickname;
@@ -31,6 +34,9 @@ public class CLI implements View, Runnable {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    /**
+     * Constructs a Cli instance asking the user the IP address and the port of the server
+     */
     public CLI(){
 
         System.out.println("Welcome to the CLI!");

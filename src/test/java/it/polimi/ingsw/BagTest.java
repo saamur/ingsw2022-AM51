@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * BagTest tests class Bag
  *
- * @link Bag
+ * @see Bag
  */
 public class BagTest {
     Bag b;

@@ -428,10 +428,8 @@ public class Game implements GameInterface {
 
             }
 
-            if (potentialWinners.size() == 1) {
-                winners = potentialWinners;
-                return;
-            }
+            if (potentialWinners.size() == 1)
+                break;
 
         }
 

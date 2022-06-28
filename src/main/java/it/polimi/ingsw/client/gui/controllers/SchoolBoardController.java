@@ -505,7 +505,6 @@ public class SchoolBoardController extends PageController implements Initializab
         });
 
         source.setOnDragDone(e -> {
-            System.out.println("OnDragDone");
             source.setStyle(null);
             e.consume();
         });

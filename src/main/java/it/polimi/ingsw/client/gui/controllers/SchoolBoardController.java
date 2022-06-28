@@ -451,6 +451,10 @@ public class SchoolBoardController extends PageController implements Initializab
                             sendMessage(new MoveStudentToChamberMessage(clan));
                         else {
                             ((IslandsPageController) gui.getControllers().get(ISLANDS)).setDroppedStudent(clan);
+                            for(SchoolBoard schoolBoard: schoolBoards)
+                                if(schoolBoard.nickname.equals(this.nickname))
+                                    for(int i=0; i<schoolBoard.studentsHall.length; i++)
+                                        schoolBoard.studentsHall[i].setStyle(null);
                             target.getStyleClass().removeIf(style -> style.equals("image-drag-over"));
                             Platform.runLater(() -> gui.setCurrScene(ISLANDS));
                         }
@@ -501,6 +505,7 @@ public class SchoolBoardController extends PageController implements Initializab
         });
 
         source.setOnDragDone(e -> {
+            System.out.println("OnDragDone");
             source.setStyle(null);
             e.consume();
         });

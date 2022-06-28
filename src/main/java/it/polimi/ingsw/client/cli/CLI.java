@@ -184,6 +184,7 @@ public class CLI implements View, Runnable {
         } else if (gameData == null) {
             System.out.println("wait for the game to start...");
         } else if (gameData.getGameState() == GameState.GAME_OVER) {
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             System.out.println("THE GAME IS OVER\n");
             for(String winner : gameData.getWinnersNicknames()){
                 if(nickname.equals(winner)){
@@ -191,7 +192,6 @@ public class CLI implements View, Runnable {
                     System.out.println("\n\n");
                 }
             }
-
 
             System.out.print("Winners: ");
             for (String s : gameData.getWinnersNicknames())

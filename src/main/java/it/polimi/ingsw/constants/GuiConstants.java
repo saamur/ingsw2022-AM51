@@ -50,7 +50,7 @@ public class GuiConstants {
         CHARACTERS_IMAGES.put(THIEF, "/png/characters/CarteTOT_front11.jpg");
     }
 
-    private static final Map<Clan, String> STUDENT_IMAGES = new EnumMap<>(Clan.class); //FIXME studentS?
+    private static final Map<Clan, String> STUDENT_IMAGES = new EnumMap<>(Clan.class);
     static{
         STUDENT_IMAGES.put(PIXIES, "/png/clan/students/student_yellow.png");
         STUDENT_IMAGES.put(UNICORNS, "/png/clan/students/student_blue.png");
@@ -59,7 +59,7 @@ public class GuiConstants {
         STUDENT_IMAGES.put(FAIRIES, "/png/clan/students/student_pink.png");
     }
 
-    private static final Map<Clan, String> PROFESSOR_IMAGES = new EnumMap<>(Clan.class); //FIXME professorS?
+    private static final Map<Clan, String> PROFESSOR_IMAGES = new EnumMap<>(Clan.class);
     static{
         PROFESSOR_IMAGES.put(PIXIES, "/png/clan/professors/teacher_yellow.png");
         PROFESSOR_IMAGES.put(UNICORNS, "/png/clan/professors/teacher_blue.png");

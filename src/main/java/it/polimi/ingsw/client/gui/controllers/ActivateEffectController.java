@@ -43,7 +43,6 @@ public class ActivateEffectController extends PageController implements Initiali
      * @see MouseEvent
      */
     public void selectClan(MouseEvent mouseEvent) {
-        System.out.println(mouseEvent.getSource() + " has been chosen");
         Clan clan = Clan.valueOf(((javafx.scene.image.ImageView) mouseEvent.getSource()).getId().toUpperCase(Locale.ROOT));
         sendMessage(new SetClanCharacterMessage(clan));
     }

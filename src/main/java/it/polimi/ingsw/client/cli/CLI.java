@@ -193,7 +193,7 @@ public class CLI implements View, Runnable {
                 }
             }
 
-            System.out.print("Winners: ");
+            System.out.print("Winner" + (gameData.getWinnersNicknames().size() == 1 ? "" : "s"));
             for (String s : gameData.getWinnersNicknames())
                 System.out.println(s + " ");
             System.out.println();

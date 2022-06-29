@@ -13,7 +13,7 @@
             <Image url="@../png/logo_eriantys.png" />
          </image>
       </ImageView>
-      <Text layoutX="-8.0" layoutY="146.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="THE WINNERS:" textAlignment="CENTER" wrappingWidth="423.99999999999994">
+      <Text fx:id="winner" layoutX="-8.0" layoutY="146.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="423.99999999999994">
          <font>
             <Font name="System Bold Italic" size="49.0" />
          </font>

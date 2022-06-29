@@ -65,7 +65,7 @@ followed by "cli" if you want to play with the CLI, and "gui" or no parameter at
 <br>
 It is also possible to run the GUI by clicking twice on the jar file
 It is possible to play a game with a minimum of two players and a maximum of three.<br>
-The game will create two folders in which it will save the unfinished games that can be reopen in the future.
+The game will create two folders in which it will save the unfinished games that can be reopened in the future.
 ## Eriantys' rules 
 You can find the rules of the game [here](https://craniointernational.com/2021/wp-content/uploads/2021/06/Eriantys_rules_small.pdf)
 

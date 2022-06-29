@@ -58,6 +58,7 @@ Game game;
     @Test
     public void testAddPlayer() {
         setNotExpertGame();
+        assertNull(game.getNicknameCurrPlayer());
         assertDoesNotThrow(() -> game.addPlayer("Samu"));
         String nicknameAddedPlayer = game.getPlayers()[1].getNickname();
         assertEquals("Samu", nicknameAddedPlayer);
@@ -100,6 +101,7 @@ Game game;
     @Test
     public void testChosenCard() {
         setNotExpertGameTwoPlayers();
+        assertNull(game.getTurnState());
         if (game.getIndexCurrFirstPlayer() == 0) {
             assertThrows(WrongPlayerException.class, () -> game.chosenCard("Samu", Card.CAT));
             GameState invariantGameState = game.getGameState();
@@ -341,6 +343,8 @@ Game game;
     @EnumSource(Clan.class)
     public void testWrongPlayerMoveStudentToIsland(Clan clan) {
         setPlanning();
+        assertEquals(TurnState.STUDENT_MOVING, game.getTurnState());
+        assertEquals("Giulia", game.getNicknameCurrPlayer());
         game.getPlayers()[1].getHall().addStudent(clan);
         int initialNumOfClanStudents = game.getIslandManager().getIsland(1).getStudents().get(clan);
         int initialClanStudentsInTheHall = game.getPlayers()[1].getHall().getStudents().get(clan);

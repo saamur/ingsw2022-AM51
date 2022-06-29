@@ -62,8 +62,14 @@ public class StudentMoverCharacterCard extends CharacterCard implements StudentC
                 d.addStudents(m2);
                 return false;
             }
+            m1 = s.addStudents(s2);
+            if (!m1.equals(s2)) {
+                s.removeStudents(m1);
+                s.addStudents(s1);
+                d.addStudents(s2);
+                return false;
+            }
             d.addStudents(s1);
-            s.addStudents(s2);
             return true;
         });
         STUDENT_MOVERS.put(CharacterID.PRINCESS, (g, s, d, s1, s2) -> {

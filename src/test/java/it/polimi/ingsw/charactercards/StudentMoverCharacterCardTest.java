@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -289,6 +290,44 @@ class StudentMoverCharacterCardTest {
 
         assertEquals(initialStudentsChamber.get(DRAGONS) + 1, finalStudentsChamber.get(DRAGONS));
         assertEquals(initialStudentsChamber.get(PIXIES) - 1, finalStudentsChamber.get(PIXIES));
+    }
+
+    @Test
+    public void applyTestLimitCase1(){
+        setGame();
+        Map<Clan, Integer> stud = new HashMap<>();
+        for(Clan c : Clan.values()){
+            stud.put(c, game.getPlayers()[0].getChamber().getNumStudents(c));
+        }
+        game.getPlayers()[0].getChamber().removeStudents(stud);
+        Map<Clan, Integer> moveToHall = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
+        Map<Clan, Integer> moveToChamber = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
+
+
+        boolean moved = studentMoverCards.get(2).applyEffect(game, null, moveToHall, moveToChamber);
+
+        assertFalse(moved);
+    }
+
+    @Test
+    public void applyTestLimitCase2(){
+        setGame();
+        Map<Clan, Integer> stud = new HashMap<>();
+        for(Clan c : Clan.values()){
+            stud.put(c, game.getPlayers()[0].getChamber().getNumStudents(c));
+        }
+        game.getPlayers()[0].getChamber().removeStudents(stud);
+        game.getPlayers()[0].getChamber().addStudents(TestUtil.studentMapCreator(10, 10, 10, 10, 10));
+
+        Map<Clan, Integer> moveToHall = TestUtil.studentMapCreator(1, 0, 0, 0, 0);
+        Map<Clan, Integer> moveToChamber = TestUtil.studentMapCreator(0, 0, 0, 1, 0);
+
+        boolean moved = studentMoverCards.get(2).applyEffect(game, null, moveToHall, moveToChamber);
+
+        Map<Clan, Integer> studentChamber = game.getPlayers()[0].getChamber().getStudents();
+
+        assertFalse(moved);
+        assertEquals(TestUtil.studentMapCreator(10, 10, 10, 10, 10), studentChamber );
     }
 
     /**

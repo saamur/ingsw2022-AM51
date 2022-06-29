@@ -154,8 +154,6 @@ public class Lobby {
      */
     public synchronized Controller getOpeningController (int controllerID) {
 
-        System.out.println("get opening controller " + controllerID);
-
         for (NewGameController c : openingNewGameControllers)
             if (c.getId() == controllerID)
                 return c;

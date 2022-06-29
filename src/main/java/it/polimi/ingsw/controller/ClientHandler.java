@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
                 socket.setSoTimeout(ConnectionConstants.DISCONNECTION_TIMEOUT);
                 Object o = in.readObject();
                 if(!(o instanceof String))
-                    System.out.println("Object received from " + Lobby.getInstance().getNicknameFromClientHandler(this) + ": " + o);
+                    System.out.println("Message received from " + Lobby.getInstance().getNicknameFromClientHandler(this) + ": " + o);
 
                 if ("pong".equals(o)) {
                 }
@@ -162,7 +162,7 @@ public class ClientHandler implements Runnable, PropertyChangeListener {
     public synchronized void sendObject (Object o) throws IOException {
         out.writeObject(o);
         if(!(o instanceof String))
-            System.out.println("Sent Message : " + o);
+            System.out.println("Message sent to " + Lobby.getInstance().getNicknameFromClientHandler(this) + ": " + o);
     }
 
     @Override

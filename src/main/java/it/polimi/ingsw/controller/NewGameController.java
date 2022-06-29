@@ -30,7 +30,7 @@ public class NewGameController extends Controller {
 
     @Override
     public void addPlayer(String nickname) {
-        System.out.println("add player controller");
+
         try {
             game.addPlayer(nickname);
         } catch (NicknameNotAvailableException | WrongGamePhaseException e) {

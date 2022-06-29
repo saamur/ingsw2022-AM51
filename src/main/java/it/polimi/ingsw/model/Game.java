@@ -349,15 +349,20 @@ public class Game implements GameInterface {
 
         turn.updateInfluence(islandManager, island, players);
 
-        if (getCurrPlayer().getNumberOfTowers() <= 0) {
-            winners = new ArrayList<>();
-            winners.add(getCurrPlayer());
-            gameState = GameState.GAME_OVER;
+        for (Player p : players) {
+            if (p.getNumberOfTowers() <= 0) {
+                winners = new ArrayList<>();
+                winners.add(p);
+                gameState = GameState.GAME_OVER;
 
-            List<String> nicknameWinners = new ArrayList<>(winners.stream().map(Player::getNickname).toList());
-            pcs.firePropertyChange("gameOver", null, nicknameWinners);
+                List<String> nicknameWinners = new ArrayList<>(winners.stream().map(Player::getNickname).toList());
+                pcs.firePropertyChange("gameOver", null, nicknameWinners);
+
+                break;
+            }
         }
-        else if (islandManager.getNumberOfIslands() <= GameConstants.MIN_NUM_ISLANDS)
+
+        if (gameState != GameState.GAME_OVER && islandManager.getNumberOfIslands() <= GameConstants.MIN_NUM_ISLANDS)
             calculateWin();
 
     }

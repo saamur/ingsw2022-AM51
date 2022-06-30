@@ -43,13 +43,13 @@ The project consists of a Java version of the board game *Eriantys*, made by Cra
 🟢 Implemented<br>
 
 ## Coverage
-| Element         | Class % | Method % | Line % | 
-|-----------------|---------|----------|--------|
-| model           |   100%  |    91%   |   83%  | 
-| charactercards  |   100%  |    96%   |   91%  |
-| clouds          |   100%  |   100%   |  100%  | 
-| islands         |   100%  |    96%   |   96%  | 
-| player          |   100%  |   100%   |  100%  |
+| Element          | Class % | Method % | Line % | 
+|------------------|---------|----------|--------|
+| model            |   100%  |    91%   |   83%  | 
+|   &nbsp; charactercards |   100%  |    96%   |   91%  |
+|   &nbsp; clouds         |   100%  |   100%   |  100%  | 
+|   &nbsp; islands        |   100%  |    96%   |   96%  | 
+|   &nbsp; player         |   100%  |   100%   |  100%  |
 
 ## Requirements
 For the implementation of this game, Java 17 was used.
@@ -58,7 +58,7 @@ Server and both CLI and GUI Client can run on all operative systems
 # How to play using the JAR
 There is a single file, both for client and for server.
 <br>
-## WINDOWS
+## WINDOWS or LINUX
 ### Server
 To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
 ```sh
@@ -92,6 +92,9 @@ java -jar Eriantys-Mac.jar
 followed by "cli" if you want to play with the CLI, and "gui" or no parameter at all if you prefer to play with the GUI.
 <br>
 <br>
+<br>
+<br>
+
 It is also possible to run the GUI by clicking twice on the jar file
 It is possible to play a game with a minimum of two players and a maximum of three.<br>
 The game will create two folders in which it will save the unfinished games that can be reopened in the future.

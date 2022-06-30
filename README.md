@@ -58,11 +58,11 @@ Server and both CLI and GUI Client can run on all operative systems
 # How to play using the JAR
 There is a single file, both for client and for server.
 <br>
-## WINDOWS or LINUX
+## LINUX or WINDOWS
 ### Server
 To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
 ```sh
-java -jar Eriantys-Windows.jar server
+java -jar Eriantys-Linux-Windows.jar server
 ```
 After that you can leave the default port, 5555, or select a new one.
 The server is now online.
@@ -70,7 +70,7 @@ The server is now online.
 ### Client
 To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command:<br>
 ```sh
-java -jar Eriantys-Windows.jar
+java -jar Eriantys-Linux-Windows.jar
 ```
 followed by "cli" if you want to play with the CLI, and "gui" or no parameter at all if you prefer to play with the GUI.
 <br>
@@ -95,11 +95,11 @@ followed by "cli" if you want to play with the CLI, and "gui" or no parameter at
 <br>
 <br>
 
-It is also possible to run the GUI by clicking twice on the jar file
+It is also possible to run the GUI by clicking twice on the jar file.<br>
 It is possible to play a game with a minimum of two players and a maximum of three.<br>
 The game will create two folders in which it will save the unfinished games that can be reopened in the future.
 ## Eriantys' rules 
-You can find the rules of the game [here](https://craniointernational.com/2021/wp-content/uploads/2021/06/Eriantys_rules_small.pdf)
+You can find the rules of the game [here](https://craniointernational.com/2021/wp-content/uploads/2021/06/Eriantys_rules_small.pdf).
 
 # Tools
 * Astah UML - UML Diagrams

@@ -27,7 +27,7 @@ import java.util.*;
 import static it.polimi.ingsw.constants.GuiConstants.*;
 
 /**
- * GUI is the class that manages the Graphical User Interface of Eryantis
+ * GUI is the class that manages the Graphical User Interface of Eriantys
  */
 public class GUI extends Application implements View{
 

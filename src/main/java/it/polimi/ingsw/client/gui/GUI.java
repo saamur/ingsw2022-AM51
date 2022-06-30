@@ -117,6 +117,7 @@ public class GUI extends Application implements View{
                 ((CloudController) controllers.get(CLOUDS)).setClouds(gameData.getCloudManager(), gameData.isExpertModeEnabled());
                 ((CloudController) controllers.get(CLOUDS)).updateTurnState(gameData.getTurnState(), nickname.equals(gameData.getCurrPlayer()), gameData.isLastRound());
                 ((DeckController) controllers.get(DECK)).setCards(gameData.getPlayerData(), gameData.isLastRound());
+                updateLabel( new GamePhaseData(gameData.getGameState(), gameData.getTurnState(), gameData.getCurrPlayer(), gameData.isLastRound(), gameData.getActiveCharacterCard(), gameData.isActiveCharacterPunctualEffectApplied()));
                 if(gameData.isExpertModeEnabled()) {
                     ((CharactersController) controllers.get(CHARACTERS)).setCharacterCards(gameData.getCharacterCardData());
                     ((CharactersController) controllers.get(CHARACTERS)).setActivatedCharacter(gameData.getActiveCharacterCard(), gameData.getCurrPlayer(), gameData.isActiveCharacterPunctualEffectApplied());

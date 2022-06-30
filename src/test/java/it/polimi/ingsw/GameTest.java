@@ -20,10 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 Game game;
 
+    /**
+     * Method setNotExpertGame initialize a non-expert game, it is an additional function used in tests
+     */
+
     public void setNotExpertGame() {
         assertDoesNotThrow(() -> game = new Game(2, "Giulia", false));
 
 }
+    /**
+     * Method setNotExpertGameTwoPlayers initialize a non-expert game with two players, it is an additional function used in tests
+     */
 
     public void setNotExpertGameTwoPlayers(){
         assertDoesNotThrow(() -> game = new Game(2, "Giulia", false));
@@ -34,6 +41,10 @@ Game game;
         }
 
     }
+
+    /**
+     * Method setNotExpertGameThreePlayers initialize a non-expert game with three players, it is an additional function used in tests
+     */
 
     public void setNotExpertGameThreePlayers(){
         assertDoesNotThrow(() -> game = new Game(3, "Giulia", false));
@@ -200,6 +211,10 @@ Game game;
         assertEquals("Samu", playersOrder[1].getNickname());
     }
 
+    /**
+     * Method setGameAndRemoveCards initialize a non-expert game and remove a specific card from the deck, it is an additional function used in tests
+     *
+     */
     public void setGameAndRemoveCards() {
         setNotExpertGameTwoPlayers();
         List<Card> toRemove = new ArrayList<>(Arrays.asList(Card.values()));
@@ -236,6 +251,10 @@ Game game;
             assertEquals("Giulia", playersOrder[1].getNickname());
         }
     }
+
+    /**
+     * Method setPlanning initialize a non-expert game with two players and define the order of play of the players, it is an additional function used in tests
+     */
 
 
     public void setPlanning() {

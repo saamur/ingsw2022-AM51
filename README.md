@@ -42,6 +42,15 @@ The project consists of a Java version of the board game *Eriantys*, made by Cra
 🟡 Implementing<br>
 🟢 Implemented<br>
 
+## Coverage
+| Element         | Class % | Method % | Line % | 
+|-----------------|---------|----------|--------|
+| model           |   100%  |    91%   |   83%  | 
+| charactercards  |   100%  |    96%   |   91%  |
+| clouds          |   100%  |   100%   |  100%  | 
+| islands         |   100%  |    96%   |   96%  | 
+| player          |   100%  |   100%   |  100%  |
+
 ## Requirements
 For the implementation of this game, Java 17 was used.
 Server and both CLI and GUI Client can run on all operative systems

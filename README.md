@@ -58,7 +58,7 @@ Server and both CLI and GUI Client can run on all operative systems
 # How to play using the JAR
 There is a single file, both for client and for server.
 <br>
-## WINDOWS
+## WINDOWS or LINUX
 ### Server
 To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
 ```sh

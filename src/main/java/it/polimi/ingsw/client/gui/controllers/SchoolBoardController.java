@@ -672,7 +672,7 @@ public class SchoolBoardController extends PageController implements Initializab
 
             }
         }
-        instructions.setText("You have activated " + character.name() + ". Select the student and then the button \"Done\" when you have finished\n" + "You have up to " + numMaxStudentsExchanged + " students to exchange between the Hall and the " + (character == CharacterID.MINSTREL? "Chamber" : "Character Card"));
+        instructions.setText("You have activated " + character.name() + ". Select the students and then the button \"Done\" when you have finished\n" + "You have up to " + numMaxStudentsExchanged + " students to exchange between the Hall and the " + (character == CharacterID.MINSTREL? "Chamber" : "Character Card"));
         instructions.setVisible(true);
     }
 

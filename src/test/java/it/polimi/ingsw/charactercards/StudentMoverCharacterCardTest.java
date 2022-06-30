@@ -292,6 +292,11 @@ class StudentMoverCharacterCardTest {
         assertEquals(initialStudentsChamber.get(PIXIES) - 1, finalStudentsChamber.get(PIXIES));
     }
 
+    /**
+     * Method applyTestLimitCase1 tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
+     * when the CharacterID is Minstrel if the chamber is empty.
+     * Is expected a false result, none of the selected student is moved.
+     */
     @Test
     public void applyTestLimitCase1(){
         setGame();
@@ -308,6 +313,12 @@ class StudentMoverCharacterCardTest {
 
         assertFalse(moved);
     }
+
+    /**
+     * Method applyTestLimitCase1 tests the method applyEffect(Game game, StudentContainer sc, int[] stud1, int[] stud2)
+     * when the CharacterID is Minstrel if the chamber is full.
+     * Is expected a false result, none of the selected student is moved.
+     */
 
     @Test
     public void applyTestLimitCase2(){

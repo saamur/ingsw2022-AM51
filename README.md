@@ -14,7 +14,7 @@ The project consists of a Java version of the board game *Eriantys*, made by Cra
 
 
 ## Authors [Gruppo AM51]
-- ###  10667290 [Giulia Cornetta](https://github.com/giuCornetta)<br>giulia.cornetta@mail.polimi.it
+- ### 10667290 [Giulia Cornetta](https://github.com/giuCornetta)<br>giulia.cornetta@mail.polimi.it
 - ### 10706257 [Federica Del Beato](https://github.com/FedericaDelBeato)<br>federica.delbeato@mail.polimi.it
 - ### 10730188 [Samuele Delpero](https://github.com/saamur)<br> samuele.delpero@mail.polimi.it
 <br>
@@ -55,12 +55,14 @@ The project consists of a Java version of the board game *Eriantys*, made by Cra
 For the implementation of this game, Java 17 was used.
 Server and both CLI and GUI Client can run on all operative systems
 
-## How to play using the JAR
+# How to play using the JAR
 There is a single file, both for client and for server.
+<br>
+## WINDOWS
 ### Server
 To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
 ```sh
-java -jar AM51-1.0-SNAPSHOT-jar-with-dependencies.jar server
+java -jar Eriantys-Windows.jar server
 ```
 After that you can leave the default port, 5555, or select a new one.
 The server is now online.
@@ -68,9 +70,27 @@ The server is now online.
 ### Client
 To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command:<br>
 ```sh
-java -jar AM51-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar Eriantys-Windows.jar
 ```
 followed by "cli" if you want to play with the CLI, and "gui" or no parameter at all if you prefer to play with the GUI.
+<br>
+
+## MAC
+### Server 
+To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
+```sh
+java -jar Eriantys-Mac.jar server
+```
+After that you can leave the default port, 5555, or select a new one.
+The server is now online.
+<br>
+### Client
+To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command:<br>
+```sh
+java -jar Eriantys-Mac.jar
+```
+followed by "cli" if you want to play with the CLI, and "gui" or no parameter at all if you prefer to play with the GUI.
+<br>
 <br>
 It is also possible to run the GUI by clicking twice on the jar file
 It is possible to play a game with a minimum of two players and a maximum of three.<br>

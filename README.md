@@ -106,6 +106,7 @@ You can find the rules of the game [here](https://craniointernational.com/2021/w
 * Maven - Dependency Management
 * Intellij - IDE
 * JavaFX - GUI
+* SceneBuilder - GUI
 
 ## License
 This project is developed in collaboration with [Politecnico di Milano](https://www.polimi.it/) and [Cranio Creations](https://www.craniocreations.it/)

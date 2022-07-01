@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"it.polimi.ingsw"},{"l":"it.polimi.ingsw.charactercards"},{"l":"it.polimi.ingsw.clouds"},{"l":"it.polimi.ingsw.islands"},{"l":"it.polimi.ingsw.player"}];updateSearchResults();

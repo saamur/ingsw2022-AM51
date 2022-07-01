@@ -4,7 +4,8 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 
 /**
- * Class Client gives the user a choice between CLI and GUI and launches the corresponding interface
+ * The class Client contains a main method that launches the CLI or the GUI of the game according to the given argument
+ *
  */
 public class Client {
 

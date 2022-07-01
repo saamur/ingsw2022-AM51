@@ -60,7 +60,7 @@ There is a single file, both for client and for server.
 <br>
 ## LINUX or WINDOWS
 ### Server
-To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
+To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command on the Command Prompt:<br>
 ```sh
 java -jar Eriantys-Linux-Windows.jar server
 ```
@@ -68,7 +68,7 @@ After that you can leave the default port, 5555, or select a new one.
 The server is now online.
 <br>
 ### Client
-To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command:<br>
+To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command on the Command Prompt:<br>
 ```sh
 java -jar Eriantys-Linux-Windows.jar
 ```
@@ -77,7 +77,7 @@ followed by "cli" if you want to play with the CLI, and "gui" or no parameter at
 
 ## MAC
 ### Server 
-To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command:<br>
+To start the server, open a terminal and go to the directory in which you have saved the jar file. After doing it, run this command on the Command Prompt:<br>
 ```sh
 java -jar Eriantys-Mac.jar server
 ```
@@ -85,7 +85,7 @@ After that you can leave the default port, 5555, or select a new one.
 The server is now online.
 <br>
 ### Client
-To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command:<br>
+To start the client, open a terminal and go to the directory in which you have saved the jar file. After that, run this command on the Command Prompt:<br>
 ```sh
 java -jar Eriantys-Mac.jar
 ```
@@ -106,6 +106,7 @@ You can find the rules of the game [here](https://craniointernational.com/2021/w
 * Maven - Dependency Management
 * Intellij - IDE
 * JavaFX - GUI
+* SceneBuilder - GUI
 
 ## License
 This project is developed in collaboration with [Politecnico di Milano](https://www.polimi.it/) and [Cranio Creations](https://www.craniocreations.it/)

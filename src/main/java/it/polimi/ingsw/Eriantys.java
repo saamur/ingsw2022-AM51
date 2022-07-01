@@ -6,7 +6,12 @@ import it.polimi.ingsw.controller.Server;
 
 import java.util.Scanner;
 
+/**
+ * The class Eriantys is the main class of the game, from which both the client and the server are opened
+ *
+ */
 public class Eriantys {
+
     public static void main(String[] args) {
 
         System.out.println("Welcome to the Eriantys board game!");
@@ -55,4 +60,5 @@ public class Eriantys {
         }
 
     }
+
 }

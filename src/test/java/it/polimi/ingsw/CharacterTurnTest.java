@@ -19,6 +19,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class CharacterTurnTest tests the method of the Turn class when expert mode is enabled
+ */
 public abstract class CharacterTurnTest {
 
     protected Turn turn;
@@ -46,6 +49,9 @@ public abstract class CharacterTurnTest {
             characterCards[i] = CharacterCardCreator.createCharacterCard(CharacterID.values()[i], bag);
     }
 
+    /**
+     * Sets the students of the players, and the initial professors of the players
+     */
     protected void professorsInitialization() {
 
         List<Map<Clan, Integer>> students = new ArrayList<>();
@@ -64,6 +70,10 @@ public abstract class CharacterTurnTest {
 
     }
 
+    /**
+     * Method tests if the turn.updateProfessors(Player[]) method works as expected. If the FARMER Character is activated then the player that has activated it is expected to take control of the professors even when the number of students is even.
+     * If the FARMER CharacterCard is not activated then normal rules apply.
+     */
     @Test
     public void updateProfessorsTest() {
 
@@ -80,6 +90,11 @@ public abstract class CharacterTurnTest {
 
     }
 
+    /**
+     * Method tests if the turn.getMaxStepsMotherNature() method works as expected.
+     * If the POSTMAN Character is activated then two additional steps are allowed to the player that has activated the card.
+     * If the POSTMAN CharacterCard is not activated then normal rules apply.
+     */
     @Test
     public void getMaxStepsMotherNatureTest() {
 
@@ -87,7 +102,11 @@ public abstract class CharacterTurnTest {
 
     }
 
-
+    /**
+     * Method tests if the turn.updateInfluence(IslandManager, Island, Player[]) works as expected.
+     * If one of the CharacterCard that modifies the influence is activated then the method needs to work accordingly.
+     * If those CharacterCards are not activated normal rules apply.
+     */
     @Test
     public void updateInfluenceTest(){
         islandInitialization();
@@ -96,6 +115,9 @@ public abstract class CharacterTurnTest {
         assertEquals("Fede", islandManager.getIsland(3).getControllingPlayer().getNickname()); //nelle classi figlie piuttosto vengono aggiunt studenti
     }
 
+    /**
+     * Method sets the islands
+     */
     public void islandInitialization(){
         professorsInitialization();
         int islandIndex = 3;

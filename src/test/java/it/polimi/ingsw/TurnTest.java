@@ -22,6 +22,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * TurnTest class test the methods in the class Turn
+ */
 public class TurnTest {
 
     Turn turn;

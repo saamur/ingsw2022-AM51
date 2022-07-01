@@ -17,6 +17,9 @@ import java.util.Map;
 
 import static it.polimi.ingsw.model.Clan.*;
 
+/**
+ * Listeners Test is a class that tests the listeners that have been set in the Game class and are listened to by the Controller
+ */
 public class ListenersTest {
     final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -61,9 +64,6 @@ public class ListenersTest {
         } catch (WrongGamePhaseException | NicknameNotAvailableException | NonExistingPlayerException | WrongTurnPhaseException | NotValidIndexException |WrongPlayerException | NotValidMoveException e){
             e.printStackTrace();
         }
-
-        //assertEquals("This is the object writing the sentences: " + controller + "\r\nA student has been moved to an Island\r\n" + "This is the object firing the change: " + game + "\r\n", outContent.toString());
-        //this assert is not valid anymore
     }
 
     @BeforeEach

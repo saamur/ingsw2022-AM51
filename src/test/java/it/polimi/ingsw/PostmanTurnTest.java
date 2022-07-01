@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * PostmanTurnTest tests the method in Turn when the POSTMAN CharacterCard has been activated
+ */
 public class PostmanTurnTest extends CharacterTurnTest{
 
     @Override

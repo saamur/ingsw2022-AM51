@@ -11,6 +11,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * FarmerTurnTest tests the methods of the class Turn when the FARMER CharacterCard has been activated
+ */
 public class FarmerTurnTest extends CharacterTurnTest {
 
     @Override

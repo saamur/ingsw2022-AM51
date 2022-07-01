@@ -11,6 +11,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * HallTest tests the class Hall
+ */
 public class HallTest {
     /**
      * test if the addStudents method add the students in the Hall

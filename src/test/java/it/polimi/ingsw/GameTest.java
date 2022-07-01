@@ -18,7 +18,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-Game game;
+private Game game;
 
     /**
      * Method setNotExpertGame initialize a non-expert game, it is an additional function used in tests

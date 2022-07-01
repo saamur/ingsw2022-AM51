@@ -26,10 +26,12 @@ import java.util.stream.Stream;
 import static it.polimi.ingsw.model.Clan.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * InfluenceCharacterCardTest tests the InfluenceCharacterCards
+ */
 public class InfluenceCharacterCardTest{
-    Bag bag;
-    List<CharacterCard> influenceCards = new ArrayList<>();
+    private Bag bag;
+    private List<CharacterCard> influenceCards = new ArrayList<>();
 
     /**
      * Method initialization() creates an istance of every Character that has an effect on influence.

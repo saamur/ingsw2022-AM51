@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Player
  */
 public class PlayerTest {
-    Player player1;
-    Bag bag;
+    private Player player1;
+    private Bag bag;
 
     /**
      * Method createPlayer() initializes a new Bag and a new Player before each test

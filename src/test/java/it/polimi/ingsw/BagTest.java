@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Bag
  */
 public class BagTest {
-    Bag b;
+    private Bag b;
 
     @BeforeEach
     public void createBag(){

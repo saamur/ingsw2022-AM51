@@ -15,9 +15,12 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * CloudTest tests the class Cloud
+ * @see Cloud
+ */
 public class CloudTest {
-    Cloud cloud;
+    private Cloud cloud;
 
     @BeforeEach
     public void initialization(){

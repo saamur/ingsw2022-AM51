@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Class to test checkMerge(Island) method in IslandManager
  */
 public class IslandManagerTest2 {
-    List<Player> players = new ArrayList<>();
-    IslandManager islandManager;
-    Bag bag;
+    private List<Player> players = new ArrayList<>();
+    private IslandManager islandManager;
+    private Bag bag;
 
     @BeforeEach
     public void initialization() {

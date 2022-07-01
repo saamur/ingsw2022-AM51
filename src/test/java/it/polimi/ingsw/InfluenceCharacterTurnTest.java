@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Class tests the Turn methods when an InfluenceCharacterCard has been activated
  */
 public class InfluenceCharacterTurnTest extends CharacterTurnTest{
-    List<CharacterCard> influenceCards = new ArrayList<>();
+    private List<CharacterCard> influenceCards = new ArrayList<>();
 
 
     @Override

@@ -16,6 +16,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * CharacterCardTest tests the class CharacterCard
+ */
 public abstract class CharacterCardTest {
     Bag bag;
     CharacterCard characterCard;

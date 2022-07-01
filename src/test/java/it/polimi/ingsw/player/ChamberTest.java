@@ -16,9 +16,12 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * ChamberTest tests the class Chamber
+ */
 public class ChamberTest {
 
-    Chamber chamber;
+    private Chamber chamber;
 
     @BeforeEach
     public void initialization(){

@@ -15,8 +15,12 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Class tests the Island class
+ * @see Island
+ */
 public class IslandTest {
-    Island island;
+    private Island island;
 
     @BeforeEach
     public void initialization(){

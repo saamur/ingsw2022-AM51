@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @see CloudManager
  */
 public class CloudManagerTest {
-    CloudManager cloudManager;
-    Bag bag;
+    private CloudManager cloudManager;
+    private Bag bag;
 
 
 

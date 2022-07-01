@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see IslandManager
  */
 public class IslandManagerTest {
-    IslandManager islandManager;
+    private IslandManager islandManager;
 
     /**
      * Method initializes class islandManager before every test

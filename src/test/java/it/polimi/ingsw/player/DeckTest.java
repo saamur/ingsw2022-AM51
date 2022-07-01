@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Deck
  */
 public class DeckTest {
-    Deck deck;
-    Card card;
+    private Deck deck;
+    private Card card;
 
     /**
      * Method initialization() initializes the variable deck.

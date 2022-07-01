@@ -18,11 +18,15 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * ProhibitionCharacterCardTest tests the CharacterCard GRANDMA
+ * @see ProhibitionCharacterCard
+ */
 class ProhibitionCharacterCardTest {
-    Player[] players = new Player[3];
-    Bag bag;
-    CharacterCard generalCard;
-    int numOfPlayers = 3;
+    private Player[] players = new Player[3];
+    private Bag bag;
+    private CharacterCard generalCard;
+    private int numOfPlayers = 3;
 
     @BeforeEach
     public void initialization(){

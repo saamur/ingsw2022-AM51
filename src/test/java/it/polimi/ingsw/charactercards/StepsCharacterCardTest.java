@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * StepsCharacterCardTests tests the CharacterCard POSTMAN
+ */
 public class StepsCharacterCardTest extends CharacterCardTest {
 
     @BeforeEach

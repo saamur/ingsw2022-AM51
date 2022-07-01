@@ -22,11 +22,15 @@ import java.util.Map;
 import static it.polimi.ingsw.model.Clan.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * StudentMoverCharacterCardTest tests the StudentMoverCharacterCards
+ * @see StudentMoverCharacterCard
+ */
 class StudentMoverCharacterCardTest {
 
-    Game game;
-    Bag bag;
-    List<CharacterCard> studentMoverCards = new ArrayList<>();
+    private Game game;
+    private Bag bag;
+    private List<CharacterCard> studentMoverCards = new ArrayList<>();
 
     /**
      * Method initialization() creates an istance of every Character that has an effect on moving students.

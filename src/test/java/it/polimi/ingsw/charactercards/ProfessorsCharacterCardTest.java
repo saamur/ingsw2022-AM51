@@ -25,11 +25,14 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * ProfessorsCharacterCardTest tests the CharacterCard FARMER
+ */
 class ProfessorsCharacterCardTest {
-    int numOfPlayers = 3;
-    Player[] players = new Player[numOfPlayers];
-    Bag bag;
-    CharacterCard generalCard;
+    private int numOfPlayers = 3;
+    private Player[] players = new Player[numOfPlayers];
+    private Bag bag;
+    private CharacterCard generalCard;
 
 
     @BeforeEach

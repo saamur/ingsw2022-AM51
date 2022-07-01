@@ -27,11 +27,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TurnTest {
 
-    Turn turn;
-    Player [] players;
-    IslandManager islandManager;
-    Bag bag;
-    int numOfPlayers = 3;
+    private Turn turn;
+    private Player [] players;
+    private IslandManager islandManager;
+    private Bag bag;
+    private int numOfPlayers = 3;
 
     @BeforeEach
     public void initialization() {

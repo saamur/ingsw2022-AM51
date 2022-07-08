@@ -1,7 +1,8 @@
 # Software Engineering final project 2022 
 <img src="https://github.com/saamur/ingsw2022-AM51/blob/6af32eef33b6b3f73380fdf564e193114849fa67/src/main/resources/png/logo_eriantys.png" width=280px height=280px align="right" />
 Eriantys is the final project of Software Engineering course held
-at Politecnico di Milano. (2021/2022)
+at Politecnico di Milano. (2021/2022) <br>
+**Final Score**: 30/30 cum laude
 
 
 **Teacher**: Alessandro Margara
